@@ -102,7 +102,7 @@
 | NLC 展开 | 12dp | 20dp | 28dp |
 | NLC 收起 | 12dp | 20dp | 56dp |
 | NC 展开 | 12dp | — | 56+25dp （超过1100按照1100的padding+剩下的宽度）|
-| LC 收起（含 L） | 20dp | — | 56dp |
+| LC  | — | 20dp | 56dp |
 
 ## Pad — 竖屏（M80Pad 基准）
 
@@ -124,7 +124,7 @@
 | NLC 展开 | 12dp | 12dp | 12dp |
 | NLC 收起 | 12dp | 12dp | 12dp |
 | NC | 12dp | — | 28dp |
-| LC | 20dp | — | 20dp |
+| LC | — | 20dp | 20dp |
 
 
 
