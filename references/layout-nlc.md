@@ -60,7 +60,7 @@ NLC 布局仅适用于 **Pad**（横屏 / 竖屏），不适用于 Fold。适配
 
 列表栏顶部放置来自手机端首页的顶部模块：
 
-- 标题栏（Pad-TopBar）
+- 标题栏（NavigationBar L 栏变形：Pad-TopBar 小标题 56dp）
 - 搜索栏
 - 分段控件（SegmentedControls）
 - 选项卡（SelectableChip）
@@ -79,7 +79,7 @@ NLC 布局仅适用于 **Pad**（横屏 / 竖屏），不适用于 Fold。适配
 
 ### 顶部
 
-- 放置详情导航栏（Pad-TopBar）
+- 放置详情导航栏（NavigationBar C 栏变形：Pad-TopBar 小标题 56dp）
 
 ### 正文
 
