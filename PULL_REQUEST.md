@@ -1,8 +1,9 @@
-# 规则文档全面补充：布局规则重写 + 组件映射表 + 设备尺寸规范
+# 规则文档全面补充 + Skill 文件重构：布局规则重写 + 组件映射表 + 设备尺寸规范 + NC 布局支持
 
 ## 概要
 
-对 `references/` 目录下的规则文档进行全面补充和重写，将 TODO 骨架替换为基于 Figma UI Kit 实测的完整规则数据。涵盖设备尺寸规范、布局规则、组件适配映射和组件路由表。
+1. 对 `references/` 目录下的规则文档进行全面补充和重写，将 TODO 骨架替换为基于 Figma UI Kit 实测的完整规则数据。涵盖设备尺寸规范、布局规则、组件适配映射和组件路由表。
+2. 对 Skill 文件进行重构：新增 NC 布局类型支持，LC Skill 重命名为 LC/NC Skill，NLC 明确为 Pad 专用，单位统一为 dp，验证规则同步更新。
 
 **Branch:** `feat/update-nlc-layout-and-bottom-tab` → `main`
 
@@ -68,6 +69,16 @@
 
 - 原 LC 布局规则已合并至 `layout-lc-nc.md`，此文件删除
 
+### 8. Skill 文件重构 — NC 布局支持 + 文件重命名 + 单位统一
+
+- `figma-adapt-lc-layout.md` 重命名为 `figma-adapt-lc-nc-layout.md`，同时支持 LC 和 NC 两种分栏布局
+- `figma-multi-terminal-adapt.md` 新增 NC 布局判断逻辑（有底部 Tab 但无列表栏 → NC），NLC 标注为 Pad 专用
+- `figma-adapt-nlc-layout.md` 明确 Pad 专用，更新组件适配描述（"属性切换" → "适配映射替换"）
+- `figma-adapt-c-layout.md` 更新组件适配描述，悬浮底部导航栏保留规则
+- `figma-adapt-verify.md` 新增 NC 布局校验项，悬浮底部导航栏分布局校验规则，单位 pt → dp
+- `README.md` 同步更新目录结构、技能一览表和引用路径
+- `CLAUDE.md` 同步更新架构描述、单位标注和分工表
+
 ---
 
 ## Commit 历史
@@ -79,21 +90,22 @@
 | `2117c75` | feat: 补充悬浮底部导航栏规范 & 重写 NLC 布局适配规则 |
 | `46a8dde` | feat: C 布局规则补完, LC/NC 文档合并, 设备尺寸 C 栏 padding 补充 |
 | `212318e` | feat: 补充组件适配映射表、组件路由表、标题栏高度规范，layout-c 重写为 LC/NC 规则 |
+| `efe7487` | docs: 更新 PR 描述，覆盖全部变更内容 |
+| `d4556bc` | feat: Skill 文件重构 — LC 重命名为 LC/NC、新增 NC 布局类型、单位统一 dp、验证规则更新 |
 
 ---
 
 ## 影响范围
 
-- 引用 `layout-lc.md` 的 Skill 需更新引用路径为 `layout-lc-nc.md`
+- 引用 `layout-lc.md` 的 Skill 需更新引用路径为 `layout-lc-nc.md` — **本次已完成**
 - 引用 `layout-c.md` 的 Skill 需注意：该文件已从 C 通栏规则重写为 LC/NC 分栏规则
 - 引用 `component-adaptation.md` 和 `component-routing.md` 的 Skill 可直接受益于完整数据
 - 引用 `device-dimensions.md` 的 Skill 可直接受益于更完整的尺寸数据
+- `figma-adapt-lc-layout.md` 已重命名为 `figma-adapt-lc-nc-layout.md`，外部引用需同步更新
 
 ---
 
 ## 变更统计
-
-- **7 files changed**, 541 insertions(+), 213 deletions(-)
 
 | 文件 | 变更 |
 |------|------|
@@ -104,15 +116,26 @@
 | `references/component-adaptation.md` | 全面重写 |
 | `references/component-routing.md` | 全面重写 |
 | `references/layout-lc.md` | 删除（已合并） |
+| `figma-adapt-lc-layout.md` → `figma-adapt-lc-nc-layout.md` | 重命名 + 内容更新 |
+| `figma-multi-terminal-adapt.md` | 新增 NC 布局判断 |
+| `figma-adapt-nlc-layout.md` | Pad 专用标注 |
+| `figma-adapt-c-layout.md` | 适配描述更新 |
+| `figma-adapt-verify.md` | NC 校验 + 单位 dp |
+| `README.md` | 目录结构同步 |
+| `CLAUDE.md` | 架构描述同步 |
 
 ---
 
 ## 验收要点
 
-- [ ] `device-dimensions.md` 中所有尺寸均为 dp/pt 标注，无模糊描述
+- [ ] `device-dimensions.md` 中所有尺寸均为 dp 标注，无模糊描述
 - [ ] `layout-nlc.md` 重写后 N/L/C 各栏规则完整，展开/收起/旋转逻辑清晰
 - [ ] `layout-c.md` 重写为 LC/NC 规则后，Fold/Pad 各场景栏宽和 padding 有明确数值
 - [ ] `layout-lc-nc.md` 与 `layout-c.md` 内容一致（同步更新）
 - [ ] `component-adaptation.md` 覆盖导航类、标题栏类、FAB 类组件的适配映射
 - [ ] `component-routing.md` 所有 componentKey 来自 Xiaomi Hyper OS4 UI Kit
-- [ ] 引用 `layout-lc.md` 的 Skill 文件已确认需要更新路径（或在后续 MR 处理）
+- [ ] 引用 `layout-lc.md` 的 Skill 文件已确认更新路径为 `layout-lc-nc.md`
+- [ ] `figma-adapt-lc-nc-layout.md` 同时覆盖 LC 和 NC 两种布局
+- [ ] `figma-multi-terminal-adapt.md` 布局判断逻辑包含 NLC / NC / LC / C 四种类型
+- [ ] `figma-adapt-verify.md` 校验项覆盖 NLC / NC / LC / C 四种布局
+- [ ] 所有 Skill 和 Reference 文档中单位统一为 dp

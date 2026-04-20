@@ -1,6 +1,6 @@
 ---
 name: figma-adapt-nlc-layout
-description: 在现有 Figma 目标 frame 内完成 NLC（导航-列表-内容）三栏布局适配。适用于"把有底部 Tab 的应用适配为折叠屏三栏""侧边导航加列表加详情""在目标 frame 里做三栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
+description: 在现有 Figma 目标 frame 内完成 NLC（导航-列表-内容）三栏布局适配（Pad 专用）。适用于"把有底部 Tab 的应用适配为 Pad 三栏""侧边导航加列表加详情""在目标 frame 里做三栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
 disable-model-invocation: false
 ---
 
@@ -10,17 +10,17 @@ disable-model-invocation: false
 
 ## 适用场景
 
-- "把有底部 Tab 的应用适配为折叠屏三栏"
+- "把有底部 Tab 的应用适配为 Pad 三栏"
 - "侧边导航 + 列表 + 详情"
 - "在这个 frame 里做 NLC 三栏布局"
-- "底部 Tab 转侧边导航栏"
+- "底部 Tab 转侧边导航栏（Pad）"
 
 ## 前置条件
 
 执行前需确认以下信息已就绪（由主 Skill 传入或自行获取）：
 
 - 源设计稿节点 ID 和结构摘要
-- 目标设备类型（Fold / Pad）
+- 目标设备类型（Pad 专用，不适用于 Fold）
 - 目标画布尺寸和三栏栏宽（参考 `references/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
 - 已识别源页面的底部 Tab 导航组件
@@ -72,9 +72,9 @@ disable-model-invocation: false
 ### Phase C：填充列表栏
 
 执行：
-- 放入源页面顶部模块（搜索栏、标题栏等，应用属性切换规则）
+- 放入源页面顶部模块（搜索栏、标题栏等，按组件适配映射替换）
 - 替换或放入目标列表变体
-- 应用组件属性切换（参考 `references/component-adaptation.md`）
+- 按组件适配映射替换目标组件（参考 `references/component-adaptation.md`）
 - 让列表填充顶部模块以下的剩余视口
 - 删除不需要的移动端底部元素
 

@@ -11,7 +11,7 @@
 ```
 
 - 主 Skill：`figma-multi-terminal-adapt.md`
-- 子 Skill：按布局类型拆分（LC / NLC / C）
+- 子 Skill：按布局类型拆分（LC / NC / NLC / C）
 - 验证 Skill：`figma-adapt-verify.md`，独立调用
 - 规则文档：`references/` 目录，按需加载
 
@@ -38,7 +38,7 @@ disable-model-invocation: false
 ## Reference 文档格式
 
 - 单文档 ≤ 300 行
-- 所有尺寸用 pt 标注，不用模糊描述（"较宽" ✗ → "356pt" ✓）
+- 所有尺寸用 dp 标注，不用模糊描述（"较宽" ✗ → "356dp" ✓）
 - 组件名、图层名、区域名与 Figma 中的实际命名严格一致
 - 用表格呈现数值型规则，用列表呈现流程型规则
 
@@ -55,7 +55,7 @@ disable-model-invocation: false
 | 负责人 | 负责内容 |
 |--------|----------|
 | 一飞 | 主 Skill 流程、子 Skill 工作流、component-routing.md、plugin-api-patterns.md |
-| 老唐 | layout-lc.md、layout-nlc.md、layout-c.md、component-adaptation.md |
+| 老唐 | layout-lc-nc.md、layout-nlc.md、layout-c.md、component-adaptation.md |
 | 共同 | common-rules.md、device-dimensions.md |
 
 ## 修改原则
