@@ -43,13 +43,15 @@ disable-model-invocation: false
 - Pad
 
 **布局类型**（根据源页面功能结构判断）：
-- **NLC**（导航-列表-内容）：源页面有底部 Tab 导航 + 列表 + 详情，适合三栏
-- **LC**（列表-内容）：源页面是列表 + 详情的组合，适合双栏
+- **NLC**（导航-列表-内容）：源页面有底部 Tab 导航 + 列表 + 详情，适合三栏（Pad 专用）
+- **NC**（导航-内容）：源页面有底部 Tab 导航但无需列表栏，适合分栏
+- **LC**（列表-内容）：源页面是列表 + 详情的组合，无底部 Tab 导航，适合分栏
 - **C**（通栏）：源页面是单一内容页（设置、关于等），适合通栏拉宽
 
 判断依据：
-- 有底部 Tab 导航 → 优先考虑 NLC
-- 有明确的列表-详情关系 → LC
+- 有底部 Tab 导航 + 列表 + 详情 → NLC（仅 Pad）
+- 有底部 Tab 导航，无列表栏 → NC
+- 有明确的列表-详情关系，无底部 Tab → LC
 - 单一内容展示 → C
 - 用户明确指定布局类型时，以用户指定为准
 
@@ -70,8 +72,8 @@ disable-model-invocation: false
 - 已识别的关键组件列表
 
 **委托规则**：
-- 布局类型为 NLC → 加载 `figma-adapt-nlc-layout` skill
-- 布局类型为 LC → 加载 `figma-adapt-lc-layout` skill
+- 布局类型为 NLC → 加载 `figma-adapt-nlc-layout` skill（Pad 专用）
+- 布局类型为 LC 或 NC → 加载 `figma-adapt-lc-nc-layout` skill
 - 布局类型为 C → 加载 `figma-adapt-c-layout` skill
 
 ### Phase 5：调用验证

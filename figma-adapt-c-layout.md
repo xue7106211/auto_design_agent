@@ -57,7 +57,7 @@ disable-model-invocation: false
 
 执行：
 - 按源页面从上到下的顺序，逐个模块 clone 或实例化到内容区
-- 应用组件属性切换（参考 `references/component-adaptation.md`）
+- 按组件适配映射替换目标组件（参考 `references/component-adaptation.md`）
 - 调整各模块宽度以适应新的内容区宽度
 - 重算左右边距（参考 `references/layout-c.md`）
 - 删除不需要的移动端元素（底部手势条等）
@@ -69,7 +69,7 @@ disable-model-invocation: false
 - 检查边距是否符合 `references/layout-c.md` 定义
 - 确认全局状态栏只有一套
 - 确认内容区宽度是否需要居中限宽
-- 检查列表项是否需要变为网格布局（参考 `references/layout-c.md` 中的特殊处理）
+- 如有悬浮底部导航栏，确认保留在内容区底部悬浮展示（参考 `references/layout-c.md` 悬浮底部导航栏章节）
 
 完成后校验：全页截图 + 完整结构校验。
 

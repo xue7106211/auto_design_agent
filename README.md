@@ -23,7 +23,7 @@
 ```
 
 - **主 Skill**：理解需求、判断布局类型、委托执行
-- **子 Skill**：按布局类型（LC / NLC / C）各一个，处理具体适配逻辑
+- **子 Skill**：按布局类型（LC / NC / NLC / C）拆分，处理具体适配逻辑
 - **验证 Skill**：独立调用，检查生成结果的规则符合性
 - **References**：共享规则文档，按需加载
 
@@ -36,7 +36,7 @@ auto_design_agent/
 ├── README.md                              # 本说明
 ├── CLAUDE.md                              # 项目规范与协作约定
 ├── figma-multi-terminal-adapt.md          # 主 Skill：多终端适配入口
-├── figma-adapt-lc-layout.md               # 子 Skill：LC 双栏适配
+├── figma-adapt-lc-nc-layout.md               # 子 Skill：LC / NC 分栏适配
 ├── figma-adapt-nlc-layout.md              # 子 Skill：NLC 三栏适配
 ├── figma-adapt-c-layout.md                # 子 Skill：C 通栏适配
 ├── figma-adapt-verify.md                  # 验证 Skill
@@ -44,11 +44,11 @@ auto_design_agent/
 └── references/                            # 共享规则文档
     ├── common-rules.md                    # 通用规则：执行原则、禁止项
     ├── device-dimensions.md               # 设备尺寸表
-    ├── layout-lc.md                       # LC 布局规则
+    ├── layout-lc-nc.md                    # LC / NC 分栏布局规则
     ├── layout-nlc.md                      # NLC 布局规则
     ├── layout-c.md                        # C 布局规则
     ├── component-routing.md               # 组件路由表
-    ├── component-adaptation.md            # 组件属性切换规则
+    ├── component-adaptation.md            # 组件适配映射表
     └── plugin-api-patterns.md             # Figma Plugin API 常用模式
 ```
 
@@ -59,7 +59,7 @@ auto_design_agent/
 | 文件 | `name`（标识） | 一句话说明 |
 |------|------------------|------------|
 | [figma-multi-terminal-adapt.md](./figma-multi-terminal-adapt.md) | `figma-multi-terminal-adapt` | 多终端适配入口：判断设备和布局类型，委托子 Skill 执行，调用验证 Skill 检查结果 |
-| [figma-adapt-lc-layout.md](./figma-adapt-lc-layout.md) | `figma-adapt-lc-layout` | LC 双栏适配：左列表 + 右详情，基于现有组件分步写入并校验 |
+| [figma-adapt-lc-nc-layout.md](./figma-adapt-lc-nc-layout.md) | `figma-adapt-lc-nc-layout` | LC / NC 分栏适配：LC（左列表 + 右详情）或 NC（左导航 + 右内容），基于现有组件分步写入并校验 |
 | [figma-adapt-nlc-layout.md](./figma-adapt-nlc-layout.md) | `figma-adapt-nlc-layout` | NLC 三栏适配：侧边导航 + 列表 + 内容区，底部 Tab 转侧边导航 |
 | [figma-adapt-c-layout.md](./figma-adapt-c-layout.md) | `figma-adapt-c-layout` | C 通栏适配：单栏拉宽 + 边距重算，适用于设置页等单一内容页 |
 | [figma-adapt-verify.md](./figma-adapt-verify.md) | `figma-adapt-verify` | 验证技能：对生成结果做结构、视觉、语义三层校验，输出通过/不通过报告 |
@@ -68,7 +68,7 @@ auto_design_agent/
 
 | 文件 | 说明 |
 |------|------|
-| [figma-adapt-foldable-layout.md](./figma-adapt-foldable-layout.md) | 初版折叠屏适配 Skill（一飞），已被 `figma-adapt-lc-layout` 替代，保留供参考 |
+| [figma-adapt-foldable-layout.md](./figma-adapt-foldable-layout.md) | 初版折叠屏适配 Skill（一飞），已被 `figma-adapt-lc-nc-layout`（LC/NC Skill）替代，保留供参考 |
 
 ---
 
@@ -103,11 +103,11 @@ auto_design_agent/
 |------|--------|------|
 | common-rules.md | 共同 | 执行原则、禁止项、clone 降级规则 |
 | device-dimensions.md | 共同 | 各设备画布尺寸和基础参数 |
-| layout-lc.md | 老唐 | LC 双栏布局的栏宽、边距、结构定义 |
+| layout-lc-nc.md | 老唐 | LC / NC 分栏布局的栏宽、边距、结构定义 |
 | layout-nlc.md | 老唐 | NLC 三栏布局的结构定义 |
 | layout-c.md | 老唐 | C 通栏布局的规则 |
 | component-routing.md | 一飞 | 高频组件的 Figma 调用路径 |
-| component-adaptation.md | 老唐 | 组件在不同终端间的属性切换规则 |
+| component-adaptation.md | 老唐 | 手机端组件 → 目标设备组件的替换映射 |
 | plugin-api-patterns.md | 一飞 | Figma Plugin API 常用写入模式 |
 
 ---

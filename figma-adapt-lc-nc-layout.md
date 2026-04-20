@@ -1,19 +1,19 @@
 ---
-name: figma-adapt-lc-layout
-description: 在现有 Figma 目标 frame 内完成 LC（列表-内容）双栏布局适配。适用于"把列表页和详情页重组为左右分栏""在目标 frame 里做双栏布局""复用现有组件做左列表右详情"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
+name: figma-adapt-lc-nc-layout
+description: 在现有 Figma 目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。适用于"把列表页和详情页重组为左右分栏""底部 Tab 转侧边导航+内容分栏""在目标 frame 里做分栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
 disable-model-invocation: false
 ---
 
-# LC 双栏布局适配
+# LC / NC 分栏布局适配
 
-在目标 frame 内完成 LC（列表-内容）双栏布局适配：左栏放列表，右栏放详情内容。不新建并行页面，直接执行。
+在目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。LC：左栏放列表，右栏放详情内容。NC：左栏放侧边导航（底部 Tab 转换），右栏放内容。不新建并行页面，直接执行。
 
 ## 适用场景
 
-- "把列表页和详情页重组为左右分栏"
-- "在这个 frame 里做折叠屏双栏布局"
-- "左列表右详情"
-- "复用现有组件做 LC 适配"
+- "把列表页和详情页重组为左右分栏"（LC）
+- "底部 Tab 转侧边导航 + 内容分栏"（NC）
+- "在这个 frame 里做折叠屏/Pad 分栏布局"
+- "左列表右详情" / "左导航右内容"
 
 ## 前置条件
 
@@ -21,8 +21,10 @@ disable-model-invocation: false
 
 - 源设计稿节点 ID 和结构摘要
 - 目标设备类型（Fold / Pad）
+- 布局类型（LC 或 NC）
 - 目标画布尺寸和栏宽（参考 `references/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
+- NC 时：已识别源页面的底部 Tab 导航组件
 
 ## 核心原则
 
@@ -39,15 +41,15 @@ disable-model-invocation: false
 
 ### Phase A：搭目标骨架
 
-读取布局规则：`references/layout-lc.md`
+读取布局规则：`references/layout-lc-nc.md`
 
 执行：
 - 清空目标 frame 子节点
 - 设置目标 frame 尺寸（从 `references/device-dimensions.md` 获取）
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（水平布局）
-- 建立左栏 frame（列表栏，宽度按 `references/layout-lc.md` 定义）
-- 建立右栏 frame（内容区，宽度按 `references/layout-lc.md` 定义）
+- 建立左栏 frame（列表栏，宽度按 `references/layout-lc-nc.md` 定义）
+- 建立右栏 frame（内容区，宽度按 `references/layout-lc-nc.md` 定义）
 - 为视口容器设置 `clipsContent = true`
 
 写入模式参考：`references/plugin-api-patterns.md`
@@ -58,13 +60,19 @@ disable-model-invocation: false
 
 读取组件规则：`references/component-routing.md` + `references/component-adaptation.md`
 
-执行：
+**LC 模式（左栏为 L 栏）**：
 - 放入源页面顶部模块（搜索栏、标题栏等）
 - 替换或放入目标列表变体（优先 `search_design_system` 搜索，其次 clone）
-- 应用组件属性切换（如大标题→中标题，参考 `references/component-adaptation.md`）
-- 删除不需要的移动端底部导航 / 底部指示器
-- 让左栏成为纯侧边栏语义
+- 按组件适配映射替换目标组件（如标题栏→NavigationBar 目标栏变形，参考 `references/component-adaptation.md`）
+- 删除不需要的移动端底部元素
 - 让列表填充顶部模块以下的剩余视口
+
+**NC 模式（左栏为 N 栏）**：
+- 搜索侧边导航栏组件（优先 `search_design_system`，其次查 `references/component-routing.md`）
+- 从源页面底部 Tab 提取导航项信息（图标、文字、数量），构建侧边导航
+- 确保导航项数量和顺序与源页面底部 Tab 一致
+- 设置当前选中态（与右栏内容对应的导航项）
+- 删除源页面的悬浮底部导航栏
 
 完成后校验：截图 + 确认左栏宽度和内容正确。
 
@@ -83,7 +91,7 @@ disable-model-invocation: false
 ### Phase D：整体调整
 
 - 检查左右栏间距 / 分割线
-- 检查边距是否符合 `references/layout-lc.md` 定义
+- 检查边距是否符合 `references/layout-lc-nc.md` 定义
 - 确认全局状态栏只有一套
 - 确认左栏选中项与右栏内容语义一致
 
@@ -131,9 +139,10 @@ disable-model-invocation: false
 ## 默认验收标准
 
 - 目标页面尺寸精确匹配设备规格
-- 左右栏宽度精确匹配 `references/layout-lc.md` 定义
+- 左右栏宽度精确匹配 `references/layout-lc-nc.md` 定义
 - 顶部全局状态栏只有一套
-- 左栏不保留移动端底部导航语义
+- LC：左栏不保留移动端底部导航语义
+- NC：导航栏项数和顺序与源页面底部 Tab 一致，导航选中态正确
 - 右栏保留正文与操作区，但不保留键盘弹层
 - 左栏选中项与右栏内容语义一致
 - 整体视觉无明显裁切、重叠、异常空白
