@@ -1,108 +1,220 @@
 ---
-name: figma-component-dictionary-table1
-description: 表1组件字典（试点）技能。先覆盖标题栏组件，定义变体编号与反查规则，供 AI 根据表2给出的编号定位 componentKey 并调用组件。
+name: figma-component-dictionary
+description: 组件字典（试点）技能。用于根据上游给出的 variantId 定位标题栏组件，并按执行层协议稳定执行 setProperties 或 swapComponent。
 disable-model-invocation: false
 ---
 
-# 表1：组件字典（标题栏试点）
+# 组件字典（标题栏试点）
 
-## 适用场景
+## Skill 目标
 
-当任务链路为“应用名 -> 表2给出变体编号 -> 表1反查组件并调用”时，使用本 Skill。
+本 Skill 给 AI 直接执行，不给人类查表。
 
-本试点只覆盖标题栏，不处理导航栏、底Tab、搜索栏、标签栏。
+本 Skill 只解决两件事：
 
-## 字段定义
+1. 用 `variantId` 找到目标组件来源
+2. 找到后决定执行 `setProperties(...)` 还是 `swapComponent(...)`
 
+本试点只覆盖标题栏，暂时不处理导航栏、底Tab、搜索栏、标签栏。
 
-| 字段                  | 含义         | 规则                             |
-| ------------------- | ---------- | ------------------------------ |
-| `componentFamily`   | 组件族        | 如 `NavigationBar`、`Pad-TopBar` |
-| `componentKey`      | 精确组件定位 key | 有稳定 key 则填写；未沉淀则留空并走 `lookupBy` |
-| `variantId`         | 变体编号       | 固定 `NavigationBar-ComponentSet_XX`，两位序号，递增且不复用 |
-| `variantName`       | 变体语义名      | 使用 Figma 组件语义，不写抽象别名           |
-| `lookupBy`          | 回退定位信息     | 至少包含 Figma 锚点和推荐搜索词            |
+## 输入与输出
 
+### 输入
 
-## 表1正文（NavigationBar-ComponentSet）
+- `appName`
+- `variantId`
+- 当前实例或目标节点的上下文
 
-> 来源基线：Xiaomi Hyper OS4 UI Kit  
-> [https://www.figma.com/design/7PVSm4yEbknNLFaqauI4EM/Xiaomi-Hyper-OS4-UI-Kit?node-id=1890-3345&t=1XpD5lqT7Of7PW3I-11](https://www.figma.com/design/7PVSm4yEbknNLFaqauI4EM/Xiaomi-Hyper-OS4-UI-Kit?node-id=1890-3345&t=1XpD5lqT7Of7PW3I-11)  
-> 组件集 `NavigationBar-ComponentSet` 的 `componentKey`：`818d2f110e386c48bcae60dfef60b5868d052cdd`
+### 输出
 
+- 是否命中字典记录
+- 命中的 `variantId`
+- 执行动作类型：`setProperties` 或 `swapComponent`
+- 组件来源：`key` / `search` / `anchor` / `clone`
+- 最终属性值或替换目标
+- 是否使用回退路径
 
-| componentFamily | componentKey                               | variantId | variantName       | lookupBy |
-| --------------- | ------------------------------------------ | --------- | ----------------- | -------- |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_01` | 大标题（手机默认）         | 锚点: `node-id=1890:3345`; 搜索词: `NavigationBar 大标题` |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_02` | 中标题一级（Fold Q18）   | 锚点: `node-id=1890:3345`; 搜索词: `NavigationBar 中标题一级` |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_03` | 中标题（Q18）          | 锚点: `node-id=1890:3345`; 搜索词: `NavigationBar 中标题(Q18)` |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_04` | 中标题二级页            | 锚点: `node-id=1890:3345`; 搜索词: `NavigationBar 中标题二级页` |
-| `Pad-TopBar`    | `8c86de4da41e550784b835f9ce615302a7d8177d` | `NavigationBar-ComponentSet_05` | Pad L/C 小标题（56dp） | 锚点: `node-id=80765:11993`; 搜索词: `Pad-TopBar` |
+## 执行协议
 
+### Step 1：探查
 
-## 强制调用流程（应用名 -> 表2编号 -> 表1 -> 调用组件）
-
-### 1. 探查层
-
-使用以下工具读取组件真实结构，不允许凭经验猜：
+使用以下工具读取真实结构：
 
 - `get_metadata`
 - `get_context_for_code_connect`
 - `get_design_context`
 
-目标是拿到并记录：
+必须拿到：
 
+- `mainComponent`
 - `variantProperties`
 - 变体属性的可选值
-- `mainComponent`
-- 组件集结构
+- 当前实例是否支持同组件族切换
 
-### 2. 定位层
+### Step 2：查字典层
 
-使用 `search_design_system` 定位目标组件，用来拿到稳定的 `componentSet` / `componentKey`，避免手工猜组件来源或变体归属。
+按 `variantId` 精确匹配字典层记录，禁止模糊匹配。
 
-执行要求：
+定位顺序：
 
-1. 读取输入：`appName`、`variantId`（由表2给出）。
-2. 在本表按 `variantId` 精确匹配，禁止模糊匹配。
-3. 若表内已有稳定 `componentKey`，优先按 key 定位。
-4. 若 `componentKey` 缺失、结果不稳定或导入失败，再按 `lookupBy` 中的搜索词和锚点，用 `search_design_system` 回退定位。
+1. `componentSetKey`
+2. `lookupBy.query`
+3. `lookupBy.anchor`
+4. clone 已存在目标实例
 
-### 3. 执行层
+使用 `search_design_system` 做定位，避免手工猜组件来源。
 
-使用 `use_figma` 在插件上下文执行真实写入。
+### Step 3：查执行层
 
-允许的典型操作包括：
+读取该 `variantId` 对应的执行层记录：
+
+- `actionType`
+- `propertyPatch`
+- `applicableWhen`
+- `targetComponentFamily`
+- `targetComponentSetKey`
+- `fallbackStrategy`
+- `verifyBy`
+
+### Step 4：决定动作
+
+- 如果当前实例与目标记录属于同组件族，且 `propertyPatch` 中的键和值都存在于真实可选值中，执行 `setProperties(...)`
+- 如果设备语义变化、组件族变化，或当前实例不存在稳定可切换属性，执行 `swapComponent(...)`
+- `variantName` 只用于语义理解，不允许直接当作属性名或属性值
+
+### Step 5：执行
+
+在 `use_figma` 中执行：
 
 - `instance.setProperties(...)`
 - `swapComponent(...)`
 - `importComponentSetByKeyAsync(...)`
 
-执行要求：
+执行约束：
 
-1. 实例化或复用目标组件后，先确认 `mainComponent` 与表内记录一致。
-2. 根据探查得到的真实属性键和值执行变体切换，不得猜属性名。
-3. 若 `variantName` 与真实可选属性冲突，按“key -> 搜索 -> 锚点 -> clone”顺序回退。
+- 先校验 `mainComponent`
+- 再执行动作
+- 不允许猜属性名
+- 不允许把跨组件族替换伪装成属性切换
 
-### 4. 验证层
+### Step 6：验证
 
 使用 `get_screenshot` 做视觉校验；必要时再次读取 metadata 做结构校验。
 
-验证要求：
+必须验证：
 
-- 视觉校验：组件外观、层级、选中态、文案和目标变体一致。
-- 结构校验：`mainComponent`、`variantProperties`、实例挂载位置和组件来源可回溯。
+- 组件外观与目标语义一致
+- `mainComponent` 正确
+- `variantProperties` 已生效
+- 实例仍挂在正确容器下
 
-### 5. 输出结果
+## 参考文档
 
-输出调用结果，必须包含：
+参考文档按组件表单独形成，按需加载，不一次性全部加载。
 
-- 命中编号
-- 组件来源（key / 搜索 / 锚点 / clone）
-- 最终属性值
-- 是否使用回退路径
+AI 使用规则：
 
-## 标准输出格式
+1. 主 Skill 默认只读取当前文件。
+2. 当 `variantId` 命中某个组件族后，再加载该组件族对应的参考文档。
+3. 参考文档只补充该组件族的细节，不重复本文件中的通用执行协议。
+4. 若参考文档缺失，仍按本文件的字典层 + 执行层协议执行，不阻塞主链路。
+
+### 文档组织规则
+
+- 建议路径：`references/component-dictionary/{component-family}.md`
+- 一份组件表对应一份参考文档
+- 一个参考文档只服务一个组件族，不混写多个组件族
+
+### 每份参考文档应包含
+
+- 组件集结构和已验证的 `componentSetKey`
+- 常见实例的 `mainComponent`
+- 真实 `variantProperties` 与可选值
+- 已验证可用的 `propertyPatch`
+- 何时用 `setProperties(...)`
+- 何时必须改用 `swapComponent(...)`
+- 已知陷阱、失败案例和回退方式
+
+### 加载时机
+
+| 文档 | 加载时机 | 覆盖内容 |
+| --- | --- | --- |
+| `{component-family}.md` | 命中字典层记录后 | 该组件族的属性矩阵、执行细节、已验证补丁 |
+| `{component-family}.md` | `setProperties(...)` 前 | 真实属性键、可选值、属性切换限制 |
+| `{component-family}.md` | `swapComponent(...)` 前 | 目标组件族、目标组件集、替换边界 |
+| `{component-family}.md` | 执行失败或回退时 | 已知错误模式、回退顺序、修复建议 |
+
+## 字典层
+
+字典层只回答“去哪找组件”，不回答“怎么切”。
+
+### 字段
+
+
+| 字段                | 含义      | 规则                                             |
+| ----------------- | ------- | ---------------------------------------------- |
+| `componentFamily` | 组件族     | 如 `NavigationBar`、`Pad-TopBar`                 |
+| `componentSetKey` | 组件集 key | 优先使用；没有稳定 key 时留空                              |
+| `variantId`       | 变体编号    | 固定 `NavigationBar-ComponentSet_XX`，两位序号，递增且不复用 |
+| `variantName`     | 语义标签    | 只用于理解，不用于直接执行                                  |
+| `lookupBy`        | 回退定位信息  | 至少包含搜索词和 Figma 锚点                              |
+| `sourceOfTruth`   | 数据来源    | `probed` / `manual` / `inferred`，优先 `probed`   |
+
+
+### 记录
+
+> 来源基线：Xiaomi Hyper OS4 UI Kit  
+> `NavigationBar-ComponentSet` 的 `componentSetKey`：`818d2f110e386c48bcae60dfef60b5868d052cdd`
+
+
+| componentFamily | componentSetKey                            | variantId                       | variantName       | lookupBy                                               | sourceOfTruth |
+| --------------- | ------------------------------------------ | ------------------------------- | ----------------- | ------------------------------------------------------ | ------------- |
+| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_01` | 大标题（手机默认）         | 搜索词: `NavigationBar 大标题`; 锚点: `node-id=1890:3345`      | `probed`      |
+| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_02` | 中标题一级（Fold Q18）   | 搜索词: `NavigationBar 中标题一级`; 锚点: `node-id=1890:3345`    | `probed`      |
+| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_03` | 中标题（Q18）          | 搜索词: `NavigationBar 中标题(Q18)`; 锚点: `node-id=1890:3345` | `probed`      |
+| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_04` | 中标题二级页            | 搜索词: `NavigationBar 中标题二级页`; 锚点: `node-id=1890:3345`   | `probed`      |
+| `Pad-TopBar`    | `8c86de4da41e550784b835f9ce615302a7d8177d` | `NavigationBar-ComponentSet_05` | Pad L/C 小标题（56dp） | 搜索词: `Pad-TopBar`; 锚点: `node-id=80765:11993`           | `probed`      |
+
+
+## 执行层
+
+执行层只回答“找到后怎么切”，不负责定位。
+
+### 字段
+
+
+| 字段                      | 含义        | 规则                                    |
+| ----------------------- | --------- | ------------------------------------- |
+| `actionType`            | 执行动作      | 仅允许 `setProperties` 或 `swapComponent` |
+| `propertyPatch`         | 属性补丁      | 真实属性键值映射                              |
+| `applicableWhen`        | 适用条件      | 至少写清设备和布局角色                           |
+| `targetComponentFamily` | 目标组件族     | `swapComponent` 时填写                   |
+| `targetComponentSetKey` | 目标组件集 key | `swapComponent` 时优先使用                 |
+| `fallbackStrategy`      | 回退顺序      | 默认 `key -> search -> anchor -> clone` |
+| `verifyBy`              | 验证方式      | 默认 `screenshot + metadata`            |
+
+
+### 记录
+
+
+| variantId                       | actionType      | propertyPatch            | applicableWhen                                | targetComponentFamily | targetComponentSetKey                      | fallbackStrategy                   | verifyBy                |
+| ------------------------------- | --------------- | ------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------ | ---------------------------------- | ----------------------- |
+| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "样式": "大标题" }`        | `device=Phone; layoutRole=Full`               |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_02` | `setProperties` | `{ "样式": "中标题一级" }`      | `device=Fold; posture=inner; layoutRole=L`    |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_03` | `setProperties` | `{ "标题类型": "中标题（Q18）" }` | `device=Fold; posture=inner; layoutRole=Full` |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_04` | `setProperties` | `{ "标题类型": "中标题二级页" }`   | `device=Fold; posture=inner; layoutRole=C`    |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_05` | `swapComponent` | `{}`                     | `device=Pad; layoutRole=L/C`                  | `Pad-TopBar`          | `8c86de4da41e550784b835f9ce615302a7d8177d` | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+
+
+## 硬约束
+
+- 不允许模糊匹配 `variantId`
+- 不允许猜属性名或属性值
+- 不允许把 `variantName` 当执行参数
+- 同名标题栏来自不同组件族时，先看 `mainComponent`，再决定动作
+- 若同一 `variantId` 在不同页面语义下执行方式不同，必须拆分执行层记录，不要复用一条
+
+## 标准输出
 
 ```json
 {
@@ -110,25 +222,14 @@ disable-model-invocation: false
   "variantId": "NavigationBar-ComponentSet_02",
   "matched": true,
   "componentFamily": "NavigationBar",
+  "componentSetKey": "818d2f110e386c48bcae60dfef60b5868d052cdd",
+  "actionType": "setProperties",
   "resolvedBy": "search_design_system",
-  "componentKey": "818d2f110e386c48bcae60dfef60b5868d052cdd",
   "mainComponent": "NavigationBar",
   "appliedVariantProperties": {
     "样式": "中标题一级"
   },
+  "swapTarget": null,
   "fallbackUsed": false
 }
 ```
-
-## 验收标准
-
-- 编号格式严格为 `NavigationBar-ComponentSet_XX`，且在本表内唯一。
-- 每个编号都可落到可执行路径：`componentKey` 或 `lookupBy`。
-- 调用后可回溯命中来源（key、搜索、锚点、clone）。
-- 同名标题栏来自不同组件族时，先校验 `mainComponent` 再应用变体。
-- 失败兜底不允许“猜属性名”，必须按“搜索 -> 锚点 -> clone”顺序执行。
-
-## 后续扩展约束
-
-- 保持同一字段结构，后续可平移到 `Nav-XX`、`Tab-XX`、`Search-XX`、`Label-XX`。
-- 若补齐标题栏稳定 `componentKey`，仅更新 `componentKey` 列，不改 `variantId`。
