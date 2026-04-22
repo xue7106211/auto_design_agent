@@ -28,6 +28,8 @@ auto_design_agent/
 ├── skill-main-workflow.md
 ├── figma-component-dictionary.md
 ├── references/
+│   ├── component-dictionary/
+│   │   └── navigation-bar.md
 │   └── navigation-framework-components.md
 └── archive/
     ├── common-rules.md
@@ -56,6 +58,7 @@ auto_design_agent/
 | [skill-main-workflow.md](./skill-main-workflow.md) | `figma-multi-terminal-adapt` | 主工作流 Skill。面向多终端适配任务，负责读取源稿、判断布局类型、委托执行与验证 |
 | [figma-component-dictionary.md](./figma-component-dictionary.md) | `figma-component-dictionary` | 组件字典 Skill。面向 AI 执行，按 `variantId` 查字典层与执行层，决定 `setProperties(...)` 或 `swapComponent(...)` |
 | [references/navigation-framework-components.md](./references/navigation-framework-components.md) | - | 导航框架组件参考文档。提供锚点、推荐搜索词和已知切换规则，供 Skill 按需加载 |
+| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | - | `NavigationBar` 组件字典参考文档。记录真实属性体系、已验证补丁、暂停执行记录和回退规则 |
 
 ### 归档文件
 
@@ -95,6 +98,7 @@ auto_design_agent/
 当前已沉淀的参考文档：
 
 - [references/navigation-framework-components.md](./references/navigation-framework-components.md)
+- [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
 后续若继续拆分组件参考，建议统一放在：
 

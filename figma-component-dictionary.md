@@ -124,12 +124,15 @@ AI 使用规则：
 - 建议路径：`references/component-dictionary/{component-family}.md`
 - 一份组件表对应一份参考文档
 - 一个参考文档只服务一个组件族，不混写多个组件族
+- 主文档只记录索引和执行入口，不重复组件字段细节
 
 ### 每份参考文档应包含
 
+- 组件名、组件集、组件 key / 组件集 key
 - 组件集结构和已验证的 `componentSetKey`
 - 常见实例的 `mainComponent`
 - 真实 `variantProperties` 与可选值
+- 已验证变体列表
 - 已验证可用的 `propertyPatch`
 - 何时用 `setProperties(...)`
 - 何时必须改用 `swapComponent(...)`
@@ -151,46 +154,31 @@ AI 使用规则：
 ### 字段
 
 
-| 字段                | 含义      | 规则                                             |
-| ----------------- | ------- | ---------------------------------------------- |
-| `componentFamily` | 组件族     | 如 `NavigationBar`、`Pad-TopBar`                 |
-| `componentSetKey` | 组件集 key | 优先使用；没有稳定 key 时留空                              |
-| `variantId`       | 变体编号    | 固定 `NavigationBar-ComponentSet_XX`，两位序号，递增且不复用 |
-| `variantName`     | 语义标签    | 只用于理解，不用于直接执行                                  |
-| `lookupBy`        | 回退定位信息  | 至少包含搜索词和 Figma 锚点                              |
-| `sourceOfTruth`   | 数据来源    | `probed` / `manual` / `inferred`，优先 `probed`   |
-
+| 字段 | 含义 | 规则 |
+| --- | --- | --- |
+| `componentFamily` | 组件族 | 如 `NavigationBar`、`Pad-TopBar` |
+| `componentName` | 组件名 | Figma 中实际组件或组件集名称，如 `NavigationBar-ComponentSet` |
+| `variantId` | 变体编号 | 必须与 Figma 真实 `VariantId` 精确一致，如 `NavigationBar-ComponentSet_01`、`Pad-TopBar_01` |
+| `variantName` | 语义标签 | 只用于理解，不用于直接执行 |
+| `referenceDoc` | 参考文档 | 命中记录后必须按需加载对应组件文档 |
+| `sourceOfTruth` | 数据来源 | `probed` / `manual` / `inferred`，优先 `probed` |
 
 ### 记录
 
-> 来源基线：Xiaomi Hyper OS4 UI Kit  
-> `NavigationBar-ComponentSet` 的 `componentSetKey`：`818d2f110e386c48bcae60dfef60b5868d052cdd`
->
-> 已验证探查（2026-04-22）：
-> - 文件：`自动生成设计稿`
-> - 节点：`105:5686`
-> - 实例名：`NavigationBar-ComponentSet`
-> - 真实变体属性：`标题类型` / `交互状态` / `辅助标题` / `颜色模式`
-> - 真实 `mainComponent`：`标题类型=大标题, 交互状态=默认态（平面放置）, 辅助标题=no, 颜色模式=亮色模式`
->
-> 冲突说明：
-> - `componentSetKey=818d2f110e386c48bcae60dfef60b5868d052cdd` 对应的是 OS4 UI Kit 的 `NavigationBar-ComponentSet`
-> - 这套组件不支持 `样式=中标题一级`
-> - `样式=大标题/中标题一级` 属于另一套同名但不同组件集的 `NavigationBar`，必须拆分记录，禁止继续复用到本组件集
+`NavigationBar` 相关记录的最新 Figma 锚点以 `references/component-dictionary/navigation-bar.md` 中的当前基准链接为准。
+当前基准组件集已切换到 UI Kit 分支节点 `123486:63329`，真实属性体系为 `VariantId`。
 
-
-| componentFamily | componentSetKey                            | variantId                       | variantName       | lookupBy                                               | sourceOfTruth |
-| --------------- | ------------------------------------------ | ------------------------------- | ----------------- | ------------------------------------------------------ | ------------- |
-| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_01` | 大标题（手机默认）         | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686`      | `probed`      |
-| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_03` | 中标题（Q18）          | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686` | `probed`      |
-| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_04` | 中标题二级页            | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686`   | `probed`      |
-| `Pad-TopBar`                | `8c86de4da41e550784b835f9ce615302a7d8177d` | `NavigationBar-ComponentSet_05` | Pad L/C 小标题（56dp） | 搜索词: `Pad-TopBar`; 锚点: `node-id=80765:11993`                | `probed`      |
-
-#### 暂停执行记录（待复探）
-
-| variantId                       | 原语义 | 暂停原因 |
-| ------------------------------- | ------ | -------- |
-| `NavigationBar-ComponentSet_02` | 中标题一级（Fold Q18） | 历史文档把 `样式=中标题一级` 误挂到 `componentSetKey=818d2f110e386c48bcae60dfef60b5868d052cdd`。该 key 的真实属性体系是 `标题类型`，不包含 `中标题一级`。恢复前必须先为另一套 `NavigationBar` 单独建记录。 |
+| componentFamily | componentName | variantId | variantName | referenceDoc | sourceOfTruth |
+| --- | --- | --- | --- | --- | --- |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_01` | 大标题（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_02` | 大标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_03` | 大标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_04` | 中标题（右 2 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_05` | 中标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_06` | 中标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_07` | 小标题居中（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `Pad-TopBar_01` | Pad 顶栏（中间导航） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar-ComponentSet` | `Pad-TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
 
 
 ## 执行层
@@ -213,19 +201,17 @@ AI 使用规则：
 
 ### 记录
 
-
-| variantId                       | actionType      | propertyPatch            | applicableWhen                                | targetComponentFamily | targetComponentSetKey                      | fallbackStrategy                   | verifyBy                |
-| ------------------------------- | --------------- | ------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------ | ---------------------------------- | ----------------------- |
-| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "标题类型": "大标题" }`        | `device=Phone; layoutRole=Full`               |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_03` | `setProperties` | `{ "标题类型": "中标题（Q18）" }` | `device=Fold; posture=inner; layoutRole=Full` |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_04` | `setProperties` | `{ "标题类型": "中标题二级页" }`   | `device=Fold; posture=inner; layoutRole=C`    |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_05` | `swapComponent` | `{}`                     | `device=Pad; layoutRole=L/C`                  | `Pad-TopBar`          | `8c86de4da41e550784b835f9ce615302a7d8177d` | `key -> search -> anchor -> clone` | `screenshot + metadata` |
-
-#### 暂停执行记录（待复探）
-
-| variantId                       | actionType | propertyPatch | applicableWhen | 暂停原因 |
-| ------------------------------- | ---------- | ------------- | -------------- | -------- |
-| `NavigationBar-ComponentSet_02` | -          | -             | `device=Fold; posture=inner; layoutRole=L` | 当前只确认它属于另一套 `NavigationBar` 的 `样式=中标题一级` 路径，尚未为该组件集建立独立字典层记录。禁止对 `818d2f110e386c48bcae60dfef60b5868d052cdd` 执行该条。 |
+| variantId | actionType | propertyPatch | applicableWhen | targetComponentFamily | fallbackStrategy | verifyBy |
+| --- | --- | --- | --- | --- | --- | --- |
+| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_01" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_02` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_02" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_03` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_03" }` | `device=Phone/Fold; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_04` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_04" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_05` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_05" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_06` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_06" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_07` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_07" }` | `device=Phone/Fold; layoutRole=Compact` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `Pad-TopBar_01` | `setProperties` | `{ "VariantId": "Pad-TopBar_01" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `Pad-TopBar_02` | `setProperties` | `{ "VariantId": "Pad-TopBar_02" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 
 
 ## 硬约束
@@ -233,8 +219,12 @@ AI 使用规则：
 - 不允许模糊匹配 `variantId`
 - 不允许猜属性名或属性值
 - 不允许把 `variantName` 当执行参数
-- 同名标题栏来自不同组件族时，先看 `mainComponent`，再决定动作
-- 当 `componentSetKey = 818d2f110e386c48bcae60dfef60b5868d052cdd` 时，只允许使用 `标题类型` / `交互状态` / `辅助标题` / `颜色模式`
+- 命中字典层后，必须加载 `referenceDoc`，再读取组件字段、变体和值域
+- 若 reference 中声明了“当前基准链接”，定位和锚点以该链接为准
+- 先用 reference 中的 `componentSetKey` 定位，再用 `componentName` 和 `mainComponent` 校验是不是目标组件
+- 当 `componentSetKey = a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc` 时，只允许使用 `VariantId`
+- `Pad-TopBar_01` / `Pad-TopBar_02` 在当前基准中属于 `NavigationBar-ComponentSet` 的变体，不再按独立组件 `swapComponent(...)`
+- 同一 `componentFamily` 下允许存在多个 `componentName`，不得混用
 - 若同一 `variantId` 在不同页面语义下执行方式不同，必须拆分执行层记录，不要复用一条
 
 ## 标准输出
@@ -244,13 +234,16 @@ AI 使用规则：
   "appName": "xxx",
   "variantId": "NavigationBar-ComponentSet_01",
   "matched": true,
-  "componentFamily": "NavigationBar-ComponentSet",
-  "componentSetKey": "818d2f110e386c48bcae60dfef60b5868d052cdd",
+  "componentFamily": "NavigationBar",
+  "componentName": "NavigationBar-ComponentSet",
+  "referenceDoc": "references/component-dictionary/navigation-bar.md",
   "actionType": "setProperties",
-  "resolvedBy": "search_design_system",
-  "mainComponent": "标题类型=大标题, 交互状态=默认态（平面放置）, 辅助标题=no, 颜色模式=亮色模式",
+  "resolvedBy": "anchor",
+  "componentSetKey": "a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc",
+  "componentKey": null,
+  "mainComponent": "VariantId=NavigationBar-ComponentSet_01",
   "appliedVariantProperties": {
-    "标题类型": "大标题"
+    "VariantId": "NavigationBar-ComponentSet_01"
   },
   "swapTarget": null,
   "fallbackUsed": false
