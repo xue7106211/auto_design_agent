@@ -1,28 +1,30 @@
 ---
 name: figma-component-dictionary
-description: 组件字典（试点）技能。用于根据上游给出的 variantId 定位标题栏组件，并按执行层协议稳定执行 setProperties 或 swapComponent。
+description: 组件字典技能。根据 appName + 设备 + 屏幕模式查断点表获取 variantId，再定位组件并执行 setProperties 或 swapComponent。
 disable-model-invocation: false
 ---
 
-# 组件字典（标题栏试点）
+# 组件字典
 
 ## Skill 目标
 
 本 Skill 给 AI 直接执行，不给人类查表。
 
-本 Skill 只解决两件事：
+本 Skill 解决三件事：
 
-1. 用 `variantId` 找到目标组件来源
-2. 找到后决定执行 `setProperties(...)` 还是 `swapComponent(...)`
-
-本试点只覆盖标题栏，暂时不处理导航栏、底Tab、搜索栏、标签栏。
+1. 根据 `appName` + `device` + `screenMode` 从断点表查出目标 `variantId`
+2. 用 `variantId` 找到目标组件来源
+3. 找到后决定执行 `setProperties(...)` 还是 `swapComponent(...)`
 
 ## 输入与输出
 
 ### 输入
 
-- `appName`
-- `variantId`
+- `appName`（必须，用于加载对应断点表）
+- `device`（Phone / Fold外屏 / Fold内屏 / Pad竖屏 / Pad横屏）
+- `screenMode`（N / L / C / NC）
+- `uiElement`（标题栏_一级 / 导航_FAB_搜索 / 工具栏 等）
+- `variantId`（可直接指定，跳过断点表查询）
 - 当前实例或目标节点的上下文
 
 ### 输出
@@ -35,6 +37,27 @@ disable-model-invocation: false
 - 是否使用回退路径
 
 ## 执行协议
+
+### Step 0：加载断点表
+
+根据 `appName` 加载对应的断点-结构变化表：
+
+- 路径规则：`references/breakpoint-component-map-{appName}.md`
+- 例如：`appName=文管` → `references/breakpoint-component-map-文管.md`
+
+从断点表中按 `device` + `screenMode` + `uiElement` 交叉查出目标 `variantId`。
+
+若调用方已直接提供 `variantId`，跳过此步，直接进入 Step 1。
+
+若断点表文件不存在，报错并中止，不允许猜测 variantId。
+
+#### 已注册断点表
+
+| appName | 断点表路径 | 状态 |
+|---------|-----------|------|
+| 文管 | `references/breakpoint-component-map-文管.md` | 已建立 |
+| 笔记 | `references/breakpoint-component-map-笔记.md` | 待建立 |
+| 电话 | `references/breakpoint-component-map-电话.md` | 待建立 |
 
 ### Step 1：探查
 
@@ -110,21 +133,28 @@ disable-model-invocation: false
 
 ## 参考文档
 
-参考文档按组件表单独形成，按需加载，不一次性全部加载。
+参考文档分两类，按需加载，不一次性全部加载。
 
-AI 使用规则：
+### 文档类型
+
+| 类型 | 路径规则 | 用途 | 加载时机 |
+|------|---------|------|---------|
+| 断点表 | `references/breakpoint-component-map-{appName}.md` | 设备 × 模式 → variantId 映射 | Step 0：收到 appName 时 |
+| 组件族参考 | `references/component-dictionary/{component-family}.md` | 组件属性、变体、执行细节 | Step 2：命中字典层记录后 |
+
+### AI 使用规则
 
 1. 主 Skill 默认只读取当前文件。
-2. 当 `variantId` 命中某个组件族后，再加载该组件族对应的参考文档。
-3. 参考文档只补充该组件族的细节，不重复本文件中的通用执行协议。
-4. 若参考文档缺失，仍按本文件的字典层 + 执行层协议执行，不阻塞主链路。
+2. 收到 `appName` 后，先加载该应用的断点表，查出目标 `variantId`。
+3. 当 `variantId` 命中某个组件族后，再加载该组件族对应的参考文档。
+4. 参考文档只补充细节，不重复本文件中的通用执行协议。
+5. 若断点表缺失，报错中止。若组件族参考文档缺失，仍按字典层 + 执行层协议执行，不阻塞主链路。
 
 ### 文档组织规则
 
-- 建议路径：`references/component-dictionary/{component-family}.md`
-- 一份组件表对应一份参考文档
-- 一个参考文档只服务一个组件族，不混写多个组件族
-- 主文档只记录索引和执行入口，不重复组件字段细节
+- 断点表路径：`references/breakpoint-component-map-{appName}.md`，一个应用一份
+- 组件族参考路径：`references/component-dictionary/{component-family}.md`，一个组件族一份
+- 主文档只记录索引和执行入口，不重复细节
 
 ### 每份参考文档应包含
 
@@ -216,6 +246,8 @@ AI 使用规则：
 
 ## 硬约束
 
+- 多端适配必须先加载断点表，不允许跳过 Step 0 直接猜 variantId
+- 断点表中查不到的 设备×模式×元素 组合，视为"该元素在此场景下不存在"，不执行
 - 不允许模糊匹配 `variantId`
 - 不允许猜属性名或属性值
 - 不允许把 `variantName` 当执行参数
