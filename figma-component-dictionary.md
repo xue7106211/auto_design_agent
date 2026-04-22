@@ -165,15 +165,32 @@ AI 使用规则：
 
 > 来源基线：Xiaomi Hyper OS4 UI Kit  
 > `NavigationBar-ComponentSet` 的 `componentSetKey`：`818d2f110e386c48bcae60dfef60b5868d052cdd`
+>
+> 已验证探查（2026-04-22）：
+> - 文件：`自动生成设计稿`
+> - 节点：`105:5686`
+> - 实例名：`NavigationBar-ComponentSet`
+> - 真实变体属性：`标题类型` / `交互状态` / `辅助标题` / `颜色模式`
+> - 真实 `mainComponent`：`标题类型=大标题, 交互状态=默认态（平面放置）, 辅助标题=no, 颜色模式=亮色模式`
+>
+> 冲突说明：
+> - `componentSetKey=818d2f110e386c48bcae60dfef60b5868d052cdd` 对应的是 OS4 UI Kit 的 `NavigationBar-ComponentSet`
+> - 这套组件不支持 `样式=中标题一级`
+> - `样式=大标题/中标题一级` 属于另一套同名但不同组件集的 `NavigationBar`，必须拆分记录，禁止继续复用到本组件集
 
 
 | componentFamily | componentSetKey                            | variantId                       | variantName       | lookupBy                                               | sourceOfTruth |
 | --------------- | ------------------------------------------ | ------------------------------- | ----------------- | ------------------------------------------------------ | ------------- |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_01` | 大标题（手机默认）         | 搜索词: `NavigationBar 大标题`; 锚点: `node-id=1890:3345`      | `probed`      |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_02` | 中标题一级（Fold Q18）   | 搜索词: `NavigationBar 中标题一级`; 锚点: `node-id=1890:3345`    | `probed`      |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_03` | 中标题（Q18）          | 搜索词: `NavigationBar 中标题(Q18)`; 锚点: `node-id=1890:3345` | `probed`      |
-| `NavigationBar` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_04` | 中标题二级页            | 搜索词: `NavigationBar 中标题二级页`; 锚点: `node-id=1890:3345`   | `probed`      |
-| `Pad-TopBar`    | `8c86de4da41e550784b835f9ce615302a7d8177d` | `NavigationBar-ComponentSet_05` | Pad L/C 小标题（56dp） | 搜索词: `Pad-TopBar`; 锚点: `node-id=80765:11993`           | `probed`      |
+| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_01` | 大标题（手机默认）         | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686`      | `probed`      |
+| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_03` | 中标题（Q18）          | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686` | `probed`      |
+| `NavigationBar-ComponentSet` | `818d2f110e386c48bcae60dfef60b5868d052cdd` | `NavigationBar-ComponentSet_04` | 中标题二级页            | 搜索词: `NavigationBar-ComponentSet`; 锚点: `node-id=105:5686`   | `probed`      |
+| `Pad-TopBar`                | `8c86de4da41e550784b835f9ce615302a7d8177d` | `NavigationBar-ComponentSet_05` | Pad L/C 小标题（56dp） | 搜索词: `Pad-TopBar`; 锚点: `node-id=80765:11993`                | `probed`      |
+
+#### 暂停执行记录（待复探）
+
+| variantId                       | 原语义 | 暂停原因 |
+| ------------------------------- | ------ | -------- |
+| `NavigationBar-ComponentSet_02` | 中标题一级（Fold Q18） | 历史文档把 `样式=中标题一级` 误挂到 `componentSetKey=818d2f110e386c48bcae60dfef60b5868d052cdd`。该 key 的真实属性体系是 `标题类型`，不包含 `中标题一级`。恢复前必须先为另一套 `NavigationBar` 单独建记录。 |
 
 
 ## 执行层
@@ -199,11 +216,16 @@ AI 使用规则：
 
 | variantId                       | actionType      | propertyPatch            | applicableWhen                                | targetComponentFamily | targetComponentSetKey                      | fallbackStrategy                   | verifyBy                |
 | ------------------------------- | --------------- | ------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------ | ---------------------------------- | ----------------------- |
-| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "样式": "大标题" }`        | `device=Phone; layoutRole=Full`               |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_02` | `setProperties` | `{ "样式": "中标题一级" }`      | `device=Fold; posture=inner; layoutRole=L`    |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "标题类型": "大标题" }`        | `device=Phone; layoutRole=Full`               |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
 | `NavigationBar-ComponentSet_03` | `setProperties` | `{ "标题类型": "中标题（Q18）" }` | `device=Fold; posture=inner; layoutRole=Full` |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
 | `NavigationBar-ComponentSet_04` | `setProperties` | `{ "标题类型": "中标题二级页" }`   | `device=Fold; posture=inner; layoutRole=C`    |                       |                                            | `key -> search -> anchor -> clone` | `screenshot + metadata` |
 | `NavigationBar-ComponentSet_05` | `swapComponent` | `{}`                     | `device=Pad; layoutRole=L/C`                  | `Pad-TopBar`          | `8c86de4da41e550784b835f9ce615302a7d8177d` | `key -> search -> anchor -> clone` | `screenshot + metadata` |
+
+#### 暂停执行记录（待复探）
+
+| variantId                       | actionType | propertyPatch | applicableWhen | 暂停原因 |
+| ------------------------------- | ---------- | ------------- | -------------- | -------- |
+| `NavigationBar-ComponentSet_02` | -          | -             | `device=Fold; posture=inner; layoutRole=L` | 当前只确认它属于另一套 `NavigationBar` 的 `样式=中标题一级` 路径，尚未为该组件集建立独立字典层记录。禁止对 `818d2f110e386c48bcae60dfef60b5868d052cdd` 执行该条。 |
 
 
 ## 硬约束
@@ -212,6 +234,7 @@ AI 使用规则：
 - 不允许猜属性名或属性值
 - 不允许把 `variantName` 当执行参数
 - 同名标题栏来自不同组件族时，先看 `mainComponent`，再决定动作
+- 当 `componentSetKey = 818d2f110e386c48bcae60dfef60b5868d052cdd` 时，只允许使用 `标题类型` / `交互状态` / `辅助标题` / `颜色模式`
 - 若同一 `variantId` 在不同页面语义下执行方式不同，必须拆分执行层记录，不要复用一条
 
 ## 标准输出
@@ -219,15 +242,15 @@ AI 使用规则：
 ```json
 {
   "appName": "xxx",
-  "variantId": "NavigationBar-ComponentSet_02",
+  "variantId": "NavigationBar-ComponentSet_01",
   "matched": true,
-  "componentFamily": "NavigationBar",
+  "componentFamily": "NavigationBar-ComponentSet",
   "componentSetKey": "818d2f110e386c48bcae60dfef60b5868d052cdd",
   "actionType": "setProperties",
   "resolvedBy": "search_design_system",
-  "mainComponent": "NavigationBar",
+  "mainComponent": "标题类型=大标题, 交互状态=默认态（平面放置）, 辅助标题=no, 颜色模式=亮色模式",
   "appliedVariantProperties": {
-    "样式": "中标题一级"
+    "标题类型": "大标题"
   },
   "swapTarget": null,
   "fallbackUsed": false
