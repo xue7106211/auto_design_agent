@@ -36,10 +36,12 @@ auto_design_agent/
 ├── README.md                              # 本说明
 ├── CLAUDE.md                              # 项目规范与协作约定
 ├── figma-multi-terminal-adapt.md          # 主 Skill：多终端适配入口
-├── figma-adapt-lc-nc-layout.md               # 子 Skill：LC / NC 分栏适配
+├── figma-adapt-lc-nc-layout.md            # 子 Skill：LC / NC 分栏适配
 ├── figma-adapt-nlc-layout.md              # 子 Skill：NLC 三栏适配
 ├── figma-adapt-c-layout.md                # 子 Skill：C 通栏适配
 ├── figma-adapt-verify.md                  # 验证 Skill
+├── figma-navigation-framework-components.md # 组件调用 Skill：导航框架组件获取与属性切换
+├── figma-component-dictionary-table1.md     # 表1组件字典 Skill：标题栏编号到组件调用映射
 ├── figma-adapt-foldable-layout.md         # [归档] 初版折叠屏适配（已被 LC Skill 替代）
 └── references/                            # 共享规则文档
     ├── common-rules.md                    # 通用规则：执行原则、禁止项
@@ -49,6 +51,7 @@ auto_design_agent/
     ├── layout-c.md                        # C 布局规则
     ├── component-routing.md               # 组件路由表
     ├── component-adaptation.md            # 组件适配映射表
+    ├── navigation-framework-components.md # 导航框架组件调用表
     └── plugin-api-patterns.md             # Figma Plugin API 常用模式
 ```
 
@@ -63,6 +66,8 @@ auto_design_agent/
 | [figma-adapt-nlc-layout.md](./figma-adapt-nlc-layout.md) | `figma-adapt-nlc-layout` | NLC 三栏适配：侧边导航 + 列表 + 内容区，底部 Tab 转侧边导航 |
 | [figma-adapt-c-layout.md](./figma-adapt-c-layout.md) | `figma-adapt-c-layout` | C 通栏适配：单栏拉宽 + 边距重算，适用于设置页等单一内容页 |
 | [figma-adapt-verify.md](./figma-adapt-verify.md) | `figma-adapt-verify` | 验证技能：对生成结果做结构、视觉、语义三层校验，输出通过/不通过报告 |
+| [figma-navigation-framework-components.md](./figma-navigation-framework-components.md) | `figma-navigation-framework-components` | 组件调用技能：处理标题栏、搜索栏、标签栏、分段按钮、底部导航栏、底部工具栏、侧边导航栏的获取与属性切换 |
+| [figma-component-dictionary-table1.md](./figma-component-dictionary-table1.md) | `figma-component-dictionary-table1` | 表1组件字典（试点）：先覆盖标题栏，按编号反查 componentKey 或 lookupBy 执行组件调用 |
 
 ### 归档技能
 
@@ -108,6 +113,7 @@ auto_design_agent/
 | layout-c.md | 老唐 | C 通栏布局的规则 |
 | component-routing.md | 一飞 | 高频组件的 Figma 调用路径 |
 | component-adaptation.md | 老唐 | 手机端组件 → 目标设备组件的替换映射 |
+| navigation-framework-components.md | 共同 | 导航框架组件的 Figma 锚点、推荐搜索词和已知切换规则 |
 | plugin-api-patterns.md | 一飞 | Figma Plugin API 常用写入模式 |
 
 ---
