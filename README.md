@@ -1,151 +1,133 @@
 # auto_design_agent
 
-面向 **设计稿自动化 / AI 辅助改稿** 的 **Agent 技能（Skill）** 集合仓库。每个技能以独立的 Markdown 文件维护，通过文件头 **YAML Frontmatter** 声明元数据，供 Cursor、Claude Code 等支持 Skill 协议的 Agent 加载与触发。
+面向 **Figma MCP + Agent** 的 Skill 仓库，用于沉淀可执行的设计稿自动化流程。当前仓库已经从早期的“多终端适配 Skill 集合”收敛为两类核心内容：
 
-本仓库由 **小米前端 AI Native（frontend-ai-native）** 组织托管，用于沉淀可在 Figma 等场景下复用的 **可执行工作流**，而不是泛泛的设计说明文档。
+- **主工作流 Skill**：负责整体任务编排
+- **组件字典 Skill**：负责按编号定位组件并执行属性切换或组件替换
+
+已下线或暂不维护的旧版适配 Skill、规则文档和工作流日志统一移入 `archive/`。
 
 ---
 
-## 仓库定位
+## 当前定位
 
 | 维度 | 说明 |
-|------|------|
-| **目标** | 把「折叠屏适配」「Pad 适配」「分栏重组」等高频、易翻车的改稿流程，固化为可重复的 Agent 指令 |
-| **形式** | 单文件 = 单技能；正文为分步流程、验收标准与约束，便于模型按步骤执行 |
-| **边界** | 技能描述 **如何改**（探查、复用、校验）；不替代设计系统 Token 与组件规范本身 |
+| --- | --- |
+| 目标 | 把 Figma 中高频但易出错的组件调用、属性切换和工作流约束固化为 AI 可执行协议 |
+| 形式 | 单文件 = 单 Skill 或单份参考文档；正文优先描述“输入、判定、执行、验证” |
+| 边界 | 仓库描述如何让 Agent 稳定执行，不替代设计系统本身 |
 
 ---
 
-## 架构概览
+## 当前结构
 
-```
-主 Skill（入口）→ 判断设备 + 布局类型 → 委托子 Skill 执行 → 验证 Skill 检查结果
-```
-
-- **主 Skill**：理解需求、判断布局类型、委托执行
-- **子 Skill**：按布局类型（LC / NC / NLC / C）拆分，处理具体适配逻辑
-- **验证 Skill**：独立调用，检查生成结果的规则符合性
-- **References**：共享规则文档，按需加载
-
----
-
-## 目录结构
-
-```
+```text
 auto_design_agent/
-├── README.md                              # 本说明
-├── CLAUDE.md                              # 项目规范与协作约定
-├── figma-multi-terminal-adapt.md          # 主 Skill：多终端适配入口
-├── figma-adapt-lc-nc-layout.md            # 子 Skill：LC / NC 分栏适配
-├── figma-adapt-nlc-layout.md              # 子 Skill：NLC 三栏适配
-├── figma-adapt-c-layout.md                # 子 Skill：C 通栏适配
-├── figma-adapt-verify.md                  # 验证 Skill
-├── figma-navigation-framework-components.md # 组件调用 Skill：导航框架组件获取与属性切换
-├── figma-component-dictionary-table1.md     # 表1组件字典 Skill：标题栏编号到组件调用映射
-├── figma-adapt-foldable-layout.md         # [归档] 初版折叠屏适配（已被 LC Skill 替代）
-└── references/                            # 共享规则文档
-    ├── common-rules.md                    # 通用规则：执行原则、禁止项
-    ├── device-dimensions.md               # 设备尺寸表
-    ├── layout-lc-nc.md                    # LC / NC 分栏布局规则
-    ├── layout-nlc.md                      # NLC 布局规则
-    ├── layout-c.md                        # C 布局规则
-    ├── component-routing.md               # 组件路由表
-    ├── component-adaptation.md            # 组件适配映射表
-    ├── navigation-framework-components.md # 导航框架组件调用表
-    └── plugin-api-patterns.md             # Figma Plugin API 常用模式
+├── README.md
+├── AGENTS.md
+├── skill-main-workflow.md
+├── figma-component-dictionary.md
+├── references/
+│   └── navigation-framework-components.md
+└── archive/
+    ├── common-rules.md
+    ├── component-adaptation.md
+    ├── component-routing.md
+    ├── device-dimensions.md
+    ├── figma-adapt-c-layout.md
+    ├── figma-adapt-foldable-layout.md
+    ├── figma-adapt-lc-nc-layout.md
+    ├── figma-adapt-nlc-layout.md
+    ├── figma-adapt-verify.md
+    ├── figma-navigation-framework-components.md
+    ├── layout-c.md
+    ├── layout-lc-nc.md
+    ├── layout-nlc.md
+    ├── layout-notes-nlc.md
+    └── workflow-log-foldable-adapt-v1.md
 ```
 
 ---
 
-## 技能一览
+## 当前可用文件
 
-| 文件 | `name`（标识） | 一句话说明 |
-|------|------------------|------------|
-| [figma-multi-terminal-adapt.md](./figma-multi-terminal-adapt.md) | `figma-multi-terminal-adapt` | 多终端适配入口：判断设备和布局类型，委托子 Skill 执行，调用验证 Skill 检查结果 |
-| [figma-adapt-lc-nc-layout.md](./figma-adapt-lc-nc-layout.md) | `figma-adapt-lc-nc-layout` | LC / NC 分栏适配：LC（左列表 + 右详情）或 NC（左导航 + 右内容），基于现有组件分步写入并校验 |
-| [figma-adapt-nlc-layout.md](./figma-adapt-nlc-layout.md) | `figma-adapt-nlc-layout` | NLC 三栏适配：侧边导航 + 列表 + 内容区，底部 Tab 转侧边导航 |
-| [figma-adapt-c-layout.md](./figma-adapt-c-layout.md) | `figma-adapt-c-layout` | C 通栏适配：单栏拉宽 + 边距重算，适用于设置页等单一内容页 |
-| [figma-adapt-verify.md](./figma-adapt-verify.md) | `figma-adapt-verify` | 验证技能：对生成结果做结构、视觉、语义三层校验，输出通过/不通过报告 |
-| [figma-navigation-framework-components.md](./figma-navigation-framework-components.md) | `figma-navigation-framework-components` | 组件调用技能：处理标题栏、搜索栏、标签栏、分段按钮、底部导航栏、底部工具栏、侧边导航栏的获取与属性切换 |
-| [figma-component-dictionary-table1.md](./figma-component-dictionary-table1.md) | `figma-component-dictionary-table1` | 表1组件字典（试点）：先覆盖标题栏，按编号反查 componentKey 或 lookupBy 执行组件调用 |
+| 文件 | `name` | 作用 |
+| --- | --- | --- |
+| [skill-main-workflow.md](./skill-main-workflow.md) | `figma-multi-terminal-adapt` | 主工作流 Skill。面向多终端适配任务，负责读取源稿、判断布局类型、委托执行与验证 |
+| [figma-component-dictionary.md](./figma-component-dictionary.md) | `figma-component-dictionary` | 组件字典 Skill。面向 AI 执行，按 `variantId` 查字典层与执行层，决定 `setProperties(...)` 或 `swapComponent(...)` |
+| [references/navigation-framework-components.md](./references/navigation-framework-components.md) | - | 导航框架组件参考文档。提供锚点、推荐搜索词和已知切换规则，供 Skill 按需加载 |
 
-### 归档技能
+### 归档文件
 
-| 文件 | 说明 |
-|------|------|
-| [figma-adapt-foldable-layout.md](./figma-adapt-foldable-layout.md) | 初版折叠屏适配 Skill（一飞），已被 `figma-adapt-lc-nc-layout`（LC/NC Skill）替代，保留供参考 |
+`archive/` 中保留的是历史多终端适配方案、旧版规则文档和工作流日志，仅供参考，不应再作为当前主规范继续扩写。
 
 ---
 
-## 如何使用这些技能
+## 推荐使用方式
 
-### 在 Cursor / Claude Code 中使用
+### 1. 多终端适配主链路
 
-1. 将本仓库克隆到本地，或把 `.md` 技能文件复制到 Skill 目录。
-2. 确保 Agent 能读取到 Markdown 文件。
-3. 在对话中描述需求（如「把笔记的手机端设计稿适配到折叠屏」），模型会自动匹配主 Skill 并按工作流执行。
+当任务是“把手机稿适配到 Fold / Pad”时，优先使用 [skill-main-workflow.md](./skill-main-workflow.md)：
 
-### 与 Figma MCP 的配合
+1. 读取源设计稿上下文
+2. 判断目标设备和布局类型
+3. 调用对应执行链路
+4. 做结果验证
 
-本仓库技能依赖 **Figma MCP** 的读写能力：
+### 2. 组件级调用与属性切换
 
-- **读取**：`get_metadata`、`get_design_context`、`get_screenshot`、`search_design_system`
-- **写入**：`use_figma`（通过 Plugin API 执行 JS）
-- reate_new_file`
+当任务是“按编号调用组件”或“稳定切换组件属性”时，优先使用 [figma-component-dictionary.md](./figma-component-dictionary.md)：
 
-使用前请确认：
-- 已配置远程 Figma MCP 服务器（`use_figma` 仅限远程）
-- 拥有目标文件的 Full seat 编辑权限
-- 已通过 OAuth 完成 Figma 认证
+1. 探查当前实例的真实结构
+2. 用 `variantId` 命中字典层记录
+3. 读取执行层记录
+4. 决定动作：`setProperties(...)` 或 `swapComponent(...)`
+5. 执行并验证
 
----
+### 3. 参考文档加载
 
-## Reference 文档说明
+参考文档采用**按需加载**：
 
-`references/` 目录存放所有 Skill 共享的规则文档，由 Skill 按需引用加载，不会一次性全部注入上下文。
+- 主 Skill 默认只读取自身
+- 命中某个组件族后，再加载对应参考文档
+- 参考文档只补充该组件族的细节，不重复通用执行协议
 
-| 文档 | 负责人 | 说明 |
-|------|--------|------|
-| common-rules.md | 共同 | 执行原则、禁止项、clone 降级规则 |
-| device-dimensions.md | 共同 | 各设备画布尺寸和基础参数 |
-| layout-lc-nc.md | 老唐 | LC / NC 分栏布局的栏宽、边距、结构定义 |
-| layout-nlc.md | 老唐 | NLC 三栏布局的结构定义 |
-| layout-c.md | 老唐 | C 通栏布局的规则 |
-| component-routing.md | 一飞 | 高频组件的 Figma 调用路径 |
-| component-adaptation.md | 老唐 | 手机端组件 → 目标设备组件的替换映射 |
-| navigation-framework-components.md | 共同 | 导航框架组件的 Figma 锚点、推荐搜索词和已知切换规则 |
-| plugin-api-patterns.md | 一飞 | Figma Plugin API 常用写入模式 |
+当前已沉淀的参考文档：
+
+- [references/navigation-framework-components.md](./references/navigation-framework-components.md)
+
+后续若继续拆分组件参考，建议统一放在：
+
+- `references/component-dictionary/{component-family}.md`
 
 ---
 
-## 技能文件格式（Frontma
-| 字段 | 类型 | 含义 |
-|------|------|------|
-| `name` | string | 技能唯一标识，与文件名（去掉 `.md`）一致 |
-| `description` | string | 触发与检索用的描述，写清场景与约束 |
-| `disable-model-invocation` | boolean | 是否禁止模型主动调用；`false` 表示允许 |
+## 与 Figma MCP 的关系
 
-正文结构：适用场景 → 核心原则 → 强制工作流（Phase 分步）→ 输出要求 → 验收标准
+当前 Skill 主要依赖以下能力：
 
----
+- 读取：`get_metadata`、`get_context_for_code_connect`、`get_design_context`、`get_screenshot`
+- 定位：`search_design_system`
+- 写入：`use_figma`
 
-## 命名与文件约定
+执行前请确认：
 
-- **文件名**：`figma-adapt-{功能}.md`，kebab-case
-- **语言**：正文中文，Figma API 术语保留英文
-- **修改原则**：以「可执行、可验收」为先；变更验收标准或工作流时在 MR 描述中写明行为变化
+- 已配置可用的 Figma MCP
+- 拥有目标文件编辑权限
+- Agent 能读取到本仓库中的 Skill 文件
 
 ---
 
-## 贡献与评审
+## 维护约定
 
-1. **新增技能**：新增 `*.md`，补全 Frontmatter，在本 README 技能一览中登记
-2. **修改技能**：小步提交；变更工作流或验收标准时说明行为变化
-3. **合并请求**：通过 `git.n.xiaomi.com` 发起 Merge Request
+- 新增活跃 Skill 时，同步更新本 README 的“当前结构”和“当前可用文件”
+- 历史方案不要继续堆回根目录，统一放入 `archive/`
+- 参考文档保持按需加载，不把细节重新堆回主 Skill
+- 组件字典类 Skill 优先写成面向 AI 的线性协议：`输入 -> 探查 -> 查表 -> 执行 -> 验证 -> 输出`
 
 ---
 
-## 相关链接
+## 相关说明
 
-- **GitLab 项目：`https://git.n.xiaomi.com/frontend-ai-native/auto_design_agent`
-- **组织**：frontend-ai-native（设计系统 / AI Native 相关协作）
+- 仓库协作约束见 [AGENTS.md](./AGENTS.md)
+- 历史适配方案和旧规则文档见 `archive/`
