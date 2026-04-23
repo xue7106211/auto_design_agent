@@ -1,10 +1,11 @@
 # auto_design_agent
 
-面向 **Figma MCP + Agent** 的 Skill 仓库，用于沉淀可执行的设计稿自动化流程。当前仓库已经从早期的“多终端适配 Skill 集合”收敛为两类核心内容：
+面向 **Figma MCP + Agent** 的 Skill 仓库，用于沉淀可执行的设计稿自动化流程。当前仓库已经从早期的"多终端适配 Skill 集合"收敛为一条生产主链路和一组内部复用能力：
 
-- **主工作流 Skill**：负责整体任务编排
-- **组件字典 Skill**：负责按编号定位组件并执行属性切换或组件替换
+- **主工作流 Skill**：默认生产主入口，负责整体任务编排
+- **组件字典 Skill**：组件处理能力，作为主链路内部复用步骤
 
+默认不要读取 `archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
 已下线或暂不维护的旧版适配 Skill、规则文档和工作流日志统一移入 `archive/`。
 
 ---
@@ -14,7 +15,7 @@
 | 维度 | 说明 |
 | --- | --- |
 | 目标 | 把 Figma 中高频但易出错的组件调用、属性切换和工作流约束固化为 AI 可执行协议 |
-| 形式 | 单文件 = 单 Skill 或单份参考文档；正文优先描述“输入、判定、执行、验证” |
+| 形式 | 单文件 = 单 Skill 或单份参考文档；正文优先描述"输入、判定、执行、验证" |
 | 边界 | 仓库描述如何让 Agent 稳定执行，不替代设计系统本身 |
 
 ---
@@ -23,15 +24,18 @@
 
 ```text
 auto_design_agent/
-├── README.md
-├── AGENTS.md
-├── skill-main-workflow.md
-├── figma-component-dictionary.md
+├── README.md                              仓库说明与使用入口
+├── AGENTS.md                              面向 Agent 的编辑约束与自查清单
+├── skill-main-workflow.md                 主工作流 Skill：整页适配编排、组件任务生成、委托执行
+├── figma-component-dictionary.md          组件字典 Skill：实例探查、映射查表、执行与验证
+├── current-execution-map.md               当前可执行链路与断点状态图
+├── workflow-collaboration-contract.md     多人协作接口契约：字段定义与数据流转
+├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
-│   ├── component-dictionary/
-│   │   └── navigation-bar.md
-│   └── navigation-framework-components.md
-└── archive/
+│   ├── app-variant-map-文管.md             文管应用 variant 映射表
+│   └── component-dictionary/
+│       └── navigation-bar.md              NavigationBar 组件族 reference
+└── archive/                               已归档的旧版 Skill、规则和日志
     ├── common-rules.md
     ├── component-adaptation.md
     ├── component-routing.md
@@ -46,6 +50,7 @@ auto_design_agent/
     ├── layout-lc-nc.md
     ├── layout-nlc.md
     ├── layout-notes-nlc.md
+    ├── navigation-framework-components.md
     └── workflow-log-foldable-adapt-v1.md
 ```
 
@@ -53,12 +58,15 @@ auto_design_agent/
 
 ## 当前可用文件
 
-| 文件 | `name` | 作用 |
-| --- | --- | --- |
-| [skill-main-workflow.md](./skill-main-workflow.md) | `figma-multi-terminal-adapt` | 主工作流 Skill。面向多终端适配任务，负责读取源稿、判断布局类型、委托执行与验证 |
-| [figma-component-dictionary.md](./figma-component-dictionary.md) | `figma-component-dictionary` | 组件字典 Skill。面向 AI 执行，按 `variantId` 查字典层与执行层，决定 `setProperties(...)` 或 `swapComponent(...)` |
-| [references/navigation-framework-components.md](./references/navigation-framework-components.md) | - | 导航框架组件参考文档。提供锚点、推荐搜索词和已知切换规则，供 Skill 按需加载 |
-| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | - | `NavigationBar` 组件字典参考文档。记录真实属性体系、已验证补丁、暂停执行记录和回退规则 |
+| 文件 | 作用 |
+| --- | --- |
+| [skill-main-workflow.md](./skill-main-workflow.md) | 主工作流 Skill。默认且唯一的生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、委托执行与验证 |
+| [figma-component-dictionary.md](./figma-component-dictionary.md) | 组件字典 Skill。作为主链路内部复用的组件处理能力，负责实例探查、映射查表、执行与验证 |
+| [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤和当前断点，以及关键字段归属 |
+| [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
+| [prompt-skill-consistency.md](./prompt-skill-consistency.md) | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致 |
+| [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
+| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
 ### 归档文件
 
@@ -68,41 +76,45 @@ auto_design_agent/
 
 ## 推荐使用方式
 
-### 1. 多终端适配主链路
+### 1. 多终端适配生产主链路
 
-当任务是“把手机稿适配到 Fold / Pad”时，优先使用 [skill-main-workflow.md](./skill-main-workflow.md)：
+当任务是"把手机稿适配到 Fold / Pad"时，优先使用 [skill-main-workflow.md](./skill-main-workflow.md)：
 
 1. 读取源设计稿上下文
 2. 判断目标设备和布局类型
-3. 调用对应执行链路
-4. 做结果验证
+3. 盘点关键组件并生成 `componentTaskList`
+4. 批量查询 `app-variant-map`
+5. 在主链路内复用组件处理步骤
+6. 做结果验证
 
-### 2. 组件级调用与属性切换
+### 2. 主链路中的组件处理步骤
 
-当任务是“按编号调用组件”或“稳定切换组件属性”时，优先使用 [figma-component-dictionary.md](./figma-component-dictionary.md)：
+当整页适配中的某个任务已经收敛为组件级切换时，内部复用 [figma-component-dictionary.md](./figma-component-dictionary.md)：
 
-1. 探查当前实例的真实结构
-2. 用 `variantId` 命中字典层记录
-3. 读取执行层记录
-4. 决定动作：`setProperties(...)` 或 `swapComponent(...)`
-5. 执行并验证
+1. 先探查当前实例的真实结构，并识别 `resolvedUiElement`
+2. 再按 `appName` 加载应用 variant 映射表
+3. 用 `device + screenMode + resolvedUiElement` 查出目标记录，并在需要时获取 `variantId`
+4. 命中字典层记录并加载对应 `referenceDoc`
+5. 决定动作：`setProperties(...)` 或 `swapComponent(...)`
+6. 执行并验证
 
 ### 3. 参考文档加载
 
 参考文档采用**按需加载**：
 
 - 主 Skill 默认只读取自身
-- 命中某个组件族后，再加载对应参考文档
+- 命中字典层记录后，再加载对应 `referenceDoc`
 - 参考文档只补充该组件族的细节，不重复通用执行协议
 
 当前已沉淀的参考文档：
 
-- [references/navigation-framework-components.md](./references/navigation-framework-components.md)
+- [references/app-variant-map-文管.md](./references/app-variant-map-文管.md)
 - [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
 后续若继续拆分组件参考，建议统一放在：
 
-- `references/component-dictionary/{component-family}.md`
+- 应用 variant 映射表：`references/app-variant-map-{appName}.md`
+- 组件族 reference：`references/component-dictionary/{component-family}.md`
 
 ---
 
@@ -124,9 +136,12 @@ auto_design_agent/
 
 ## 维护约定
 
-- 新增活跃 Skill 时，同步更新本 README 的“当前结构”和“当前可用文件”
+- 新增活跃 Skill 时，同步更新本 README 的"当前结构"和"当前可用文件"
 - 历史方案不要继续堆回根目录，统一放入 `archive/`
 - 参考文档保持按需加载，不把细节重新堆回主 Skill
+- 应用 variant 映射表和组件 reference 都属于活跃输入文档，路径变化时要同步更新 README
+- `skill-main-workflow.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
+- 主组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
 - 组件字典类 Skill 优先写成面向 AI 的线性协议：`输入 -> 探查 -> 查表 -> 执行 -> 验证 -> 输出`
 
 ---
@@ -134,4 +149,7 @@ auto_design_agent/
 ## 相关说明
 
 - 仓库协作约束见 [AGENTS.md](./AGENTS.md)
+- 多人协作接口契约见 [workflow-collaboration-contract.md](./workflow-collaboration-contract.md)
+- 新增或重构 Skill / reference 的统一 Prompt 见 [prompt-skill-consistency.md](./prompt-skill-consistency.md)
+- 当前可执行链路与断点状态见 [current-execution-map.md](./current-execution-map.md)
 - 历史适配方案和旧规则文档见 `archive/`

@@ -7,6 +7,7 @@
 - 这是一个 Figma 多终端适配的 Agent Skill 仓库，不是应用代码仓库。
 - 主要产物是 Markdown Skill 和共享规则文档，供 Cursor、Claude Code 等支持 Skill 协议的 Agent 加载。
 - 核心链路：入口 Skill 判断设备和布局类型，委托子 Skill 执行，再由验证 Skill 校验结果。
+- 默认不要读取 `archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
 
 ## 文件树与职责
 
