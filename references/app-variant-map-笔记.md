@@ -94,11 +94,18 @@ status: draft
 | `笔记_页面框架` | `Pad竖屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | L栏侧边栏 |
 | `笔记_页面框架` | `Pad竖屏` | `NC` | `absent` | | |
 | `笔记_页面框架` | `Pad竖屏` | `LC` | `absent` | | |
-| `笔记_页面框架` | `Pad竖屏` | `C` | `absent` | | |
+| `笔记_页面框架` | `Pad竖屏` | `C` | `variant` | `TopBar_05` | |
 | `笔记_页面框架` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | L栏侧边栏 |
 | `笔记_页面框架` | `Pad横屏` | `NC` | `absent` | | |
 | `笔记_页面框架` | `Pad横屏` | `LC` | `absent` | | |
-| `笔记_页面框架` | `Pad横屏` | `C` | `absent` | | |
+| `笔记_页面框架` | `Pad横屏` | `C` | `variant` | `TopBar_05` | |
+| `笔记_搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `笔记_搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `笔记_搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
+| `笔记_搜索` | `Pad竖屏` | `NLC` | `absent` | | L栏标题栏搜索图标（集成在导航组件内） |
+| `笔记_搜索` | `Pad竖屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
+| `笔记_搜索` | `Pad横屏` | `NLC` | `absent` | | L栏标题栏搜索图标（集成在导航组件内） |
+| `笔记_搜索` | `Pad横屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
 
 ### 图文编辑场景
 
@@ -125,7 +132,23 @@ status: draft
 | `图文_Fab` | `Pad横屏` | `NLC` | `absent` | | |
 | `图文_页面框架` | `Pad横屏` | `NC` | `absent` | | |
 | `图文_页面框架` | `Pad横屏` | `LC` | `absent` | | |
-| `图文_页面框架` | `Pad横屏` | `C` | `absent` | | |
+| `图文_页面框架` | `Pad竖屏` | `C` | `variant` | `TopBar_05` | |
+| `图文_Fab` | `Pad竖屏` | `NLC` | `variant` | `Fab_01` | C栏; 彩色 |
+| `图文_Fab` | `Pad竖屏` | `C` | `variant` | `Fab_01` | 彩色 |
+| `图文_页面框架` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏侧边栏 |
+| `图文_标题栏` | `Pad横屏` | `NLC` | `absent` | | |
+| `图文_Fab` | `Pad横屏` | `NLC` | `variant` | `Fab_01` | C栏; 彩色 |
+| `图文_页面框架` | `Pad横屏` | `NC` | `absent` | | |
+| `图文_页面框架` | `Pad横屏` | `LC` | `absent` | | |
+| `图文_页面框架` | `Pad横屏` | `C` | `variant` | `TopBar_05` | |
+| `图文_Fab` | `Pad横屏` | `C` | `variant` | `Fab_01` | 彩色 |
+| `图文_搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `图文_搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `图文_搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
+| `图文_搜索` | `Pad竖屏` | `NLC` | `absent` | | L栏标题栏搜索图标（集成在导航组件内） |
+| `图文_搜索` | `Pad竖屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
+| `图文_搜索` | `Pad横屏` | `NLC` | `absent` | | L栏标题栏搜索图标（集成在导航组件内） |
+| `图文_搜索` | `Pad横屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
 
 ## 当前覆盖缺口
 
