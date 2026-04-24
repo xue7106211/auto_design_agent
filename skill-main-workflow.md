@@ -1,10 +1,10 @@
 ---
-name: figma-multi-terminal-adapt
+name: skill-main-workflow
 description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、组件处理、布局委托和验证。
 disable-model-invocation: false
 ---
 
-# 多终端界面适配（入口）
+# 多终端界面适配
 
 使用这个 skill 将手机端 Figma 设计稿适配到折叠屏（Fold）或平板（Pad）。本 skill 是唯一生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、委托执行和验证结果，不直接操作画布。
 
@@ -44,13 +44,45 @@ disable-model-invocation: false
 4. 用 `get_screenshot` 获取源页面视觉参考，作为后续布局和验证的视觉基线
 5. 将上述结果汇总为 `sourceDesignContext`
 6. 记录关键信息：页面尺寸、顶层节点列表、使用的组件、布局方式
+7. 字体可用性预检：用 `use_figma` 扫描源页面所有文本节点的字体，与运行环境可用字体比对，生成 `fontDegradationMap`
+
+字体预检脚本：
+
+```javascript
+const textNodes = figma.currentPage.findAll(n => n.type === 'TEXT');
+const usedFonts = new Set();
+for (const node of textNodes) {
+  if (node.fontName !== figma.mixed) {
+    usedFonts.add(JSON.stringify(node.fontName));
+  } else {
+    for (let i = 0; i < node.characters.length; i++) {
+      usedFonts.add(JSON.stringify(node.getRangeFontName(i, i + 1)));
+    }
+  }
+}
+
+const unavailable = [];
+for (const fontJson of usedFonts) {
+  const font = JSON.parse(fontJson);
+  try {
+    await figma.loadFontAsync(font);
+  } catch {
+    unavailable.push(font);
+  }
+}
+
+return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
+```
+
+根据返回的 `unavailableFonts` 构建 `fontDegradationMap`，降级规则见"字体降级规则"专节。
 
 Figma MCP 读取阶段的最小产物应包括：
 
 - `metadata`: 页面结构、节点 ID、层级、尺寸
 - `designContext`: 关键区域的组件和布局补充信息
 - `screenshot`: 当前页面视觉快照
-- `sourceDesignContext`: 面向后续 Phase 2-6 的汇总上下文
+- `fontDegradationMap`: 不可用字体 → 可用 fallback 字体的映射（如果全部可用则为空）
+- `sourceDesignContext`: 面向后续 Phase 2-6 的汇总上下文，包含上述所有产物
 
 必须确认：
 
@@ -59,6 +91,7 @@ Figma MCP 读取阶段的最小产物应包括：
 - 视觉基线截图已生成
 - 关键组件和变体已识别
 - 页面的功能区域已划分清楚（导航区、列表区、内容区、操作区等）
+- 字体可用性已检查，不可用字体已记录降级映射
 
 ### Phase 2：判断目标设备和布局类型
 
@@ -106,8 +139,11 @@ Figma MCP 读取阶段的最小产物应包括：
 3. 查字典层
 4. 加载组件族 reference
 5. 决定 `setProperties(...)` 或 `swapComponent(...)`
-6. 执行 Figma 回写
-7. 做截图和 metadata 验证
+6. 检查 `fontDegradationMap`，决定回写路径：
+   - 如果当前实例涉及不可用字体 → 走降级路径：`clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
+   - 如果字体全部可用 → 走正常路径：直接 `setProperties` 或 `swapComponent`
+7. 执行 Figma 回写
+8. 做截图和 metadata 验证
 
 ### Phase 5：委托子 Skill 执行
 
@@ -120,12 +156,88 @@ Figma MCP 读取阶段的最小产物应包括：
 - 布局类型和对应栏宽
 - 已识别的关键组件列表
 - `componentTaskList`
+- `fontDegradationMap`（不可用字体的降级映射，子 Skill 在 appendChild 和文本操作时必须遵守）
 
 **委托规则**：
 
 - 布局类型为 NLC → 加载 `figma-adapt-nlc-layout` skill（Pad 专用）
 - 布局类型为 LC 或 NC → 加载 `figma-adapt-lc-nc-layout` skill
 - 布局类型为 C → 加载 `figma-adapt-c-layout` skill
+
+### 字体降级规则
+
+本节适用于主链路和所有子 Skill。当 Phase 1 检测到不可用字体时，后续所有涉及 appendChild 或文本属性修改的操作必须遵守以下规则。
+
+**降级映射表**：
+
+| 不可用字体 | 降级目标 family | style 映射 |
+|-----------|----------------|------------|
+| MiSans VF | MiSans | Medium → Medium，其余 → Regular |
+| HyperOS Symbols VF | MiSans | Medium → Medium，其余 → Regular |
+
+如果遇到不在此表中的不可用字体，用 `listAvailableFontsAsync()` 查找同 family 的可用变体；如果没有同 family 可用变体，降级到 `{ family: 'MiSans', style: 'Regular' }` 并在输出中记录。
+
+**涉及不可用字体的实例，强制执行顺序**：
+
+```
+clone → setProperties(target variant) → detachInstance → fixFonts → appendChild
+```
+
+关键约束：
+- variant 切换（`setProperties`）必须在 `detachInstance` 之前完成，detach 后无法再切换 variant
+- `fixFonts` 必须在 `appendChild` 之前完成，否则 appendChild 触发字体加载报错
+- detach 后节点不再是 instance，这是已知代价，在输出中标记为妥协项
+
+**fixFonts 代码模板**：
+
+```javascript
+function fixFonts(node, degradationMap) {
+  if (node.type === 'TEXT' && node.characters.length > 0) {
+    const fn = node.fontName;
+    if (fn !== figma.mixed) {
+      const key = fn.family;
+      if (degradationMap[key]) {
+        const target = degradationMap[key];
+        node.fontName = { family: target.family, style: target.styleMap[fn.style] || target.defaultStyle };
+      }
+    } else {
+      for (let i = 0; i < node.characters.length; i++) {
+        const rf = node.getRangeFontName(i, i + 1);
+        const key = rf.family;
+        if (degradationMap[key]) {
+          const target = degradationMap[key];
+          node.setRangeFontName(i, i + 1, {
+            family: target.family,
+            style: target.styleMap[rf.style] || target.defaultStyle
+          });
+        }
+      }
+    }
+  }
+  if ('children' in node) {
+    for (const child of node.children) { fixFonts(child, degradationMap); }
+  }
+}
+```
+
+其中 `degradationMap` 结构示例：
+
+```javascript
+{
+  'MiSans VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' },
+  'HyperOS Symbols VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' }
+}
+```
+
+**文本属性修改场景**：
+
+如果需要修改已有文本节点的 fontSize、characters 等属性（非 appendChild 场景），必须先加载降级后的字体：
+
+```javascript
+await figma.loadFontAsync({ family: 'MiSans', style: 'Regular' });
+await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
+// 然后才能修改文本属性
+```
 
 ### Phase 6：调用验证
 
@@ -147,5 +259,6 @@ Figma MCP 读取阶段的最小产物应包括：
 2. 适配完成状态（成功 / 部分成功）
 3. 验证结果摘要
 4. 如有妥协项（如图片占位、字体降级、组件记录待复探），明确列出
+5. 如有字体降级，列出具体映射：哪些字体被降级、降级到什么字体、涉及哪些节点
 
 不要输出冗长的方案说明或设计建议。
