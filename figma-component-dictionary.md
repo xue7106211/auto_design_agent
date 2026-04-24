@@ -1,16 +1,13 @@
----
-name: figma-component-dictionary
-description: 组件字典技能。先从 Figma 当前实例识别组件语义，再根据 appName + 目标设备 + 屏幕模式查应用 variant 映射表，最后定位目标组件并执行 setProperties 或 swapComponent。
-disable-model-invocation: false
----
-
 # 组件字典
 
-## Skill 目标
+本文档由 `skill-main-workflow.md` 在组件处理阶段按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供组件探查、映射查表、执行与验证的内部 reference 协议。
 
-本 Skill 给 AI 直接执行，不给人类查表。
+## Reference 目标
 
-本 Skill 解决四件事：
+本文档给 AI 在主流程内部直接执行，不给人类查表。
+
+本文档解决四件事：
 
 1. 从 Figma 当前实例或目标节点识别源组件的语义角色
 2. 根据 `appName` + `device` + `screenMode` 从应用 variant 映射表查出目标记录，并在需要时得到 `variantId`

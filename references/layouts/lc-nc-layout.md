@@ -1,10 +1,7 @@
----
-name: figma-adapt-lc-nc-layout
-description: 在现有 Figma 目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。适用于"把列表页和详情页重组为左右分栏""底部 Tab 转侧边导航+内容分栏""在目标 frame 里做分栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
-disable-model-invocation: false
----
-
 # LC / NC 分栏布局适配
+
+本文档由 `skill-main-workflow.md` 在判断 `layoutType = LC / NC` 后按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供 LC / NC 分栏布局的骨架、栏位、组件放置和验收规则。
 
 在目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。LC：左栏放列表，右栏放详情内容。NC：左栏放侧边导航（底部 Tab 转换），右栏放内容。不新建并行页面，直接执行。
 
@@ -22,7 +19,7 @@ disable-model-invocation: false
 - 源设计稿节点 ID 和结构摘要
 - 目标设备类型（Fold / Pad）
 - 布局类型（LC 或 NC）
-- 目标画布尺寸和栏宽（参考 `references/device-dimensions.md`）
+- 目标画布尺寸和栏宽（参考 `references/layouts/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
 - NC 时：已识别源页面的底部 Tab 导航组件
 
@@ -41,15 +38,16 @@ disable-model-invocation: false
 
 ### Phase A：搭目标骨架
 
-读取布局规则：`references/layout-lc-nc.md`
+读取布局规则：当前文档 `references/layouts/lc-nc-layout.md`
 
 执行：
 - 清空目标 frame 子节点
-- 设置目标 frame 尺寸（从 `references/device-dimensions.md` 获取）
+- 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
+- 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（水平布局）
-- 建立左栏 frame（列表栏，宽度按 `references/layout-lc-nc.md` 定义）
-- 建立右栏 frame（内容区，宽度按 `references/layout-lc-nc.md` 定义）
+- 建立左栏 frame（列表栏，宽度按当前文档定义）
+- 建立右栏 frame（内容区，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
 
 写入模式参考：`references/plugin-api-patterns.md`
@@ -91,7 +89,7 @@ disable-model-invocation: false
 ### Phase D：整体调整
 
 - 检查左右栏间距 / 分割线
-- 检查边距是否符合 `references/layout-lc-nc.md` 定义
+- 检查边距是否符合当前文档定义
 - 确认全局状态栏只有一套
 - 确认左栏选中项与右栏内容语义一致
 
@@ -112,6 +110,7 @@ disable-model-invocation: false
 
 每次关键写入后读取结构，检查：
 - 目标 frame 尺寸
+- Fold 内屏 Q18 目标 frame 圆角是否为 `50dp`
 - 状态栏尺寸
 - 左右栏尺寸
 - 顶层节点数量和位置
@@ -139,7 +138,8 @@ disable-model-invocation: false
 ## 默认验收标准
 
 - 目标页面尺寸精确匹配设备规格
-- 左右栏宽度精确匹配 `references/layout-lc-nc.md` 定义
+- Fold 内屏 Q18 目标 frame 四角圆角精确为 `50dp`
+- 左右栏宽度精确匹配当前文档定义
 - 顶部全局状态栏只有一套
 - LC：左栏不保留移动端底部导航语义
 - NC：导航栏项数和顺序与源页面底部 Tab 一致，导航选中态正确

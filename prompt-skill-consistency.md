@@ -15,7 +15,7 @@
 - `figma-component-dictionary.md`
 - 若任务涉及已有 reference，再按需读取 `references/` 下相关文件
 
-你的任务是：[在这里填写任务，例如“新增一个组件族 reference 文档”“新增一个应用 variant 映射表”“重构某个 Skill”]
+你的任务是：[在这里填写任务，例如“新增一个组件族 reference 文档”“新增一个应用 variant 映射表”“重构某个布局 reference”]
 
 请严格按以下原则执行，不要跳步，不要凭空发挥：
 
@@ -23,12 +23,13 @@
 
 先判断这次应该产出哪一类文件，只能选最贴近职责的一类，不要混写：
 
-- `Skill`：用于描述 AI 的执行协议，强调输入、判定、执行、验证、输出
+- `主 Skill`：仅 `skill-main-workflow.md`，用于描述 AI 的入口执行协议，强调输入、判定、执行、验证、输出
+- `布局 reference`：用于 `layoutType + targetDevice -> 画布尺寸、栏位、组件放置、验收项`
 - `应用 variant 映射表`：用于 `appName + device + screenMode + uiElement -> resultType + variantId`
 - `组件族 reference`：用于记录某个组件族的定位信息、真实字段、可执行记录、回退规则
 - `审计/覆盖说明`：用于记录缺口、备注、TODO，不要混入主 Skill 或主 reference
 
-如果现有文件把多种职责混在一起，优先拆分，而不是继续往里堆内容。
+除 `skill-main-workflow.md` 外，不要新增独立 Skill。若现有文件把多种职责混在一起，优先拆分为 reference，而不是继续往里堆内容。
 
 ## 2. 命名必须服从职责
 
@@ -36,9 +37,12 @@
 
 使用以下命名约定：
 
-- Skill 文件：
-  - 文件名保持现有仓库风格
-  - frontmatter `name` 必须与文件名语义一致
+- 主 Skill 文件：
+  - 只能是 `skill-main-workflow.md`
+  - 必须保留 Skill frontmatter
+- 布局 reference：
+  - 路径：`references/layouts/{layout}-layout.md`
+  - 不写 Skill frontmatter
 - 应用 variant 映射表：
   - 路径：`references/app-variant-map-{appName}.md`
   - frontmatter `name: app-variant-map`
@@ -48,11 +52,11 @@
 
 ## 3. 结构必须稳定
 
-### 如果产物是 Skill
+### 如果产物是主 Skill
 
 正文优先写成给 AI 执行的线性协议，结构尽量保持：
 
-1. Skill 目标
+1. 主 Skill 目标
 2. 输入与输出
 3. 执行协议
 4. 参考文档
@@ -64,6 +68,24 @@
 - 语言简洁，优先写“怎么做”，不要写泛泛背景介绍
 - 不把大量 reference 数据直接塞回 Skill
 - 能下沉到 `references/` 的细节一律下沉
+
+### 如果产物是布局 reference
+
+正文结构尽量保持：
+
+1. 适用场景
+2. 前置条件
+3. 核心原则
+4. 强制工作流
+5. 每步校验标准
+6. 默认验收标准
+
+要求：
+
+- 开头明确“由 `skill-main-workflow.md` 按需读取，不是独立 Skill”
+- 不写 `name / description / disable-model-invocation` frontmatter
+- 明确设备范围：NLC 仅 Pad，LC / NC 覆盖 Fold 与 Pad，C 为通栏
+- 明确栏宽、padding、组件所在栏位和禁止项
 
 ### 如果产物是应用 variant 映射表
 
@@ -115,7 +137,7 @@
 
 规则：
 
-- 协议层放 Skill
+- 协议层放主 Skill
 - 数据层放 reference
 - 维护层单独成段，必要时单独成文档
 
@@ -138,8 +160,8 @@
 完成编辑后，必须检查并在需要时同步更新：
 
 - `README.md`
-- 相关 Skill 中引用该文件的路径
-- frontmatter `name`
+- 主 Skill 中引用该文件的路径
+- frontmatter `name`（仅主 Skill 和应用 variant 映射表需要）
 - 文中的路径示例
 - 当前结构树
 - 当前可用文件清单
@@ -172,8 +194,8 @@
 
 ## 适用场景
 
-- 新增一个 Skill
-- 重构一个已有 Skill
+- 调整主 Skill
+- 重构一个已有 reference
 - 新增一个应用 variant 映射表
 - 新增一个组件 reference
 - 把混杂文档拆成 Skill + reference + 审计说明

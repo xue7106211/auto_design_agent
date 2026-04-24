@@ -1,12 +1,12 @@
 # auto_design_agent
 
-面向 **Figma MCP + Agent** 的 Skill 仓库，用于沉淀可执行的设计稿自动化流程。当前仓库已经从早期的"多终端适配 Skill 集合"收敛为一条生产主链路和一组内部复用能力：
+面向 **Figma MCP + Agent** 的 Skill 仓库，用于沉淀可执行的设计稿自动化流程。当前仓库已经从早期的"多终端适配 Skill 集合"收敛为 **一个主 Skill + 一组按需加载 reference**：
 
 - **主工作流 Skill**：默认生产主入口，负责整体任务编排
-- **组件字典 Skill**：组件处理能力，作为主链路内部复用步骤
+- **Reference 文档**：布局、设备尺寸、组件字典、应用映射表等内部执行依据
 
 默认不要读取 `archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
-已下线或暂不维护的旧版适配 Skill、规则文档和工作流日志统一移入 `archive/`。
+已下线或暂不维护的旧版规则文档和工作流日志统一移入 `archive/`。
 
 ---
 
@@ -26,24 +26,25 @@
 auto_design_agent/
 ├── README.md                              仓库说明与使用入口
 ├── AGENTS.md                              面向 Agent 的编辑约束与自查清单
-├── skill-main-workflow.md                 主工作流 Skill：整页适配编排、组件任务生成、委托执行
-├── figma-component-dictionary.md          组件字典 Skill：实例探查、映射查表、执行与验证
+├── skill-main-workflow.md                 主工作流 Skill：整页适配编排、组件任务生成、按需读取 reference 并执行
+├── figma-component-dictionary.md          组件字典 reference：实例探查、映射查表、执行与验证
 ├── current-execution-map.md               当前可执行链路与断点状态图
 ├── workflow-collaboration-contract.md     多人协作接口契约：字段定义与数据流转
 ├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
+│   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则
 │   ├── app-variant-map-文管.md             文管应用 variant 映射表
+│   ├── layouts/
+│   │   ├── device-dimensions.md           设备尺寸、断点、栏宽、padding
+│   │   ├── lc-nc-layout.md                LC / NC 分栏布局执行规则
+│   │   ├── nlc-layout.md                  NLC 三栏布局执行规则
+│   │   ├── c-layout.md                    C 通栏布局执行规则
+│   │   └── foldable-layout.md             折叠屏历史适配参考规则
 │   └── component-dictionary/
 │       └── navigation-bar.md              NavigationBar 组件族 reference
-└── archive/                               已归档的旧版 Skill、规则和日志
-    ├── common-rules.md
+└── archive/                               已归档的旧版规则和日志
     ├── component-adaptation.md
     ├── component-routing.md
-    ├── device-dimensions.md
-    ├── figma-adapt-c-layout.md
-    ├── figma-adapt-foldable-layout.md
-    ├── figma-adapt-lc-nc-layout.md
-    ├── figma-adapt-nlc-layout.md
     ├── figma-adapt-verify.md
     ├── figma-navigation-framework-components.md
     ├── layout-c.md
@@ -60,11 +61,17 @@ auto_design_agent/
 
 | 文件 | 作用 |
 | --- | --- |
-| [skill-main-workflow.md](./skill-main-workflow.md) | 主工作流 Skill。默认且唯一的生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、委托执行与验证 |
-| [figma-component-dictionary.md](./figma-component-dictionary.md) | 组件字典 Skill。作为主链路内部复用的组件处理能力，负责实例探查、映射查表、执行与验证 |
-| [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤和当前断点，以及关键字段归属 |
+| [skill-main-workflow.md](./skill-main-workflow.md) | 唯一主 Skill。负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行与验证 |
+| [figma-component-dictionary.md](./figma-component-dictionary.md) | 组件字典 reference。作为主链路内部组件处理协议，负责实例探查、映射查表、执行与验证 |
+| [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤、布局 reference 和关键字段归属 |
 | [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
 | [prompt-skill-consistency.md](./prompt-skill-consistency.md) | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致 |
+| [references/common-rules.md](./references/common-rules.md) | 通用执行原则、禁止项、clone 降级规则和分步写入规范 |
+| [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏基础参数 |
+| [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md) | LC / NC 分栏布局 reference，覆盖 Fold 与 Pad 的左右分栏场景 |
+| [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md) | NLC 三栏布局 reference，覆盖 Pad 导航-列表-内容场景 |
+| [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局 reference，覆盖单栏拉宽、限宽和边距重算 |
+| [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配 reference，仅按需读取 |
 | [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
@@ -84,12 +91,13 @@ auto_design_agent/
 2. 判断目标设备和布局类型
 3. 盘点关键组件并生成 `componentTaskList`
 4. 批量查询 `app-variant-map`
-5. 在主链路内复用组件处理步骤
-6. 做结果验证
+5. 按布局类型读取 `references/layouts/*.md`
+6. 在主链路内按组件字典 reference 处理组件
+7. 按对应布局 reference 的验收项做结果验证
 
 ### 2. 主链路中的组件处理步骤
 
-当整页适配中的某个任务已经收敛为组件级切换时，内部复用 [figma-component-dictionary.md](./figma-component-dictionary.md)：
+当整页适配中的某个任务已经收敛为组件级切换时，内部读取 [figma-component-dictionary.md](./figma-component-dictionary.md)：
 
 1. 先探查当前实例的真实结构，并识别 `resolvedUiElement`
 2. 再按 `appName` 加载应用 variant 映射表
@@ -103,11 +111,18 @@ auto_design_agent/
 参考文档采用**按需加载**：
 
 - 主 Skill 默认只读取自身
+- 所有适配必须先读取 `references/common-rules.md` 和 `references/layouts/device-dimensions.md`
+- 命中布局类型后，再读取对应 `references/layouts/*.md`
 - 命中字典层记录后，再加载对应 `referenceDoc`
 - 参考文档只补充该组件族的细节，不重复通用执行协议
 
 当前已沉淀的参考文档：
 
+- [references/common-rules.md](./references/common-rules.md)
+- [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md)
+- [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md)
+- [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)
+- [references/layouts/c-layout.md](./references/layouts/c-layout.md)
 - [references/app-variant-map-文管.md](./references/app-variant-map-文管.md)
 - [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
@@ -130,19 +145,19 @@ auto_design_agent/
 
 - 已配置可用的 Figma MCP
 - 拥有目标文件编辑权限
-- Agent 能读取到本仓库中的 Skill 文件
+- Agent 能读取到本仓库中的主 Skill 和 reference 文件
 
 ---
 
 ## 维护约定
 
-- 新增活跃 Skill 时，同步更新本 README 的"当前结构"和"当前可用文件"
+- 新增或移动活跃 reference 时，同步更新本 README 的"当前结构"和"当前可用文件"
 - 历史方案不要继续堆回根目录，统一放入 `archive/`
 - 参考文档保持按需加载，不把细节重新堆回主 Skill
 - 应用 variant 映射表和组件 reference 都属于活跃输入文档，路径变化时要同步更新 README
 - `skill-main-workflow.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
-- 主组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
-- 组件字典类 Skill 优先写成面向 AI 的线性协议：`输入 -> 探查 -> 查表 -> 执行 -> 验证 -> 输出`
+- 组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
+- 非主入口文档不要保留 Skill frontmatter；统一写成普通 reference 文档
 
 ---
 

@@ -4,7 +4,7 @@
 
 适用对象：
 
-- 主流程 Skill / 组件字典维护者
+- 主流程 Skill / reference 维护者
 - 应用 variant 映射表维护者
 
 ## 1. 当前主执行流程
@@ -14,7 +14,7 @@
 重要约束：
 
 - `skill-main-workflow` 是唯一生产主入口
-- `figma-component-dictionary` 不再作为并列入口出现
+- `figma-component-dictionary.md` 不再作为并列入口出现，而是主流程按需读取的组件字典 reference
 - 组件切换逻辑作为主链路内部复用的组件处理步骤存在
 
 更合理的整页流程是：
@@ -26,10 +26,10 @@
 5. 识别每个实例的 `resolvedUiElement`
 6. 生成 `componentTaskList`
 7. 按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
-8. 对需要组件级处理的任务，内部复用 `figma-component-dictionary`
-9. 委托布局子 Skill 做回写
+8. 对需要组件级处理的任务，读取 `figma-component-dictionary.md`
+9. 按布局类型读取 `references/layouts/*.md` 并做回写
 10. 回读 metadata 做结构校验
-11. 调用验证 Skill 做最终校验
+11. 按布局 reference 的验收项做最终校验
 
 其中主链路内的组件处理步骤至少包括：
 
@@ -96,9 +96,9 @@
 - 默认进入整页生产主链路
 - 在整页链路内生成页面级任务
 - 在主链路内复用组件处理步骤
-- 委托布局子 Skill
+- 按布局 reference 执行布局写入
 
-### 3.2 组件字典 Skill
+### 3.2 组件字典 reference
 
 文件：
 
@@ -113,7 +113,32 @@
 - 决定执行动作
 - 负责组件级回写和验证
 
-### 3.3 应用 variant 映射表
+### 3.3 布局 reference
+
+文件：
+
+- `references/layouts/lc-nc-layout.md`
+- `references/layouts/nlc-layout.md`
+- `references/layouts/c-layout.md`
+- `references/layouts/device-dimensions.md`
+
+职责：
+
+- 提供目标设备尺寸、栏宽、padding、栏位职责
+- 提供布局执行步骤和布局验收项
+- 不作为独立 Skill 触发，必须由 `skill-main-workflow.md` 按需读取
+
+### 3.4 通用规则 reference
+
+文件：
+
+- `references/common-rules.md`
+
+职责：
+
+- 提供通用执行原则、禁止项、clone 降级规则和分步写入规范
+
+### 3.5 应用 variant 映射表
 
 文件：
 
@@ -124,7 +149,7 @@
 - 在已知 `appName + device + screenMode + resolvedUiElement` 的情况下
 - 返回目标结果：`resultType + variantId`
 
-### 3.4 组件族 reference
+### 3.6 组件族 reference
 
 文件：
 

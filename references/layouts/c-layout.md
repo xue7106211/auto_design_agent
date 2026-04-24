@@ -1,10 +1,7 @@
----
-name: figma-adapt-c-layout
-description: 在现有 Figma 目标 frame 内完成 C（通栏）布局适配。适用于"把单一内容页适配到大屏""通栏拉宽""设置页/关于页的折叠屏适配"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
-disable-model-invocation: false
----
-
 # C 通栏布局适配
+
+本文档由 `skill-main-workflow.md` 在判断 `layoutType = C` 后按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供 C 通栏布局的骨架、宽度、边距和验收规则。
 
 在目标 frame 内完成 C（通栏）布局适配：单栏内容在大屏上的宽度调整和边距重算。不新建并行页面，直接执行。
 
@@ -21,7 +18,7 @@ disable-model-invocation: false
 
 - 源设计稿节点 ID 和结构摘要
 - 目标设备类型（Fold / Pad）
-- 目标画布尺寸（参考 `references/device-dimensions.md`）
+- 目标画布尺寸（参考 `references/layouts/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
 
 ## 核心原则
@@ -37,14 +34,15 @@ disable-model-invocation: false
 
 ### Phase A：搭目标骨架
 
-读取布局规则：`references/layout-c.md`
+读取布局规则：当前文档 `references/layouts/c-layout.md`
 
 执行：
 - 清空目标 frame 子节点
-- 设置目标 frame 尺寸（从 `references/device-dimensions.md` 获取）
+- 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
+- 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（垂直布局）
-- 如果 `references/layout-c.md` 定义了最大内容宽度，设置内容区居中限宽
+- 如果当前文档定义了最大内容宽度，设置内容区居中限宽
 - 为视口容器设置 `clipsContent = true`
 
 写入模式参考：`references/plugin-api-patterns.md`
@@ -59,17 +57,17 @@ disable-model-invocation: false
 - 按源页面从上到下的顺序，逐个模块 clone 或实例化到内容区
 - 按组件适配映射替换目标组件（参考 `references/component-adaptation.md`）
 - 调整各模块宽度以适应新的内容区宽度
-- 重算左右边距（参考 `references/layout-c.md`）
+- 重算左右边距（参考当前文档）
 - 删除不需要的移动端元素（底部手势条等）
 
 完成后校验：截图 + 确认内容宽度和边距正确。
 
 ### Phase C：整体调整
 
-- 检查边距是否符合 `references/layout-c.md` 定义
+- 检查边距是否符合当前文档定义
 - 确认全局状态栏只有一套
 - 确认内容区宽度是否需要居中限宽
-- 如有悬浮底部导航栏，确认保留在内容区底部悬浮展示（参考 `references/layout-c.md` 悬浮底部导航栏章节）
+- 如有悬浮底部导航栏，确认保留在内容区底部悬浮展示（参考当前文档悬浮底部导航栏章节）
 
 完成后校验：全页截图 + 完整结构校验。
 
@@ -87,6 +85,7 @@ disable-model-invocation: false
 
 每次关键写入后读取结构，检查：
 - 目标 frame 尺寸
+- Fold 内屏 Q18 目标 frame 圆角是否为 `50dp`
 - 内容区宽度和边距
 - 顶层节点数量和位置
 
@@ -110,7 +109,8 @@ disable-model-invocation: false
 ## 默认验收标准
 
 - 目标页面尺寸精确匹配设备规格
-- 内容区宽度和边距精确匹配 `references/layout-c.md` 定义
+- Fold 内屏 Q18 目标 frame 四角圆角精确为 `50dp`
+- 内容区宽度和边距精确匹配当前文档定义
 - 顶部全局状态栏只有一套
 - 内容模块顺序与源页面一致
 - 不保留移动端底部手势条

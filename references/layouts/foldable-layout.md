@@ -1,16 +1,13 @@
----
-name: figma-adapt-foldable-layout
-description: 在现有 Figma 目标 frame 内完成折叠屏/大屏/分栏页面适配。适用于“基于移动端页面重组为折叠屏页面”“复用现有组件和变体进行横向改版”“在目标 frame 内直接覆盖制作”等场景。优先复用已有组件、变体和画布节点，分步写入并在每一步后执行结构与截图校验。
-disable-model-invocation: false
----
-
 # Figma Foldable Layout Adaptation
 
-使用这个 skill 在 **现有目标 frame 内** 完成折叠屏或大屏分栏页面适配，不新建并行页面，不先讲方案，直接执行。
+本文档由 `skill-main-workflow.md` 在需要读取历史折叠屏适配规则时按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供折叠屏或大屏分栏页面适配的参考规则。
+
+在 **现有目标 frame 内** 完成折叠屏或大屏分栏页面适配，不新建并行页面，不先讲方案，直接执行。
 
 ## 适用场景
 
-当用户提出以下类型需求时使用本 skill：
+当主流程遇到以下类型需求且需要历史折叠屏规则补充时读取本文档：
 
 - “把两个移动端页面适配成折叠屏页面”
 - “把首页和详情页重组成左右分栏”
@@ -77,6 +74,7 @@ disable-model-invocation: false
 
 - 清空目标 frame 子节点
 - 设置目标 frame 尺寸
+- 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
 - 建立顶部全局状态栏
 - 建立主内容区
 - 建立左右内容区 frame
@@ -116,6 +114,7 @@ disable-model-invocation: false
 每次关键写入后读取结构，检查：
 
 - 目标 frame 尺寸
+- Fold 内屏 Q18 目标 frame 圆角是否为 `50dp`
 - 状态栏尺寸
 - 左右栏尺寸
 - 顶层节点数量

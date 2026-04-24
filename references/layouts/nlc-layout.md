@@ -1,10 +1,7 @@
----
-name: figma-adapt-nlc-layout
-description: 在现有 Figma 目标 frame 内完成 NLC（导航-列表-内容）三栏布局适配（Pad 专用）。适用于"把有底部 Tab 的应用适配为 Pad 三栏""侧边导航加列表加详情""在目标 frame 里做三栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
-disable-model-invocation: false
----
-
 # NLC 三栏布局适配
+
+本文档由 `skill-main-workflow.md` 在判断 `layoutType = NLC` 后按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供 NLC 三栏布局的骨架、栏位、组件放置和验收规则。
 
 在目标 frame 内完成 NLC（导航-列表-内容）三栏布局适配：左侧导航栏 + 中间列表栏 + 右侧内容区。手机端底部 Tab 转为侧边导航栏。不新建并行页面，直接执行。
 
@@ -21,7 +18,7 @@ disable-model-invocation: false
 
 - 源设计稿节点 ID 和结构摘要
 - 目标设备类型（Pad 专用，不适用于 Fold）
-- 目标画布尺寸和三栏栏宽（参考 `references/device-dimensions.md`）
+- 目标画布尺寸和三栏栏宽（参考 `references/layouts/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
 - 已识别源页面的底部 Tab 导航组件
 
@@ -39,16 +36,16 @@ disable-model-invocation: false
 
 ### Phase A：搭目标骨架
 
-读取布局规则：`references/layout-nlc.md`
+读取布局规则：当前文档 `references/layouts/nlc-layout.md`
 
 执行：
 - 清空目标 frame 子节点
-- 设置目标 frame 尺寸（从 `references/device-dimensions.md` 获取）
+- 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（水平布局）
-- 建立导航栏 frame（最左列，宽度按 `references/layout-nlc.md` 定义）
-- 建立列表栏 frame（中间列，宽度按 `references/layout-nlc.md` 定义）
-- 建立内容区 frame（最右列，宽度按 `references/layout-nlc.md` 定义）
+- 建立导航栏 frame（最左列，宽度按当前文档定义）
+- 建立列表栏 frame（中间列，宽度按当前文档定义）
+- 建立内容区 frame（最右列，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
 
 写入模式参考：`references/plugin-api-patterns.md`
@@ -95,7 +92,7 @@ disable-model-invocation: false
 ### Phase E：整体调整
 
 - 检查三栏间距 / 分割线
-- 检查边距是否符合 `references/layout-nlc.md` 定义
+- 检查边距是否符合当前文档定义
 - 确认全局状态栏只有一套
 - 确认导航栏选中项 → 列表栏内容 → 内容区详情三者语义一致
 
@@ -143,7 +140,7 @@ disable-model-invocation: false
 ## 默认验收标准
 
 - 目标页面尺寸精确匹配设备规格
-- 三栏宽度精确匹配 `references/layout-nlc.md` 定义
+- 三栏宽度精确匹配当前文档定义
 - 顶部全局状态栏只有一套
 - 导航栏项数和顺序与源页面底部 Tab 一致
 - 导航栏选中态正确

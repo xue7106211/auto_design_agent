@@ -1,12 +1,12 @@
 ---
 name: skill-main-workflow
-description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、组件处理、布局委托和验证。
+description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、按需读取 reference、组件处理、布局执行和验证。
 disable-model-invocation: false
 ---
 
 # 多终端界面适配
 
-使用这个 skill 将手机端 Figma 设计稿适配到折叠屏（Fold）或平板（Pad）。本 skill 是唯一生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、委托执行和验证结果，不直接操作画布。
+使用这个 skill 将手机端 Figma 设计稿适配到折叠屏（Fold）或平板（Pad）。本 skill 是唯一生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行布局和验证结果。
 
 ## 适用场景
 
@@ -32,7 +32,8 @@ disable-model-invocation: false
 - 在主链路内部识别每个实例的 `resolvedUiElement`
 - 在主链路内部生成 `componentTaskList`
 - 按任务列表批量查询 `app-variant-map`
-- 当某个任务收敛为组件级处理时，内部复用 `figma-component-dictionary`
+- 当某个任务收敛为组件级处理时，按需读取 `figma-component-dictionary.md`
+- 未读取对应布局 reference 前，不允许执行 Figma 写入
 
 ### Phase 1：读取源设计稿上下文
 
@@ -117,7 +118,7 @@ Figma MCP 读取阶段的最小产物应包括：
 - 单一内容展示 → C
 - 用户明确指定布局类型时，以用户指定为准
 
-加载设备尺寸规则：读取 `references/device-dimensions.md` 获取目标设备的画布尺寸和栏宽参数。
+加载设备尺寸规则：读取 `references/layouts/device-dimensions.md` 获取目标设备的画布尺寸和栏宽参数。
 
 ### Phase 3：加载通用规则
 
@@ -125,14 +126,14 @@ Figma MCP 读取阶段的最小产物应包括：
 
 ### Phase 4：生成页面级组件任务
 
-在委托布局子 Skill 之前，先完成页面级组件任务生成：
+在读取布局 reference 并执行写入之前，先完成页面级组件任务生成：
 
 1. 盘点页面级关键组件实例
 2. 识别每个实例的 `resolvedUiElement`
 3. 生成 `componentTaskList`
 4. 按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
 
-如果某个任务已经收敛为组件级处理，允许在主链路内部复用 `figma-component-dictionary`，执行协议至少包括：
+如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
 
 1. 探查当前实例
 2. 识别组件族、当前 `VariantId`、`resolvedUiElement`
@@ -145,9 +146,9 @@ Figma MCP 读取阶段的最小产物应包括：
 7. 执行 Figma 回写
 8. 做截图和 metadata 验证
 
-### Phase 5：委托子 Skill 执行
+### Phase 5：读取布局 reference 并执行
 
-根据 Phase 2 和 Phase 4 的结果，将以下信息传递给对应子 Skill。
+根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
 **传递信息**：
 
@@ -156,17 +157,23 @@ Figma MCP 读取阶段的最小产物应包括：
 - 布局类型和对应栏宽
 - 已识别的关键组件列表
 - `componentTaskList`
-- `fontDegradationMap`（不可用字体的降级映射，子 Skill 在 appendChild 和文本操作时必须遵守）
+- `fontDegradationMap`（不可用字体的降级映射，后续 appendChild 和文本操作时必须遵守）
 
-**委托规则**：
+**Reference 加载规则**：
 
-- 布局类型为 NLC → 加载 `figma-adapt-nlc-layout` skill（Pad 专用）
-- 布局类型为 LC 或 NC → 加载 `figma-adapt-lc-nc-layout` skill
-- 布局类型为 C → 加载 `figma-adapt-c-layout` skill
+- 布局类型为 NLC → 读取 `references/layouts/nlc-layout.md`（Pad 专用）
+- 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
+- 布局类型为 C → 读取 `references/layouts/c-layout.md`
+
+**强制约束**：
+
+- 未读取对应布局 reference 前，不允许执行 Figma 写入
+- 布局 reference 中的栏宽、栏位职责和验收项优先级高于模型推断
+- 若 reference 与源稿直觉冲突，以 reference 为准；无法判断时中止并汇报缺口
 
 ### 字体降级规则
 
-本节适用于主链路和所有子 Skill。当 Phase 1 检测到不可用字体时，后续所有涉及 appendChild 或文本属性修改的操作必须遵守以下规则。
+本节适用于主链路和所有 reference 执行阶段。当 Phase 1 检测到不可用字体时，后续所有涉及 appendChild 或文本属性修改的操作必须遵守以下规则。
 
 **降级映射表**：
 
@@ -239,17 +246,18 @@ await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
 // 然后才能修改文本属性
 ```
 
-### Phase 6：调用验证
+### Phase 6：验证
 
-子 Skill 执行完成后，加载 `figma-adapt-verify` skill 对生成结果进行验证。
+布局执行完成后，先按对应布局 reference 的验收标准对生成结果进行验证；如存在独立验证 reference，再按验证 reference 做最终校验。
 
-将以下信息传递给验证 Skill：
+验证时至少使用以下信息：
 
 - 目标 frame 的节点 ID
 - 目标设备类型和布局类型
 - 预期的尺寸参数（画布尺寸、栏宽、边距）
+- Fold 内屏 Q18 还必须验证目标 frame 四角圆角为 `50dp`
 
-如果验证不通过，根据验证 Skill 返回的偏差项进行修正，修正后再次验证，最多循环 3 次。
+如果验证不通过，根据偏差项进行修正，修正后再次验证，最多循环 3 次。
 
 ## 输出要求
 
