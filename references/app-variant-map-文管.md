@@ -229,6 +229,20 @@ status: draft
 | `AI输入框` | `Pad横屏` | `NC` | `hidden` |  | 原始记录为 `null` |
 | `AI输入框` | `Pad横屏` | `C` | `variant` | `输入框1` | 临时命名，待补正式 `variantId` |
 
+| `搜索入口` | `Phone` | `N` | `absent` | | |
+| `搜索入口` | `Phone` | `L` | `variant` | `Fab_01` | 白色FAB作为搜索入口 |
+| `搜索入口` | `Phone` | `C` | `absent` | | |
+| `搜索入口` | `Fold外屏` | `N` | `absent` | | |
+| `搜索入口` | `Fold外屏` | `L` | `variant` | `Fab_01` | 白色FAB作为搜索入口 |
+| `搜索入口` | `Fold外屏` | `C` | `absent` | | |
+| `搜索入口` | `Fold内屏` | `N` | `absent` | | |
+| `搜索入口` | `Fold内屏` | `L` | `absent` | | C栏标题栏搜索图标（集成在导航组件内） |
+| `搜索入口` | `Fold内屏` | `C` | `absent` | | TopBar搜索图标（集成在导航组件内） |
+| `搜索入口` | `Pad竖屏` | `NC` | `variant` | `TopBar_03` | C栏搜索栏 |
+| `搜索入口` | `Pad竖屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
+| `搜索入口` | `Pad横屏` | `NC` | `variant` | `TopBar_03` | C栏搜索栏 |
+| `搜索入口` | `Pad横屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
+
 ## 当前覆盖缺口
 
 以下 `uiElement` 仍未形成正式映射，后续补齐后建议直接追加到上表：

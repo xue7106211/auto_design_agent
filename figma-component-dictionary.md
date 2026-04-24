@@ -91,7 +91,18 @@
 | 文管 | `references/app-variant-map-文管.md` | 已建立 |
 | 笔记 | `references/app-variant-map-笔记.md` | 已建立 |
 | 录音 | `references/app-variant-map-录音.md` | 已建立 |
-| 电话 | `references/app-variant-map-电话.md` | 待建立 |
+| 计算器 | `references/app-variant-map-计算器.md` | 已建立 |
+| 日历 | `references/app-variant-map-日历.md` | 已建立 |
+| 收藏 | `references/app-variant-map-收藏.md` | 已建立 |
+| 扫一扫 | `references/app-variant-map-扫一扫.md` | 已建立 |
+| 设置 | `references/app-variant-map-设置.md` | 已建立 |
+| 电话 | `references/app-variant-map-电话.md` | 已建立 |
+| 联系人 | `references/app-variant-map-联系人.md` | 已建立 |
+| 短信 | `references/app-variant-map-短信.md` | 已建立 |
+| 下载管理 | `references/app-variant-map-下载管理.md` | 已建立 |
+| 小米换机 | `references/app-variant-map-小米换机.md` | 已建立 |
+| 天气 | `references/app-variant-map-天气.md` | 已建立 |
+| 相册 | `references/app-variant-map-相册.md` | 已建立 |
 
 ### Step 2：查字典层
 
