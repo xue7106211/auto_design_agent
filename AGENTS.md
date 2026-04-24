@@ -16,7 +16,7 @@ auto_design_agent/
 ├── AGENTS.md
 │   当前文件。面向后续 Agent，说明仓库定位、编辑约束、自查清单和已知风险。
 ├── README.md
-│   仓库对外说明，包含技能一览、目录结构、使用方式和 Reference 文档说明。
+│   仓库对外说明，包含主 Skill、目录结构、使用方式和 Reference 文档说明。
 ├── skill-main-workflow.md
 │   唯一主 Skill。负责读取源设计稿、判断目标设备与布局类型、按需读取 reference、执行和验证。
 ├── figma-component-dictionary.md
@@ -33,6 +33,10 @@ auto_design_agent/
 │   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
 │   ├── app-variant-map-文管.md
 │   │   文管应用 variant 映射表。
+│   ├── app-variant-map-录音.md
+│   │   录音应用 variant 映射表。
+│   ├── app-variant-map-笔记.md
+│   │   笔记应用 variant 映射表。
 │   ├── layouts/
 │   │   ├── device-dimensions.md
 │   │   │   设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数。
@@ -103,7 +107,7 @@ disable-model-invocation: false
 - 非主 reference 是否没有残留 Skill frontmatter。
 - 文中引用的 `references/*.md` 路径是否存在。
 - `README.md` 的技能清单、目录结构、说明文字是否仍然匹配现状。
-- `CLAUDE.md` 中的项目规范是否需要同步更新。
+- 如果仓库存在 `CLAUDE.md`，其中的项目规范是否需要同步更新。
 - 布局类型命名是否统一使用 `NLC / NC / LC / C`。
 - 单位是否统一为 `dp`，不要混入 `pt`、`px` 的规则表述，除非明确描述分割线等特殊值。
 - 设备范围是否准确：NLC 仅 Pad，LC / NC 同时覆盖 Fold 与 Pad，C 为通栏。
@@ -123,4 +127,4 @@ disable-model-invocation: false
 
 - 优先提交小而准的文档修改，不做无关格式化。
 - 最终产出的文档应当“可执行、可验收”，而不是泛泛的设计说明。
-- 如果无法确认规范来源，先以 `README.md` + `CLAUDE.md` + 当前 Skill 正文的交集为准，再最小化补充。
+- 如果无法确认规范来源，先以 `README.md`、当前 Skill 正文，以及仓库内实际存在的协作规范文件的交集为准，再最小化补充。

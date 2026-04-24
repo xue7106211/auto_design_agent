@@ -15,7 +15,7 @@
 | 维度 | 说明 |
 | --- | --- |
 | 目标 | 把 Figma 中高频但易出错的组件调用、属性切换和工作流约束固化为 AI 可执行协议 |
-| 形式 | 单文件 = 单 Skill 或单份参考文档；正文优先描述"输入、判定、执行、验证" |
+| 形式 | 单文件 = 主 Skill 或单份参考文档；正文优先描述"输入、判定、执行、验证" |
 | 边界 | 仓库描述如何让 Agent 稳定执行，不替代设计系统本身 |
 
 ---
@@ -34,6 +34,8 @@ auto_design_agent/
 ├── references/
 │   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则
 │   ├── app-variant-map-文管.md             文管应用 variant 映射表
+│   ├── app-variant-map-录音.md             录音应用 variant 映射表
+│   ├── app-variant-map-笔记.md             笔记应用 variant 映射表
 │   ├── layouts/
 │   │   ├── device-dimensions.md           设备尺寸、断点、栏宽、padding
 │   │   ├── lc-nc-layout.md                LC / NC 分栏布局执行规则
@@ -73,6 +75,8 @@ auto_design_agent/
 | [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局 reference，覆盖单栏拉宽、限宽和边距重算 |
 | [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配 reference，仅按需读取 |
 | [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
+| [references/app-variant-map-录音.md](./references/app-variant-map-录音.md) | 录音应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
+| [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md) | 笔记应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
 ### 归档文件
@@ -123,7 +127,10 @@ auto_design_agent/
 - [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md)
 - [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)
 - [references/layouts/c-layout.md](./references/layouts/c-layout.md)
+- [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md)
 - [references/app-variant-map-文管.md](./references/app-variant-map-文管.md)
+- [references/app-variant-map-录音.md](./references/app-variant-map-录音.md)
+- [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md)
 - [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
 后续若继续拆分组件参考，建议统一放在：
