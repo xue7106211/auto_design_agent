@@ -92,7 +92,8 @@ disable-model-invocation: false
 | appName | 映射表路径 | 状态 |
 |---------|-----------|------|
 | 文管 | `references/app-variant-map-文管.md` | 已建立 |
-| 笔记 | `references/app-variant-map-笔记.md` | 待建立 |
+| 笔记 | `references/app-variant-map-笔记.md` | 已建立 |
+| 录音 | `references/app-variant-map-录音.md` | 已建立 |
 | 电话 | `references/app-variant-map-电话.md` | 待建立 |
 
 ### Step 2：查字典层
@@ -208,9 +209,9 @@ disable-model-invocation: false
 
 | 字段 | 含义 | 规则 |
 | --- | --- | --- |
-| `componentFamily` | 组件族 | 如 `NavigationBar`、`Pad-TopBar` |
-| `componentName` | 组件名 | Figma 中实际组件或组件集名称，如 `NavigationBar-ComponentSet` |
-| `variantId` | 变体编号 | 必须与 Figma 真实 `VariantId` 精确一致，如 `NavigationBar-ComponentSet_01`、`Pad-TopBar_01` |
+| `componentFamily` | 组件族 | 如 `NavigationBar`、`Pad_TopBar` |
+| `componentName` | 组件名 | Figma 中实际组件或组件集名称，如 `NavigationBar_ComponentSet` |
+| `variantId` | 变体编号 | 必须与 Figma 真实 `VariantId` 精确一致，如 `NavigationBar_ComponentSet_01`、`Pad_TopBar_01` |
 | `variantName` | 语义标签 | 只用于理解，不用于直接执行 |
 | `referenceDoc` | 参考文档 | 命中记录后必须按需加载对应组件文档 |
 | `sourceOfTruth` | 数据来源 | `probed` / `manual` / `inferred`，优先 `probed` |
@@ -222,15 +223,60 @@ disable-model-invocation: false
 
 | componentFamily | componentName | variantId | variantName | referenceDoc | sourceOfTruth |
 | --- | --- | --- | --- | --- | --- |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_01` | 大标题（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_02` | 大标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_03` | 大标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_04` | 中标题（右 2 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_05` | 中标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_06` | 中标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `NavigationBar-ComponentSet_07` | 小标题居中（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `Pad-TopBar_01` | Pad 顶栏（中间导航） | `references/component-dictionary/navigation-bar.md` | `probed` |
-| `NavigationBar` | `NavigationBar-ComponentSet` | `Pad-TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_01` | 大标题（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_02` | 大标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_03` | 大标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_04` | 中标题（右 2 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_05` | 中标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_06` | 中标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_07` | 小标题居中（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_01` | Pad 顶栏（中间导航） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_00` | 无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_08` | 小标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Calendar_01` | 业务_日历 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `TopBar` | — | `TopBar_00` | 无顶部导航 | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_01` | 顶部导航组合（NavigationBar_ComponentSet_10 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_02` | 顶部导航组合_返回（NavigationBar_ComponentSet_11 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_03` | 顶部导航搜索（NavigationBar_ComponentSet_07 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_04` | 顶部导航搜索_返回（NavigationBar_ComponentSet_11 + TopBar_Navigation_01 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_05` | 顶部导航搜索_无标题（NavigationBar_ComponentSet_10 + TopBar_Navigation_01 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_Navigation_01` | 顶部导航_中间 | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_Calendar_01` | 业务_日历（NavigationBar_ComponentSet_Calendar_01 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_00` | 无底部导航栏 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_01` | 默认 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_02` | 无FAB_分区展示 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_01 + Fab_Search_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记 | 待建立 | `manual` |
+| `Fab` | — | `Fab_01` | Fab | 待建立 | `manual` |
+| `Fab` | — | `Fab_Rec_01` | 业务_录音 | 待建立 | `manual` |
+| `Fab` | — | `Fab_Search_01` | 搜索FAB | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起 | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑 | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_LC_01` | Pad_LC | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_Fold_LC_01` | Fold_LC | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_Fold_LC_Fab_01` | Fold_LC_随FAB（Sidebar_Component_Fold_LC_01 + Fab_01） | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_00` | 无标签栏 | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_01` | 等宽 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_00` | 无搜索栏 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_01` | 激活 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_02` | 默认 | 待建立 | `manual` |
+| `SearchReceiving` | — | `SearchReceiving_00` | 无搜索面板 | 待建立 | `manual` |
+| `SearchReceiving` | — | `SearchReceiving_01` | 搜索面板 | 待建立 | `manual` |
+| `ToolBar` | — | `ToolBar_ComponentSet_01` | 默认 | 待建立 | `manual` |
+| `Divider` | — | `Divider_ComponentSet_01` | 0.7 | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindow_ComponentSet_01` | 浮窗窗口 | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindowBG_01` | 浮窗_面板 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_high_01` | 抽屉窗口_高 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_mid_01` | 抽屉窗口_中 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_low_01` | 抽屉窗口_低 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerHandle_Bar_10` | 抽屉控制条 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_BG_01` | 抽屉_面板 | 待建立 | `manual` |
+
+注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 
 
 ## 执行层
@@ -255,16 +301,22 @@ disable-model-invocation: false
 
 | variantId | actionType | propertyPatch | applicableWhen | targetComponentFamily | fallbackStrategy | verifyBy |
 | --- | --- | --- | --- | --- | --- | --- |
-| `NavigationBar-ComponentSet_01` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_01" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_02` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_02" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_03` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_03" }` | `device=Phone/Fold; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_04` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_04" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_05` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_05" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_06` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_06" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `NavigationBar-ComponentSet_07` | `setProperties` | `{ "VariantId": "NavigationBar-ComponentSet_07" }` | `device=Phone/Fold; layoutRole=Compact` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `Pad-TopBar_01` | `setProperties` | `{ "VariantId": "Pad-TopBar_01" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
-| `Pad-TopBar_02` | `setProperties` | `{ "VariantId": "Pad-TopBar_02" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_01` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_01" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_02` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_02" }` | `device=Phone; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_03` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_03" }` | `device=Phone/Fold; layoutRole=Full` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_04` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_04" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_05` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_05" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_06` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_06" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_07` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_07" }` | `device=Phone/Fold; layoutRole=Compact` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `Pad_TopBar_01` | `setProperties` | `{ "VariantId": "Pad_TopBar_01" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `Pad_TopBar_02` | `setProperties` | `{ "VariantId": "Pad_TopBar_02" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 
+
+### 待验证组件族
+
+以下组件族已在字典层注册，但执行层记录尚未通过 Figma 探查验证，需逐步补充：
+
+TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow
 
 ## 硬约束
 
@@ -278,7 +330,7 @@ disable-model-invocation: false
 - 若 reference 中声明了“当前基准链接”，定位和锚点以该链接为准
 - 先用 reference 中的 `componentSetKey` 定位，再用 `componentName` 和 `mainComponent` 校验是不是目标组件
 - 当 `componentSetKey = a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc` 时，只允许使用 `VariantId`
-- `Pad-TopBar_01` / `Pad-TopBar_02` 在当前基准中属于 `NavigationBar-ComponentSet` 的变体，不再按独立组件 `swapComponent(...)`
+- `Pad_TopBar_01` / `Pad_TopBar_02` 在当前基准中属于 `NavigationBar_ComponentSet` 的变体，不再按独立组件 `swapComponent(...)`
 - 同一 `componentFamily` 下允许存在多个 `componentName`，不得混用
 - 若同一 `variantId` 在不同页面语义下执行方式不同，必须拆分执行层记录，不要复用一条
 
@@ -287,18 +339,18 @@ disable-model-invocation: false
 ```json
 {
   "appName": "xxx",
-  "variantId": "NavigationBar-ComponentSet_01",
+  "variantId": "NavigationBar_ComponentSet_01",
   "matched": true,
   "componentFamily": "NavigationBar",
-  "componentName": "NavigationBar-ComponentSet",
+  "componentName": "NavigationBar_ComponentSet",
   "referenceDoc": "references/component-dictionary/navigation-bar.md",
   "actionType": "setProperties",
   "resolvedBy": "anchor",
   "componentSetKey": "a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc",
   "componentKey": null,
-  "mainComponent": "VariantId=NavigationBar-ComponentSet_01",
+  "mainComponent": "VariantId=NavigationBar_ComponentSet_01",
   "appliedVariantProperties": {
-    "VariantId": "NavigationBar-ComponentSet_01"
+    "VariantId": "NavigationBar_ComponentSet_01"
   },
   "swapTarget": null,
   "fallbackUsed": false

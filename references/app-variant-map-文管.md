@@ -73,109 +73,109 @@ status: draft
 | uiElement | device | screenMode | resultType | variantId | notes |
 | --- | --- | --- | --- | --- | --- |
 | `导航_FAB_搜索` | `Phone` | `N` | `absent` |  |  |
-| `导航_FAB_搜索` | `Phone` | `L` | `variant` | `BottomBar-Showcase_01` |  |
+| `导航_FAB_搜索` | `Phone` | `L` | `variant` | `BottomBar_Showcase_01` |  |
 | `导航_FAB_搜索` | `Phone` | `C` | `absent` |  |  |
 | `导航_FAB_搜索` | `Fold外屏` | `N` | `absent` |  |  |
-| `导航_FAB_搜索` | `Fold外屏` | `L` | `variant` | `BottomBar-Showcase_02` |  |
+| `导航_FAB_搜索` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_02` |  |
 | `导航_FAB_搜索` | `Fold外屏` | `C` | `absent` |  |  |
 | `导航_FAB_搜索` | `Fold内屏` | `N` | `absent` |  |  |
-| `导航_FAB_搜索` | `Fold内屏` | `L` | `variant` | `BottomBar-Showcase_02` |  |
+| `导航_FAB_搜索` | `Fold内屏` | `L` | `variant` | `BottomBar_Showcase_02` |  |
 | `导航_FAB_搜索` | `Fold内屏` | `C` | `absent` |  |  |
-| `导航_FAB_搜索` | `Pad竖屏` | `NC` | `variant` | `Sidebar-Component_01` |  |
-| `导航_FAB_搜索` | `Pad竖屏` | `C` | `variant` | `Pad-TopBar_Navigation_01` |  |
-| `导航_FAB_搜索` | `Pad横屏` | `NC` | `variant` | `Sidebar-Component_01` |  |
-| `导航_FAB_搜索` | `Pad横屏` | `C` | `variant` | `Pad-TopBar_Navigation_01` |  |
+| `导航_FAB_搜索` | `Pad竖屏` | `NC` | `variant` | `Sidebar_Component_01` |  |
+| `导航_FAB_搜索` | `Pad竖屏` | `C` | `variant` | `Pad_TopBar_Navigation_01` |  |
+| `导航_FAB_搜索` | `Pad横屏` | `NC` | `variant` | `Sidebar_Component_01` |  |
+| `导航_FAB_搜索` | `Pad横屏` | `C` | `variant` | `Pad_TopBar_Navigation_01` |  |
 | `标题栏_一级` | `Phone` | `N` | `absent` |  |  |
-| `标题栏_一级` | `Phone` | `L` | `variant` | `NavigationBar-ComponentSet_01` |  |
+| `标题栏_一级` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` |  |
 | `标题栏_一级` | `Phone` | `C` | `absent` |  |  |
 | `标题栏_一级` | `Fold外屏` | `N` | `absent` |  |  |
-| `标题栏_一级` | `Fold外屏` | `L` | `variant` | `NavigationBar-ComponentSet_04` |  |
+| `标题栏_一级` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` |  |
 | `标题栏_一级` | `Fold外屏` | `C` | `absent` |  |  |
 | `标题栏_一级` | `Fold内屏` | `N` | `absent` |  |  |
-| `标题栏_一级` | `Fold内屏` | `L` | `variant` | `NavigationBar-ComponentSet_04` |  |
+| `标题栏_一级` | `Fold内屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` |  |
 | `标题栏_一级` | `Fold内屏` | `C` | `absent` |  |  |
-| `标题栏_一级` | `Pad竖屏` | `NC` | `variant` | `NavigationBar-ComponentSet_07` |  |
-| `标题栏_一级` | `Pad竖屏` | `C` | `variant` | `NavigationBar-ComponentSet_10` |  |
-| `标题栏_一级` | `Pad横屏` | `NC` | `variant` | `NavigationBar-ComponentSet_07` |  |
-| `标题栏_一级` | `Pad横屏` | `C` | `variant` | `NavigationBar-ComponentSet_10` |  |
+| `标题栏_一级` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_07` |  |
+| `标题栏_一级` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` |  |
+| `标题栏_一级` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_07` |  |
+| `标题栏_一级` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` |  |
 | `标题栏_二级` | `Phone` | `N` | `absent` |  |  |
-| `标题栏_二级` | `Phone` | `L` | `variant` | `NavigationBar-ComponentSet_02` |  |
+| `标题栏_二级` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_02` |  |
 | `标题栏_二级` | `Phone` | `C` | `absent` |  |  |
 | `标题栏_二级` | `Fold外屏` | `N` | `absent` |  |  |
-| `标题栏_二级` | `Fold外屏` | `L` | `variant` | `NavigationBar-ComponentSet_05` |  |
+| `标题栏_二级` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_05` |  |
 | `标题栏_二级` | `Fold外屏` | `C` | `absent` |  |  |
 | `标题栏_二级` | `Fold内屏` | `N` | `absent` |  |  |
-| `标题栏_二级` | `Fold内屏` | `L` | `variant` | `NavigationBar-ComponentSet_05` |  |
+| `标题栏_二级` | `Fold内屏` | `L` | `variant` | `NavigationBar_ComponentSet_05` |  |
 | `标题栏_二级` | `Fold内屏` | `C` | `absent` |  |  |
-| `标题栏_二级` | `Pad竖屏` | `NC` | `variant` | `NavigationBar-ComponentSet_07` |  |
-| `标题栏_二级` | `Pad竖屏` | `C` | `variant` | `NavigationBar-ComponentSet_10` |  |
-| `标题栏_二级` | `Pad横屏` | `NC` | `variant` | `NavigationBar-ComponentSet_07` |  |
-| `标题栏_二级` | `Pad横屏` | `C` | `variant` | `NavigationBar-ComponentSet_10` |  |
+| `标题栏_二级` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_07` |  |
+| `标题栏_二级` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` |  |
+| `标题栏_二级` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_07` |  |
+| `标题栏_二级` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` |  |
 | `标题栏_三级_无标题` | `Phone` | `N` | `absent` |  |  |
 | `标题栏_三级_无标题` | `Phone` | `L` | `absent` |  | 原始记录为 `-` |
-| `标题栏_三级_无标题` | `Phone` | `C` | `variant` | `NavigationBar-ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Phone` | `C` | `variant` | `NavigationBar_ComponentSet_11` |  |
 | `标题栏_三级_无标题` | `Fold外屏` | `N` | `absent` |  |  |
 | `标题栏_三级_无标题` | `Fold外屏` | `L` | `absent` |  |  |
-| `标题栏_三级_无标题` | `Fold外屏` | `C` | `variant` | `NavigationBar-ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Fold外屏` | `C` | `variant` | `NavigationBar_ComponentSet_11` |  |
 | `标题栏_三级_无标题` | `Fold内屏` | `N` | `absent` |  |  |
 | `标题栏_三级_无标题` | `Fold内屏` | `L` | `absent` |  |  |
-| `标题栏_三级_无标题` | `Fold内屏` | `C` | `variant` | `NavigationBar-ComponentSet_11` |  |
-| `标题栏_三级_无标题` | `Pad竖屏` | `NC` | `variant` | `NavigationBar-ComponentSet_11` |  |
-| `标题栏_三级_无标题` | `Pad竖屏` | `C` | `variant` | `NavigationBar-ComponentSet_11` |  |
-| `标题栏_三级_无标题` | `Pad横屏` | `NC` | `variant` | `NavigationBar-ComponentSet_11` |  |
-| `标题栏_三级_无标题` | `Pad横屏` | `C` | `variant` | `NavigationBar-ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_11` |  |
+| `标题栏_三级_无标题` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_11` |  |
 | `标题栏_编辑` | `Phone` | `N` | `absent` |  |  |
-| `标题栏_编辑` | `Phone` | `L` | `variant` | `NavigationBar-ComponentSet_03` |  |
+| `标题栏_编辑` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_03` |  |
 | `标题栏_编辑` | `Phone` | `C` | `absent` |  |  |
 | `标题栏_编辑` | `Fold外屏` | `N` | `absent` |  |  |
-| `标题栏_编辑` | `Fold外屏` | `L` | `variant` | `NavigationBar-ComponentSet_06` |  |
+| `标题栏_编辑` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_06` |  |
 | `标题栏_编辑` | `Fold外屏` | `C` | `absent` |  |  |
 | `标题栏_编辑` | `Fold内屏` | `N` | `absent` |  |  |
-| `标题栏_编辑` | `Fold内屏` | `L` | `variant` | `NavigationBar-ComponentSet_06` |  |
+| `标题栏_编辑` | `Fold内屏` | `L` | `variant` | `NavigationBar_ComponentSet_06` |  |
 | `标题栏_编辑` | `Fold内屏` | `C` | `absent` |  |  |
-| `标题栏_编辑` | `Pad竖屏` | `NC` | `variant` | `NavigationBar-ComponentSet_09` |  |
-| `标题栏_编辑` | `Pad竖屏` | `C` | `variant` | `NavigationBar-ComponentSet_09` |  |
-| `标题栏_编辑` | `Pad横屏` | `NC` | `variant` | `NavigationBar-ComponentSet_09` |  |
-| `标题栏_编辑` | `Pad横屏` | `C` | `variant` | `NavigationBar-ComponentSet_09` |  |
+| `标题栏_编辑` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_09` |  |
+| `标题栏_编辑` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_09` |  |
+| `标题栏_编辑` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_09` |  |
+| `标题栏_编辑` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_09` |  |
 | `容器标题_抽屉` | `Phone` | `N` | `absent` |  |  |
-| `容器标题_抽屉` | `Phone` | `L` | `variant` | `Drawer-Max-HandleSection_01` |  |
+| `容器标题_抽屉` | `Phone` | `L` | `variant` | `Drawer_Max_HandleSection_01` |  |
 | `容器标题_抽屉` | `Phone` | `C` | `absent` |  |  |
 | `容器标题_抽屉` | `Fold外屏` | `N` | `absent` |  |  |
-| `容器标题_抽屉` | `Fold外屏` | `L` | `variant` | `Drawer-Max-HandleSection_01` |  |
+| `容器标题_抽屉` | `Fold外屏` | `L` | `variant` | `Drawer_Max_HandleSection_01` |  |
 | `容器标题_抽屉` | `Fold外屏` | `C` | `absent` |  |  |
 | `容器标题_抽屉` | `Fold内屏` | `N` | `absent` |  |  |
-| `容器标题_抽屉` | `Fold内屏` | `L` | `variant` | `Drawer-Max-HandleSection_01` |  |
+| `容器标题_抽屉` | `Fold内屏` | `L` | `variant` | `Drawer_Max_HandleSection_01` |  |
 | `容器标题_抽屉` | `Fold内屏` | `C` | `absent` |  |  |
-| `容器标题_抽屉` | `Pad竖屏` | `NC` | `variant` | `Drawer-Max-HandleSection_01` |  |
-| `容器标题_抽屉` | `Pad竖屏` | `C` | `variant` | `Drawer-Max-HandleSection_01` |  |
-| `容器标题_抽屉` | `Pad横屏` | `NC` | `variant` | `Drawer-Max-HandleSection_01` |  |
-| `容器标题_抽屉` | `Pad横屏` | `C` | `variant` | `Drawer-Max-HandleSection_01` |  |
+| `容器标题_抽屉` | `Pad竖屏` | `NC` | `variant` | `Drawer_Max_HandleSection_01` |  |
+| `容器标题_抽屉` | `Pad竖屏` | `C` | `variant` | `Drawer_Max_HandleSection_01` |  |
+| `容器标题_抽屉` | `Pad横屏` | `NC` | `variant` | `Drawer_Max_HandleSection_01` |  |
+| `容器标题_抽屉` | `Pad横屏` | `C` | `variant` | `Drawer_Max_HandleSection_01` |  |
 | `标签栏` | `Phone` | `N` | `absent` |  |  |
-| `标签栏` | `Phone` | `L` | `variant` | `SelectableChip-ComponentSet_01` |  |
+| `标签栏` | `Phone` | `L` | `variant` | `SelectableChip_ComponentSet_01` |  |
 | `标签栏` | `Phone` | `C` | `absent` |  |  |
 | `标签栏` | `Fold外屏` | `N` | `absent` |  |  |
-| `标签栏` | `Fold外屏` | `L` | `variant` | `SelectableChip-ComponentSet_01` |  |
+| `标签栏` | `Fold外屏` | `L` | `variant` | `SelectableChip_ComponentSet_01` |  |
 | `标签栏` | `Fold外屏` | `C` | `absent` |  |  |
 | `标签栏` | `Fold内屏` | `N` | `absent` |  |  |
-| `标签栏` | `Fold内屏` | `L` | `variant` | `SelectableChip-ComponentSet_01` |  |
+| `标签栏` | `Fold内屏` | `L` | `variant` | `SelectableChip_ComponentSet_01` |  |
 | `标签栏` | `Fold内屏` | `C` | `absent` |  |  |
-| `标签栏` | `Pad竖屏` | `NC` | `variant` | `SelectableChip-ComponentSet_01` |  |
-| `标签栏` | `Pad竖屏` | `C` | `variant` | `SelectableChip-ComponentSet_01` |  |
-| `标签栏` | `Pad横屏` | `NC` | `variant` | `SelectableChip-ComponentSet_01` |  |
-| `标签栏` | `Pad横屏` | `C` | `variant` | `SelectableChip-ComponentSet_01` |  |
+| `标签栏` | `Pad竖屏` | `NC` | `variant` | `SelectableChip_ComponentSet_01` |  |
+| `标签栏` | `Pad竖屏` | `C` | `variant` | `SelectableChip_ComponentSet_01` |  |
+| `标签栏` | `Pad横屏` | `NC` | `variant` | `SelectableChip_ComponentSet_01` |  |
+| `标签栏` | `Pad横屏` | `C` | `variant` | `SelectableChip_ComponentSet_01` |  |
 | `搜索栏` | `Phone` | `N` | `absent` |  |  |
-| `搜索栏` | `Phone` | `L` | `variant` | `SearchBar-ComponentSet_01` |  |
+| `搜索栏` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_01` |  |
 | `搜索栏` | `Phone` | `C` | `absent` |  |  |
 | `搜索栏` | `Fold外屏` | `N` | `absent` |  |  |
-| `搜索栏` | `Fold外屏` | `L` | `variant` | `SearchBar-ComponentSet_01` |  |
+| `搜索栏` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_01` |  |
 | `搜索栏` | `Fold外屏` | `C` | `absent` |  |  |
 | `搜索栏` | `Fold内屏` | `N` | `absent` |  |  |
-| `搜索栏` | `Fold内屏` | `L` | `variant` | `SearchBar-ComponentSet_01` |  |
+| `搜索栏` | `Fold内屏` | `L` | `variant` | `SearchBar_ComponentSet_01` |  |
 | `搜索栏` | `Fold内屏` | `C` | `absent` |  |  |
-| `搜索栏` | `Pad竖屏` | `NC` | `variant` | `SearchBar-ComponentSet_02` |  |
-| `搜索栏` | `Pad竖屏` | `C` | `variant` | `SearchBar-ComponentSet_02` |  |
-| `搜索栏` | `Pad横屏` | `NC` | `variant` | `SearchBar-ComponentSet_02` |  |
-| `搜索栏` | `Pad横屏` | `C` | `variant` | `SearchBar-ComponentSet_02` |  |
+| `搜索栏` | `Pad竖屏` | `NC` | `variant` | `SearchBar_ComponentSet_02` |  |
+| `搜索栏` | `Pad竖屏` | `C` | `variant` | `SearchBar_ComponentSet_02` |  |
+| `搜索栏` | `Pad横屏` | `NC` | `variant` | `SearchBar_ComponentSet_02` |  |
+| `搜索栏` | `Pad横屏` | `C` | `variant` | `SearchBar_ComponentSet_02` |  |
 | `搜索面板` | `Phone` | `N` | `absent` |  |  |
 | `搜索面板` | `Phone` | `L` | `absent` |  | 原始记录为 `-` |
 | `搜索面板` | `Phone` | `C` | `absent` |  |  |
@@ -190,18 +190,18 @@ status: draft
 | `搜索面板` | `Pad横屏` | `NC` | `variant` | `SearchReceiving_01` |  |
 | `搜索面板` | `Pad横屏` | `C` | `variant` | `SearchReceiving_01` |  |
 | `工具栏` | `Phone` | `N` | `absent` |  |  |
-| `工具栏` | `Phone` | `L` | `variant` | `ToolBar-ComponentSet_01` |  |
+| `工具栏` | `Phone` | `L` | `variant` | `ToolBar_ComponentSet_01` |  |
 | `工具栏` | `Phone` | `C` | `absent` |  |  |
 | `工具栏` | `Fold外屏` | `N` | `absent` |  |  |
-| `工具栏` | `Fold外屏` | `L` | `variant` | `ToolBar-ComponentSet_01` |  |
+| `工具栏` | `Fold外屏` | `L` | `variant` | `ToolBar_ComponentSet_01` |  |
 | `工具栏` | `Fold外屏` | `C` | `absent` |  |  |
 | `工具栏` | `Fold内屏` | `N` | `absent` |  |  |
-| `工具栏` | `Fold内屏` | `L` | `variant` | `ToolBar-ComponentSet_01` |  |
+| `工具栏` | `Fold内屏` | `L` | `variant` | `ToolBar_ComponentSet_01` |  |
 | `工具栏` | `Fold内屏` | `C` | `absent` |  |  |
-| `工具栏` | `Pad竖屏` | `NC` | `variant` | `ToolBar-ComponentSet_01` |  |
-| `工具栏` | `Pad竖屏` | `C` | `variant` | `ToolBar-ComponentSet_01` |  |
-| `工具栏` | `Pad横屏` | `NC` | `variant` | `ToolBar-ComponentSet_01` |  |
-| `工具栏` | `Pad横屏` | `C` | `variant` | `ToolBar-ComponentSet_01` |  |
+| `工具栏` | `Pad竖屏` | `NC` | `variant` | `ToolBar_ComponentSet_01` |  |
+| `工具栏` | `Pad竖屏` | `C` | `variant` | `ToolBar_ComponentSet_01` |  |
+| `工具栏` | `Pad横屏` | `NC` | `variant` | `ToolBar_ComponentSet_01` |  |
+| `工具栏` | `Pad横屏` | `C` | `variant` | `ToolBar_ComponentSet_01` |  |
 | `侧边栏编辑` | `Phone` | `N` | `absent` |  |  |
 | `侧边栏编辑` | `Phone` | `L` | `absent` |  | 原始记录为 `-` |
 | `侧边栏编辑` | `Phone` | `C` | `absent` |  |  |
@@ -211,9 +211,9 @@ status: draft
 | `侧边栏编辑` | `Fold内屏` | `N` | `absent` |  |  |
 | `侧边栏编辑` | `Fold内屏` | `L` | `absent` |  | 原始记录为 `-` |
 | `侧边栏编辑` | `Fold内屏` | `C` | `absent` |  |  |
-| `侧边栏编辑` | `Pad竖屏` | `NC` | `variant` | `Sidebar-Component_03` |  |
+| `侧边栏编辑` | `Pad竖屏` | `NC` | `variant` | `Sidebar_Component_03` |  |
 | `侧边栏编辑` | `Pad竖屏` | `C` | `absent` |  | 原始记录为 `-` |
-| `侧边栏编辑` | `Pad横屏` | `NC` | `variant` | `Sidebar-Component_03` |  |
+| `侧边栏编辑` | `Pad横屏` | `NC` | `variant` | `Sidebar_Component_03` |  |
 | `侧边栏编辑` | `Pad横屏` | `C` | `absent` |  | 原始记录为 `-` |
 | `AI输入框` | `Phone` | `N` | `hidden` |  | 原始记录为 `null` |
 | `AI输入框` | `Phone` | `L` | `hidden` |  | 原始记录为 `null` |
