@@ -141,6 +141,12 @@ Figma MCP 读取阶段的最小产物应包括：
 - 不允许因为文件中存在相似的多端样例，就跳过 `componentTaskList`、`screenMode` 和 `app-variant-map` 的生成
 - 不允许在本阶段扩展成“全文件探查整页可复用目标稿”；除非用户明确要求比对现有样例，或已经确认存在可直接复用的同页目标稿
 - 可以复用组件级节点、骨架节点或当前 frame 内局部结构，但整页级复用必须升级为显式确认动作
+- 不允许把“禁止整页复用”误解为“禁止查找标准组件实例”；凡是当前目标布局落地所必需的标准组件、标准变体或标准骨架，仍然必须继续探查并命中
+- 当 `app-variant-map`、布局 reference、组件字典或用户输入已经给出明确目标实例名时，必须优先命中该标准实例；只有在确认当前文件内不存在、无法访问或实例化失败后，才允许退化为局部素材重组，并在输出中说明退化原因
+- 导航类组件必须按语义分层处理：手机 `BottomBar`、Pad `N` 栏 `Sidebar`、标题栏 / StatusBar 互不替代；禁止因为找到了“某种导航素材”就停止继续查找目标布局所需的标准实例
+- 标准组件默认必须保留实例状态；对 `NavigationBar`、`StatusBar`、`Sidebar`、底部导航等标准结构组件，不能为了求稳而预先执行 `detachInstance`
+- 多端适配默认只迁移源稿中已经存在的内容，不得从其他画布、历史样例或相似页面跨画布搬运列表项、正文、图片或业务数据来“填满”目标栏位
+- 当源稿为低保真、空内容或仅有框架的页面时，目标稿必须保持相同内容密度，只做布局骨架和已有元素的适配；如需补示例内容，必须先得到用户明确确认
 
 如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
 
@@ -150,7 +156,9 @@ Figma MCP 读取阶段的最小产物应包括：
 4. 加载组件族 reference
 5. 决定 `setProperties(...)` 或 `swapComponent(...)`
 6. 检查 `fontDegradationMap`，决定回写路径：
-   - 如果当前实例涉及不可用字体 → 走降级路径：`clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
+   - 标准组件优先保留实例态：先尝试 `loadFontAsync → setProperties / swapComponent → 必要的实例级文本或属性修改 → appendChild`
+   - 只有在以下条件同时成立时，才允许进入 `detachInstance` 降级路径：目标实例路径已尝试失败、确实需要修改实例内部文本或结构、且字体或组件依赖阻塞无法通过实例态完成
+   - 如果进入降级路径 → `clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
    - 如果字体全部可用 → 走正常路径：直接 `setProperties` 或 `swapComponent`
 7. 执行 Figma 回写
 8. 做截图和 metadata 验证
