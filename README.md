@@ -33,9 +33,7 @@ auto_design_agent/
 ├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
 │   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则
-│   ├── app-variant-map-文管.md             文管应用 variant 映射表
-│   ├── app-variant-map-录音.md             录音应用 variant 映射表
-│   ├── app-variant-map-笔记.md             笔记应用 variant 映射表
+│   ├── app-variant-map-*.md                各应用 variant 映射表（当前含文管、笔记、录音、设置、日历、天气等）
 │   ├── layouts/
 │   │   ├── device-dimensions.md           设备尺寸、断点、栏宽、padding
 │   │   ├── lc-nc-layout.md                LC / NC 分栏布局执行规则
@@ -74,9 +72,7 @@ auto_design_agent/
 | [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md) | NLC 三栏布局 reference，覆盖 Pad 导航-列表-内容场景 |
 | [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局 reference，覆盖单栏拉宽、限宽和边距重算 |
 | [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配 reference，仅按需读取 |
-| [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
-| [references/app-variant-map-录音.md](./references/app-variant-map-录音.md) | 录音应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
-| [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md) | 笔记应用 variant 映射表。负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
+| `references/app-variant-map-*.md` | 应用 variant 映射表集合。当前已覆盖文管、笔记、录音、设置、日历、天气、相册、短信、联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机等应用，统一负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
 ### 归档文件
@@ -94,10 +90,11 @@ auto_design_agent/
 1. 读取源设计稿上下文
 2. 判断目标设备和布局类型
 3. 盘点关键组件并生成 `componentTaskList`
-4. 批量查询 `app-variant-map`
-5. 按布局类型读取 `references/layouts/*.md`
-6. 在主链路内按组件字典 reference 处理组件
-7. 按对应布局 reference 的验收项做结果验证
+4. 基于 `layoutType` 和组件所在栏位或子场景推导 `screenMode`
+5. 批量查询 `app-variant-map`
+6. 按布局类型读取 `references/layouts/*.md`
+7. 在主链路内按组件字典 reference 处理组件
+8. 按对应布局 reference 的验收项做结果验证
 
 ### 2. 主链路中的组件处理步骤
 
@@ -128,10 +125,13 @@ auto_design_agent/
 - [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)
 - [references/layouts/c-layout.md](./references/layouts/c-layout.md)
 - [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md)
-- [references/app-variant-map-文管.md](./references/app-variant-map-文管.md)
-- [references/app-variant-map-录音.md](./references/app-variant-map-录音.md)
-- [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md)
+- `references/app-variant-map-*.md`（当前共 15 份活跃应用映射表）
 - [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
+
+其中已建立的应用映射表包括：
+
+- 文管、笔记、录音、设置、日历、天气、相册、短信
+- 联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机
 
 后续若继续拆分组件参考，建议统一放在：
 

@@ -20,7 +20,7 @@
 
 - `appName`（当需要查应用 variant 映射表时必须）
 - `device`（Phone / Fold外屏 / Fold内屏 / Pad竖屏 / Pad横屏；当需要查应用 variant 映射表时必须）
-- `screenMode`（N / L / C / NC；当需要查应用 variant 映射表时必须）
+- `screenMode`（应用映射查询键；当前活跃枚举允许 `N / L / C / NC / LC / NLC`，当需要查应用 variant 映射表时必须）
 - 当前实例或目标节点的上下文（默认必需；如果要实际执行，不能缺）
 - `uiElement`（可选。若提供，只作为探查后的校验或显式覆写，不应代替实例识别）
 - `variantId`（可直接指定目标变体；提供后可跳过应用 variant 映射表查询，但不跳过实例探查）
@@ -36,6 +36,13 @@
 - 是否使用回退路径
 
 ## 执行协议
+
+在本仓库内，`layoutType` 与 `screenMode` 必须区分：
+
+- `layoutType`：页面级布局类型，只允许 `NLC / NC / LC / C`
+- `screenMode`：应用映射表查询键，表示目标设备下当前组件所处的画面或复合画面模式；当前活跃取值允许 `N / L / C / NC / LC / NLC`
+
+主流程先判断页面级 `layoutType`，再结合组件所在栏位或子场景，产出传给 `app-variant-map` 的 `screenMode`。
 
 ### Step 0：探查当前实例并识别语义角色
 

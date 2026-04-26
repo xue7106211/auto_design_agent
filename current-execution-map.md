@@ -110,9 +110,25 @@ flowchart TD
 
 ### 2. 应用映射表覆盖面不足
 
-当前活跃的应用 variant 映射表只有：
+当前活跃的应用 variant 映射表已经覆盖多款应用，但 README 和执行图类文档仍有滞后，需避免继续按早期“三份映射表”口径维护。
+
+当前已存在的活跃映射表包括：
 
 - `references/app-variant-map-文管.md`
+- `references/app-variant-map-笔记.md`
+- `references/app-variant-map-录音.md`
+- `references/app-variant-map-设置.md`
+- `references/app-variant-map-日历.md`
+- `references/app-variant-map-天气.md`
+- `references/app-variant-map-相册.md`
+- `references/app-variant-map-短信.md`
+- `references/app-variant-map-联系人.md`
+- `references/app-variant-map-电话.md`
+- `references/app-variant-map-计算器.md`
+- `references/app-variant-map-收藏.md`
+- `references/app-variant-map-扫一扫.md`
+- `references/app-variant-map-下载管理.md`
+- `references/app-variant-map-小米换机.md`
 
 ### 3. 组件族 reference 覆盖面不足
 

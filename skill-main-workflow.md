@@ -34,6 +34,8 @@ disable-model-invocation: false
 - 按任务列表批量查询 `app-variant-map`
 - 当某个任务收敛为组件级处理时，按需读取 `figma-component-dictionary.md`
 - 未读取对应布局 reference 前，不允许执行 Figma 写入
+- 不把“全文件搜索现成目标稿”作为默认步骤；默认只围绕源稿、当前 frame 和当前任务直接命中的节点执行
+- 如需复用别处已存在的整页目标稿，必须先确认其与当前任务是同一页面内容、同一目标设备、同一布局语义，并先获得用户确认
 
 ### Phase 1：读取源设计稿上下文
 
@@ -131,7 +133,13 @@ Figma MCP 读取阶段的最小产物应包括：
 1. 盘点页面级关键组件实例
 2. 识别每个实例的 `resolvedUiElement`
 3. 生成 `componentTaskList`
-4. 按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
+4. 先基于页面级 `layoutType` 和组件所在栏位或子场景推导 `screenMode`，再按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
+
+在本阶段补充强制约束：
+
+- 不允许因为文件中存在相似的多端样例，就跳过 `componentTaskList`、`screenMode` 和 `app-variant-map` 的生成
+- 不允许在本阶段扩展成“全文件探查整页可复用目标稿”；除非用户明确要求比对现有样例，或已经确认存在可直接复用的同页目标稿
+- 可以复用组件级节点、骨架节点或当前 frame 内局部结构，但整页级复用必须升级为显式确认动作
 
 如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
 
@@ -157,6 +165,7 @@ Figma MCP 读取阶段的最小产物应包括：
 - 布局类型和对应栏宽
 - 已识别的关键组件列表
 - `componentTaskList`
+- `screenMode` 生成规则（由 `layoutType` + 栏位 / 子场景推导）
 - `fontDegradationMap`（不可用字体的降级映射，后续 appendChild 和文本操作时必须遵守）
 
 **Reference 加载规则**：
@@ -170,6 +179,7 @@ Figma MCP 读取阶段的最小产物应包括：
 - 未读取对应布局 reference 前，不允许执行 Figma 写入
 - 布局 reference 中的栏宽、栏位职责和验收项优先级高于模型推断
 - 若 reference 与源稿直觉冲突，以 reference 为准；无法判断时中止并汇报缺口
+- 即使文件中已有看似可用的整页结果，也不得直接视为当前任务输出；最多只能作为比对样例，除非用户已明确确认复用
 
 ### 字体降级规则
 
