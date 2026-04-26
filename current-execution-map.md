@@ -10,6 +10,7 @@
 - 设备尺寸：`references/layouts/device-dimensions.md`
 - 组件处理协议：`figma-component-dictionary.md`
 - 应用映射表：`references/app-variant-map-{appName}.md`
+- 应用映射表模板：`references/app-variant-map-template.md`
 - 组件族事实源：`references/component-dictionary/{component-family}.md`
 
 ## 当前可执行链路
@@ -39,8 +40,9 @@ flowchart TD
     B6 --> B7[识别每个实例的 resolvedUiElement]
     B7 --> B8[生成 componentTaskList]
     B8 --> B9[按 appName + device + screenMode + resolvedUiElement 查询 app-variant-map]
+    B9 --> B10[优先命中基础组件级映射 页面框架类记录仅作骨架补充]
 
-    B9 --> C[阶段 C：组件处理与布局写入]
+    B10 --> C[阶段 C：组件处理与布局写入]
     C --> C1[读取 figma-component-dictionary.md]
     C1 --> C2[命中组件族后读取对应 component reference]
     C2 --> C3{决定动作}
@@ -62,6 +64,8 @@ flowchart TD
 - `figma-component-dictionary.md` 不再作为并列 Skill 入口出现，而是主链路内部按需读取的组件处理 reference。
 - 布局执行不再拆成并列入口；主流程按布局类型读取 `references/layouts/*.md` 后执行。
 - `app-variant-map` 是数据映射层，不是流程入口；它在主链路中按 `componentTaskList` 被批量查询。
+- `app-variant-map` 当前已有统一模板 `references/app-variant-map-template.md`，后续新建或重构应用映射表应优先按该模板收敛。
+- 应用映射表默认优先维护基础组件级条目；`页面框架` 类记录只作为骨架级补充，不应替代 `状态栏`、`标题栏`、`底部导航`、`侧边栏`、`搜索栏`、`标签栏`、`Fab` 等基础组件映射。
 - 整页多端适配链路已经恢复布局 reference 依赖，但独立验证 reference 仍未活跃化；当前验证依赖各布局 reference 的“默认验收标准”。
 
 ## Reference 加载矩阵

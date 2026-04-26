@@ -33,6 +33,7 @@ auto_design_agent/
 ├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
 │   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则
+│   ├── app-variant-map-template.md        应用 variant 映射表统一模板
 │   ├── app-variant-map-*.md                各应用 variant 映射表（当前含文管、笔记、录音、设置、日历、天气等）
 │   ├── layouts/
 │   │   ├── device-dimensions.md           设备尺寸、断点、栏宽、padding
@@ -67,12 +68,13 @@ auto_design_agent/
 | [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
 | [prompt-skill-consistency.md](./prompt-skill-consistency.md) | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致 |
 | [references/common-rules.md](./references/common-rules.md) | 通用执行原则、禁止项、clone 降级规则和分步写入规范 |
+| [references/app-variant-map-template.md](./references/app-variant-map-template.md) | 应用 variant 映射表统一模板。约束推荐结构、字段含义、基础组件优先级和覆盖缺口写法 |
 | [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏基础参数 |
 | [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md) | LC / NC 分栏布局 reference，覆盖 Fold 与 Pad 的左右分栏场景 |
 | [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md) | NLC 三栏布局 reference，覆盖 Pad 导航-列表-内容场景 |
 | [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局 reference，覆盖单栏拉宽、限宽和边距重算 |
 | [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配 reference，仅按需读取 |
-| `references/app-variant-map-*.md` | 应用 variant 映射表集合。当前已覆盖文管、笔记、录音、设置、日历、天气、相册、短信、联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机等应用，统一负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询 |
+| `references/app-variant-map-*.md` | 应用 variant 映射表集合。当前已覆盖文管、笔记、录音、设置、日历、天气、相册、短信、联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机等应用，统一负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询，并优先沉淀基础组件级映射 |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
 ### 归档文件
@@ -95,6 +97,13 @@ auto_design_agent/
 6. 按布局类型读取 `references/layouts/*.md`
 7. 在主链路内按组件字典 reference 处理组件
 8. 按对应布局 reference 的验收项做结果验证
+
+补充约束：
+
+- `app-variant-map` 默认优先维护基础组件级条目，如 `状态栏`、`标题栏`、`底部导航`、`侧边栏`、`搜索栏`、`标签栏`、`Fab`
+- `页面框架` 类记录只作为骨架级补充，不应替代基础组件映射
+- 分栏适配不能只让 viewport 命中栏宽；栏内第一层语义容器也必须跟随栏宽收敛，优先通过 Auto Layout / `Fill Container` 实现，而不是依赖裁切隐藏超宽内容
+- 新增或重构应用映射表时，优先参照 [references/app-variant-map-template.md](./references/app-variant-map-template.md)
 
 ### 2. 主链路中的组件处理步骤
 
@@ -120,6 +129,7 @@ auto_design_agent/
 当前已沉淀的参考文档：
 
 - [references/common-rules.md](./references/common-rules.md)
+- [references/app-variant-map-template.md](./references/app-variant-map-template.md)
 - [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md)
 - [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md)
 - [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)
@@ -136,6 +146,7 @@ auto_design_agent/
 后续若继续拆分组件参考，建议统一放在：
 
 - 应用 variant 映射表：`references/app-variant-map-{appName}.md`
+- 应用映射表模板：`references/app-variant-map-template.md`
 - 组件族 reference：`references/component-dictionary/{component-family}.md`
 
 ---
@@ -162,6 +173,7 @@ auto_design_agent/
 - 历史方案不要继续堆回根目录，统一放入 `archive/`
 - 参考文档保持按需加载，不把细节重新堆回主 Skill
 - 应用 variant 映射表和组件 reference 都属于活跃输入文档，路径变化时要同步更新 README
+- `app-variant-map` 优先维护基础组件级映射；页面框架类条目只作为骨架级补充
 - `skill-main-workflow.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
 - 组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
 - 非主入口文档不要保留 Skill frontmatter；统一写成普通 reference 文档
