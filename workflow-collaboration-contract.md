@@ -163,6 +163,13 @@
 
 上下游之间最核心的接口如下。
 
+### 4.0 `layoutType` 与 `screenMode` 的区分
+
+- `layoutType` 是页面级布局类型，只允许 `NLC / NC / LC / C`
+- `screenMode` 是传给 `app-variant-map` 的查询键，用于表达当前组件所处的目标画面模式
+- 当前活跃映射表中的 `screenMode` 取值允许 `N / L / C / NC / LC / NLC`
+- 主流程不得把两者混为同一个字段；应先判断 `layoutType`，再结合组件所在栏位或子场景生成 `screenMode`
+
 ### 4.1 输入给 `app-variant-map` 的字段
 
 - `appName`
