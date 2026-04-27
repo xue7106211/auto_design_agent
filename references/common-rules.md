@@ -70,6 +70,32 @@
 
 找到其中一种，不代表可以跳过另外一种的标准实例探查。
 
+## 基础组件任务闭环
+
+`get_metadata` 是源稿直接子组件盘点的基线。凡是在 metadata 中出现的源稿直接子组件，都必须进入基础组件任务清单；如果后续 `use_figma`、局部 `get_design_context` 或脚本遍历读不到这些节点，只能记录为读取差异、访问受限或回退原因，不能把该组件从任务清单中删除。
+
+基础组件至少包括：
+
+1. `StatusBar`
+2. `NavigationBar`
+3. `BottomBar`
+4. `Sidebar`
+5. `SearchBar`
+6. `SelectableChip`
+7. `Fab`
+8. `DrawerIndicator`
+
+每个基础组件任务必须记录以下字段：
+
+1. `sourceDetected`：是否在源稿 metadata 中出现
+2. `resolvedUiElement`：识别后的业务语义
+3. `targetRule`：映射表命中、布局规则要求或显式回退规则
+4. `action`：`setProperties` / `swapComponent` / `clone` / `hide` / `skip`
+5. `status`：只允许 `mapped` / `hidden` / `absent` / `fallback` / `blocked`
+6. `fallbackReason`：仅在 `fallback` 或 `blocked` 时填写
+
+基础组件任务没有逐项关闭前，不得把整页适配标记为完成。
+
 标准组件默认必须保留实例状态。对 `NavigationBar`、`StatusBar`、`Sidebar`、底部导航等标准结构组件，默认只允许做实例级的变体切换、属性调整、尺寸调整和位置调整，不允许为了规避风险而预先 `detachInstance`。
 
 只有在以下条件同时满足时，才允许把标准组件从实例降级为普通节点：
@@ -101,6 +127,8 @@
 1. 源稿里有什么，就适配什么
 2. 源稿里没有的具体业务内容，默认不要补
 3. 如果源稿是空态、低保真或仅有框架，目标稿也应保持空态、低保真或框架态，只做结构适配
+
+内容密度守恒只限制业务内容补全，不允许省略源稿已有结构组件。标题栏、状态栏、底部导航、侧边导航、抽屉指示器、FAB、搜索栏等结构组件，只要源稿存在且映射表未明确返回 `hidden` / `absent`，就必须迁移、映射或以 `fallback` 状态说明原因。
 
 如果目标布局天然比手机页更宽，允许做的是：
 
@@ -167,6 +195,16 @@
 - 实例内部文本难以稳定修改
 
 降级后：clone 已在画布中的现成节点，优先改布局、尺寸、位置，不改组件内部结构。
+
+标准组件映射失败时的降级顺序为：
+
+1. 优先尝试标准实例或标准变体映射
+2. 若实例化、变体切换或字体加载失败，clone 源组件
+3. 对 clone 结果执行必要的 `fixFonts`
+4. 将 clone 结果 resize / Auto Layout 收敛到目标栏宽和目标高度
+5. 在基础组件任务中标记 `status = fallback` 并记录原因
+
+除非映射表或布局规则明确返回 `hidden` / `absent`，否则标准组件映射失败不能直接省略该组件。
 
 ## 分步写入规范
 
