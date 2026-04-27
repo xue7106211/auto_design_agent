@@ -47,6 +47,7 @@ auto_design_agent/
 │   ├── layout-lc-nc.md                    LC / NC 布局规则，定义分栏宽度、各栏职责和适配逻辑
 │   ├── layout-nlc.md                      NLC 三栏布局规则，定义 N/L/C 三栏结构
 │   ├── app-variant-map-下载管理.md         下载管理应用 variant 映射表
+│   ├── app-variant-map-图库.md             图库应用 variant 映射表
 │   ├── app-variant-map-天气.md             天气应用 variant 映射表
 │   ├── app-variant-map-小米换机.md         小米换机应用 variant 映射表
 │   ├── app-variant-map-录音.md             录音应用 variant 映射表
@@ -64,8 +65,7 @@ auto_design_agent/
 │   ├── app-variant-map-设置.md             设置应用 variant 映射表
 │   └── component-dictionary/
 │       └── navigation-bar.md              NavigationBar 组件族 reference
-└── Archive/                               已归档的旧版 Skill、规则和日志
-    ├── common-rules.md
+└── Archive/                               已归档的旧版规则文档和日志
     ├── component-adaptation.md
     ├── component-routing.md
     ├── figma-adapt-verify.md
@@ -97,6 +97,7 @@ auto_design_agent/
 | [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局执行规则（主链路） |
 | [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配参考规则 |
 | [references/app-variant-map-下载管理.md](./references/app-variant-map-下载管理.md) | 下载管理应用 variant 映射表 |
+| [references/app-variant-map-图库.md](./references/app-variant-map-图库.md) | 图库应用 variant 映射表 |
 | [references/app-variant-map-天气.md](./references/app-variant-map-天气.md) | 天气应用 variant 映射表 |
 | [references/app-variant-map-小米换机.md](./references/app-variant-map-小米换机.md) | 小米换机应用 variant 映射表 |
 | [references/app-variant-map-录音.md](./references/app-variant-map-录音.md) | 录音应用 variant 映射表 |
@@ -174,13 +175,13 @@ auto_design_agent/
 - 字体降级：`references/font-degradation.md`
 - 设备尺寸（主链路）：`references/layouts/device-dimensions.md`；根目录 `references/device-dimensions.md` 仍保留作对照或历史链接
 - 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`；根目录 `references/layout-*.md` 仍保留作对照或历史链接
-- 应用 variant 映射表（16 个应用）：`references/app-variant-map-{appName}.md`
+- 应用 variant 映射表（17 个应用）：`references/app-variant-map-{appName}.md`
 - 组件族 reference：[references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
 其中已建立的应用映射表包括：
 
 - 文管、笔记、录音、设置、日历、天气、相册、短信
-- 联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机
+- 联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机、手机管家、图库
 
 后续若继续拆分组件参考，建议统一放在：
 

@@ -109,6 +109,7 @@
 | 下载管理 | `references/app-variant-map-下载管理.md` | 已建立 |
 | 小米换机 | `references/app-variant-map-小米换机.md` | 已建立 |
 | 天气 | `references/app-variant-map-天气.md` | 已建立 |
+| 图库 | `references/app-variant-map-图库.md` | 已建立 |
 | 相册 | `references/app-variant-map-相册.md` | 已建立 |
 | 手机管家 | `references/app-variant-map-手机管家.md` | 已建立 |
 
@@ -250,6 +251,9 @@
 | `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_00` | 无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_08` | 小标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_09` | 小标题_编辑 / 小标题_关闭 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_10` | 小标题_无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_11` | 小标题_无标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_12` | 小标题_侧边栏 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_13` | 小标题_侧边栏_编辑 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_14` | 小标题_侧边栏_收起 | `references/component-dictionary/navigation-bar.md` | `manual` |
@@ -269,11 +273,10 @@
 | `BottomBar` | — | `BottomBar_Showcase_01` | 默认 | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_02` | 无FAB_分区展示 | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | 待建立 | `manual` |
-| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_01 + Fab_Search_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_02 + Fab_01） | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | 待建立 | `manual` |
 | `Fab` | — | `Fab_01` | Fab | 待建立 | `manual` |
 | `Fab` | — | `Fab_Rec_01` | 业务_录音 | 待建立 | `manual` |
-| `Fab` | — | `Fab_Search_01` | 搜索FAB | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起 | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑 | 待建立 | `manual` |
@@ -284,6 +287,7 @@
 | `Sidebar` | — | `Sidebar_BG_01` | 侧边栏_面板 | 待建立 | `manual` |
 | `SelectableChip` | — | `SelectableChip_ComponentSet_00` | 无标签栏 | 待建立 | `manual` |
 | `SelectableChip` | — | `SelectableChip_ComponentSet_01` | 等宽 | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_Notes_01` | 业务_笔记 | 待建立 | `manual` |
 | `SearchBar` | — | `SearchBar_ComponentSet_00` | 无搜索栏 | 待建立 | `manual` |
 | `SearchBar` | — | `SearchBar_ComponentSet_01` | 激活 | 待建立 | `manual` |
 | `SearchBar` | — | `SearchBar_ComponentSet_02` | 默认 | 待建立 | `manual` |
@@ -331,6 +335,9 @@
 | `NavigationBar_ComponentSet_05` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_05" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 | `NavigationBar_ComponentSet_06` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_06" }` | `device=Fold; layoutRole=C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 | `NavigationBar_ComponentSet_07` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_07" }` | `device=Phone/Fold; layoutRole=Compact` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_09` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_09" }` | `device=Phone/Fold/Pad; layoutRole=Edit/Close` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_10` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_10" }` | `device=Phone/Fold/Pad; layoutRole=Compact/NoTitle` |  | `key -> anchor -> clone` | `screenshot + metadata` |
+| `NavigationBar_ComponentSet_11` | `setProperties` | `{ "VariantId": "NavigationBar_ComponentSet_11" }` | `device=Phone/Fold/Pad; layoutRole=Compact/NoTitle/Back` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 | `Pad_TopBar_01` | `setProperties` | `{ "VariantId": "Pad_TopBar_01" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 | `Pad_TopBar_02` | `setProperties` | `{ "VariantId": "Pad_TopBar_02" }` | `device=Pad; layoutRole=L/C` |  | `key -> anchor -> clone` | `screenshot + metadata` |
 

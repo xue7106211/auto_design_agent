@@ -17,6 +17,13 @@
 - `NavigationBar_ComponentSet_09`
 - `NavigationBar_ComponentSet_10`
 - `NavigationBar_ComponentSet_11`
+- `NavigationBar_ComponentSet_12`
+- `NavigationBar_ComponentSet_13`
+- `NavigationBar_ComponentSet_14`
+- `NavigationBar_ComponentSet_15`
+- `NavigationBar_ComponentSet_Calendar_01`
+- `NavigationBar_ComponentSet_Notes_01`
+- `NavigationBar_ComponentSet_Weather_01`
 - `Pad_TopBar_01`
 - `Pad_TopBar_02`
 
@@ -89,7 +96,7 @@
 
 | 字段 | 说明 | 已验证值 |
 | --- | --- | --- |
-| `VariantId` | 主变体属性 | `NavigationBar_ComponentSet_01` / `02` / `03` / `04` / `05` / `06` / `07` / `08` / `09` / `10` / `11` / `Pad_TopBar_01` / `Pad_TopBar_02` |
+| `VariantId` | 主变体属性 | `NavigationBar_ComponentSet_01` ~ `15` / `Calendar_01` / `Notes_01` / `Weather_01` / `Pad_TopBar_01` / `Pad_TopBar_02` |
 
 ### 当前禁止使用的旧字段
 
