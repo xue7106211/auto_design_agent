@@ -36,8 +36,23 @@ auto_design_agent/
 │   共享 reference 文档目录。主 Skill 按需引用，不应一次性全部加载。
 │   ├── common-rules.md
 │   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
+│   ├── font-degradation.md
+│   │   字体降级映射表、执行顺序和 fixFonts 代码模板。
+│   ├── app-variant-map-template.md
+│   │   应用 variant 映射表统一模板。
+│   ├── layouts/
+│   │   ├── device-dimensions.md
+│   │   │   设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（主 Skill 优先引用）。
+│   │   ├── lc-nc-layout.md
+│   │   │   LC / NC 分栏布局执行规则。
+│   │   ├── nlc-layout.md
+│   │   │   NLC 三栏布局执行规则。
+│   │   ├── c-layout.md
+│   │   │   C 通栏布局执行规则。
+│   │   └── foldable-layout.md
+│   │       折叠屏历史适配参考规则。
 │   ├── device-dimensions.md
-│   │   设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数。
+│   │   设备尺寸等基础参数（与 layouts 下文件并存时，以主 Skill 实际引用路径为准）。
 │   ├── layout-c.md
 │   │   C 通栏布局规则。
 │   ├── layout-lc-nc.md
