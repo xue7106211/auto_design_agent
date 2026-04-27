@@ -57,32 +57,20 @@ status: draft
 
 | uiElement | device | screenMode | resultType | variantId | notes |
 | --- | --- | --- | --- | --- | --- |
-| `笔记_页面框架` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | 手机全屏骨架 |
-| `笔记_页面框架` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | 外屏沿用手机骨架 |
-| `笔记_页面框架` | `Fold内屏` | `NC` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_Notes_01` | Fold 列表侧骨架 |
-| `笔记_页面框架` | `Fold内屏` | `C` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad竖屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏侧边栏骨架 |
-| `笔记_页面框架` | `Pad竖屏` | `NC` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad竖屏` | `LC` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad竖屏` | `C` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏侧边栏骨架 |
-| `笔记_页面框架` | `Pad横屏` | `NC` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad横屏` | `LC` | `absent` |  | 当前场景不使用 |
-| `笔记_页面框架` | `Pad横屏` | `C` | `absent` |  | 当前场景不使用 |
-| `笔记_底部导航` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | Phone 竖屏 |
-| `笔记_底部导航` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | 外屏竖屏沿用手机 |
-| `笔记_底部导航` | `Fold内屏` | `NC` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_Notes_01` | L栏承载 |
-| `笔记_底部导航` | `Fold内屏` | `C` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad竖屏` | `NLC` | `absent` |  | 当前场景由侧边栏承载 |
-| `笔记_底部导航` | `Pad竖屏` | `NC` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad竖屏` | `LC` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad竖屏` | `C` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad横屏` | `NLC` | `absent` |  | 当前场景由侧边栏承载 |
-| `笔记_底部导航` | `Pad横屏` | `NC` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad横屏` | `LC` | `absent` |  | 当前场景不显示 |
-| `笔记_底部导航` | `Pad横屏` | `C` | `absent` |  | 当前场景不显示 |
+| `笔记_导航` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | 图文图标 |
+| `笔记_导航` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | 图文图标 |
+| `笔记_导航` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | 图文图标 |
+| `笔记_导航` | `Pad竖屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | L栏侧边栏 |
+| `笔记_导航` | `Pad竖屏` | `C` | `variant` | `TopBar_05` | |
+| `笔记_导航` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | L栏侧边栏 |
+| `笔记_导航` | `Pad横屏` | `C` | `variant` | `TopBar_05` | |
+| `笔记_底部工具栏` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | |
+| `笔记_底部工具栏` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | |
+| `笔记_底部工具栏` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_Notes_01` | L栏承载 |
+| `笔记_底部工具栏` | `Pad竖屏` | `NLC` | `variant` | `BottomBar_Showcase_Notes_01` | L栏承载 |
+| `笔记_底部工具栏` | `Pad竖屏` | `C` | `variant` | `BottomBar_Showcase_Notes_01` | |
+| `笔记_底部工具栏` | `Pad横屏` | `NLC` | `variant` | `BottomBar_Showcase_Notes_01` | L栏承载 |
+| `笔记_底部工具栏` | `Pad横屏` | `C` | `variant` | `BottomBar_Showcase_Notes_01` | |
 | `图文_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_02` | 返回标题栏 |
 | `图文_Fab` | `Phone` | `L` | `variant` | `Fab_01` |  |
 | `图文_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_02` |  |
