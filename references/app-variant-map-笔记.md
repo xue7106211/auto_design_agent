@@ -64,6 +64,20 @@ status: draft
 | `笔记_导航` | `Pad竖屏` | `C` | `variant` | `TopBar_05` | |
 | `笔记_导航` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | L栏侧边栏 |
 | `笔记_导航` | `Pad横屏` | `C` | `variant` | `TopBar_05` | |
+| `笔记_搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `笔记_搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
+| `笔记_搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
+| `笔记_搜索` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏搜索图标 |
+| `笔记_搜索` | `Pad竖屏` | `C` | `absent` | | TopBar_05 搜索栏（集成在导航组件内） |
+| `笔记_搜索` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏搜索图标 |
+| `笔记_搜索` | `Pad横屏` | `C` | `absent` | | TopBar_05 搜索栏（集成在导航组件内） |
+| `笔记_标签栏` | `Phone` | `L` | `variant` | `SelectableChip_ComponentSet_Notes_01` | |
+| `笔记_标签栏` | `Fold外屏` | `L` | `variant` | `SelectableChip_ComponentSet_Notes_01` | |
+| `笔记_标签栏` | `Fold内屏` | `LC` | `variant` | `SelectableChip_ComponentSet_Notes_01` | L栏 |
+| `笔记_标签栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏文件夹列表 |
+| `笔记_标签栏` | `Pad竖屏` | `NLC收起` | `hidden` | | 侧边栏隐藏；不展示 NavigationBar_ComponentSet_12 文件夹列表 |
+| `笔记_标签栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏文件夹列表 |
+| `笔记_标签栏` | `Pad横屏` | `NLC收起` | `hidden` | | 侧边栏隐藏；不展示 NavigationBar_ComponentSet_12 文件夹列表 |
 | `笔记_底部工具栏` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | |
 | `笔记_底部工具栏` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_Notes_01` | |
 | `笔记_底部工具栏` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_Notes_01` | L栏承载 |
