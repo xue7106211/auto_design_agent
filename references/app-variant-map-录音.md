@@ -83,10 +83,15 @@ status: draft
 | `侧边栏` | `Pad横屏` | `LC` | `variant` | `Sidebar_Component_PAD_LC_Fab_01` | |
 | `Fab` | `Pad横屏` | `LC` | `variant` | `Fab_Rec_01` | |
 
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: _04 |
+| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | N栏; C栏: _07 |
+| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | N栏; C栏: _07 |
+
 ## 当前覆盖缺口
 
 以下内容仍未形成正式映射，后续补齐后建议直接追加到上表：
 
 - Phone / Fold外屏 横屏模式
 - Phone / Fold外屏 L栏具体组件定义
-- UI 元素级详细映射（标题栏、搜索栏、工具栏等逐项）

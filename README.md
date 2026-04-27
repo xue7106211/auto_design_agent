@@ -33,18 +33,31 @@ auto_design_agent/
 ├── workflow-collaboration-contract.md     多人协作接口契约：字段定义与数据流转
 ├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
-│   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则
-│   ├── app-variant-map-template.md        应用 variant 映射表统一模板
-│   ├── app-variant-map-*.md                各应用 variant 映射表（当前含文管、笔记、录音、设置、日历、天气等）
-│   ├── layouts/
-│   │   ├── device-dimensions.md           设备尺寸、断点、栏宽、padding
-│   │   ├── lc-nc-layout.md                LC / NC 分栏布局执行规则
-│   │   ├── nlc-layout.md                  NLC 三栏布局执行规则
-│   │   ├── c-layout.md                    C 通栏布局执行规则
-│   │   └── foldable-layout.md             折叠屏历史适配参考规则
+│   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则和分步写入规范
+│   ├── device-dimensions.md               设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数
+│   ├── layout-c.md                        C 通栏布局规则
+│   ├── layout-lc-nc.md                    LC / NC 布局规则，定义分栏宽度、各栏职责和适配逻辑
+│   ├── layout-nlc.md                      NLC 三栏布局规则，定义 N/L/C 三栏结构
+│   ├── app-variant-map-下载管理.md         下载管理应用 variant 映射表
+│   ├── app-variant-map-天气.md             天气应用 variant 映射表
+│   ├── app-variant-map-小米换机.md         小米换机应用 variant 映射表
+│   ├── app-variant-map-录音.md             录音应用 variant 映射表
+│   ├── app-variant-map-手机管家.md         手机管家应用 variant 映射表
+│   ├── app-variant-map-扫一扫.md           扫一扫应用 variant 映射表
+│   ├── app-variant-map-收藏.md             收藏应用 variant 映射表
+│   ├── app-variant-map-文管.md             文管应用 variant 映射表
+│   ├── app-variant-map-日历.md             日历应用 variant 映射表
+│   ├── app-variant-map-电话.md             电话应用 variant 映射表
+│   ├── app-variant-map-相册.md             相册应用 variant 映射表
+│   ├── app-variant-map-短信.md             短信应用 variant 映射表
+│   ├── app-variant-map-笔记.md             笔记应用 variant 映射表
+│   ├── app-variant-map-联系人.md           联系人应用 variant 映射表
+│   ├── app-variant-map-计算器.md           计算器应用 variant 映射表
+│   ├── app-variant-map-设置.md             设置应用 variant 映射表
 │   └── component-dictionary/
 │       └── navigation-bar.md              NavigationBar 组件族 reference
-└── archive/                               已归档的旧版规则和日志
+└── Archive/                               已归档的旧版 Skill、规则和日志
+    ├── common-rules.md
     ├── component-adaptation.md
     ├── component-routing.md
     ├── figma-adapt-verify.md
@@ -68,19 +81,32 @@ auto_design_agent/
 | [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤、布局 reference 和关键字段归属 |
 | [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
 | [prompt-skill-consistency.md](./prompt-skill-consistency.md) | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致 |
+| [references/app-variant-map-下载管理.md](./references/app-variant-map-下载管理.md) | 下载管理应用 variant 映射表 |
+| [references/app-variant-map-天气.md](./references/app-variant-map-天气.md) | 天气应用 variant 映射表 |
+| [references/app-variant-map-小米换机.md](./references/app-variant-map-小米换机.md) | 小米换机应用 variant 映射表 |
+| [references/app-variant-map-录音.md](./references/app-variant-map-录音.md) | 录音应用 variant 映射表 |
+| [references/app-variant-map-手机管家.md](./references/app-variant-map-手机管家.md) | 手机管家应用 variant 映射表 |
+| [references/app-variant-map-扫一扫.md](./references/app-variant-map-扫一扫.md) | 扫一扫应用 variant 映射表 |
+| [references/app-variant-map-收藏.md](./references/app-variant-map-收藏.md) | 收藏应用 variant 映射表 |
+| [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表 |
+| [references/app-variant-map-日历.md](./references/app-variant-map-日历.md) | 日历应用 variant 映射表 |
+| [references/app-variant-map-电话.md](./references/app-variant-map-电话.md) | 电话应用 variant 映射表 |
+| [references/app-variant-map-相册.md](./references/app-variant-map-相册.md) | 相册应用 variant 映射表 |
+| [references/app-variant-map-短信.md](./references/app-variant-map-短信.md) | 短信应用 variant 映射表 |
+| [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md) | 笔记应用 variant 映射表 |
+| [references/app-variant-map-联系人.md](./references/app-variant-map-联系人.md) | 联系人应用 variant 映射表 |
+| [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md) | 计算器应用 variant 映射表 |
+| [references/app-variant-map-设置.md](./references/app-variant-map-设置.md) | 设置应用 variant 映射表 |
 | [references/common-rules.md](./references/common-rules.md) | 通用执行原则、禁止项、clone 降级规则和分步写入规范 |
-| [references/app-variant-map-template.md](./references/app-variant-map-template.md) | 应用 variant 映射表统一模板。约束推荐结构、字段含义、基础组件优先级和覆盖缺口写法 |
-| [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏基础参数 |
-| [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md) | LC / NC 分栏布局 reference，覆盖 Fold 与 Pad 的左右分栏场景 |
-| [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md) | NLC 三栏布局 reference，覆盖 Pad 导航-列表-内容场景 |
-| [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局 reference，覆盖单栏拉宽、限宽和边距重算 |
-| [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配 reference，仅按需读取 |
-| `references/app-variant-map-*.md` | 应用 variant 映射表集合。当前已覆盖文管、笔记、录音、设置、日历、天气、相册、短信、联系人、电话、计算器、收藏、扫一扫、下载管理、小米换机等应用，统一负责 `device + screenMode + resolvedUiElement -> resultType + variantId` 的查询，并优先沉淀基础组件级映射 |
+| [references/device-dimensions.md](./references/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数 |
+| [references/layout-c.md](./references/layout-c.md) | C 通栏布局规则 |
+| [references/layout-lc-nc.md](./references/layout-lc-nc.md) | LC / NC 布局规则，定义分栏宽度、各栏职责和适配逻辑 |
+| [references/layout-nlc.md](./references/layout-nlc.md) | NLC 三栏布局规则，定义 N/L/C 三栏结构 |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
 
 ### 归档文件
 
-`archive/` 中保留的是历史多终端适配方案、旧版规则文档和工作流日志，仅供参考，不应再作为当前主规范继续扩写。
+`Archive/` 中保留的是历史多终端适配方案、旧版规则文档和工作流日志，仅供参考，不应再作为当前主规范继续扩写。
 
 ---
 
@@ -129,15 +155,11 @@ auto_design_agent/
 
 当前已沉淀的参考文档：
 
-- [references/common-rules.md](./references/common-rules.md)
-- [references/app-variant-map-template.md](./references/app-variant-map-template.md)
-- [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md)
-- [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md)
-- [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)
-- [references/layouts/c-layout.md](./references/layouts/c-layout.md)
-- [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md)
-- `references/app-variant-map-*.md`（当前共 15 份活跃应用映射表）
-- [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
+- 通用规则：`references/common-rules.md`
+- 设备尺寸：`references/device-dimensions.md`
+- 布局规则：`references/layout-c.md`、`references/layout-lc-nc.md`、`references/layout-nlc.md`
+- 应用 variant 映射表（16 个应用）：`references/app-variant-map-{appName}.md`
+- 组件族 reference：[references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
 
 其中已建立的应用映射表包括：
 
@@ -187,4 +209,4 @@ auto_design_agent/
 - 多人协作接口契约见 [workflow-collaboration-contract.md](./workflow-collaboration-contract.md)
 - 新增或重构 Skill / reference 的统一 Prompt 见 [prompt-skill-consistency.md](./prompt-skill-consistency.md)
 - 当前可执行链路与断点状态见 [current-execution-map.md](./current-execution-map.md)
-- 历史适配方案和旧规则文档见 `archive/`
+- 历史适配方案和旧规则文档见 `Archive/`

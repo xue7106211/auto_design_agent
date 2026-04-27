@@ -16,43 +16,74 @@ auto_design_agent/
 ├── AGENTS.md
 │   当前文件。面向后续 Agent，说明仓库定位、编辑约束、自查清单和已知风险。
 ├── README.md
-│   仓库对外说明，包含主 Skill、目录结构、使用方式和 Reference 文档说明。
-├── SKILL.md
-│   唯一主 Skill。负责读取源设计稿、判断目标设备与布局类型、按需读取 reference、执行和验证。
+│   仓库对外说明，包含技能一览、目录结构、使用方式和 Reference 文档说明。
+├── skill-main-workflow.md
+│   主工作流 Skill。默认且唯一的生产主入口，负责读取源稿、判断布局类型、
+│   生成页面级组件任务、委托执行与验证。
 ├── figma-component-dictionary.md
-│   组件字典 reference。供主流程内部读取，处理实例探查、映射查表、执行与验证协议。
+│   组件字典 Skill。作为主链路内部复用的组件处理能力，负责实例探查、
+│   映射查表、执行与验证。
 ├── current-execution-map.md
-│   当前可执行链路与断点状态图。
+│   当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤和
+│   当前断点，以及关键字段归属。
 ├── workflow-collaboration-contract.md
-│   多人协作接口契约，定义字段归属和数据流转。
+│   多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、
+│   必要字段和命名约定。
 ├── prompt-skill-consistency.md
-│   新增或重构文档时的一致性 Prompt 模板。
+│   新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、
+│   命名和引用关系一致。
 ├── references/
 │   共享 reference 文档目录。主 Skill 按需引用，不应一次性全部加载。
 │   ├── common-rules.md
 │   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
-│   ├── app-variant-map-文管.md
-│   │   文管应用 variant 映射表。
+│   ├── device-dimensions.md
+│   │   设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数。
+│   ├── layout-c.md
+│   │   C 通栏布局规则。
+│   ├── layout-lc-nc.md
+│   │   LC / NC 布局规则正文，定义分栏宽度、各栏职责和适配逻辑。
+│   ├── layout-nlc.md
+│   │   NLC 三栏布局规则，定义 N/L/C 三栏结构和底部 Tab 转侧边导航规则。
+│   ├── app-variant-map-下载管理.md
+│   ├── app-variant-map-天气.md
+│   ├── app-variant-map-小米换机.md
 │   ├── app-variant-map-录音.md
-│   │   录音应用 variant 映射表。
+│   ├── app-variant-map-手机管家.md
+│   ├── app-variant-map-扫一扫.md
+│   ├── app-variant-map-收藏.md
+│   ├── app-variant-map-文管.md
+│   ├── app-variant-map-日历.md
+│   ├── app-variant-map-电话.md
+│   ├── app-variant-map-相册.md
+│   ├── app-variant-map-短信.md
 │   ├── app-variant-map-笔记.md
-│   │   笔记应用 variant 映射表。
-│   ├── layouts/
-│   │   ├── device-dimensions.md
-│   │   │   设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数。
-│   │   ├── lc-nc-layout.md
-│   │   │   LC / NC 分栏布局 reference，覆盖 Fold 与 Pad 的左右分栏场景。
-│   │   ├── nlc-layout.md
-│   │   │   NLC 三栏布局 reference，仅用于 Pad 的导航-列表-内容场景。
-│   │   ├── c-layout.md
-│   │   │   C 通栏布局 reference，主要做单栏页面拉宽、限宽和边距重算。
-│   │   └── foldable-layout.md
-│   │       早期折叠屏适配 reference，仅按需参考。
+│   ├── app-variant-map-联系人.md
+│   ├── app-variant-map-计算器.md
+│   ├── app-variant-map-设置.md
+│   │   以上为各应用的 variant 映射表，负责
+│   │   device + screenMode + resolvedUiElement -> resultType + variantId 的查询。
 │   └── component-dictionary/
 │       └── navigation-bar.md
-│           NavigationBar 组件族 reference。
-└── archive/
-    已归档的旧版规则和日志，仅供参考。
+│           NavigationBar 组件族 reference。记录当前分支基准链接、组件集身份、
+│           真实字段、可执行记录和回退规则。
+└── Archive/
+    已归档的旧版 Skill、规则文档和工作流日志，仅供参考。
+    ├── common-rules.md
+    ├── component-adaptation.md
+    ├── component-routing.md
+    ├── device-dimensions.md
+    ├── figma-adapt-c-layout.md
+    ├── figma-adapt-foldable-layout.md
+    ├── figma-adapt-lc-nc-layout.md
+    ├── figma-adapt-nlc-layout.md
+    ├── figma-adapt-verify.md
+    ├── figma-navigation-framework-components.md
+    ├── layout-c.md
+    ├── layout-lc-nc.md
+    ├── layout-nlc.md
+    ├── layout-notes-nlc.md
+    ├── navigation-framework-components.md
+    └── workflow-log-foldable-adapt-v1.md
 ```
 
 ## 文件类型约束
@@ -76,10 +107,11 @@ disable-model-invocation: false
 
 ### Reference 文档
 
-- 放在 `references/` 下，采用 `references/{类别}.md` 或子目录命名。
-- 除应用 variant 映射表可保留数据型 frontmatter 外，普通 reference 不写 Skill frontmatter，不写 `disable-model-invocation`。
-- 用表格承载尺寸、栏宽、padding、componentKey 等结构化信息。
-- 用明确数值，不写“较宽”“适中”这类模糊描述。
+- 放在 `references/` 下，采用对应命名规范：
+  - 应用 variant 映射表：`references/app-variant-map-{appName}.md`
+  - 组件族 reference：`references/component-dictionary/{component-family}.md`
+- 用表格承载尺寸、栏宽、padding、componentKey、variant 映射等结构化信息。
+- 用明确数值，不写"较宽""适中"这类模糊描述。
 - 组件名、图层名、区域名要与 Figma 实际命名一致。
 
 ## 修改原则
@@ -122,7 +154,7 @@ disable-model-invocation: false
 - 列出全部文件：`rg --files`
 - 查 frontmatter：`rg -n '^name:|^description:|^disable-model-invocation:'`
 - 查 reference 引用：`rg -n 'references/'`
-- 查布局类型或设备范围是否一致：`rg -n 'NLC|NC|LC|C|Fold|Pad'`
+- 查应用 variant 映射表：`rg --files | rg 'app-variant-map'`
 
 ## 交付标准
 

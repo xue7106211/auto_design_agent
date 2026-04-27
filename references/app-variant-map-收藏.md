@@ -20,3 +20,8 @@ status: draft
 | `导航_页面框架` | `Fold内屏` | `C` | `variant` | `BottomBar_Showcase_01` | |
 | `导航_页面框架` | `Pad竖屏` | `C` | `variant` | `TopBar_01` | |
 | `导航_页面框架` | `Pad横屏` | `C` | `variant` | `TopBar_01` | |
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_Calendar_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |

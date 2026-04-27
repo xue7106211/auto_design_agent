@@ -32,3 +32,8 @@ status: draft
 | `Fab` | `Fold内屏` | `LC` | `variant` | `Fab_01` | L栏; 彩色 |
 | `Fab` | `Pad竖屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
 | `Fab` | `Pad横屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中=无标题 2.选中=_04(可无标题) |
+| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_07(可无标题) |
+| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_07(可无标题) |

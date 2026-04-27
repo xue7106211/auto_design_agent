@@ -106,16 +106,25 @@ status: draft
 | `图文_页面框架` | `Pad横屏` | `LC` | `absent` |  | 当前场景不使用 |
 | `图文_页面框架` | `Pad横屏` | `C` | `absent` |  | 当前场景不使用 |
 
+| `笔记_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `笔记_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | L栏 |
+| `笔记_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: NavigationBar_ComponentSet_Notes_01 |
+| `笔记_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: Notes_01 |
+| `笔记_标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `笔记_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: Notes_01 |
+| `笔记_标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `图文_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_02` | |
+| `图文_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_05` | |
+| `图文_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_05` | L栏; C栏: 无标题 |
+| `图文_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: 无标题 |
+| `图文_标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `图文_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: 无标题 |
+| `图文_标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+
 ## 当前覆盖缺口
 
-- `笔记_标题栏` 尚未建立组件级映射；后续需补齐 `Phone / Fold外屏 / Fold内屏 / Pad竖屏 / Pad横屏` 在各自有效 `screenMode` 下的真实 `variantId`
-- `笔记_状态栏` 尚未建立组件级映射
-- `笔记_底部导航` 已部分建档；当前已确认 `Phone / Fold外屏 / Fold内屏 LC` 使用 `BottomBar_Showcase_Notes_01`，其余模式待继续核对
-- `笔记_侧边栏` 尚未建立组件级映射
-- `笔记_搜索栏` 尚未建立组件级映射
-- `笔记_标签栏` 尚未建立组件级映射
-- `笔记_Fab` 尚未建立组件级映射
-- `笔记` 场景当前仍以 `页面框架` 为主粒度；后续应逐步下钻为基础组件级条目
-- `Phone` 横屏模式尚未建档
-- `Fold外屏` 横屏模式尚未建档
-- `NLC` 收起模式尚未建档
+以下内容仍未形成正式映射，后续补齐后建议直接追加到上表：
+
+- Phone 横屏模式
+- Fold 外屏横屏模式
+- NLC收起模式下的映射

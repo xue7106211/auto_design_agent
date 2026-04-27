@@ -45,6 +45,13 @@ status: draft
 | `Fab` | `Pad竖屏` | `NLC收起` | `absent` | | L栏: 标题栏新建图标 |
 | `Fab` | `Pad横屏` | `NLC` | `absent` | | L栏: 标题栏新建图标 |
 | `Fab` | `Pad横屏` | `NLC收起` | `absent` | | L栏: 标题栏新建图标 |
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中=无标题 2.选中=NavigationBar_ComponentSet_15 |
+| `标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏; C栏: 1.未选中=无标题 2.选中=_10 |
+| `标题栏` | `Pad竖屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | L栏; 同上 |
+| `标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC |
+| `标题栏` | `Pad横屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC收起 |
 
 ### Pad端联系人
 
@@ -54,3 +61,5 @@ status: draft
 | `导航` | `Pad横屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
 | `搜索` | `Pad竖屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
 | `搜索` | `Pad横屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
+| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_10 |
+| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_10 |

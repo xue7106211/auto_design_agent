@@ -26,3 +26,8 @@ status: draft
 | `导航_顶部导航` | `Fold内屏` | `C` | `variant` | `TopBar_01` | |
 | `导航_顶部导航` | `Pad竖屏` | `C` | `variant` | `TopBar_01` | |
 | `导航_顶部导航` | `Pad横屏` | `C` | `variant` | `TopBar_01` | |
+| `标题栏` | `Phone` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Fold外屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Fold内屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |

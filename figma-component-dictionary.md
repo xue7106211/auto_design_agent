@@ -110,6 +110,7 @@
 | 小米换机 | `references/app-variant-map-小米换机.md` | 已建立 |
 | 天气 | `references/app-variant-map-天气.md` | 已建立 |
 | 相册 | `references/app-variant-map-相册.md` | 已建立 |
+| 手机管家 | `references/app-variant-map-手机管家.md` | 已建立 |
 
 ### Step 2：查字典层
 
@@ -249,6 +250,12 @@
 | `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_00` | 无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_08` | 小标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_12` | 小标题_侧边栏 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_13` | 小标题_侧边栏_编辑 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_14` | 小标题_侧边栏_收起 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_15` | 中标题_左对齐_无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Notes_01` | 业务_笔记 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Weather_01` | 业务_天气 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Calendar_01` | 业务_日历 | `references/component-dictionary/navigation-bar.md` | `manual` |
 | `TopBar` | — | `TopBar_00` | 无顶部导航 | 待建立 | `manual` |
 | `TopBar` | — | `TopBar_01` | 顶部导航组合（NavigationBar_ComponentSet_10 + TopBar_Navigation_01） | 待建立 | `manual` |
@@ -274,6 +281,7 @@
 | `Sidebar` | — | `Sidebar_Component_Fold_LC_01` | Fold_LC | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_Fold_LC_Fab_01` | Fold_LC_随FAB（Sidebar_Component_Fold_LC_01 + Fab_01） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_BG_01` | 侧边栏_面板 | 待建立 | `manual` |
 | `SelectableChip` | — | `SelectableChip_ComponentSet_00` | 无标签栏 | 待建立 | `manual` |
 | `SelectableChip` | — | `SelectableChip_ComponentSet_01` | 等宽 | 待建立 | `manual` |
 | `SearchBar` | — | `SearchBar_ComponentSet_00` | 无搜索栏 | 待建立 | `manual` |
