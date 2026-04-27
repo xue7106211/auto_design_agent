@@ -1,7 +1,9 @@
 ---
-name: skill-main-workflow
+name: SKILL
 description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、按需读取 reference、组件处理、布局执行和验证。
 disable-model-invocation: false
+version: 1.0.0
+lastUpdated: 2026-04-26
 ---
 
 # 多终端界面适配

@@ -1,6 +1,6 @@
 # 组件字典
 
-本文档由 `skill-main-workflow.md` 在组件处理阶段按需读取。
+本文档由 `SKILL.md` 在组件处理阶段按需读取。
 本文档不是独立 Skill，不直接触发执行；它只提供组件探查、映射查表、执行与验证的内部 reference 协议。
 
 ## Reference 目标

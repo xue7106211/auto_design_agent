@@ -4,7 +4,7 @@
 
 当前仓库采用 **一个主 Skill + 多个按需读取 reference** 的结构：
 
-- 唯一入口：`skill-main-workflow.md`
+- 唯一入口：`SKILL.md`
 - 布局 reference：`references/layouts/*.md`
 - 通用规则：`references/common-rules.md`
 - 设备尺寸：`references/layouts/device-dimensions.md`
@@ -60,7 +60,7 @@ flowchart TD
 
 ## 结论
 
-- `skill-main-workflow.md` 是默认且唯一的生产主入口。
+- `SKILL.md` 是默认且唯一的生产主入口。
 - `figma-component-dictionary.md` 不再作为并列 Skill 入口出现，而是主链路内部按需读取的组件处理 reference。
 - 布局执行不再拆成并列入口；主流程按布局类型读取 `references/layouts/*.md` 后执行。
 - `app-variant-map` 是数据映射层，不是流程入口；它在主链路中按 `componentTaskList` 被批量查询。
@@ -91,18 +91,18 @@ flowchart TD
 
 | 字段 | 归属文件 | 当前状态 |
 | --- | --- | --- |
-| `figmaUrl` | `skill-main-workflow.md` | 活跃 |
-| `nodeId` | `skill-main-workflow.md`、`figma-component-dictionary.md` | 活跃 |
-| `sourceDesignContext` | `skill-main-workflow.md` | 活跃产物，应汇总 metadata / designContext / screenshot |
-| `targetDevice` | `skill-main-workflow.md` + `references/layouts/device-dimensions.md` | 活跃 |
-| `layoutType` | `skill-main-workflow.md` | 活跃 |
+| `figmaUrl` | `SKILL.md` | 活跃 |
+| `nodeId` | `SKILL.md`、`figma-component-dictionary.md` | 活跃 |
+| `sourceDesignContext` | `SKILL.md` | 活跃产物，应汇总 metadata / designContext / screenshot |
+| `targetDevice` | `SKILL.md` + `references/layouts/device-dimensions.md` | 活跃 |
+| `layoutType` | `SKILL.md` | 活跃 |
 | `layoutReference` | `references/layouts/*.md` | 活跃 |
-| `componentTaskList` | `skill-main-workflow.md` | 应显式产出 |
+| `componentTaskList` | `SKILL.md` | 应显式产出 |
 | `resolvedUiElement` | `figma-component-dictionary.md` | 活跃 |
 | `resultType` | `references/app-variant-map-{appName}.md` | 活跃 |
 | `targetVariantId` | `references/app-variant-map-{appName}.md`、`figma-component-dictionary.md` | 活跃 |
 | `actionType` | `figma-component-dictionary.md` | 活跃 |
-| `targetFrameId` | `skill-main-workflow.md` 执行阶段 | 应显式返回 |
+| `targetFrameId` | `SKILL.md` 执行阶段 | 应显式返回 |
 | `writeResult` | `figma-component-dictionary.md` / 布局执行阶段 | 活跃 |
 | `validationResult` | 布局 reference 验收项 / 组件处理验证 | 活跃但需继续结构化 |
 

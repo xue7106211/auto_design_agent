@@ -1,6 +1,6 @@
 # NLC 三栏布局适配
 
-本文档由 `skill-main-workflow.md` 在判断 `layoutType = NLC` 后按需读取。
+本文档由 `SKILL.md` 在判断 `layoutType = NLC` 后按需读取。
 本文档不是独立 Skill，不直接触发执行；它只提供 NLC 三栏布局的骨架、栏位、组件放置和验收规则。
 
 在目标 frame 内完成 NLC（导航-列表-内容）三栏布局适配：左侧导航栏 + 中间列表栏 + 右侧内容区。手机端底部 Tab 转为侧边导航栏。不新建并行页面，直接执行。

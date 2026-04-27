@@ -11,7 +11,7 @@
 
 - `README.md`
 - `AGENTS.md`
-- `skill-main-workflow.md`
+- `SKILL.md`
 - `figma-component-dictionary.md`
 - 若任务涉及已有 reference，再按需读取 `references/` 下相关文件
 
@@ -23,13 +23,13 @@
 
 先判断这次应该产出哪一类文件，只能选最贴近职责的一类，不要混写：
 
-- `主 Skill`：仅 `skill-main-workflow.md`，用于描述 AI 的入口执行协议，强调输入、判定、执行、验证、输出
+- `主 Skill`：仅 `SKILL.md`，用于描述 AI 的入口执行协议，强调输入、判定、执行、验证、输出
 - `布局 reference`：用于 `layoutType + targetDevice -> 画布尺寸、栏位、组件放置、验收项`
 - `应用 variant 映射表`：用于 `appName + device + screenMode + uiElement -> resultType + variantId`
 - `组件族 reference`：用于记录某个组件族的定位信息、真实字段、可执行记录、回退规则
 - `审计/覆盖说明`：用于记录缺口、备注、TODO，不要混入主 Skill 或主 reference
 
-除 `skill-main-workflow.md` 外，不要新增独立 Skill。若现有文件把多种职责混在一起，优先拆分为 reference，而不是继续往里堆内容。
+除 `SKILL.md` 外，不要新增独立 Skill。若现有文件把多种职责混在一起，优先拆分为 reference，而不是继续往里堆内容。
 
 ## 2. 命名必须服从职责
 
@@ -38,7 +38,7 @@
 使用以下命名约定：
 
 - 主 Skill 文件：
-  - 只能是 `skill-main-workflow.md`
+  - 只能是 `SKILL.md`
   - 必须保留 Skill frontmatter
 - 布局 reference：
   - 路径：`references/layouts/{layout}-layout.md`
@@ -82,7 +82,7 @@
 
 要求：
 
-- 开头明确“由 `skill-main-workflow.md` 按需读取，不是独立 Skill”
+- 开头明确”由 `SKILL.md` 按需读取，不是独立 Skill”
 - 不写 `name / description / disable-model-invocation` frontmatter
 - 明确设备范围：NLC 仅 Pad，LC / NC 覆盖 Fold 与 Pad，C 为通栏
 - 明确栏宽、padding、组件所在栏位和禁止项

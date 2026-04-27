@@ -6,7 +6,7 @@
 
 - 这是一个 Figma 多终端适配的 Agent Skill 仓库，不是应用代码仓库。
 - 主要产物是一个主 Skill 和一组共享 reference 文档，供 Cursor、Claude Code 等支持 Skill 协议的 Agent 加载。
-- 核心链路：`skill-main-workflow.md` 判断设备和布局类型，按需读取布局、组件、应用映射等 reference，然后由主流程执行和验证。
+- 核心链路：`SKILL.md` 判断设备和布局类型，按需读取布局、组件、应用映射等 reference，然后由主流程执行和验证。
 - 默认不要读取 `archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
 
 ## 文件树与职责
@@ -17,7 +17,7 @@ auto_design_agent/
 │   当前文件。面向后续 Agent，说明仓库定位、编辑约束、自查清单和已知风险。
 ├── README.md
 │   仓库对外说明，包含主 Skill、目录结构、使用方式和 Reference 文档说明。
-├── skill-main-workflow.md
+├── SKILL.md
 │   唯一主 Skill。负责读取源设计稿、判断目标设备与布局类型、按需读取 reference、执行和验证。
 ├── figma-component-dictionary.md
 │   组件字典 reference。供主流程内部读取，处理实例探查、映射查表、执行与验证协议。
@@ -59,12 +59,12 @@ auto_design_agent/
 
 ### 主 Skill 文件
 
-- 当前只允许 `skill-main-workflow.md` 作为主 Skill 入口。
+- 当前只允许 `SKILL.md` 作为主 Skill 入口。
 - 文件头必须包含 YAML frontmatter：
 
 ```yaml
 ---
-name: skill-main-workflow
+name: SKILL
 description: 一句话描述触发场景和能力边界
 disable-model-invocation: false
 ---
@@ -85,7 +85,7 @@ disable-model-invocation: false
 ## 修改原则
 
 - 改规则先改 `references/`，再改引用这些规则的 Skill。
-- 不新增并列 Skill；新增能力优先沉到 reference，并由 `skill-main-workflow.md` 按需读取。
+- 不新增并列 Skill；新增能力优先沉到 reference，并由 `SKILL.md` 按需读取。
 - 重命名 reference 时，检查所有被引用路径、README 清单是否同步。
 - 修改布局规则时，检查主 Skill、对应布局 reference、验证标准是否仍然一致。
 - 不要一次性把详细规则塞回 Skill 正文；能沉到 `references/` 的规则，优先放到 `references/`。
@@ -111,6 +111,7 @@ disable-model-invocation: false
 - 布局类型命名是否统一使用 `NLC / NC / LC / C`。
 - 单位是否统一为 `dp`，不要混入 `pt`、`px` 的规则表述，除非明确描述分割线等特殊值。
 - 设备范围是否准确：NLC 仅 Pad，LC / NC 同时覆盖 Fold 与 Pad，C 为通栏。
+- `manifest.json` 是否与当前文件状态同步（新增/删除/重命名 reference 或 app-variant-map 后必须更新）。
 
 ## 已知仓库细节
 

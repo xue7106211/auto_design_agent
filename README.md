@@ -26,7 +26,8 @@
 auto_design_agent/
 ├── README.md                              仓库说明与使用入口
 ├── AGENTS.md                              面向 Agent 的编辑约束与自查清单
-├── skill-main-workflow.md                 主工作流 Skill：整页适配编排、组件任务生成、按需读取 reference 并执行
+├── manifest.json                          机器可读索引：活跃 reference、app-variant-map 覆盖矩阵、组件族状态
+├── SKILL.md                               主工作流 Skill：整页适配编排、组件任务生成、按需读取 reference 并执行
 ├── figma-component-dictionary.md          组件字典 reference：实例探查、映射查表、执行与验证
 ├── current-execution-map.md               当前可执行链路与断点状态图
 ├── workflow-collaboration-contract.md     多人协作接口契约：字段定义与数据流转
@@ -62,7 +63,7 @@ auto_design_agent/
 
 | 文件 | 作用 |
 | --- | --- |
-| [skill-main-workflow.md](./skill-main-workflow.md) | 唯一主 Skill。负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行与验证 |
+| [SKILL.md](./SKILL.md) | 唯一主 Skill。负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行与验证 |
 | [figma-component-dictionary.md](./figma-component-dictionary.md) | 组件字典 reference。作为主链路内部组件处理协议，负责实例探查、映射查表、执行与验证 |
 | [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤、布局 reference 和关键字段归属 |
 | [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
@@ -87,7 +88,7 @@ auto_design_agent/
 
 ### 1. 多终端适配生产主链路
 
-当任务是"把手机稿适配到 Fold / Pad"时，优先使用 [skill-main-workflow.md](./skill-main-workflow.md)：
+当任务是"把手机稿适配到 Fold / Pad"时，优先使用 [SKILL.md](./SKILL.md)：
 
 1. 读取源设计稿上下文
 2. 判断目标设备和布局类型
@@ -174,7 +175,7 @@ auto_design_agent/
 - 参考文档保持按需加载，不把细节重新堆回主 Skill
 - 应用 variant 映射表和组件 reference 都属于活跃输入文档，路径变化时要同步更新 README
 - `app-variant-map` 优先维护基础组件级映射；页面框架类条目只作为骨架级补充
-- `skill-main-workflow.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
+- `SKILL.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
 - 组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
 - 非主入口文档不要保留 Skill frontmatter；统一写成普通 reference 文档
 

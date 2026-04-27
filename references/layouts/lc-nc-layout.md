@@ -1,6 +1,6 @@
 # LC / NC 分栏布局适配
 
-本文档由 `skill-main-workflow.md` 在判断 `layoutType = LC / NC` 后按需读取。
+本文档由 `SKILL.md` 在判断 `layoutType = LC / NC` 后按需读取。
 本文档不是独立 Skill，不直接触发执行；它只提供 LC / NC 分栏布局的骨架、栏位、组件放置和验收规则。
 
 在目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。LC：左栏放列表，右栏放详情内容。NC：左栏放侧边导航（底部 Tab 转换），右栏放内容。不新建并行页面，直接执行。
