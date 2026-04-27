@@ -143,6 +143,9 @@
 - 如果当前实例与目标记录属于同组件族，且 `propertyPatch` 中的键和值都存在于真实可选值中，执行 `setProperties(...)`
 - 如果设备语义变化、组件族变化，或当前实例不存在稳定可切换属性，执行 `swapComponent(...)`
 - `variantName` 只用于语义理解，不允许直接当作属性名或属性值
+- `setProperties(...)` 只能用于映射表命中的精确 `variantId`，不能因为同一组件集暴露了其他可选 `variantId` 就改切到“看起来相近”的变体
+- 组件 fallback 必须保持同一业务语义和同一 `componentFamily`。当目标 `variantId` 不存在或不可访问时，不允许跨语义族 fallback，例如从 `BottomBar_Showcase_Notes_01` 改切到 `Sidebar_Component_Fold_LC_01`
+- `layoutRole` 只描述栏位职责，不等于组件族。`layoutRole=L` 表示列表栏，不能自动命中 `Sidebar`；只有 `layoutRole=N` 且 `app-variant-map` 明确返回 `Sidebar_*` 时，才允许使用 `Sidebar`
 
 ### Step 5：执行
 
@@ -356,6 +359,9 @@ TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceivin
 - 不允许模糊匹配 `variantId`
 - 不允许猜属性名或属性值
 - 不允许把 `variantName` 当执行参数
+- 不允许把同一 ComponentSet 中的其他 `variantOptions` 当作映射表目标变体的替代品；`variantOptions` 只用于校验目标值是否真实存在，不用于扩展候选语义
+- 若目标 `variantId` 未在真实 `variantOptions` 中出现，必须返回“目标变体不可访问 / 未暴露”，并交由主流程中止或做无新增导航语义的局部退化
+- 禁止仅凭 `variantId` 名称中包含设备或布局词（如 `Fold_LC`、`PAD_NLC`）判定可用；必须同时满足 `appName + device + screenMode + resolvedUiElement` 的映射记录和 `layoutRole + componentFamily` 语义一致
 - 命中字典层后，必须加载 `referenceDoc`，再读取组件字段、变体和值域
 - 若 reference 中声明了“当前基准链接”，定位和锚点以该链接为准
 - 先用 reference 中的 `componentSetKey` 定位，再用 `componentName` 和 `mainComponent` 校验是不是目标组件

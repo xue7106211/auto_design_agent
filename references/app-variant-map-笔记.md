@@ -53,6 +53,13 @@ status: draft
 | 笔记列表 | `笔记_` | 笔记列表浏览与管理 |
 | 图文编辑 | `图文_` | 图文编辑模式 |
 
+## 业务语义约束
+
+- 笔记 Fold 内屏 `LC` 的左栏是笔记列表 / 列表骨架承载区，不是侧边导航栏。
+- 笔记 Fold 内屏 `LC` 不允许将 `BottomBar_Showcase_Notes_01`、列表骨架或底部导航缺失情况 fallback 到 `Sidebar_Component_Fold_LC_01`。
+- 如果当前 Figma 组件集未暴露 `BottomBar_Showcase_Notes_01`，调用方应中止并汇报目标变体不可访问，或退化为空列表容器 / 源内容低密度占位；不得引入新的 `Sidebar` 语义。
+- 笔记 Pad `NLC` 才由 N 栏 `Sidebar_Component_PAD_NLC_01` 承载导航。
+
 ## 映射表
 
 | uiElement | device | screenMode | resultType | variantId | notes |
