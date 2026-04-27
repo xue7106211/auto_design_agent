@@ -1,0 +1,243 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-04-27",
+  "skill": {
+    "entry": "SKILL.md",
+    "version": "1.0.0"
+  },
+  "references": {
+    "commonRules": "references/common-rules.md",
+    "appVariantMapTemplate": "references/app-variant-map-template.md",
+    "layouts": {
+      "lcNc": "references/layouts/lc-nc-layout.md",
+      "nlc": "references/layouts/nlc-layout.md",
+      "c": "references/layouts/c-layout.md",
+      "foldable": "references/layouts/foldable-layout.md",
+      "deviceDimensions": "references/layouts/device-dimensions.md"
+    },
+    "componentDictionary": "figma-component-dictionary.md"
+  },
+  "appVariantMaps": [
+    {
+      "app": "文管",
+      "file": "references/app-variant-map-文管.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["N", "L", "C", "NC"],
+      "mappedUiElements": 11,
+      "knownGaps": 5
+    },
+    {
+      "app": "笔记",
+      "file": "references/app-variant-map-笔记.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "NC", "LC", "NLC"],
+      "mappedUiElements": 8,
+      "knownGaps": 10
+    },
+    {
+      "app": "录音",
+      "file": "references/app-variant-map-录音.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "LC"],
+      "mappedUiElements": 3,
+      "knownGaps": 3
+    },
+    {
+      "app": "电话",
+      "file": "references/app-variant-map-电话.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "NLC", "NLC收起"],
+      "mappedUiElements": 6,
+      "knownGaps": 0
+    },
+    {
+      "app": "联系人",
+      "file": "references/app-variant-map-联系人.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "NLC", "NLC收起"],
+      "mappedUiElements": 4,
+      "knownGaps": 0
+    },
+    {
+      "app": "相册",
+      "file": "references/app-variant-map-相册.md",
+      "status": "draft",
+      "devices": ["Phone", "Phone横", "Fold外屏", "Fold外屏横", "Fold内屏", "Fold内屏横", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C"],
+      "mappedUiElements": 3,
+      "knownGaps": 0
+    },
+    {
+      "app": "短信",
+      "file": "references/app-variant-map-短信.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "LC"],
+      "mappedUiElements": 2,
+      "knownGaps": 0
+    },
+    {
+      "app": "设置",
+      "file": "references/app-variant-map-设置.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C", "LC"],
+      "mappedUiElements": 2,
+      "knownGaps": 0
+    },
+    {
+      "app": "计算器",
+      "file": "references/app-variant-map-计算器.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "天气",
+      "file": "references/app-variant-map-天气.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "日历",
+      "file": "references/app-variant-map-日历.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "收藏",
+      "file": "references/app-variant-map-收藏.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "下载管理",
+      "file": "references/app-variant-map-下载管理.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "小米换机",
+      "file": "references/app-variant-map-小米换机.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    },
+    {
+      "app": "扫一扫",
+      "file": "references/app-variant-map-扫一扫.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C", "NC"],
+      "mappedUiElements": 1,
+      "knownGaps": 0
+    }
+  ],
+  "componentFamilies": [
+    {
+      "name": "NavigationBar",
+      "status": "active",
+      "reference": "references/component-dictionary/navigation-bar.md",
+      "dictionaryEntries": 12,
+      "executionEntries": 9
+    },
+    {
+      "name": "TopBar",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 8,
+      "executionEntries": 0
+    },
+    {
+      "name": "BottomBar",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 6,
+      "executionEntries": 0
+    },
+    {
+      "name": "Fab",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 3,
+      "executionEntries": 0
+    },
+    {
+      "name": "Sidebar",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 7,
+      "executionEntries": 0
+    },
+    {
+      "name": "SelectableChip",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "SearchBar",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 3,
+      "executionEntries": 0
+    },
+    {
+      "name": "SearchReceiving",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "ToolBar",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Divider",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "FloatingWindow",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "DrawerWindow",
+      "status": "pending",
+      "reference": null,
+      "dictionaryEntries": 5,
+      "executionEntries": 0
+    }
+  ]
+}

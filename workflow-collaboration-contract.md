@@ -4,18 +4,18 @@
 
 适用对象：
 
-- 主流程 Skill / 组件字典维护者
+- 主流程 Skill / reference 维护者
 - 应用 variant 映射表维护者
+
+> 通用文件约束、类型规范、修改原则和一致性检查清单见 [AGENTS.md](./AGENTS.md)。本文档仅聚焦协作分工、执行流程和接口契约，不重复声明通用规则。
 
 ## 1. 当前主执行流程
 
-当前主执行模型只保留一条生产主链路：进入 `skill-main-workflow`。
+当前主执行模型只保留一条生产主链路：进入 `SKILL`。
 
-重要约束：
+> 唯一主 Skill 入口、不新增并列 Skill、按需加载策略等通用约束见 [AGENTS.md](./AGENTS.md)。补充约束：
 
-- `skill-main-workflow` 是唯一生产主入口
-- `figma-component-dictionary` 不再作为并列入口出现
-- 组件切换逻辑作为主链路内部复用的组件处理步骤存在
+- 组件切换逻辑作为主链路内部复用的组件处理步骤存在，不作为独立入口
 
 更合理的整页流程是：
 
@@ -26,10 +26,10 @@
 5. 识别每个实例的 `resolvedUiElement`
 6. 生成 `componentTaskList`
 7. 按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
-8. 对需要组件级处理的任务，内部复用 `figma-component-dictionary`
-9. 委托布局子 Skill 做回写
+8. 对需要组件级处理的任务，读取 `figma-component-dictionary.md`
+9. 按布局类型读取 `references/layouts/*.md` 并做回写
 10. 回读 metadata 做结构校验
-11. 调用验证 Skill 做最终校验
+11. 按布局 reference 的验收项做最终校验
 
 其中主链路内的组件处理步骤至少包括：
 
@@ -47,7 +47,7 @@
 
 负责文件：
 
-- `skill-main-workflow.md`
+- `SKILL.md`
 - `figma-component-dictionary.md`
 - `references/component-dictionary/{component-family}.md`
 
@@ -82,61 +82,29 @@
 - 不负责组件切换执行
 - 不负责 Figma 回写
 
-## 3. 文件结构和职责边界
+## 3. 文件职责边界
 
-### 3.1 主流程 Skill
+> 文件树、类型约束和命名规范见 [AGENTS.md](./AGENTS.md)。本节仅补充各文件在协作流程中的输入输出边界。
 
-文件：
-
-- `skill-main-workflow.md`
-
-职责：
-
-- 接收入口上下文
-- 默认进入整页生产主链路
-- 在整页链路内生成页面级任务
-- 在主链路内复用组件处理步骤
-- 委托布局子 Skill
-
-### 3.2 组件字典 Skill
-
-文件：
-
-- `figma-component-dictionary.md`
-
-职责：
-
-- 探查当前实例
-- 识别 `resolvedUiElement`
-- 查询目标 `variantId`
-- 定位组件 reference
-- 决定执行动作
-- 负责组件级回写和验证
-
-### 3.3 应用 variant 映射表
-
-文件：
-
-- `references/app-variant-map-{appName}.md`
-
-职责：
-
-- 在已知 `appName + device + screenMode + resolvedUiElement` 的情况下
-- 返回目标结果：`resultType + variantId`
-
-### 3.4 组件族 reference
-
-文件：
-
-- `references/component-dictionary/{component-family}.md`
-
-职责：
-
-- 提供组件族定位、真实字段、值域、执行记录、回退规则
+| 文件 | 协作角色 | 输入 | 输出 |
+|------|---------|------|------|
+| `SKILL.md` | 主链路编排（§1 步骤 1-11） | 源稿 fileKey / nodeId | 适配完成的目标 frame |
+| `figma-component-dictionary.md` | 组件级处理（§1 组件处理步骤 1-7） | 当前实例 nodeId | 执行动作 + 验证结果 |
+| `references/layouts/*.md` | 布局执行参数供给 | 布局类型 + 设备 | 栏宽、padding、验收项 |
+| `references/common-rules.md` | 通用执行原则供给 | — | 禁止项、降级规则、写入规范 |
+| `references/app-variant-map-*.md` | 语义→目标映射（§4 详述） | appName + device + screenMode + resolvedUiElement | resultType + variantId |
+| `references/component-dictionary/*.md` | 组件族定位与执行参数供给 | 组件族名 | 字段、值域、回退规则 |
 
 ## 4. 应用 variant 映射表层需要稳定输出给主流程的字段
 
 上下游之间最核心的接口如下。
+
+### 4.0 `layoutType` 与 `screenMode` 的区分
+
+- `layoutType` 是页面级布局类型（合法值见 [AGENTS.md](./AGENTS.md) 一致性检查清单）
+- `screenMode` 是传给 `app-variant-map` 的查询键，用于表达当前组件所处的目标画面模式
+- 当前活跃映射表中的 `screenMode` 取值允许 `N / L / C / NC / LC / NLC`
+- 主流程不得把两者混为同一个字段；应先判断 `layoutType`，再结合组件所在栏位或子场景生成 `screenMode`
 
 ### 4.1 输入给 `app-variant-map` 的字段
 

@@ -1,16 +1,13 @@
----
-name: figma-component-dictionary
-description: 组件字典技能。先从 Figma 当前实例识别组件语义，再根据 appName + 目标设备 + 屏幕模式查应用 variant 映射表，最后定位目标组件并执行 setProperties 或 swapComponent。
-disable-model-invocation: false
----
-
 # 组件字典
 
-## Skill 目标
+本文档由 `SKILL.md` 在组件处理阶段按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供组件探查、映射查表、执行与验证的内部 reference 协议。
 
-本 Skill 给 AI 直接执行，不给人类查表。
+## Reference 目标
 
-本 Skill 解决四件事：
+本文档给 AI 在主流程内部直接执行，不给人类查表。
+
+本文档解决四件事：
 
 1. 从 Figma 当前实例或目标节点识别源组件的语义角色
 2. 根据 `appName` + `device` + `screenMode` 从应用 variant 映射表查出目标记录，并在需要时得到 `variantId`
@@ -23,7 +20,7 @@ disable-model-invocation: false
 
 - `appName`（当需要查应用 variant 映射表时必须）
 - `device`（Phone / Fold外屏 / Fold内屏 / Pad竖屏 / Pad横屏；当需要查应用 variant 映射表时必须）
-- `screenMode`（N / L / C / NC；当需要查应用 variant 映射表时必须）
+- `screenMode`（应用映射查询键；当前活跃枚举允许 `N / L / C / NC / LC / NLC`，当需要查应用 variant 映射表时必须）
 - 当前实例或目标节点的上下文（默认必需；如果要实际执行，不能缺）
 - `uiElement`（可选。若提供，只作为探查后的校验或显式覆写，不应代替实例识别）
 - `variantId`（可直接指定目标变体；提供后可跳过应用 variant 映射表查询，但不跳过实例探查）
@@ -39,6 +36,13 @@ disable-model-invocation: false
 - 是否使用回退路径
 
 ## 执行协议
+
+在本仓库内，`layoutType` 与 `screenMode` 必须区分：
+
+- `layoutType`：页面级布局类型，只允许 `NLC / NC / LC / C`
+- `screenMode`：应用映射表查询键，表示目标设备下当前组件所处的画面或复合画面模式；当前活跃取值允许 `N / L / C / NC / LC / NLC`
+
+主流程先判断页面级 `layoutType`，再结合组件所在栏位或子场景，产出传给 `app-variant-map` 的 `screenMode`。
 
 ### Step 0：探查当前实例并识别语义角色
 

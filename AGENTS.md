@@ -5,9 +5,9 @@
 ## 仓库定位
 
 - 这是一个 Figma 多终端适配的 Agent Skill 仓库，不是应用代码仓库。
-- 主要产物是 Markdown Skill 和共享规则文档，供 Cursor、Claude Code 等支持 Skill 协议的 Agent 加载。
-- 核心链路：主工作流 Skill 负责整页适配编排，内部复用组件字典 Skill 处理组件级任务。
-- 默认不要读取 `Archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
+- 主要产物是一个主 Skill 和一组共享 reference 文档，供 Cursor、Claude Code 等支持 Skill 协议的 Agent 加载。
+- 核心链路：`SKILL.md` 判断设备和布局类型，按需读取布局、组件、应用映射等 reference，然后由主流程执行和验证。
+- 默认不要读取 `archive/` 下内容，除非用户明确要求或当前活跃文档缺失必要信息。
 
 ## 文件树与职责
 
@@ -33,7 +33,7 @@ auto_design_agent/
 │   新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、
 │   命名和引用关系一致。
 ├── references/
-│   共享规则文档目录。Skill 按需引用，不应一次性全部加载。
+│   共享 reference 文档目录。主 Skill 按需引用，不应一次性全部加载。
 │   ├── common-rules.md
 │   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
 │   ├── device-dimensions.md
@@ -88,14 +88,14 @@ auto_design_agent/
 
 ## 文件类型约束
 
-### Skill 文件
+### 主 Skill 文件
 
-- 文件名采用 `skill-{功能}.md`、`figma-{功能}.md` 或已有同类命名，使用 kebab-case。
+- 当前只允许 `SKILL.md` 作为主 Skill 入口。
 - 文件头必须包含 YAML frontmatter：
 
 ```yaml
 ---
-name: skill-xxx
+name: SKILL
 description: 一句话描述触发场景和能力边界
 disable-model-invocation: false
 ---
@@ -117,38 +117,37 @@ disable-model-invocation: false
 ## 修改原则
 
 - 改规则先改 `references/`，再改引用这些规则的 Skill。
-- 新增 Skill 时，至少同步更新 `README.md` 的"当前结构"和"当前可用文件"。
-- 重命名 Skill 时，检查所有被引用路径、frontmatter `name`、README 清单是否同步。
+- 不新增并列 Skill；新增能力优先沉到 reference，并由 `SKILL.md` 按需读取。
+- 重命名 reference 时，检查所有被引用路径、README 清单是否同步。
+- 修改布局规则时，检查主 Skill、对应布局 reference、验证标准是否仍然一致。
 - 不要一次性把详细规则塞回 Skill 正文；能沉到 `references/` 的规则，优先放到 `references/`。
 - 不要把归档文件当成当前规范来源覆盖现行流程。
-- `skill-main-workflow.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程。
-- 主组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference。
 
 ## 上下文加载策略
 
 - 这是文档仓库中最重要的执行约束之一：不要一次性加载全部 reference 文档。
-- 主工作流 Skill 默认只读取自身。
-- 命中字典层记录后，再按 `appName` 加载对应的 `app-variant-map-{appName}.md`。
-- 命中组件族记录后，再加载对应的 `references/component-dictionary/{component-family}.md`。
-- 参考文档只补充该组件族的细节，不重复通用执行协议。
-- 如果你在补文档，也应保持这种"按需引用"的组织方式，不要把所有 reference 复制进单个 Skill。
+- 主 Skill 默认只读自身；进入适配后必须先读取通用规则和设备尺寸。
+- 命中布局类型后，只加载对应 `references/layouts/*.md`，以及必要的组件字典、应用映射表和组件族 reference。
+- 验证阶段优先使用对应布局 reference 中的验收标准。
+- 如果你在补文档，也应保持这种“按需引用”的组织方式，不要把所有 reference 复制进单个 Skill。
 
 ## 一致性检查清单
 
 编辑后至少自查以下项目：
 
-- frontmatter 是否完整，`name` 与文件名是否一致。
+- 主 Skill frontmatter 是否完整，`name` 与文件名是否一致。
+- 非主 reference 是否没有残留 Skill frontmatter。
 - 文中引用的 `references/*.md` 路径是否存在。
-- `README.md` 的"当前结构"、"当前可用文件"、说明文字是否仍然匹配现状。
-- 应用 variant 映射表和组件 reference 的路径变化是否已同步更新 README。
+- `README.md` 的技能清单、目录结构、说明文字是否仍然匹配现状。
+- 如果仓库存在 `CLAUDE.md`，其中的项目规范是否需要同步更新。
+- 布局类型命名是否统一使用 `NLC / NC / LC / C`。
 - 单位是否统一为 `dp`，不要混入 `pt`、`px` 的规则表述，除非明确描述分割线等特殊值。
+- 设备范围是否准确：NLC 仅 Pad，LC / NC 同时覆盖 Fold 与 Pad，C 为通栏。
+- `manifest.json` 是否与当前文件状态同步（新增/删除/重命名 reference 或 app-variant-map 后必须更新）。
 
 ## 已知仓库细节
 
-- Git 跟踪路径使用小写 `references/`，但归档目录当前工作区显示为大写 `Archive/`。
-- 在 macOS 默认大小写不敏感文件系统下这不会立刻报错，但在大小写敏感环境中可能出问题。
-- 新增引用、路径修正、文档说明时，`references/` 统一写成小写。
-- 工作区里当前存在未跟踪文件 `.DS_Store`。除非用户明确要求，不要顺手清理或纳入本次变更。
+- 路径统一使用小写 `references/...` 和 `archive/...`，不要扩散 `References/` 或 `Archive/` 写法。
 
 ## 建议命令
 
@@ -160,5 +159,5 @@ disable-model-invocation: false
 ## 交付标准
 
 - 优先提交小而准的文档修改，不做无关格式化。
-- 最终产出的文档应当"可执行、可验收"，而不是泛泛的设计说明。
-- 如果无法确认规范来源，先以 `README.md` + 当前 Skill 正文的交集为准，再最小化补充。
+- 最终产出的文档应当“可执行、可验收”，而不是泛泛的设计说明。
+- 如果无法确认规范来源，先以 `README.md`、当前 Skill 正文，以及仓库内实际存在的协作规范文件的交集为准，再最小化补充。

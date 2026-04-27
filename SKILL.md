@@ -1,0 +1,351 @@
+---
+name: SKILL
+description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、按需读取 reference、组件处理、布局执行和验证。
+disable-model-invocation: false
+version: 1.0.0
+lastUpdated: 2026-04-26
+---
+
+# 多终端界面适配
+
+使用这个 skill 将手机端 Figma 设计稿适配到折叠屏（Fold）或平板（Pad）。本 skill 是唯一生产主入口，负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行布局和验证结果。
+
+## 适用场景
+
+当用户提出以下类型需求时使用本 skill：
+
+- "把手机端设计稿适配到折叠屏"
+- "做 Pad 端适配"
+- "多终端适配"
+- "把这个页面做成大屏版本"
+- "折叠屏 / Pad 布局"
+
+## 强制工作流
+
+### Phase 0：进入生产主链路
+
+默认进入整页多端适配主链路。
+
+执行原则：
+
+- 优先读取整页源稿上下文
+- 优先判断目标设备和布局类型
+- 默认将 `Fold` 和 `Pad` 都视为需要产出的目标设备；若用户未明确缩小范围，必须同时覆盖两类设备
+- 对每个目标设备，默认同时产出横屏和竖屏两个版本；除非用户明确只要单一方向，或当前任务已明确排除某个方向
+- 在主链路内部盘点页面级关键组件实例
+- 在主链路内部识别每个实例的 `resolvedUiElement`
+- 在主链路内部生成 `componentTaskList`
+- 按任务列表批量查询 `app-variant-map`
+- 当某个任务收敛为组件级处理时，按需读取 `figma-component-dictionary.md`
+- 未读取对应布局 reference 前，不允许执行 Figma 写入
+- 默认将“源稿所在的当前 page”视为整页适配的检索边界；未获用户明确确认，不允许跨 page 搜索、比对或复用现成目标稿、历史样例或整页骨架
+- 若用户为当前任务单独新建 page、section 或明确要求“就在这个 page 里做”，视为显式隔离信号；后续标准布局适配必须仅基于当前 page 的源稿、当前 page 内直接命中的节点和已加载 reference 执行
+- 不把“全文件搜索现成目标稿”作为默认步骤；默认只围绕源稿、当前 frame 和当前任务直接命中的节点执行
+- 如需复用别处已存在的整页目标稿，必须先确认其与当前任务是同一页面内容、同一目标设备、同一布局语义，并先获得用户确认
+- 目标适配稿默认直接放在源移动端设计稿旁边，优先保持同一 section、同一横向对照带
+
+### Phase 1：读取源设计稿上下文
+
+获取手机端源设计稿的完整信息：
+
+1. 用 `get_metadata` 获取源页面的图层结构（节点 ID、名称、类型、位置、尺寸）
+2. 判断页面是否复杂，或是否存在仅靠 metadata 无法确定的局部区域
+3. 如果结构复杂（节点数 > 50）或局部信息不足，分区域逐个用 `get_design_context` 补充组件、Auto Layout、层级和局部布局信息
+4. 用 `get_screenshot` 获取源页面视觉参考，作为后续布局和验证的视觉基线
+5. 将上述结果汇总为 `sourceDesignContext`
+6. 记录关键信息：页面尺寸、顶层节点列表、使用的组件、布局方式
+7. 字体可用性预检：用 `use_figma` 扫描源页面所有文本节点的字体，与运行环境可用字体比对，生成 `fontDegradationMap`
+
+字体预检脚本：
+
+```javascript
+const textNodes = figma.currentPage.findAll(n => n.type === 'TEXT');
+const usedFonts = new Set();
+for (const node of textNodes) {
+  if (node.fontName !== figma.mixed) {
+    usedFonts.add(JSON.stringify(node.fontName));
+  } else {
+    for (let i = 0; i < node.characters.length; i++) {
+      usedFonts.add(JSON.stringify(node.getRangeFontName(i, i + 1)));
+    }
+  }
+}
+
+const unavailable = [];
+for (const fontJson of usedFonts) {
+  const font = JSON.parse(fontJson);
+  try {
+    await figma.loadFontAsync(font);
+  } catch {
+    unavailable.push(font);
+  }
+}
+
+return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
+```
+
+根据返回的 `unavailableFonts` 构建 `fontDegradationMap`，降级规则见"字体降级规则"专节。
+
+Figma MCP 读取阶段的最小产物应包括：
+
+- `metadata`: 页面结构、节点 ID、层级、尺寸
+- `designContext`: 关键区域的组件和布局补充信息
+- `screenshot`: 当前页面视觉快照
+- `fontDegradationMap`: 不可用字体 → 可用 fallback 字体的映射（如果全部可用则为空）
+- `sourceDesignContext`: 面向后续 Phase 2-6 的汇总上下文，包含上述所有产物
+
+必须确认：
+
+- 源设计稿的完整结构已读取
+- 关键区域已经过必要的 `get_design_context` 补读
+- 视觉基线截图已生成
+- 关键组件和变体已识别
+- 页面的功能区域已划分清楚（导航区、列表区、内容区、操作区等）
+- 字体可用性已检查，不可用字体已记录降级映射
+
+### Phase 2：判断目标设备和布局类型
+
+根据用户需求和源设计稿特征，确定：
+
+**目标设备**（用户指定或推断）：
+
+- Fold 内屏（展开态）
+- Pad
+
+**方向要求**（默认必须覆盖）：
+
+- Fold：横屏 + 竖屏
+- Pad：横屏 + 竖屏
+- 若用户只提“多端适配”“Fold / Pad 适配”而未限定方向，不允许只输出横屏版本
+- 只有在用户明确指定“仅横屏”“仅竖屏”，或当前任务已经给出明确的单方向交付范围时，才允许减少目标版本数
+
+**布局类型**（根据源页面功能结构判断）：
+
+- **NLC**（导航-列表-内容）：源页面有底部 Tab 导航 + 列表 + 详情，适合三栏（Pad 专用）
+- **NC**（导航-内容）：源页面有底部 Tab 导航但无需列表栏，适合分栏
+- **LC**（列表-内容）：源页面是列表 + 详情的组合，无底部 Tab 导航，适合分栏
+- **C**（通栏）：源页面是单一内容页（设置、关于等），适合通栏拉宽
+
+判断依据：
+
+- 有底部 Tab 导航 + 列表 + 详情 → NLC（仅 Pad）
+- 有底部 Tab 导航，无列表栏 → NC
+- 有明确的列表-详情关系，无底部 Tab → LC
+- 单一内容展示 → C
+- 用户明确指定布局类型时，以用户指定为准
+
+加载设备尺寸规则：读取 `references/layouts/device-dimensions.md` 获取目标设备的画布尺寸和栏宽参数。
+
+本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成：
+
+- `Fold内屏-横屏`
+- `Fold内屏-竖屏`
+- `Pad-横屏`
+- `Pad-竖屏`
+
+若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
+
+### Phase 3：加载通用规则
+
+读取 `references/common-rules.md`，确认执行原则和禁止项。
+
+### Phase 4：生成页面级组件任务
+
+在读取布局 reference 并执行写入之前，先完成页面级组件任务生成：
+
+1. 盘点页面级关键组件实例
+2. 识别每个实例的 `resolvedUiElement`
+3. 生成 `componentTaskList`
+4. 先基于页面级 `layoutType` 和组件所在栏位或子场景推导 `screenMode`，再按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
+
+在本阶段补充强制约束：
+
+- 不允许因为文件中存在相似的多端样例，就跳过 `componentTaskList`、`screenMode` 和 `app-variant-map` 的生成
+- 不允许在本阶段扩展成“全文件探查整页可复用目标稿”；除非用户明确要求比对现有样例，或已经确认存在可直接复用的同页目标稿
+- 不允许因为其他 page 已有旧测试结果、旧标准骨架或历史适配稿，就跨 page 直接命中并作为当前任务输入；跨 page 参考或复用必须先获得用户明确确认
+- 可以复用组件级节点、骨架节点或当前 frame 内局部结构，但整页级复用必须升级为显式确认动作
+- 基础组件必须单独收敛为组件任务，不允许把它们混在“顶部模块”“底部模块”“页面骨架”这类打包动作里一并跳过映射；这里的基础组件至少包括 `StatusBar`、`NavigationBar`、`BottomBar`、`Sidebar`、`SearchBar`、`SelectableChip`、`Fab` 以及布局 reference 已明确点名的标准结构组件
+- 对每一个已识别出的基础组件，都必须单独完成 `resolvedUiElement` 识别、`screenMode` 推导、`app-variant-map` 查询和目标实例命中；只完成位置迁移、尺寸拉伸、整体 clone 或“沿用源稿当前变体”都不能视为完成映射
+- 当某个基础组件已经命中标准实例或标准变体时，后续页面骨架执行只能复用该命中的结果，不允许再以“先把整块模块搬过去，后面再看”为由回退到源稿原始变体
+- 不允许把“禁止整页复用”误解为“禁止查找标准组件实例”；凡是当前目标布局落地所必需的标准组件、标准变体或标准骨架，仍然必须继续探查并命中
+- 当 `app-variant-map`、布局 reference、组件字典或用户输入已经给出明确目标实例名时，必须优先命中该标准实例；只有在确认当前文件内不存在、无法访问或实例化失败后，才允许退化为局部素材重组，并在输出中说明退化原因
+- 导航类组件必须按语义分层处理：手机 `BottomBar`、Pad `N` 栏 `Sidebar`、标题栏 / StatusBar 互不替代；禁止因为找到了“某种导航素材”就停止继续查找目标布局所需的标准实例
+- 标准组件默认必须保留实例状态；对 `NavigationBar`、`StatusBar`、`Sidebar`、底部导航等标准结构组件，不能为了求稳而预先执行 `detachInstance`
+- 多端适配默认只迁移源稿中已经存在的内容，不得从其他画布、历史样例或相似页面跨画布搬运列表项、正文、图片或业务数据来“填满”目标栏位
+- 当源稿为低保真、空内容或仅有框架的页面时，目标稿必须保持相同内容密度，只做布局骨架和已有元素的适配；如需补示例内容，必须先得到用户明确确认
+
+如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
+
+1. 探查当前实例
+2. 识别组件族、当前 `VariantId`、`resolvedUiElement`
+3. 查字典层
+4. 加载组件族 reference
+5. 决定 `setProperties(...)` 或 `swapComponent(...)`
+6. 检查 `fontDegradationMap`，决定回写路径：
+   - 标准组件优先保留实例态：先尝试 `loadFontAsync → setProperties / swapComponent → 必要的实例级文本或属性修改 → appendChild`
+   - 只有在以下条件同时成立时，才允许进入 `detachInstance` 降级路径：目标实例路径已尝试失败、确实需要修改实例内部文本或结构、且字体或组件依赖阻塞无法通过实例态完成
+   - 如果进入降级路径 → `clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
+   - 如果字体全部可用 → 走正常路径：直接 `setProperties` 或 `swapComponent`
+7. 执行 Figma 回写
+8. 做截图和 metadata 验证
+
+基础组件的额外硬约束：
+
+- `componentTaskList` 中必须显式列出每一个基础组件任务，不能只记录页面级骨架任务
+- 基础组件任务的完成标准不是“已经出现在目标 frame 中”，而是“已经命中目标设备 / 方向 / screenMode 下的标准实例或标准变体”
+- 如基础组件仍停留在源稿原始 `VariantId`、旧设备变体或未经校验的 clone 状态，必须视为该任务未完成
+- 只有当基础组件映射完成后，页面级布局任务才允许把它们装配回目标骨架；不允许先整体拼装再补做映射，并在遗漏时直接结束任务
+
+### Phase 5：读取布局 reference 并执行
+
+根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
+
+**传递信息**：
+
+- 源设计稿节点 ID 和结构摘要
+- 目标设备类型和画布尺寸
+- `targetVariantPlan`（本次需要落地的设备 × 方向清单）
+- 布局类型和对应栏宽
+- 已识别的关键组件列表
+- `componentTaskList`
+- `screenMode` 生成规则（由 `layoutType` + 栏位 / 子场景推导）
+- `fontDegradationMap`（不可用字体的降级映射，后续 appendChild 和文本操作时必须遵守）
+
+**Reference 加载规则**：
+
+- 布局类型为 NLC → 读取 `references/layouts/nlc-layout.md`（Pad 专用）
+- 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
+- 布局类型为 C → 读取 `references/layouts/c-layout.md`
+
+**强制约束**：
+
+- 未读取对应布局 reference 前，不允许执行 Figma 写入
+- 布局 reference 中的栏宽、栏位职责和验收项优先级高于模型推断
+- 若 reference 与源稿直觉冲突，以 reference 为准；无法判断时中止并汇报缺口
+- 栏宽约束不能只停留在 viewport 或外层骨架；凡是 `L / C / N` 栏，栏内第一层语义容器也必须跟随栏宽收敛，不允许保留移动端或其他设备的固定宽度后再靠 `clipsContent` / 裁切隐藏超出部分
+- 对需要随栏宽变化的栏级容器，必须优先使用 Auto Layout；列表栏、标题栏、搜索栏、标签栏、正文栏等主内容容器默认应使用 `Fill Container` 跟随父栏宽度，不能把 `clone` 出来的固定宽度直接视为适配完成
+- 即使文件中已有看似可用的整页结果，也不得直接视为当前任务输出；最多只能作为比对样例，除非用户已明确确认复用
+- 不允许把“复用顶部模块 / 底部模块 / 页面局部结构”执行成“直接保留源稿基础组件的当前变体”；凡属于基础组件的节点，在装配进目标骨架前必须先完成独立映射
+- 不允许用“源稿里已经有标题栏 / 状态栏 / 底部导航，所以先 clone 过去”替代组件映射；clone 只能作为命中目标实例失败后的回退路径，不能作为默认路径
+
+**目标稿放置约束**：
+
+- 执行整页适配时，目标 frame 必须默认放在源移动端 frame 旁边，不得随意落在当前 page 的远处
+- 如果源稿位于 section 中，目标 frame 必须优先写回同一 section
+- 放置多个目标设备或多个方向版本时，必须保持稳定顺序和可读间距，便于用户直接从左到右比较
+- 默认顺序应为：`Fold横屏 → Fold竖屏 → Pad横屏 → Pad竖屏`
+- 不允许只创建首个横屏版本就结束；若 `targetVariantPlan` 中仍有未生成版本，必须继续顺排创建
+- 只有在用户明确要求或当前 section 空间明显不足时，才允许偏离“源稿旁边”的默认落位
+
+### 字体降级规则
+
+本节适用于主链路和所有 reference 执行阶段。当 Phase 1 检测到不可用字体时，后续所有涉及 appendChild 或文本属性修改的操作必须遵守以下规则。
+
+**降级映射表**：
+
+| 不可用字体 | 降级目标 family | style 映射 |
+|-----------|----------------|------------|
+| MiSans VF | MiSans | Medium → Medium，其余 → Regular |
+| HyperOS Symbols VF | MiSans | Medium → Medium，其余 → Regular |
+
+如果遇到不在此表中的不可用字体，用 `listAvailableFontsAsync()` 查找同 family 的可用变体；如果没有同 family 可用变体，降级到 `{ family: 'MiSans', style: 'Regular' }` 并在输出中记录。
+
+**涉及不可用字体的实例，强制执行顺序**：
+
+```
+clone → setProperties(target variant) → detachInstance → fixFonts → appendChild
+```
+
+关键约束：
+- variant 切换（`setProperties`）必须在 `detachInstance` 之前完成，detach 后无法再切换 variant
+- `fixFonts` 必须在 `appendChild` 之前完成，否则 appendChild 触发字体加载报错
+- detach 后节点不再是 instance，这是已知代价，在输出中标记为妥协项
+
+**fixFonts 代码模板**：
+
+```javascript
+async function fixFonts(node, degradationMap) {
+  if (node.type === 'TEXT' && node.characters.length > 0) {
+    const fn = node.fontName;
+    if (fn !== figma.mixed) {
+      const key = fn.family;
+      if (degradationMap[key]) {
+        const target = degradationMap[key];
+        const newFont = { family: target.family, style: target.styleMap[fn.style] || target.defaultStyle };
+        await figma.loadFontAsync(newFont);
+        node.fontName = newFont;
+      }
+    } else {
+      for (let i = 0; i < node.characters.length; i++) {
+        const rf = node.getRangeFontName(i, i + 1);
+        const key = rf.family;
+        if (degradationMap[key]) {
+          const target = degradationMap[key];
+          const newFont = { family: target.family, style: target.styleMap[rf.style] || target.defaultStyle };
+          await figma.loadFontAsync(newFont);
+          node.setRangeFontName(i, i + 1, newFont);
+        }
+      }
+    }
+  }
+  if ('children' in node) {
+    for (const child of node.children) { await fixFonts(child, degradationMap); }
+  }
+}
+```
+
+其中 `degradationMap` 结构示例：
+
+```javascript
+{
+  'MiSans VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' },
+  'HyperOS Symbols VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' }
+}
+```
+
+**文本属性修改场景**：
+
+如果需要修改已有文本节点的 fontSize、characters 等属性（非 appendChild 场景），必须先加载降级后的字体：
+
+```javascript
+await figma.loadFontAsync({ family: 'MiSans', style: 'Regular' });
+await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
+// 然后才能修改文本属性
+```
+
+### Phase 6：验证
+
+布局执行完成后，先按对应布局 reference 的验收标准对生成结果进行验证；如存在独立验证 reference，再按验证 reference 做最终校验。
+
+验证时至少使用以下信息：
+
+- 目标 frame 的节点 ID
+- `targetVariantPlan` 与实际已创建版本列表
+- 目标设备类型和布局类型
+- 预期的尺寸参数（画布尺寸、栏宽、边距）
+- Fold 内屏 Q18 还必须验证目标 frame 四角圆角为 `50dp`
+
+验证时新增必查项：
+
+- `targetVariantPlan` 中要求生成的每个设备 × 方向版本都已实际创建
+- 不允许出现“Fold / Pad 只生成横屏，竖屏缺失”且未在用户输入中获得豁免的情况
+- 如某一方向版本未生成，视为整页适配未完成，不得直接报成功
+- 不允许出现“栏位 viewport 宽度正确，但栏内第一层语义容器仍保留旧固定宽度”的情况；若存在父栏 `283dp`、子容器仍为 `440dp` 一类结构，视为适配未完成
+- 对 LC / NC / NLC 这类分栏布局，必须补查栏内主容器是否使用了正确的 Auto Layout / `Fill Container` 语义；如果只是通过裁切隐藏超宽内容，视为适配未完成
+- 每个基础组件都已完成独立映射，而不是仅以源稿原始实例、原始 `VariantId` 或未经校验的 clone 形式出现在目标稿中
+- 若任何基础组件仍处于“已放置但未映射”的状态，视为整页适配未完成，不得直接报成功
+
+如果验证不通过，根据偏差项进行修正，修正后再次验证，最多循环 3 次。
+
+## 输出要求
+
+最终向用户汇报：
+
+1. 目标设备和布局类型的判断结果
+2. 实际生成的设备 × 方向版本列表（如 `Fold横屏 / Fold竖屏 / Pad横屏 / Pad竖屏`）
+3. 适配完成状态（成功 / 部分成功）
+4. 验证结果摘要
+5. 如有妥协项（如图片占位、字体降级、组件记录待复探，或经用户确认后省略某些方向版本），明确列出
+6. 如有字体降级，列出具体映射：哪些字体被降级、降级到什么字体、涉及哪些节点
+
+不要输出冗长的方案说明或设计建议。

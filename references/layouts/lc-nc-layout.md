@@ -1,10 +1,7 @@
----
-name: figma-adapt-lc-nc-layout
-description: 在现有 Figma 目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。适用于"把列表页和详情页重组为左右分栏""底部 Tab 转侧边导航+内容分栏""在目标 frame 里做分栏布局"等场景。由主 Skill figma-multi-terminal-adapt 委托调用，也可独立使用。
-disable-model-invocation: false
----
-
 # LC / NC 分栏布局适配
+
+本文档由 `SKILL.md` 在判断 `layoutType = LC / NC` 后按需读取。
+本文档不是独立 Skill，不直接触发执行；它只提供 LC / NC 分栏布局的骨架、栏位、组件放置和验收规则。
 
 在目标 frame 内完成 LC（列表-内容）或 NC（导航-内容）分栏布局适配。LC：左栏放列表，右栏放详情内容。NC：左栏放侧边导航（底部 Tab 转换），右栏放内容。不新建并行页面，直接执行。
 
@@ -22,7 +19,7 @@ disable-model-invocation: false
 - 源设计稿节点 ID 和结构摘要
 - 目标设备类型（Fold / Pad）
 - 布局类型（LC 或 NC）
-- 目标画布尺寸和栏宽（参考 `references/device-dimensions.md`）
+- 目标画布尺寸和栏宽（参考 `references/layouts/device-dimensions.md`）
 - 目标 frame 已存在且有编辑权限
 - NC 时：已识别源页面的底部 Tab 导航组件
 
@@ -37,20 +34,39 @@ disable-model-invocation: false
 7. 只保留目标设备当前视口语义，不保留移动端长滚动页语义
 8. 只做局部修正，不整页推翻重做
 
+## 栏宽与 Auto Layout 约束
+
+LC / NC 适配时，栏宽约束必须贯穿到栏内第一层语义容器，不能只让外层 viewport 正确、内部继续保留旧固定宽度。
+
+必须遵守：
+
+1. `L / C / N` 栏 viewport 的宽度命中设备规格后，栏内第一层语义容器也必须同步收敛到该栏宽
+2. 列表栏、标题栏、搜索栏、标签栏、正文栏等栏级主容器默认必须使用 Auto Layout
+3. 上述栏级主容器在父栏内默认应使用 `Fill Container` 跟随父栏宽度；只有图标、缩略图、按钮等天然定宽元素才允许保持固定宽度或 Hug
+4. 禁止把较宽场景下的 `440dp / 428dp / 353dp` 列表栏直接塞进较窄栏位后依赖 `clipsContent`、viewport 裁切或遮罩来“伪装适配完成”
+
+Fold 内屏竖屏 `LC` 是本约束的重点场景：
+
+1. `L` 栏目标宽度为 `283dp`
+2. `L` 栏内部第一层列表容器必须跟随到 `283dp`
+3. `NavigationBar`、搜索区、标签区、列表区根容器都必须跟随 `L` 栏宽度，而不是继续保留 `440dp`
+
 ## 强制工作流
 
 ### Phase A：搭目标骨架
 
-读取布局规则：`references/layout-lc-nc.md`
+读取布局规则：当前文档 `references/layouts/lc-nc-layout.md`
 
 执行：
 - 清空目标 frame 子节点
-- 设置目标 frame 尺寸（从 `references/device-dimensions.md` 获取）
+- 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
+- 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（水平布局）
-- 建立左栏 frame（列表栏，宽度按 `references/layout-lc-nc.md` 定义）
-- 建立右栏 frame（内容区，宽度按 `references/layout-lc-nc.md` 定义）
+- 建立左栏 frame（列表栏，宽度按当前文档定义）
+- 建立右栏 frame（内容区，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
+- 对 `L / C / N` 栏内部第一层语义容器立即建立 Auto Layout 约束：默认 `layoutMode` 正确、主内容容器使用 `Fill Container`
 
 写入模式参考：`references/plugin-api-patterns.md`
 
@@ -66,6 +82,7 @@ disable-model-invocation: false
 - 按组件适配映射替换目标组件（如标题栏→NavigationBar 目标栏变形，参考 `references/component-adaptation.md`）
 - 删除不需要的移动端底部元素
 - 让列表填充顶部模块以下的剩余视口
+- 如果目标场景为 Fold 内屏竖屏 `LC`，必须显式检查 `L` 栏第一层容器、`NavigationBar`、搜索栏、标签栏、列表区根容器是否都已跟随到 `283dp`；不得保留更宽场景的固定宽度
 
 **NC 模式（左栏为 N 栏）**：
 - 搜索侧边导航栏组件（优先 `search_design_system`，其次查 `references/component-routing.md`）
@@ -91,7 +108,7 @@ disable-model-invocation: false
 ### Phase D：整体调整
 
 - 检查左右栏间距 / 分割线
-- 检查边距是否符合 `references/layout-lc-nc.md` 定义
+- 检查边距是否符合当前文档定义
 - 确认全局状态栏只有一套
 - 确认左栏选中项与右栏内容语义一致
 
@@ -112,8 +129,11 @@ disable-model-invocation: false
 
 每次关键写入后读取结构，检查：
 - 目标 frame 尺寸
+- Fold 内屏 Q18 目标 frame 圆角是否为 `50dp`
 - 状态栏尺寸
 - 左右栏尺寸
+- 栏内第一层语义容器尺寸是否跟随栏宽，而不是保留旧固定宽度
+- 栏级主容器是否使用了正确的 Auto Layout / `Fill Container` 语义
 - 顶层节点数量和位置
 - 关键节点是否位于正确层级
 
@@ -139,7 +159,11 @@ disable-model-invocation: false
 ## 默认验收标准
 
 - 目标页面尺寸精确匹配设备规格
-- 左右栏宽度精确匹配 `references/layout-lc-nc.md` 定义
+- Fold 内屏 Q18 目标 frame 四角圆角精确为 `50dp`
+- 左右栏宽度精确匹配当前文档定义
+- 不能出现“viewport 是目标栏宽，但栏内第一层语义容器仍保留旧固定宽度”的情况
+- Fold 内屏竖屏 `LC` 下，`L` 栏 viewport 为 `283dp` 时，`L` 栏根容器、`NavigationBar`、搜索栏、标签栏、列表区根容器都必须收敛到 `283dp` 语义
+- 对需要随栏宽变化的栏级主容器，必须通过 Auto Layout / `Fill Container` 实现自适应，而不是依赖裁切隐藏超宽部分
 - 顶部全局状态栏只有一套
 - LC：左栏不保留移动端底部导航语义
 - NC：导航栏项数和顺序与源页面底部 Tab 一致，导航选中态正确
