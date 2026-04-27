@@ -264,14 +264,16 @@ clone → setProperties(target variant) → detachInstance → fixFonts → appe
 **fixFonts 代码模板**：
 
 ```javascript
-function fixFonts(node, degradationMap) {
+async function fixFonts(node, degradationMap) {
   if (node.type === 'TEXT' && node.characters.length > 0) {
     const fn = node.fontName;
     if (fn !== figma.mixed) {
       const key = fn.family;
       if (degradationMap[key]) {
         const target = degradationMap[key];
-        node.fontName = { family: target.family, style: target.styleMap[fn.style] || target.defaultStyle };
+        const newFont = { family: target.family, style: target.styleMap[fn.style] || target.defaultStyle };
+        await figma.loadFontAsync(newFont);
+        node.fontName = newFont;
       }
     } else {
       for (let i = 0; i < node.characters.length; i++) {
@@ -279,16 +281,15 @@ function fixFonts(node, degradationMap) {
         const key = rf.family;
         if (degradationMap[key]) {
           const target = degradationMap[key];
-          node.setRangeFontName(i, i + 1, {
-            family: target.family,
-            style: target.styleMap[rf.style] || target.defaultStyle
-          });
+          const newFont = { family: target.family, style: target.styleMap[rf.style] || target.defaultStyle };
+          await figma.loadFontAsync(newFont);
+          node.setRangeFontName(i, i + 1, newFont);
         }
       }
     }
   }
   if ('children' in node) {
-    for (const child of node.children) { fixFonts(child, degradationMap); }
+    for (const child of node.children) { await fixFonts(child, degradationMap); }
   }
 }
 ```
