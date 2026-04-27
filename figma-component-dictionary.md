@@ -270,7 +270,7 @@
 | `BottomBar` | — | `BottomBar_Showcase_02` | 无FAB_分区展示 | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_01 + Fab_Search_01） | 待建立 | `manual` |
-| `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | 待建立 | `manual` |
 | `Fab` | — | `Fab_01` | Fab | 待建立 | `manual` |
 | `Fab` | — | `Fab_Rec_01` | 业务_录音 | 待建立 | `manual` |
 | `Fab` | — | `Fab_Search_01` | 搜索FAB | 待建立 | `manual` |
