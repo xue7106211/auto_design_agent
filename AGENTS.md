@@ -17,11 +17,13 @@ auto_design_agent/
 │   当前文件。面向后续 Agent，说明仓库定位、编辑约束、自查清单和已知风险。
 ├── README.md
 │   仓库对外说明，包含技能一览、目录结构、使用方式和 Reference 文档说明。
-├── skill-main-workflow.md
-│   主工作流 Skill。默认且唯一的生产主入口，负责读取源稿、判断布局类型、
-│   生成页面级组件任务、委托执行与验证。
+├── SKILL.md
+│   唯一主 Skill 入口。负责读取源稿、判断布局类型、按需读取 reference、
+│   生成页面级组件任务、执行与验证。
+├── manifest.json
+│   机器可读索引：活跃 reference、app-variant-map 覆盖矩阵、组件族状态。
 ├── figma-component-dictionary.md
-│   组件字典 Skill。作为主链路内部复用的组件处理能力，负责实例探查、
+│   组件字典 reference。作为主链路内部组件处理协议，负责实例探查、
 │   映射查表、执行与验证。
 ├── current-execution-map.md
 │   当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤和
@@ -60,6 +62,7 @@ auto_design_agent/
 │   ├── layout-nlc.md
 │   │   NLC 三栏布局规则，定义 N/L/C 三栏结构和底部 Tab 转侧边导航规则。
 │   ├── app-variant-map-下载管理.md
+│   ├── app-variant-map-图库.md
 │   ├── app-variant-map-天气.md
 │   ├── app-variant-map-小米换机.md
 │   ├── app-variant-map-录音.md
@@ -82,15 +85,9 @@ auto_design_agent/
 │           NavigationBar 组件族 reference。记录当前分支基准链接、组件集身份、
 │           真实字段、可执行记录和回退规则。
 └── Archive/
-    已归档的旧版 Skill、规则文档和工作流日志，仅供参考。
-    ├── common-rules.md
+    已归档的旧版规则文档和工作流日志，仅供参考。
     ├── component-adaptation.md
     ├── component-routing.md
-    ├── device-dimensions.md
-    ├── figma-adapt-c-layout.md
-    ├── figma-adapt-foldable-layout.md
-    ├── figma-adapt-lc-nc-layout.md
-    ├── figma-adapt-nlc-layout.md
     ├── figma-adapt-verify.md
     ├── figma-navigation-framework-components.md
     ├── layout-c.md
