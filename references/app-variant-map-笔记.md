@@ -150,6 +150,21 @@ status: draft
 | `图文_搜索` | `Pad横屏` | `NLC` | `absent` | | L栏标题栏搜索图标（集成在导航组件内） |
 | `图文_搜索` | `Pad横屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
 
+| `笔记_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `笔记_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | L栏 |
+| `笔记_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: NavigationBar_ComponentSet_Notes_01 |
+| `笔记_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: Notes_01 |
+| `笔记_标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `笔记_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: Notes_01 |
+| `笔记_标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `图文_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_02` | |
+| `图文_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_05` | |
+| `图文_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_05` | L栏; C栏: 无标题 |
+| `图文_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: 无标题 |
+| `图文_标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `图文_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; L栏: _07; C栏: 无标题 |
+| `图文_标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+
 ## 当前覆盖缺口
 
 以下内容仍未形成正式映射，后续补齐后建议直接追加到上表：
@@ -157,4 +172,3 @@ status: draft
 - Phone 横屏模式
 - Fold 外屏横屏模式
 - NLC收起模式下的映射
-- 各子场景的 UI 元素级详细映射（标题栏、搜索栏、工具栏等逐项）

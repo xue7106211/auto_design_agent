@@ -243,6 +243,16 @@ status: draft
 | `搜索入口` | `Pad横屏` | `NC` | `variant` | `TopBar_03` | C栏搜索栏 |
 | `搜索入口` | `Pad横屏` | `C` | `absent` | | TopBar搜索栏（集成在导航组件内） |
 
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | L栏 |
+| `标题栏` | `Fold内屏` | `N` | `variant` | `NavigationBar_ComponentSet_12` | N栏侧边栏标题 |
+| `标题栏` | `Fold内屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | C栏 |
+| `标题栏` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |
+| `标题栏` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _07 |
+| `标题栏` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | TopBar_05 标题栏 |
+| `标题栏` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _07 |
+| `标题栏` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |
+
 ## 当前覆盖缺口
 
 以下 `uiElement` 仍未形成正式映射，后续补齐后建议直接追加到上表：

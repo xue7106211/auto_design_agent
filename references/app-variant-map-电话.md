@@ -71,3 +71,17 @@ status: draft
 | `收起_Fab` | `Pad竖屏` | `NLC收起` | `variant` | `Fab_01` | C栏; 彩色 |
 | `收起_Fab` | `Pad横屏` | `NLC` | `variant` | `Fab_01` | C栏; 彩色 |
 | `收起_Fab` | `Pad横屏` | `NLC收起` | `variant` | `Fab_01` | C栏; 彩色 |
+| `展示_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `展示_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `展示_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中list=无标题 2.选中list=NavigationBar_ComponentSet_15 |
+| `展示_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏; C栏: 1.未选中=无标题 2.选中=_10 |
+| `展示_标题栏` | `Pad竖屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏(收起); C栏同上 |
+| `展示_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC |
+| `展示_标题栏` | `Pad横屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC收起 |
+| `收起_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `收起_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `收起_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中list=无标题 2.选中list=NavigationBar_ComponentSet_15 |
+| `收起_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏; C栏: 1.未选中=无标题 2.选中=_10 |
+| `收起_标题栏` | `Pad竖屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | L栏; 同上 |
+| `收起_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC |
+| `收起_标题栏` | `Pad横屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC收起 |

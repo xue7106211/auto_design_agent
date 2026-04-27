@@ -22,3 +22,8 @@ status: draft
 | `导航_页面框架` | `Fold内屏` | `C` | `absent` | | 无导航栏 |
 | `导航_页面框架` | `Pad竖屏` | `C` | `absent` | | 无导航栏 |
 | `导航_页面框架` | `Pad横屏` | `C` | `absent` | | 无导航栏 |
+| `标题栏` | `Phone` | `C` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `C` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |
+| `标题栏` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |

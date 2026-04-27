@@ -27,3 +27,8 @@ status: draft
 | `搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
 | `搜索` | `Pad竖屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
 | `搜索` | `Pad横屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: _04 |
+| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: _07 |
+| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: _07 |

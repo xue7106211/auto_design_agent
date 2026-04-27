@@ -37,3 +37,13 @@ status: draft
 | `搜索入口` | `Pad竖屏` | `C` | `absent` | | TopBar_01 搜索图标 |
 | `搜索入口` | `Pad横屏` | `NC` | `absent` | | C栏: NavigationBar_ComponentSet_07 搜索图标 |
 | `搜索入口` | `Pad横屏` | `C` | `absent` | | TopBar_01 搜索图标 |
+| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | 竖屏 |
+| `标题栏` | `Phone横` | `L` | `absent` | | 无标题栏 |
+| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold外屏横` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Fold内屏横` | `C` | `variant` | `NavigationBar_ComponentSet_04` | |
+| `标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _10 |
+| `标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| `标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _10 |
+| `标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
