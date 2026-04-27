@@ -52,6 +52,8 @@ status: draft
 | `L` | List，列表画面 |
 | `C` | Content，内容画面 |
 | `NC` | Navigation + Content 复合画面 |
+| `NLC` | Navigation + List + Content 三栏 |
+| `NLC收起` | NLC 侧边栏收起 |
 
 ### 状态约定
 
@@ -81,10 +83,10 @@ status: draft
 | `导航_FAB_搜索` | `Fold内屏` | `N` | `absent` |  |  |
 | `导航_FAB_搜索` | `Fold内屏` | `L` | `variant` | `BottomBar_Showcase_02` |  |
 | `导航_FAB_搜索` | `Fold内屏` | `C` | `absent` |  |  |
-| `导航_FAB_搜索` | `Pad竖屏` | `NC` | `variant` | `Sidebar_Component_01` |  |
-| `导航_FAB_搜索` | `Pad竖屏` | `C` | `variant` | `Pad_TopBar_Navigation_01` |  |
-| `导航_FAB_搜索` | `Pad横屏` | `NC` | `variant` | `Sidebar_Component_01` |  |
-| `导航_FAB_搜索` | `Pad横屏` | `C` | `variant` | `Pad_TopBar_Navigation_01` |  |
+| `导航_FAB_搜索` | `Pad竖屏` | `NC` | `variant` | `Sidebar_Component_PAD_NLC_01` |  |
+| `导航_FAB_搜索` | `Pad竖屏` | `C` | `variant` | `TopBar_05` |  |
+| `导航_FAB_搜索` | `Pad横屏` | `NC` | `variant` | `Sidebar_Component_PAD_NLC_01` |  |
+| `导航_FAB_搜索` | `Pad横屏` | `C` | `variant` | `TopBar_05` |  |
 | `标题栏_一级` | `Phone` | `N` | `absent` |  |  |
 | `标题栏_一级` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` |  |
 | `标题栏_一级` | `Phone` | `C` | `absent` |  |  |
@@ -248,9 +250,9 @@ status: draft
 | `标题栏` | `Fold内屏` | `N` | `variant` | `NavigationBar_ComponentSet_12` | N栏侧边栏标题 |
 | `标题栏` | `Fold内屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | C栏 |
 | `标题栏` | `Fold内屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |
-| `标题栏` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _07 |
-| `标题栏` | `Pad竖屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | TopBar_05 标题栏 |
-| `标题栏` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: _07 |
+| `标题栏` | `Pad竖屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: NavigationBar_ComponentSet_07 |
+| `标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_05 标题栏（集成在导航组件内） |
+| `标题栏` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_12` | N栏; C栏: NavigationBar_ComponentSet_07 |
 | `标题栏` | `Pad横屏` | `C` | `variant` | `NavigationBar_ComponentSet_10` | |
 
 ## 当前覆盖缺口
