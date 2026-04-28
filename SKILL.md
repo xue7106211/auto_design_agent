@@ -40,12 +40,9 @@ lastUpdated: 2026-04-26
 获取手机端源设计稿的完整信息：
 
 1. 用 `get_metadata` 获取源页面的图层结构（节点 ID、名称、类型、位置、尺寸）
-2. 判断页面是否复杂，或是否存在仅靠 metadata 无法确定的局部区域
-3. 如果结构复杂（节点数 > 50）或局部信息不足，分区域逐个用 `get_design_context` 补充组件、Auto Layout、层级和局部布局信息
-4. 用 `get_screenshot` 获取源页面视觉参考，作为后续布局和验证的视觉基线
-5. 将上述结果汇总为 `sourceDesignContext`
-6. 记录关键信息：页面尺寸、顶层节点列表、使用的组件、布局方式
-7. 字体可用性预检：用 `use_figma` 扫描源页面所有文本节点的字体，与运行环境可用字体比对，生成 `fontDegradationMap`
+2. 若结构复杂（节点数 > 50）或局部信息不足，分区域用 `get_design_context` 补充组件、Auto Layout、层级和局部布局信息
+3. 用 `get_screenshot` 获取源页面视觉参考，作为后续布局和验证的视觉基线
+4. 字体可用性预检：用 `use_figma` 扫描源页面所有文本节点的字体，生成 `fontDegradationMap`（降级规则见"字体降级规则"专节）
 
 字体预检脚本：
 
@@ -75,24 +72,16 @@ for (const fontJson of usedFonts) {
 return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 ```
 
-根据返回的 `unavailableFonts` 构建 `fontDegradationMap`，降级规则见"字体降级规则"专节。
+将上述结果汇总为 `sourceDesignContext`（面向 Phase 2-6），必须包含以下产物且全部就绪后才可进入下一阶段：
 
-Figma MCP 读取阶段的最小产物应包括：
+| 产物 | 内容 | 完成条件 |
+|------|------|----------|
+| `metadata` | 页面结构、节点 ID、层级、尺寸 | 完整结构已读取 |
+| `designContext` | 关键区域的组件和布局补充信息 | 复杂区域已经过 `get_design_context` 补读 |
+| `screenshot` | 当前页面视觉快照 | 视觉基线截图已生成 |
+| `fontDegradationMap` | 不可用字体 → fallback 映射（全部可用则为空） | 不可用字体已记录降级映射 |
 
-- `metadata`: 页面结构、节点 ID、层级、尺寸
-- `designContext`: 关键区域的组件和布局补充信息
-- `screenshot`: 当前页面视觉快照
-- `fontDegradationMap`: 不可用字体 → 可用 fallback 字体的映射（如果全部可用则为空）
-- `sourceDesignContext`: 面向后续 Phase 2-6 的汇总上下文，包含上述所有产物
-
-必须确认：
-
-- 源设计稿的完整结构已读取
-- 关键区域已经过必要的 `get_design_context` 补读
-- 视觉基线截图已生成
-- 关键组件和变体已识别
-- 页面的功能区域已划分清楚（导航区、列表区、内容区、操作区等）
-- 字体可用性已检查，不可用字体已记录降级映射
+此外，`sourceDesignContext` 中还必须明确：关键组件和变体已识别、页面功能区域已划分（导航区、列表区、内容区、操作区等）。
 
 ### Phase 2：判断目标设备和布局类型
 
