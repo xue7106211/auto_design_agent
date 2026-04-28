@@ -117,10 +117,6 @@ auto_design_agent/
 | [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md)                                 | 计算器应用 variant 映射表                                                    |
 | [references/app-variant-map-设置.md](./references/app-variant-map-设置.md)                                   | 设置应用 variant 映射表                                                     |
 | [references/common-rules.md](./references/common-rules.md)                                               | 通用执行原则、禁止项、clone 降级规则和分步写入规范                                         |
-| [references/device-dimensions.md](./references/device-dimensions.md)                                     | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（与 `layouts/device-dimensions.md` 并存） |
-| [references/layout-c.md](./references/layout-c.md)                                                       | C 通栏布局规则（与 `layouts/c-layout.md` 并存）                                 |
-| [references/layout-lc-nc.md](./references/layout-lc-nc.md)                                               | LC / NC 布局规则（与 `layouts/lc-nc-layout.md` 并存）                         |
-| [references/layout-nlc.md](./references/layout-nlc.md)                                                   | NLC 三栏布局规则（与 `layouts/nlc-layout.md` 并存）                             |
 | [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
 
 
@@ -177,7 +173,7 @@ auto_design_agent/
 
 - 通用规则：`references/common-rules.md`
 - 字体降级：`references/font-degradation.md`
-- 设备尺寸（主链路）：`references/layouts/device-dimensions.md`；根目录 `references/device-dimensions.md` 仍保留作对照或历史链接
+- 设备尺寸：`references/layouts/device-dimensions.md`
 - 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`；根目录 `references/layout-*.md` 仍保留作对照或历史链接
 - 应用 variant 映射表（17 个应用）：`references/app-variant-map-{appName}.md`
 - 组件族 reference：[references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)

@@ -35,6 +35,7 @@
 ### Phase A：搭目标骨架
 
 读取布局规则：当前文档 `references/layouts/c-layout.md`
+读取对齐规则：`references/layouts/device-dimensions.md` 中的「基本对齐方式」章节
 
 执行：
 - 清空目标 frame 子节点

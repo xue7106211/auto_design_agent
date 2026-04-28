@@ -109,7 +109,6 @@
 | 下载管理 | `references/app-variant-map-下载管理.md` | 已建立 |
 | 小米换机 | `references/app-variant-map-小米换机.md` | 已建立 |
 | 天气 | `references/app-variant-map-天气.md` | 已建立 |
-| 图库 | `references/app-variant-map-图库.md` | 已建立 |
 | 相册 | `references/app-variant-map-相册.md` | 已建立 |
 | 手机管家 | `references/app-variant-map-手机管家.md` | 已建立 |
 
@@ -280,9 +279,9 @@
 | `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | 待建立 | `manual` |
 | `Fab` | — | `Fab_01` | Fab | 待建立 | `manual` |
 | `Fab` | — | `Fab_Rec_01` | 业务_录音 | 待建立 | `manual` |
-| `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC | 待建立 | `manual` |
-| `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起 | 待建立 | `manual` |
-| `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑 | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC（内部标题栏: NavigationBar_ComponentSet_11） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起（内部标题栏: NavigationBar_ComponentSet_14） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑（内部标题栏: NavigationBar_ComponentSet_11） | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_LC_01` | Pad_LC | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_Fold_LC_01` | Fold_LC | 待建立 | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | 待建立 | `manual` |
