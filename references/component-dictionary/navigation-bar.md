@@ -6,6 +6,7 @@
 
 命中以下 `variantId` 时加载本文档：
 
+- `NavigationBar_ComponentSet_00`
 - `NavigationBar_ComponentSet_01`
 - `NavigationBar_ComponentSet_02`
 - `NavigationBar_ComponentSet_03`
@@ -17,15 +18,12 @@
 - `NavigationBar_ComponentSet_09`
 - `NavigationBar_ComponentSet_10`
 - `NavigationBar_ComponentSet_11`
-- `NavigationBar_ComponentSet_12`
-- `NavigationBar_ComponentSet_13`
-- `NavigationBar_ComponentSet_14`
-- `NavigationBar_ComponentSet_15`
-- `NavigationBar_ComponentSet_Calendar_01`
-- `NavigationBar_ComponentSet_Notes_01`
-- `NavigationBar_ComponentSet_Weather_01`
 - `Pad_TopBar_01`
 - `Pad_TopBar_02`
+- `TopBar_00`
+- `TopBar_03`
+- `TopBar_04`
+- `TopBar_05`
 
 ## 核心结论
 
@@ -54,7 +52,7 @@
 
 从现在开始，`NavigationBar` 的定位和 reference 基准统一以这条最新链接为准：
 
-`https://www.figma.com/design/7PVSm4yEbknNLFaqauI4EM/branch/9raLvnXeSlQR8jvaidtVQH/Xiaomi-Hyper-OS4-UI-Kit?node-id=123486-63329&t=cSx6F1HaxveQ6onI-11`
+`https://www.figma.com/design/7PVSm4yEbknNLFaqauI4EM/branch/9raLvnXeSlQR8jvaidtVQH/Xiaomi-Hyper-OS4-UI-Kit?node-id=123486-63329&t=UT86A5iCkW8343bQ-11`
 
 说明：
 
@@ -89,6 +87,10 @@
 | `NavigationBar_ComponentSet` | 优先锚点: `node-id=123486:63329`; 组件集 key: `a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc` |
 | `Pad_TopBar_01` | 同组件集内 `VariantId=Pad_TopBar_01` |
 | `Pad_TopBar_02` | 同组件集内 `VariantId=Pad_TopBar_02` |
+| `TopBar_00` | 同组件集内 `VariantId=TopBar_00` |
+| `TopBar_03` | 同组件集内 `VariantId=TopBar_03` |
+| `TopBar_04` | 同组件集内 `VariantId=TopBar_04` |
+| `TopBar_05` | 同组件集内 `VariantId=TopBar_05` |
 
 ## 已验证字段与值域
 
@@ -96,7 +98,19 @@
 
 | 字段 | 说明 | 已验证值 |
 | --- | --- | --- |
-| `VariantId` | 主变体属性 | `NavigationBar_ComponentSet_01` ~ `15` / `Calendar_01` / `Notes_01` / `Weather_01` / `Pad_TopBar_01` / `Pad_TopBar_02` |
+| `VariantId` | 主变体属性 | `NavigationBar_ComponentSet_00` ~ `11` / `Pad_TopBar_01` / `Pad_TopBar_02` / `TopBar_00` / `TopBar_03` / `TopBar_04` / `TopBar_05` |
+
+### 当前基准未暴露的旧变体
+
+以下 `variantId` 曾在映射表或旧记录中出现，但不在当前组件集 `123486:63329` 的真实值域内。主流程命中这些值时，不得直接 `setProperties(...)`，应返回“目标变体不可访问 / 未暴露”，再由上游映射表修正或明确回退：
+
+- `NavigationBar_ComponentSet_12`
+- `NavigationBar_ComponentSet_13`
+- `NavigationBar_ComponentSet_14`
+- `NavigationBar_ComponentSet_15`
+- `NavigationBar_ComponentSet_Calendar_01`
+- `NavigationBar_ComponentSet_Notes_01`
+- `NavigationBar_ComponentSet_Weather_01`
 
 ### 当前禁止使用的旧字段
 
@@ -114,6 +128,7 @@
 
 | variantId | nodeId | size | 观察到的语义 | componentKey | sourceOfTruth |
 | --- | --- | --- | --- | --- | --- |
+| `NavigationBar_ComponentSet_00` | `124384:75354` | `392x116` | 无标题 | `bf08d40ffaf1721f1a1a296d002a40156ca313dc` | `probed` |
 | `NavigationBar_ComponentSet_01` | `123486:63324` | `392x116` | 大标题，右 1 图标 | `bc9641d200a729a4ed05f876c1ca62bd84bd49ec` | `probed` |
 | `NavigationBar_ComponentSet_02` | `123486:63328` | `392x116` | 大标题，左返回，右 1 图标 | `1ab4155ad192171e57f49eb4b6c1573815e99fcc` | `inferred` |
 | `NavigationBar_ComponentSet_03` | `123486:63322` | `392x116` | 大标题，左关闭，右 1 图标 | `a8439a046c84b5411ede1b86e5e1399daa59ff2f` | `probed` |
@@ -127,6 +142,10 @@
 | `NavigationBar_ComponentSet_11` | `123486:63319` | `392x56` | 工具栏化，左返回，右 1 图标 | `1a5420426d3b7436acb9d6a6f3aee73b4d895998` | `inferred` |
 | `Pad_TopBar_01` | `123486:63316` | `1422x56` | Pad 顶栏，中间导航，右 1 图标 | `5bfd0435149e0351147e15f9dd7af236ad1ace56` | `probed` |
 | `Pad_TopBar_02` | `123486:63327` | `1422x56` | Pad 顶栏，返回 + 中间导航 + 右 1 图标 | `96fc620e1786c39e56a00d56c284f55d47a724cc` | `inferred` |
+| `TopBar_00` | `124384:75396` | `1422x56` | Pad 顶栏容器，无顶部导航 | `11228235e3de54e013d5bce361b668e902ba7143` | `probed` |
+| `TopBar_03` | `124747:94814` | `1422x56` | 顶部导航搜索 | `3fb15bfba6722bfb493fe9275300ec07efcf0ed6` | `probed` |
+| `TopBar_04` | `124747:94907` | `1422x56` | 顶部导航搜索_返回 | `88f799b82ac9c095fdee976d673e5ce554a20302` | `probed` |
+| `TopBar_05` | `124747:94985` | `1422x56` | 顶部导航搜索_无标题 | `b21ae9499befeb80264703681efa4984e8bc8dff` | `probed` |
 
 ### 统一执行写法
 
@@ -146,6 +165,14 @@ instance.setProperties({
 });
 ```
 
+TopBar 变体也属于当前 `NavigationBar` 组件集，执行方式相同：
+
+```js
+instance.setProperties({
+  VariantId: "TopBar_05"
+});
+```
+
 ## 执行规则
 
 ### 允许 `setProperties(...)` 的条件
@@ -159,13 +186,17 @@ instance.setProperties({
 
 ### 当前分支基准下不再使用 `swapComponent(...)` 的情况
 
-在当前组件集里，`Pad_TopBar_01` / `Pad_TopBar_02` 已经被并入同一个 `NavigationBar_ComponentSet`。
+在当前组件集里，`Pad_TopBar_01` / `Pad_TopBar_02` 和 `TopBar_00 / 03 / 04 / 05` 已经被并入同一个 `NavigationBar_ComponentSet`。
 
 因此以下目标都应优先走 `setProperties({ VariantId: ... })`：
 
-- `NavigationBar_ComponentSet_01` ~ `NavigationBar_ComponentSet_11`
+- `NavigationBar_ComponentSet_00` ~ `NavigationBar_ComponentSet_11`
 - `Pad_TopBar_01`
 - `Pad_TopBar_02`
+- `TopBar_00`
+- `TopBar_03`
+- `TopBar_04`
+- `TopBar_05`
 
 ## 已知陷阱
 
@@ -174,6 +205,7 @@ instance.setProperties({
 | 同名搜索结果可能落到旧已发布组件集 | 在当前分支文件内，优先锚点 `123486:63329` 和 `componentSetKey = a439...`，不要直接拿 `search_design_system` 返回的 `818d...` 当作同一组件 |
 | 语义名不等于真实字段值 | 先读真实可选值，只允许写 `VariantId` |
 | `Pad_TopBar` 已并入同组件集 | 当前基准下不要再把 `Pad_TopBar_01/02` 当独立组件 `swapComponent(...)` |
+| `TopBar` 已并入同组件集 | 当前基准下不要再把 `TopBar_00/03/04/05` 当独立组件 `swapComponent(...)` |
 
 ## 回退规则
 
@@ -192,6 +224,7 @@ instance.setProperties({
 
 - 能正确识别 `NavigationBar_ComponentSet`
 - 只对 `a439b7cbc33b1c7e3b1611e4b6499d442b3ac7cc` 使用 `VariantId` 体系
-- `01` / `03` / `04` / `05` / `07` 稳定走 `setProperties(...)`
+- `00` / `01` / `03` / `04` / `05` / `07` 稳定走 `setProperties(...)`
 - `Pad_TopBar_01` / `Pad_TopBar_02` 稳定走 `setProperties(...)`
+- `TopBar_00` / `TopBar_03` / `TopBar_04` / `TopBar_05` 稳定走 `setProperties(...)`
 - 不再把 `Pad_TopBar` 误判成独立组件替换路径
