@@ -68,18 +68,18 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 - 为视口容器设置 `clipsContent = true`
 - 对 `L / C / N` 栏内部第一层语义容器立即建立 Auto Layout 约束：默认 `layoutMode` 正确、主内容容器使用 `Fill Container`
 
-写入模式参考：`references/plugin-api-patterns.md`
+写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
 
 完成后校验：截图 + 确认骨架尺寸正确。
 
 ### Phase B：填充左栏
 
-读取组件规则：`references/component-routing.md` + `references/component-adaptation.md`
+组件处理按主链路已生成的 `componentTaskList` 执行；映射查询使用 `references/app-variant-map-{appName}.md`，组件定位、切换和验证使用 `figma-component-dictionary.md`。
 
 **LC 模式（左栏为 L 栏）**：
 - 放入源页面顶部模块（搜索栏、标题栏等）
 - 替换或放入目标列表变体（优先 `search_design_system` 搜索，其次 clone）
-- 按组件适配映射替换目标组件（如标题栏→NavigationBar 目标栏变形，参考 `references/component-adaptation.md`）
+- 按 `componentTaskList` 中的映射结果替换目标组件（如标题栏 → `NavigationBar` 目标变体）
 - 删除不需要的移动端底部元素
 - 让列表填充顶部模块以下的剩余视口
 - `L` 栏是列表栏，不是导航栏。LC 模式下不得因为目标设备为 Fold 或候选组件名包含 `Fold_LC` 就放置 `Sidebar`
@@ -88,7 +88,7 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 - 如果目标场景为 Fold 内屏竖屏 `LC`，必须显式检查 `L` 栏第一层容器、`NavigationBar`、搜索栏、标签栏、列表区根容器是否都已跟随到 `283dp`；不得保留更宽场景的固定宽度
 
 **NC 模式（左栏为 N 栏）**：
-- 搜索侧边导航栏组件（优先 `search_design_system`，其次查 `references/component-routing.md`）
+- 搜索侧边导航栏组件（优先使用 `componentTaskList` 命中的标准实例或标准变体，其次按 `figma-component-dictionary.md` 的回退规则处理）
 - 从源页面底部 Tab 提取导航项信息（图标、文字、数量），构建侧边导航
 - 确保导航项数量和顺序与源页面底部 Tab 一致
 - 设置当前选中态（与右栏内容对应的导航项）

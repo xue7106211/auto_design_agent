@@ -48,16 +48,16 @@
 - 建立内容区 frame（最右列，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
 
-写入模式参考：`references/plugin-api-patterns.md`
+写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
 
 完成后校验：截图 + 确认三栏骨架尺寸正确。
 
 ### Phase B：填充导航栏
 
-读取组件规则：`references/component-routing.md` + `references/component-adaptation.md`
+组件处理按主链路已生成的 `componentTaskList` 执行；映射查询使用 `references/app-variant-map-{appName}.md`，组件定位、切换和验证使用 `figma-component-dictionary.md`。
 
 执行：
-- 搜索侧边导航栏组件（优先 `search_design_system`，其次查 `references/component-routing.md`）
+- 搜索侧边导航栏组件（优先使用 `componentTaskList` 命中的标准实例或标准变体，其次按 `figma-component-dictionary.md` 的回退规则处理）
 - 如果有现成的侧边导航变体，直接实例化
 - 如果没有，从源页面底部 Tab 提取导航项信息（图标、文字、数量），构建侧边导航
 - 确保导航项数量和顺序与源页面底部 Tab 一致
@@ -71,7 +71,7 @@
 执行：
 - 放入源页面顶部模块（搜索栏、标题栏等，按组件适配映射替换）
 - 替换或放入目标列表变体
-- 按组件适配映射替换目标组件（参考 `references/component-adaptation.md`）
+- 按 `componentTaskList` 中的映射结果替换目标组件
 - 让列表填充顶部模块以下的剩余视口
 - 删除不需要的移动端底部元素
 

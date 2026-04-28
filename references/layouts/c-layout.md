@@ -45,17 +45,17 @@
 - 如果当前文档定义了最大内容宽度，设置内容区居中限宽
 - 为视口容器设置 `clipsContent = true`
 
-写入模式参考：`references/plugin-api-patterns.md`
+写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
 
 完成后校验：截图 + 确认骨架尺寸正确。
 
 ### Phase B：填充内容
 
-读取组件规则：`references/component-routing.md` + `references/component-adaptation.md`
+组件处理按主链路已生成的 `componentTaskList` 执行；映射查询使用 `references/app-variant-map-{appName}.md`，组件定位、切换和验证使用 `figma-component-dictionary.md`。
 
 执行：
 - 按源页面从上到下的顺序，逐个模块 clone 或实例化到内容区
-- 按组件适配映射替换目标组件（参考 `references/component-adaptation.md`）
+- 按 `componentTaskList` 中的映射结果替换目标组件
 - 调整各模块宽度以适应新的内容区宽度
 - 重算左右边距（参考当前文档）
 - 删除不需要的移动端元素（底部手势条等）
