@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-04-27",
+  "lastUpdated": "2026-04-28",
   "skill": {
     "entry": "SKILL.md",
     "version": "1.0.0"
@@ -70,6 +70,15 @@
       "devices": ["Phone", "Phone横", "Fold外屏", "Fold外屏横", "Fold内屏", "Fold内屏横", "Pad竖屏", "Pad横屏"],
       "screenModes": ["L", "C"],
       "mappedUiElements": 3,
+      "knownGaps": 0
+    },
+    {
+      "app": "图库",
+      "file": "references/app-variant-map-图库.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["L", "LC", "NLC", "C", "NLC收起"],
+      "mappedUiElements": 5,
       "knownGaps": 0
     },
     {
@@ -152,6 +161,15 @@
       "screenModes": ["C", "NC"],
       "mappedUiElements": 1,
       "knownGaps": 0
+    },
+    {
+      "app": "手机管家",
+      "file": "references/app-variant-map-手机管家.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C"],
+      "mappedUiElements": 2,
+      "knownGaps": 0
     }
   ],
   "componentFamilies": [
@@ -159,8 +177,8 @@
       "name": "NavigationBar",
       "status": "active",
       "reference": "references/component-dictionary/navigation-bar.md",
-      "dictionaryEntries": 12,
-      "executionEntries": 9
+      "dictionaryEntries": 21,
+      "executionEntries": 12
     },
     {
       "name": "TopBar",
