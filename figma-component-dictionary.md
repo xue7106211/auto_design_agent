@@ -155,7 +155,28 @@ references/app-variant-map-{appName}.md
 
 映射表文件不存在时必须 `blocked`，不允许猜测 `variantId`。
 
-### Step 2：字典层定位
+#### 已注册应用 variant 映射表
+
+| appName | 映射表路径 | 状态 |
+|---------|-----------|------|
+| 文管 | `references/app-variant-map-文管.md` | 已建立 |
+| 笔记 | `references/app-variant-map-笔记.md` | 已建立 |
+| 录音 | `references/app-variant-map-录音.md` | 已建立 |
+| 计算器 | `references/app-variant-map-计算器.md` | 已建立 |
+| 日历 | `references/app-variant-map-日历.md` | 已建立 |
+| 收藏 | `references/app-variant-map-收藏.md` | 已建立 |
+| 扫一扫 | `references/app-variant-map-扫一扫.md` | 已建立 |
+| 设置 | `references/app-variant-map-设置.md` | 已建立 |
+| 电话 | `references/app-variant-map-电话.md` | 已建立 |
+| 联系人 | `references/app-variant-map-联系人.md` | 已建立 |
+| 短信 | `references/app-variant-map-短信.md` | 已建立 |
+| 下载管理 | `references/app-variant-map-下载管理.md` | 已建立 |
+| 小米换机 | `references/app-variant-map-小米换机.md` | 已建立 |
+| 天气 | `references/app-variant-map-天气.md` | 已建立 |
+| 相册 | `references/app-variant-map-相册.md` | 已建立 |
+| 手机管家 | `references/app-variant-map-手机管家.md` | 已建立 |
+
+### Step 2：查字典层
 
 按 `variantId` 精确匹配字典层记录，禁止模糊匹配。
 
@@ -328,43 +349,68 @@ references/app-variant-map-{appName}.md
 
 | componentFamily | variantId | variantName | referenceDoc | status | sourceOfTruth |
 | --- | --- | --- | --- | --- | --- |
-| `TopBar` | `TopBar_01` | 顶部导航组合（NavigationBar_ComponentSet_10 + TopBar_Navigation_01） | 待建立 | `pending` | `manual` |
-| `TopBar` | `TopBar_02` | 顶部导航组合_返回（NavigationBar_ComponentSet_11 + TopBar_Navigation_01） | 待建立 | `pending` | `manual` |
-| `TopBar` | `TopBar_Navigation_01` | 顶部导航_中间 | 待建立 | `pending` | `manual` |
-| `TopBar` | `TopBar_Calendar_01` | 业务_日历（NavigationBar_ComponentSet_Calendar_01 + TopBar_Navigation_01） | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_00` | 无底部导航栏 | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_01` | 默认 | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_02` | 无FAB_分区展示 | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_02 + Fab_01） | 待建立 | `pending` | `manual` |
-| `BottomBar` | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | 待建立 | `pending` | `manual` |
-| `Fab` | `Fab_01` | Fab | 待建立 | `pending` | `manual` |
-| `Fab` | `Fab_Rec_01` | 业务_录音 | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_PAD_NLC_01` | Pad_NLC | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起 | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑 | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_PAD_LC_01` | Pad_LC | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_Fold_LC_01` | Fold_LC | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_Component_Fold_LC_Fab_01` | Fold_LC_随FAB（Sidebar_Component_Fold_LC_01 + Fab_01） | 待建立 | `pending` | `manual` |
-| `Sidebar` | `Sidebar_BG_01` | 侧边栏_面板 | 待建立 | `pending` | `manual` |
-| `SelectableChip` | `SelectableChip_ComponentSet_00` | 无标签栏 | 待建立 | `pending` | `manual` |
-| `SelectableChip` | `SelectableChip_ComponentSet_01` | 等宽 | 待建立 | `pending` | `manual` |
-| `SelectableChip` | `SelectableChip_ComponentSet_Notes_01` | 业务_笔记 | 待建立 | `pending` | `manual` |
-| `SearchBar` | `SearchBar_ComponentSet_00` | 无搜索栏 | 待建立 | `pending` | `manual` |
-| `SearchBar` | `SearchBar_ComponentSet_01` | 激活 | 待建立 | `pending` | `manual` |
-| `SearchBar` | `SearchBar_ComponentSet_02` | 默认 | 待建立 | `pending` | `manual` |
-| `SearchReceiving` | `SearchReceiving_00` | 无搜索面板 | 待建立 | `pending` | `manual` |
-| `SearchReceiving` | `SearchReceiving_01` | 搜索面板 | 待建立 | `pending` | `manual` |
-| `ToolBar` | `ToolBar_ComponentSet_01` | 默认 | 待建立 | `pending` | `manual` |
-| `Divider` | `Divider_ComponentSet_01` | 0.7 | 待建立 | `pending` | `manual` |
-| `FloatingWindow` | `FloatingWindow_ComponentSet_01` | 浮窗窗口 | 待建立 | `pending` | `manual` |
-| `FloatingWindow` | `FloatingWindowBG_01` | 浮窗_面板 | 待建立 | `pending` | `manual` |
-| `DrawerWindow` | `DrawerWindow_ComponentSet_high_01` | 抽屉窗口_高 | 待建立 | `pending` | `manual` |
-| `DrawerWindow` | `DrawerWindow_ComponentSet_mid_01` | 抽屉窗口_中 | 待建立 | `pending` | `manual` |
-| `DrawerWindow` | `DrawerWindow_ComponentSet_low_01` | 抽屉窗口_低 | 待建立 | `pending` | `manual` |
-| `DrawerWindow` | `DrawerHandle_Bar_10` | 抽屉控制条 | 待建立 | `pending` | `manual` |
-| `DrawerWindow` | `DrawerWindow_BG_01` | 抽屉_面板 | 待建立 | `pending` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_01` | 大标题（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_02` | 大标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_03` | 大标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_04` | 中标题（右 2 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_05` | 中标题（左返回/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_06` | 中标题（左关闭/右 1 图标） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_07` | 小标题居中（右 1 图标） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_01` | Pad 顶栏（中间导航） | `references/component-dictionary/navigation-bar.md` | `probed` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `Pad_TopBar_02` | Pad 顶栏（返回 + 中间导航） | `references/component-dictionary/navigation-bar.md` | `inferred` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_00` | 无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_08` | 小标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_09` | 小标题_编辑 / 小标题_关闭 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_10` | 小标题_无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_11` | 小标题_无标题_返回 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_12` | 小标题_侧边栏 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_13` | 小标题_侧边栏_编辑 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_14` | 小标题_侧边栏_收起 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_15` | 中标题_左对齐_无标题 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Notes_01` | 业务_笔记 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Weather_01` | 业务_天气 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Calendar_01` | 业务_日历 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `TopBar` | — | `TopBar_00` | 无顶部导航 | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_01` | 顶部导航组合（NavigationBar_ComponentSet_10 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_02` | 顶部导航组合_返回（NavigationBar_ComponentSet_11 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_03` | 顶部导航搜索（NavigationBar_ComponentSet_07 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_04` | 顶部导航搜索_返回（NavigationBar_ComponentSet_11 + TopBar_Navigation_01 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_05` | 顶部导航搜索_无标题（NavigationBar_ComponentSet_10 + TopBar_Navigation_01 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_Navigation_01` | 顶部导航_中间 | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_Calendar_01` | 业务_日历（NavigationBar_ComponentSet_Calendar_01 + TopBar_Navigation_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_00` | 无底部导航栏 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_01` | 默认 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_02` | 无FAB_分区展示 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_02 + Fab_01） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | 待建立 | `manual` |
+| `Fab` | — | `Fab_01` | Fab | 待建立 | `manual` |
+| `Fab` | — | `Fab_Rec_01` | 业务_录音 | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC（内部标题栏: NavigationBar_ComponentSet_11） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起（内部标题栏: NavigationBar_ComponentSet_14） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑（内部标题栏: NavigationBar_ComponentSet_11） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_LC_01` | Pad_LC | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_Fold_LC_01` | Fold_LC | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_Fold_LC_Fab_01` | Fold_LC_随FAB（Sidebar_Component_Fold_LC_01 + Fab_01） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_BG_01` | 侧边栏_面板 | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_00` | 无标签栏 | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_01` | 等宽 | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_Notes_01` | 业务_笔记 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_00` | 无搜索栏 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_01` | 激活 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_02` | 默认 | 待建立 | `manual` |
+| `SearchReceiving` | — | `SearchReceiving_00` | 无搜索面板 | 待建立 | `manual` |
+| `SearchReceiving` | — | `SearchReceiving_01` | 搜索面板 | 待建立 | `manual` |
+| `ToolBar` | — | `ToolBar_ComponentSet_01` | 默认 | 待建立 | `manual` |
+| `Divider` | — | `Divider_ComponentSet_01` | 0.7 | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindow_ComponentSet_01` | 浮窗窗口 | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindowBG_01` | 浮窗_面板 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_high_01` | 抽屉窗口_高 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_mid_01` | 抽屉窗口_中 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_ComponentSet_low_01` | 抽屉窗口_低 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerHandle_Bar_10` | 抽屉控制条 | 待建立 | `manual` |
+| `DrawerWindow` | — | `DrawerWindow_BG_01` | 抽屉_面板 | 待建立 | `manual` |
 
 注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 

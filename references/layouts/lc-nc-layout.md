@@ -43,7 +43,7 @@ LC / NC 适配时，栏宽约束必须贯穿到栏内第一层语义容器，不
 1. `L / C / N` 栏 viewport 的宽度命中设备规格后，栏内第一层语义容器也必须同步收敛到该栏宽
 2. 列表栏、标题栏、搜索栏、标签栏、正文栏等栏级主容器默认必须使用 Auto Layout
 3. 上述栏级主容器在父栏内默认应使用 `Fill Container` 跟随父栏宽度；只有图标、缩略图、按钮等天然定宽元素才允许保持固定宽度或 Hug
-4. 禁止把较宽场景下的 `428dp / 353dp` 列表栏直接塞进较窄栏位后依赖 `clipsContent`、viewport 裁切或遮罩来”伪装适配完成”
+4. 禁止把较宽场景下的 `440dp / 428dp / 353dp` 列表栏直接塞进较窄栏位后依赖 `clipsContent`、viewport 裁切或遮罩来”伪装适配完成”
 
 Fold 内屏竖屏 `LC` 是本约束的重点场景：
 
@@ -56,6 +56,7 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 ### Phase A：搭目标骨架
 
 读取布局规则：当前文档 `references/layouts/lc-nc-layout.md`
+读取对齐与分栏排版规则：`references/layouts/device-dimensions.md` 中的「基本对齐方式」和「分栏布局排版方式」章节
 
 执行：
 - 清空目标 frame 子节点
