@@ -177,14 +177,14 @@
       "name": "NavigationBar",
       "status": "active",
       "reference": "references/component-dictionary/navigation-bar.md",
-      "dictionaryEntries": 21,
-      "executionEntries": 12
+      "dictionaryEntries": 25,
+      "executionEntries": 18
     },
     {
       "name": "TopBar",
       "status": "pending",
       "reference": null,
-      "dictionaryEntries": 8,
+      "dictionaryEntries": 4,
       "executionEntries": 0
     },
     {

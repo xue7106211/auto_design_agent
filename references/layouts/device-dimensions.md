@@ -108,7 +108,7 @@
 | 分栏宽度 | NLC 展开: N 272dp + L 428dp + C 722dp |
 | | NLC 收起: N 88dp + L 428dp + C 906dp |
 | | NC : N 272dp + C 1150dp |
-| | LC : L 440dp + C 982dp |
+| | LC : L 428dp + C 994dp |
 | 栏间分割线 | 1px（右侧栏 inside） |
 
 ### Pad 横屏 - 各栏标题栏高度（NavigationBar）
@@ -140,7 +140,7 @@
 | 分栏宽度 | NLC 展开: N 272dp + L 304dp + C 373dp |
 | | NLC 收起: N 88dp + L 387dp + C 474dp |
 | | NC : N 272dp + C 677dp |
-| | LC : L 440dp + C 509dp |
+| | LC : L 428dp + C 521dp |
 | 栏间分割线 | 同横屏 |
 
 ### Pad 竖屏 - 各栏标题栏高度（NavigationBar）
