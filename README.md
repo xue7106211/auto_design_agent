@@ -12,11 +12,13 @@
 
 ## 当前定位
 
-| 维度 | 说明 |
-| --- | --- |
-| 目标 | 把 Figma 中高频但易出错的组件调用、属性切换和工作流约束固化为 AI 可执行协议 |
-| 形式 | 单文件 = 主 Skill 或单份参考文档；正文优先描述"输入、判定、执行、验证" |
-| 边界 | 仓库描述如何让 Agent 稳定执行，不替代设计系统本身 |
+
+| 维度  | 说明                                          |
+| --- | ------------------------------------------- |
+| 目标  | 把 Figma 中高频但易出错的组件调用、属性切换和工作流约束固化为 AI 可执行协议 |
+| 形式  | 单文件 = 主 Skill 或单份参考文档；正文优先描述"输入、判定、执行、验证"   |
+| 边界  | 仓库描述如何让 Agent 稳定执行，不替代设计系统本身                |
+
 
 ---
 
@@ -82,43 +84,45 @@ auto_design_agent/
 
 ## 当前可用文件
 
-| 文件 | 作用 |
-| --- | --- |
-| [SKILL.md](./SKILL.md) | 唯一主 Skill。负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行与验证 |
-| [figma-component-dictionary.md](./figma-component-dictionary.md) | 组件字典 reference。作为主链路内部组件处理协议，负责实例探查、映射查表、执行与验证 |
-| [current-execution-map.md](./current-execution-map.md) | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤、布局 reference 和关键字段归属 |
-| [workflow-collaboration-contract.md](./workflow-collaboration-contract.md) | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定 |
-| [prompt-skill-consistency.md](./prompt-skill-consistency.md) | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致 |
-| [references/font-degradation.md](./references/font-degradation.md) | 字体降级映射表、执行顺序、fixFonts 代码模板 |
-| [references/app-variant-map-template.md](./references/app-variant-map-template.md) | 应用 variant 映射表统一模板 |
-| [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（主链路） |
-| [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md) | LC / NC 分栏布局执行规则（主链路） |
-| [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md) | NLC 三栏布局执行规则（主链路） |
-| [references/layouts/c-layout.md](./references/layouts/c-layout.md) | C 通栏布局执行规则（主链路） |
-| [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md) | 折叠屏历史适配参考规则 |
-| [references/app-variant-map-下载管理.md](./references/app-variant-map-下载管理.md) | 下载管理应用 variant 映射表 |
-| [references/app-variant-map-图库.md](./references/app-variant-map-图库.md) | 图库应用 variant 映射表 |
-| [references/app-variant-map-天气.md](./references/app-variant-map-天气.md) | 天气应用 variant 映射表 |
-| [references/app-variant-map-小米换机.md](./references/app-variant-map-小米换机.md) | 小米换机应用 variant 映射表 |
-| [references/app-variant-map-录音.md](./references/app-variant-map-录音.md) | 录音应用 variant 映射表 |
-| [references/app-variant-map-手机管家.md](./references/app-variant-map-手机管家.md) | 手机管家应用 variant 映射表 |
-| [references/app-variant-map-扫一扫.md](./references/app-variant-map-扫一扫.md) | 扫一扫应用 variant 映射表 |
-| [references/app-variant-map-收藏.md](./references/app-variant-map-收藏.md) | 收藏应用 variant 映射表 |
-| [references/app-variant-map-文管.md](./references/app-variant-map-文管.md) | 文管应用 variant 映射表 |
-| [references/app-variant-map-日历.md](./references/app-variant-map-日历.md) | 日历应用 variant 映射表 |
-| [references/app-variant-map-电话.md](./references/app-variant-map-电话.md) | 电话应用 variant 映射表 |
-| [references/app-variant-map-相册.md](./references/app-variant-map-相册.md) | 相册应用 variant 映射表 |
-| [references/app-variant-map-短信.md](./references/app-variant-map-短信.md) | 短信应用 variant 映射表 |
-| [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md) | 笔记应用 variant 映射表 |
-| [references/app-variant-map-联系人.md](./references/app-variant-map-联系人.md) | 联系人应用 variant 映射表 |
-| [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md) | 计算器应用 variant 映射表 |
-| [references/app-variant-map-设置.md](./references/app-variant-map-设置.md) | 设置应用 variant 映射表 |
-| [references/common-rules.md](./references/common-rules.md) | 通用执行原则、禁止项、clone 降级规则和分步写入规范 |
-| [references/device-dimensions.md](./references/device-dimensions.md) | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（与 `layouts/device-dimensions.md` 并存） |
-| [references/layout-c.md](./references/layout-c.md) | C 通栏布局规则（与 `layouts/c-layout.md` 并存） |
-| [references/layout-lc-nc.md](./references/layout-lc-nc.md) | LC / NC 布局规则（与 `layouts/lc-nc-layout.md` 并存） |
-| [references/layout-nlc.md](./references/layout-nlc.md) | NLC 三栏布局规则（与 `layouts/nlc-layout.md` 并存） |
-| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则 |
+
+| 文件                                                                                                       | 作用                                                                   |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [SKILL.md](./SKILL.md)                                                                                   | 唯一主 Skill。负责读取源稿、判断布局类型、生成页面级组件任务、按需读取 reference、执行与验证               |
+| [figma-component-dictionary.md](./figma-component-dictionary.md)                                         | 组件字典 reference。作为主链路内部组件处理协议，负责实例探查、映射查表、执行与验证                       |
+| [current-execution-map.md](./current-execution-map.md)                                                   | 当前可执行链路与断点状态图。描述整页生产主链路、内部组件处理步骤、布局 reference 和关键字段归属                |
+| [workflow-collaboration-contract.md](./workflow-collaboration-contract.md)                               | 多人协作接口契约。定义主流程与应用 variant 映射表之间的数据流转、必要字段和命名约定                       |
+| [prompt-skill-consistency.md](./prompt-skill-consistency.md)                                             | 新增或重构 Skill / reference 的统一 Prompt 模板，强制保持输出结构、命名和引用关系一致             |
+| [references/font-degradation.md](./references/font-degradation.md)                                       | 字体降级映射表、执行顺序、fixFonts 代码模板                                           |
+| [references/app-variant-map-template.md](./references/app-variant-map-template.md)                       | 应用 variant 映射表统一模板                                                   |
+| [references/layouts/device-dimensions.md](./references/layouts/device-dimensions.md)                     | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（主链路）                                 |
+| [references/layouts/lc-nc-layout.md](./references/layouts/lc-nc-layout.md)                               | LC / NC 分栏布局执行规则（主链路）                                                |
+| [references/layouts/nlc-layout.md](./references/layouts/nlc-layout.md)                                   | NLC 三栏布局执行规则（主链路）                                                    |
+| [references/layouts/c-layout.md](./references/layouts/c-layout.md)                                       | C 通栏布局执行规则（主链路）                                                      |
+| [references/layouts/foldable-layout.md](./references/layouts/foldable-layout.md)                         | 折叠屏历史适配参考规则                                                          |
+| [references/app-variant-map-下载管理.md](./references/app-variant-map-下载管理.md)                               | 下载管理应用 variant 映射表                                                   |
+| [references/app-variant-map-图库.md](./references/app-variant-map-图库.md)                                   | 图库应用 variant 映射表                                                     |
+| [references/app-variant-map-天气.md](./references/app-variant-map-天气.md)                                   | 天气应用 variant 映射表                                                     |
+| [references/app-variant-map-小米换机.md](./references/app-variant-map-小米换机.md)                               | 小米换机应用 variant 映射表                                                   |
+| [references/app-variant-map-录音.md](./references/app-variant-map-录音.md)                                   | 录音应用 variant 映射表                                                     |
+| [references/app-variant-map-手机管家.md](./references/app-variant-map-手机管家.md)                               | 手机管家应用 variant 映射表                                                   |
+| [references/app-variant-map-扫一扫.md](./references/app-variant-map-扫一扫.md)                                 | 扫一扫应用 variant 映射表                                                    |
+| [references/app-variant-map-收藏.md](./references/app-variant-map-收藏.md)                                   | 收藏应用 variant 映射表                                                     |
+| [references/app-variant-map-文管.md](./references/app-variant-map-文管.md)                                   | 文管应用 variant 映射表                                                     |
+| [references/app-variant-map-日历.md](./references/app-variant-map-日历.md)                                   | 日历应用 variant 映射表                                                     |
+| [references/app-variant-map-电话.md](./references/app-variant-map-电话.md)                                   | 电话应用 variant 映射表                                                     |
+| [references/app-variant-map-相册.md](./references/app-variant-map-相册.md)                                   | 相册应用 variant 映射表                                                     |
+| [references/app-variant-map-短信.md](./references/app-variant-map-短信.md)                                   | 短信应用 variant 映射表                                                     |
+| [references/app-variant-map-笔记.md](./references/app-variant-map-笔记.md)                                   | 笔记应用 variant 映射表                                                     |
+| [references/app-variant-map-联系人.md](./references/app-variant-map-联系人.md)                                 | 联系人应用 variant 映射表                                                    |
+| [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md)                                 | 计算器应用 variant 映射表                                                    |
+| [references/app-variant-map-设置.md](./references/app-variant-map-设置.md)                                   | 设置应用 variant 映射表                                                     |
+| [references/common-rules.md](./references/common-rules.md)                                               | 通用执行原则、禁止项、clone 降级规则和分步写入规范                                         |
+| [references/device-dimensions.md](./references/device-dimensions.md)                                     | 设备尺寸、断点、栏宽、padding、状态栏和导航栏等基础参数（与 `layouts/device-dimensions.md` 并存） |
+| [references/layout-c.md](./references/layout-c.md)                                                       | C 通栏布局规则（与 `layouts/c-layout.md` 并存）                                 |
+| [references/layout-lc-nc.md](./references/layout-lc-nc.md)                                               | LC / NC 布局规则（与 `layouts/lc-nc-layout.md` 并存）                         |
+| [references/layout-nlc.md](./references/layout-nlc.md)                                                   | NLC 三栏布局规则（与 `layouts/nlc-layout.md` 并存）                             |
+| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
+
 
 ### 归档文件
 
@@ -227,3 +231,4 @@ auto_design_agent/
 - 新增或重构 Skill / reference 的统一 Prompt 见 [prompt-skill-consistency.md](./prompt-skill-consistency.md)
 - 当前可执行链路与断点状态见 [current-execution-map.md](./current-execution-map.md)
 - 历史适配方案和旧规则文档见 `Archive/`
+
