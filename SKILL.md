@@ -138,25 +138,22 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 3. 生成 `componentTaskList`
 4. 先基于页面级 `layoutType` 和组件所在栏位或子场景推导 `screenMode`，再按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
 
-在本阶段补充强制约束：
+强制约束：
 
-- 不允许因为文件中存在相似的多端样例，就跳过 `componentTaskList`、`screenMode` 和 `app-variant-map` 的生成
-- `get_metadata` 中已经出现的源稿直接子组件，必须进入 `componentTaskList`；后续 `use_figma` 或局部读取结果少于 metadata 时，只能记录为读取差异或回退原因，不允许据此删除组件任务
-- 不允许在本阶段扩展成“全文件探查整页可复用目标稿”；除非用户明确要求比对现有样例，或已经确认存在可直接复用的同页目标稿
-- 不允许因为其他 page 已有旧测试结果、旧标准骨架或历史适配稿，就跨 page 直接命中并作为当前任务输入；跨 page 参考或复用必须先获得用户明确确认
-- 可以复用组件级节点、骨架节点或当前 frame 内局部结构，但整页级复用必须升级为显式确认动作
-- 基础组件必须单独收敛为组件任务，不允许把它们混在“顶部模块”“底部模块”“页面骨架”这类打包动作里一并跳过映射；这里的基础组件至少包括 `StatusBar`、`NavigationBar`、`BottomBar`、`Sidebar`、`SearchBar`、`SelectableChip`、`Fab` 以及布局 reference 已明确点名的标准结构组件
-- 对每一个已识别出的基础组件，都必须单独完成 `resolvedUiElement` 识别、`screenMode` 推导、`app-variant-map` 查询和目标实例命中；只完成位置迁移、尺寸拉伸、整体 clone 或“沿用源稿当前变体”都不能视为完成映射
-- 当某个基础组件已经命中标准实例或标准变体时，后续页面骨架执行只能复用该命中的结果，不允许再以“先把整块模块搬过去，后面再看”为由回退到源稿原始变体
-- 不允许把“禁止整页复用”误解为“禁止查找标准组件实例”；凡是当前目标布局落地所必需的标准组件、标准变体或标准骨架，仍然必须继续探查并命中
-- 当 `app-variant-map`、布局 reference、组件字典或用户输入已经给出明确目标实例名时，必须优先命中该标准实例；只有在确认当前文件内不存在、无法访问或实例化失败后，才允许退化为局部素材重组，并在输出中说明退化原因
-- 导航类组件必须按语义分层处理：手机 `BottomBar`、Pad `N` 栏 `Sidebar`、标题栏 / StatusBar 互不替代；禁止因为找到了“某种导航素材”就停止继续查找目标布局所需的标准实例
-- `layoutType` / 栏位名 / `screenMode` 不能直接推出组件族：`LC` 的 `L` 栏只表示列表栏，不等于 `Sidebar`；`NC / NLC` 中显式存在 `N` 栏时，才允许把底部导航迁移为 `Sidebar`
-- 如果 `app-variant-map` 命中了明确 `variantId`，但当前 Figma 组件集没有暴露该变体，不允许自动改用同组件集里的其他 `variantId`，尤其不允许从 `BottomBar` / 列表骨架退到 `Sidebar` 这类不同语义组件；此时只能中止汇报缺口，或退化为无新增导航语义的空容器 / 局部素材重组
-- Fold 内屏 `LC` 默认不得出现 `Sidebar`。只有当应用映射表中当前 `appName + Fold内屏 + LC + resolvedUiElement` 明确返回 `Sidebar_*`，且 notes 明确说明为侧边导航承载时，才允许放置 `Sidebar`
-- 标准组件默认必须保留实例状态；对 `NavigationBar`、`StatusBar`、`Sidebar`、底部导航等标准结构组件，不能为了求稳而预先执行 `detachInstance`
-- 多端适配默认只迁移源稿中已经存在的内容，不得从其他画布、历史样例或相似页面跨画布搬运列表项、正文、图片或业务数据来“填满”目标栏位
-- 当源稿为低保真、空内容或仅有框架的页面时，目标稿必须保持相同内容密度，只做布局骨架和已有元素的适配；如需补示例内容，必须先得到用户明确确认
+**任务生成不可跳过**：不管文件内有无相似样例，`metadata` 中出现的源稿直接子组件必须全部进入 `componentTaskList`，不可跳过或删除；后续读取结果少于 metadata 时只能记录差异，不允许据此删减任务
+
+**检索边界**：遵循 Phase 0 检索边界规则；本阶段补充——组件级节点、骨架节点或当前 frame 内局部结构可复用，但整页级复用仍需用户确认
+
+**基础组件独立映射**：基础组件（至少包括 `StatusBar`、`NavigationBar`、`BottomBar`、`Sidebar`、`SearchBar`、`SelectableChip`、`Fab` 及布局 reference 点名的标准结构组件）必须单独收敛为组件任务，不允许混在”顶部模块””页面骨架”等打包动作中跳过；每个基础组件必须独立走完 `resolvedUiElement` → `screenMode` → `app-variant-map` → 目标实例命中全链路，仅完成位置迁移、尺寸拉伸、整体 clone 或”沿用源稿当前变体”不视为完成；命中标准实例后，后续骨架执行只能复用该命中结果，不允许回退到源稿原始变体
+
+**标准实例命中与退化**：有明确目标实例名时（来自 `app-variant-map`、布局 reference、组件字典或用户输入）必须优先命中；仅在确认当前文件内不存在、无法访问或实例化失败后才允许退化为局部素材重组，并说明退化原因；标准组件默认保留实例状态，不预先执行 `detachInstance`
+
+**导航语义约束**：
+- 组件族由映射表决定，不由 `layoutType` / 栏位名 / `screenMode` 推断；`LC` 的 `L` 栏 ≠ `Sidebar`，仅 `NC / NLC` 显式存在 `N` 栏时才允许把底部导航迁移为 `Sidebar`
+- `variantId` 不可跨语义替换：映射表命中的 `variantId` 在组件集中不可用时，不允许自动改用其他 `variantId`（尤其禁止 `BottomBar` → `Sidebar`）；此时中止汇报缺口，或退化为无新增导航语义的空容器
+- Fold 内屏 `LC` 默认不得出现 `Sidebar`，除非映射表明确返回 `Sidebar_*` 且 notes 说明为侧边导航承载
+
+**内容密度**：只迁移源稿已有内容，不跨画布搬运业务数据来”填满”目标栏位；低保真 / 空内容源稿保持相同密度，补示例内容需用户确认
 
 如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
 
@@ -175,12 +172,9 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 基础组件的额外硬约束：
 
-- `componentTaskList` 中必须显式列出每一个基础组件任务，不能只记录页面级骨架任务
-- 每个基础组件任务必须逐项关闭，状态只能是 `mapped` / `hidden` / `absent` / `fallback` / `blocked` 之一；未记录状态的基础组件视为未完成
-- 基础组件任务的完成标准不是“已经出现在目标 frame 中”，而是“已经命中目标设备 / 方向 / screenMode 下的标准实例或标准变体”
-- 如基础组件仍停留在源稿原始 `VariantId`、旧设备变体或未经校验的 clone 状态，必须视为该任务未完成
-- 只有当基础组件映射完成后，页面级布局任务才允许把它们装配回目标骨架；不允许先整体拼装再补做映射，并在遗漏时直接结束任务
-- 基础组件映射完成前必须记录 `layoutRole` 与 `componentFamily` 的匹配关系；若 `layoutRole=L` 但候选 `componentFamily=Sidebar`，或 `layoutRole=C` 但候选来自底部导航/侧边栏族，必须判为语义冲突并中止该组件任务，不允许继续写入
+- `componentTaskList` 必须显式列出每个基础组件任务；每个任务必须逐项关闭，状态只能是 `mapped` / `hidden` / `absent` / `fallback` / `blocked`；未记录状态视为未完成
+- 完成标准 = 命中目标设备 / 方向 / `screenMode` 下的标准实例或标准变体；仍停留在源稿原始 `VariantId`、旧设备变体或未经校验的 clone 状态视为未完成；只有映射完成后才允许装配回目标骨架，不允许先拼装再补映射
+- 映射前必须校验 `layoutRole` 与 `componentFamily` 的匹配关系；`layoutRole=L` + `componentFamily=Sidebar`，或 `layoutRole=C` + 底部导航/侧边栏族，判为语义冲突并中止该任务
 
 ### Phase 5：读取布局 reference 并执行
 
