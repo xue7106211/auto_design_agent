@@ -140,53 +140,53 @@ status: draft
 
 ### 手机
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| 竖屏 | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low | 不存在 |
-| 横屏 | 待定 | 不存在 | 不存在 | 待定 | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| 竖屏 | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low |
+| 横屏 | 待定 | 不存在 | 不存在 | 待定 |
 
 ### Fold Q18 — 外屏
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| 竖屏 | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low | 不存在 |
-| 横屏 | 待定 | 不存在 | 不存在 | 待定 | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| 竖屏 | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low |
+| 横屏 | 待定 | 不存在 | 不存在 | 待定 |
 
 ### Fold Q18 — 内屏 / 竖屏
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| NC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| LC | 背景色/surface | 不存在 | 背景色/surface | 背景色/surface | 不存在 |
-| C | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 | 不存在 |
+| LC | 背景色/surface | 不存在 | 背景色/surface | 背景色/surface |
+| C | 不存在 | 不存在 | 不存在 | 不存在 |
 
 ### Fold Q18 — 内屏 / 横屏
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| NC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| LC | 背景色/surface | 不存在 | 背景色/surface | 背景色/surface | 不存在 |
-| C | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 | 不存在 |
+| LC | 背景色/surface | 不存在 | 背景色/surface | 背景色/surface |
+| C | 不存在 | 不存在 | 不存在 | 不存在 |
 
 ### Pad — 竖屏
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| NLC | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
-| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface | 不存在 |
-| NC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| LC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| C | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| NLC | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
+| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
+| NC | 不存在 | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 | 不存在 |
+| C | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low |
 
 ### Pad — 横屏
 
-| screenMode | 主 frame | N 栏 | L 栏 | C 栏 | 侧边栏卡片 |
-|-----------|---------|------|------|------|----------|
-| NLC | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
-| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface | 不存在 |
-| NC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| LC | 不存在 | 不存在 | 不存在 | 不存在 | 不存在 |
-| C | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low | 不存在 |
+| screenMode | 主 frame | N 栏 | L 栏 | C 栏 |
+|-----------|---------|------|------|------|
+| NLC | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
+| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface | 背景色/surface |
+| NC | 不存在 | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 | 不存在 |
+| C | 背景色/surface_low | 不存在 | 不存在 | 背景色/surface_low |
 
 ## 当前覆盖缺口
 
