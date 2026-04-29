@@ -62,8 +62,13 @@ status: draft
 | 导航栏 | NavigationBar_ComponentSet_01 待办图标 | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
 | 标题栏 | NavigationBar_ComponentSet_01 | | L栏：NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | |
 | 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | |
-| 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 |
+| 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 |
+| 列表 | List_Notes_01 | | List_Notes_01 | | | L栏：List_Notes_03 | | | L栏：List_Notes_03 | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | |
+| | List_Notes_02 | | List_Notes_02 | | | L栏：List_Notes_04 | | | L栏：List_Notes_04 | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | |
+| | List_Notes_05 | | List_Notes_05 | | | L栏：List_Notes_03 | | | L栏：List_Notes_03 | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | |
+| | List_Notes_06 | | List_Notes_06 | | | L栏：List_Notes_04 | | | L栏：List_Notes_04 | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | |
 | 底部工具栏 | BottomBar_Showcase_Notes_01 | | BottomBar_Showcase_Notes_01 | | | L栏：BottomBar_Showcase_Notes_01 | | | L栏：BottomBar_Showcase_Notes_01 | | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | | | | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | | | |
+| 文字格式弹窗 | TextFormatPanel_01 | | TextFormatPanel_01 | | | C栏：TextFormatPanel_02 | | | C栏：TextFormatPanel_01 | | C栏：TextFormatPanel_01 | C栏：TextFormatPanel_01 | | | | C栏：TextFormatPanel_01 | C栏：TextFormatPanel_01 | | | |
 
 ### 待办
 
@@ -73,7 +78,33 @@ status: draft
 | 标题栏 | NavigationBar_ComponentSet_02 | | NavigationBar_ComponentSet_05 | | | L栏：NavigationBar_ComponentSet_05；C栏：无标题 | | | L栏：NavigationBar_ComponentSet_05；C栏：无标题 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | | | |
 | 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 |
+| 列表 | List_Task_01 | | List_Task_01 | | | List_Task_03 | | | List_Task_03 | | List_Task_03 | List_Task_03 | | | | List_Task_03 | List_Task_03 | | | |
+| | List_Task_02 | | List_Task_02 | | | List_Task_04 | | | List_Task_04 | | List_Task_04 | List_Task_04 | | | | List_Task_04 | List_Task_04 | | | |
 | Fab | Fab_01；彩色 | | Fab_01；彩色 | | | C栏：Fab_01；彩色 | | | C栏：Fab_01；彩色 | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 |
+
+## 组件间距
+
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 导航栏 | NavigationBar_ComponentSet_01 | 左12；右12；标题左侧：28 |
+| 导航栏 | NavigationBar_ComponentSet_02 | 左12；右12；标题左侧：28 |
+| 导航栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |
+| 导航栏 | NavigationBar_ComponentSet_05 | 左12；右12；标题左侧：28 |
+| 导航栏 | NavigationBar_ComponentSet_07 | 左12；右12 |
+| 导航栏 | NavigationBar_ComponentSet_12 | 左12；右12 |
+| 导航栏 | NavigationBar_ComponentSet_14 | 左12；右12 |
+| 导航栏 | NavigationBar_ComponentSet_Notes_01 | 左12；右12 |
+| 搜索 | SearchBar_ComponentSet_02 | 左12；右12 |
+| 标签栏 | SelectableChip_ComponentSet_Notes_01 | 左12 |
+| 标签栏 | SelectableChip_ComponentSet_Notes_02 | 左12 |
+| 底部工具栏 | BottomBar_Showcase_Notes_01 | 最小弹：左24；右24 |
+| Fab | Fab_01 | 右24 |
+| 侧边栏 | Sidebar_Component_PAD_NLC_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
+| 侧边栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
+| 文字格式弹窗 | TextFormatPanel_01 | 最小弹：左12；右12 |
+| 文字格式弹窗 | TextFormatPanel_02 | 最小弹：左12；右12 |
+| 列表 | List_Notes_01 ~ 06 | 左12；右12 |
+| 列表 | List_Task_01 ~ 04 | 左12；右12 |
 
 ## 栏背景色
 
