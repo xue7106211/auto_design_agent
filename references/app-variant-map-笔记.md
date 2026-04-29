@@ -115,6 +115,10 @@ status: draft
 | `图文_页面框架` | `Pad横屏` | `LC` | `absent` |  | 当前场景不使用 |
 | `图文_页面框架` | `Pad横屏` | `C` | `absent` |  | 当前场景不使用 |
 
+### 标题栏补充映射
+
+| uiElement | device | screenMode | resultType | variantId | notes |
+| --- | --- | --- | --- | --- | --- |
 | `笔记_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
 | `笔记_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | L栏 |
 | `笔记_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: NavigationBar_ComponentSet_Notes_01 |
