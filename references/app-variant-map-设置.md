@@ -13,22 +13,76 @@ status: draft
 
 ## 映射表
 
-设置为 LC 布局应用，Phone/Fold外屏无导航栏，Fold内屏/Pad 使用 LC 栏。
+设置为 LC 布局应用，Phone/Fold外屏无导航栏。
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `导航_页面框架` | `Phone` | `L` | `absent` | | 无导航栏 |
-| `导航_页面框架` | `Fold外屏` | `L` | `absent` | | 无导航栏 |
-| `导航_页面框架` | `Fold内屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `导航_页面框架` | `Pad竖屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `导航_页面框架` | `Pad横屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `搜索` | `Pad竖屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `搜索` | `Pad横屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
-| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
-| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: _04 |
-| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: _07 |
-| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: _07 |
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | 无导航栏 | | 无导航栏 | | | LC栏 | | | LC栏 | | | | | LC栏 | | | | | LC栏 | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_04 | | | | | L栏：NavigationBar_ComponentSet_01；C栏：NavigationBar_ComponentSet_07 | | | | | L栏：NavigationBar_ComponentSet_01；C栏：NavigationBar_ComponentSet_07 | |
+| 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | | | L栏：SearchBar_ComponentSet_02 | | | | | L栏：SearchBar_ComponentSet_02 | |
+
+## 组件间距
+
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 标题栏 | NavigationBar_ComponentSet_01 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_07 | 左12；右12 |
+| 搜索 | SearchBar_ComponentSet_02 | 左12；右12 |
+
+## 栏背景色
+
+### 手机
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 外屏
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 内屏 / 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Fold Q18 — 内屏 / 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+## 当前覆盖缺口
+
+- 手机横屏模式
+- Fold 外屏横屏模式

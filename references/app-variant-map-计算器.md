@@ -11,23 +11,74 @@ status: draft
 
 # 计算器 App Variant Map
 
-## 用途
-
-根据 `appName + targetDevice + targetScreenMode + resolvedUiElement` 查出目标结果。
-
 ## 映射表
 
-计算器全设备统一使用 `TopBar_01`，无导航栏/侧边栏切换。
+计算器全设备统一使用 C 通栏布局。
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `导航_顶部导航` | `Phone` | `C` | `variant` | `TopBar_01` | |
-| `导航_顶部导航` | `Fold外屏` | `C` | `variant` | `TopBar_01` | |
-| `导航_顶部导航` | `Fold内屏` | `C` | `variant` | `TopBar_01` | |
-| `导航_顶部导航` | `Pad竖屏` | `C` | `variant` | `TopBar_01` | |
-| `导航_顶部导航` | `Pad横屏` | `C` | `variant` | `TopBar_01` | |
-| `标题栏` | `Phone` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
-| `标题栏` | `Fold外屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
-| `标题栏` | `Fold内屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
-| `标题栏` | `Pad竖屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
-| `标题栏` | `Pad横屏` | `C` | `absent` | | TopBar_01 标题栏（集成在导航组件内） |
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | TopBar_01 | | TopBar_01 | | | | TopBar_01 | | | TopBar_01 | | | | | TopBar_01 | | | | | TopBar_01 |
+| 标题栏 | TopBar_01 标题栏 | | TopBar_01 标题栏 | | | | TopBar_01 标题栏 | | | TopBar_01 标题栏 | | | | | TopBar_01 标题栏 | | | | | TopBar_01 标题栏 |
+
+## 组件间距
+
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 导航栏 | TopBar_01 | 左12；右12 |
+
+## 栏背景色
+
+### 手机
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 外屏
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 内屏 / 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 背景色/surface_low |
+
+### Fold Q18 — 内屏 / 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 背景色/surface_low |
+
+### Pad — 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 背景色/surface_low |
+
+### Pad — 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 背景色/surface_low |
+
+## 当前覆盖缺口
+
+- 手机横屏模式
+- Fold 外屏横屏模式
