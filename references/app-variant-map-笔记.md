@@ -60,7 +60,7 @@ status: draft
 | | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | 导航栏 | NavigationBar_ComponentSet_01 待办图标 | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
-| 标题栏 | NavigationBar_ComponentSet_01 | | L栏：NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | |
 | 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 |
 | 列表 | List_Notes_01 | | List_Notes_01 | | | L栏：List_Notes_03 | | | L栏：List_Notes_03 | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | |
@@ -81,6 +81,16 @@ status: draft
 | 列表 | List_Task_01 | | List_Task_01 | | | List_Task_03 | | | List_Task_03 | | List_Task_03 | List_Task_03 | | | | List_Task_03 | List_Task_03 | | | |
 | | List_Task_02 | | List_Task_02 | | | List_Task_04 | | | List_Task_04 | | List_Task_04 | List_Task_04 | | | | List_Task_04 | List_Task_04 | | | |
 | Fab | Fab_01；彩色 | | Fab_01；彩色 | | | C栏：Fab_01；彩色 | | | C栏：Fab_01；彩色 | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 |
+
+## 遮罩规则
+
+笔记和待办在 NLC / LC 模式下均适用以下遮罩规则。遮罩样式参见 `device-dimensions.md` 中的遮罩定义（遮罩色/mask，#000000，20%）。
+
+| 触发条件 | 遮罩位置 |
+|---------|---------|
+| N 栏进入编辑模式 | L + C 栏全部覆盖遮罩 |
+| L 栏进入编辑模式 | 仅 C 栏覆盖遮罩 |
+| C 栏进入编辑模式 | 无遮罩 |
 
 ## 组件间距
 
