@@ -1,6 +1,6 @@
 ---
 name: app-variant-map
-description: 电话应用的语义组件在不同设备与屏幕模式下的目标变体映射表。包含"展示拨号键盘"和"收起拨号键盘"两个子场景。
+description: 电话应用的语义组件在不同设备与屏幕模式下的目标变体映射表。
 app: 电话
 kind: app-variant-map
 sourceOfTruth: manual
@@ -11,77 +11,102 @@ status: draft
 
 # 电话 App Variant Map
 
-## 子场景说明
+## 子场景约定
 
-| 子场景 | uiElement 前缀 | 说明 |
-|--------|---------------|------|
-| 展示拨号键盘 | `展示_` | 拨号键盘展开状态 |
-| 收起拨号键盘 | `收起_` | 拨号键盘收起状态 |
+| 子场景 | 说明 |
+| --- | --- |
+| 展示拨号键盘 | 拨号盘展开状态 |
+| 收起拨号键盘 | 拨号盘收起状态 |
 
 ## 映射表
 
 ### 展示拨号键盘
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `展示_导航` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Fab_01` | |
-| `展示_导航` | `Fold外屏` | `L` | `hidden` | | 隐藏导航栏 |
-| `展示_导航` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_02` | L栏 |
-| `展示_导航` | `Pad竖屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏 |
-| `展示_导航` | `Pad竖屏` | `NLC收起` | `variant` | `Sidebar_Component_PAD_NLC_02` | N栏收起 |
-| `展示_导航` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏 |
-| `展示_导航` | `Pad横屏` | `NLC收起` | `variant` | `Sidebar_Component_PAD_NLC_02` | N栏收起 |
-| `展示_搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `展示_搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `展示_搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `展示_搜索` | `Pad竖屏` | `NLC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `展示_搜索` | `Pad竖屏` | `NLC收起` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `展示_搜索` | `Pad横屏` | `NLC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `展示_搜索` | `Pad横屏` | `NLC收起` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `展示_Fab` | `Phone` | `L` | `variant` | `Fab_01` | 白色 |
-| `展示_Fab` | `Fold外屏` | `L` | `absent` | | 变为拨号盘功能区按键 |
-| `展示_Fab` | `Fold内屏` | `LC` | `absent` | | C栏: Fab_01消失，拨号盘功能区按键 |
-| `展示_Fab` | `Pad竖屏` | `NLC` | `absent` | | C栏: Fab_01消失，拨号盘功能区按键 |
-| `展示_Fab` | `Pad竖屏` | `NLC收起` | `absent` | | C栏: Fab_01消失，拨号盘功能区按键 |
-| `展示_Fab` | `Pad横屏` | `NLC` | `absent` | | C栏: Fab_01消失，拨号盘功能区按键 |
-| `展示_Fab` | `Pad横屏` | `NLC收起` | `absent` | | C栏: Fab_01消失，拨号盘功能区按键 |
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | BottomBar_Showcase_Fab_01 | | 隐藏导航栏 | | | L栏：BottomBar_Showcase_02 | | | L栏：BottomBar_Showcase_02 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_15 | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_15 | | N栏：Sidebar_Component_PAD_NLC_01 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | N栏：Sidebar_Component_PAD_NLC_02 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | | | | N栏：Sidebar_Component_PAD_NLC_01 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | N栏：Sidebar_Component_PAD_NLC_02 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | | | |
+| 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | | | | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | | | |
+| Fab | Fab_01；白色 | | Fab_01 变为拨号盘功能区按钮 | | | C栏：Fab_01 消失；拨号盘功能区按钮 | | | C栏：Fab_01 消失；拨号盘功能区按钮 | | C栏：Fab_01 消失；拨号盘功能区按钮 | C栏：Fab_01 消失；拨号盘功能区按钮 | | | | C栏：Fab_01 消失；拨号盘功能区按钮 | C栏：Fab_01 消失；拨号盘功能区按钮 | | | |
 
 ### 收起拨号键盘
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `收起_导航` | `Phone` | `L` | `variant` | `BottomBar_Showcase_Fab_01` | |
-| `收起_导航` | `Fold外屏` | `L` | `variant` | `BottomBar_Showcase_Fab_01` | |
-| `收起_导航` | `Fold内屏` | `LC` | `variant` | `BottomBar_Showcase_02` | L栏 |
-| `收起_导航` | `Pad竖屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏 |
-| `收起_导航` | `Pad竖屏` | `NLC收起` | `variant` | `Sidebar_Component_PAD_NLC_02` | N栏收起 |
-| `收起_导航` | `Pad横屏` | `NLC` | `variant` | `Sidebar_Component_PAD_NLC_01` | N栏 |
-| `收起_导航` | `Pad横屏` | `NLC收起` | `variant` | `Sidebar_Component_PAD_NLC_02` | N栏收起 |
-| `收起_搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `收起_搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `收起_搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `收起_搜索` | `Pad竖屏` | `NLC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `收起_搜索` | `Pad竖屏` | `NLC收起` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `收起_搜索` | `Pad横屏` | `NLC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `收起_搜索` | `Pad横屏` | `NLC收起` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `收起_Fab` | `Phone` | `L` | `variant` | `Fab_01` | 彩色 |
-| `收起_Fab` | `Fold外屏` | `L` | `variant` | `Fab_01` | 彩色 |
-| `收起_Fab` | `Fold内屏` | `LC` | `variant` | `Fab_01` | C栏; 彩色 |
-| `收起_Fab` | `Pad竖屏` | `NLC` | `variant` | `Fab_01` | C栏; 彩色 |
-| `收起_Fab` | `Pad竖屏` | `NLC收起` | `variant` | `Fab_01` | C栏; 彩色 |
-| `收起_Fab` | `Pad横屏` | `NLC` | `variant` | `Fab_01` | C栏; 彩色 |
-| `收起_Fab` | `Pad横屏` | `NLC收起` | `variant` | `Fab_01` | C栏; 彩色 |
-| `展示_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
-| `展示_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
-| `展示_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中list=无标题 2.选中list=NavigationBar_ComponentSet_15 |
-| `展示_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏; C栏: 1.未选中=无标题 2.选中=_10 |
-| `展示_标题栏` | `Pad竖屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏(收起); C栏同上 |
-| `展示_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC |
-| `展示_标题栏` | `Pad横屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC收起 |
-| `收起_标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
-| `收起_标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
-| `收起_标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中list=无标题 2.选中list=NavigationBar_ComponentSet_15 |
-| `收起_标题栏` | `Pad竖屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | L栏; N栏: Sidebar标题栏; C栏: 1.未选中=无标题 2.选中=_10 |
-| `收起_标题栏` | `Pad竖屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | L栏; 同上 |
-| `收起_标题栏` | `Pad横屏` | `NLC` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC |
-| `收起_标题栏` | `Pad横屏` | `NLC收起` | `variant` | `NavigationBar_ComponentSet_07` | 同Pad竖NLC收起 |
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | BottomBar_Showcase_Fab_01 | | BottomBar_Showcase_Fab_01 | | | L栏：BottomBar_Showcase_02 | | | L栏：BottomBar_Showcase_02 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_15 | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_15 | | N栏：Sidebar_Component_PAD_NLC_01 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | N栏：Sidebar_Component_PAD_NLC_02 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | | | | N栏：Sidebar_Component_PAD_NLC_01 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | N栏：Sidebar_Component_PAD_NLC_02 标题栏；L栏：NavigationBar_ComponentSet_07；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_10 | | | |
+| 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | | | | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | | | |
+| Fab | Fab_01；彩色 | | Fab_01；彩色 | | | C栏：Fab_01；彩色 | | | C栏：Fab_01；彩色 | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | |
+
+## 组件间距
+
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 导航栏 | BottomBar_Showcase_Fab_01 | Padding：最小弹：左24；右24；Gap：12 |
+| 导航栏 | BottomBar_Showcase_02 | 左24 |
+| 导航栏 | Sidebar_Component_PAD_NLC_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
+| 导航栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
+| 标题栏 | NavigationBar_ComponentSet_01 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_07 | 左12；右12 |
+| 标题栏 | NavigationBar_ComponentSet_10 | 左12；右12 |
+| 标题栏 | NavigationBar_ComponentSet_15 | 左12；右12 |
+| 搜索 | SearchBar_ComponentSet_02 | 左12；右12 |
+| Fab | Fab_01 | 右24 |
+
+## 栏背景色
+
+### 手机
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface |
+| 横屏 | 待定 |
+
+### Fold Q18 — 外屏
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface |
+| 横屏 | 待定 |
+
+### Fold Q18 — 内屏 / 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Fold Q18 — 内屏 / 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 背景色/surface | 背景色/surface | 背景色/surface_low |
+| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface_low |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 背景色/surface | 背景色/surface | 背景色/surface_low |
+| NLC 收起 | 背景色/surface | 背景色/surface | 背景色/surface_low |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 不存在 | 不存在 |
+| C | 不存在 | 不存在 | 不存在 |
+
+## 当前覆盖缺口
+
+- 手机横屏模式
+- Fold 外屏横屏模式

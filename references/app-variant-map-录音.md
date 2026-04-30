@@ -1,6 +1,6 @@
 ---
 name: app-variant-map
-description: 录音应用的语义组件在不同设备与屏幕模式下的目标变体映射表。供 `figma-component-dictionary.md` 在识别当前实例语义后查询。
+description: 录音应用的语义组件在不同设备与屏幕模式下的目标变体映射表。
 app: 录音
 kind: app-variant-map
 sourceOfTruth: manual
@@ -8,90 +8,83 @@ status: draft
 ---
 
 > 本文档由 `figma-component-dictionary.md` 的 Step 1 按需加载。
-> 查到目标记录后，回到主文档继续 Step 2-6 执行。
 
 # 录音 App Variant Map
 
-## 用途
-
-本文档只负责一件事：
-
-- 当 `figma-component-dictionary.md` 已经从 Figma 当前实例识别出源组件语义后，
-- 根据 `appName + targetDevice + targetScreenMode + resolvedUiElement` 查出目标结果
-
-本文档不负责：
-
-- 不负责从 Figma 文件中定位实际实例
-- 不负责判断当前节点属于哪个语义角色
-- 不负责替代组件探查流程
-
-输出结果分为四类：
-
-- `variant`：返回可执行的 `variantId`
-- `hidden`：该元素在此场景下需要隐藏，不执行组件切换
-- `absent`：该元素在此场景下不存在，不执行
-- `undefined`：该组合尚未建档，调用方应报错并回收上下文，不允许猜测
-
-## 枚举定义
-
-### `device`
-
-| 值 | 含义 |
-| --- | --- |
-| `Phone` | 手机 |
-| `Fold外屏` | 折叠屏外屏 |
-| `Fold内屏` | 折叠屏内屏 |
-| `Pad竖屏` | 平板竖屏 |
-| `Pad横屏` | 平板横屏 |
-
-### `screenMode`
-
-| 值 | 含义 |
-| --- | --- |
-| `L` | List，列表画面 |
-| `C` | Content，内容画面 |
-| `LC` | List + Content 复合画面 |
-
-### 状态约定
-
-| `resultType` | 含义 |
-| --- | --- |
-| `variant` | 单元格命中真实 `variantId` |
-| `hidden` | 元素保留语义但当前场景不显示 |
-| `absent` | 该场景下无此元素 |
-| `undefined` | 尚未定义 |
-
 ## 映射表
 
-仅记录各设备的有效 `screenMode` 组合：
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | 无导航栏 | | 无导航栏 | | | L栏：Sidebar_Component_Fold_LC_Fab_01 | | | L栏：Sidebar_Component_Fold_LC_Fab_01 | | | | | L栏：Sidebar_Component_PAD_LC_Fab_01 | | | | | L栏：Sidebar_Component_PAD_LC_Fab_01 | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_04 | | | | | L栏：NavigationBar_ComponentSet_01；C栏：NavigationBar_ComponentSet_07 | | | | | L栏：NavigationBar_ComponentSet_01；C栏：NavigationBar_ComponentSet_07 | |
+| 标签栏 | SelectableChip_ComponentSet_01 | | SelectableChip_ComponentSet_01 | | | SelectableChip_ComponentSet_01 | | | SelectableChip_ComponentSet_01 | | | | | L栏：SelectableChip_ComponentSet_01 | | | | | L栏：SelectableChip_ComponentSet_01 | |
+| Fab | Fab_Rec_01；彩色 | | Fab_Rec_01；彩色 | | | L栏：Fab_Rec_01；彩色 | | | L栏：Fab_Rec_01；彩色 | | | | | L栏：Fab_Rec_01；彩色 | | | | | L栏：Fab_Rec_01；彩色 | |
 
-- `Phone` / `Fold外屏` 只使用全屏（等效 `L` + Fab）
-- `Fold内屏` 使用 `LC`
-- `Pad竖屏` / `Pad横屏` 使用 `LC`
-- 若传入设备不支持的 `screenMode`，视为无效输入，应直接报错
+## 组件间距
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `页面框架` | `Phone` | `L` | `absent` | | L栏本体，具体组件待定义 |
-| `Fab` | `Phone` | `L` | `variant` | `Fab_Rec_01` | 录音专用 Fab |
-| `页面框架` | `Fold外屏` | `L` | `absent` | | L栏本体，具体组件待定义 |
-| `Fab` | `Fold外屏` | `L` | `variant` | `Fab_Rec_01` | |
-| `侧边栏` | `Fold内屏` | `LC` | `variant` | `Sidebar_Component_Fold_LC_Fab_01` | Fold专用侧边栏带Fab（Sidebar_Component_Fold_LC_01 + Fab_01） |
-| `Fab` | `Fold内屏` | `LC` | `variant` | `Fab_Rec_01` | |
-| `侧边栏` | `Pad竖屏` | `LC` | `variant` | `Sidebar_Component_PAD_LC_Fab_01` | Pad专用侧边栏带Fab（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） |
-| `Fab` | `Pad竖屏` | `LC` | `variant` | `Fab_Rec_01` | |
-| `侧边栏` | `Pad横屏` | `LC` | `variant` | `Sidebar_Component_PAD_LC_Fab_01` | |
-| `Fab` | `Pad横屏` | `LC` | `variant` | `Fab_Rec_01` | |
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 标题栏 | NavigationBar_ComponentSet_01 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_07 | 左12；右12 |
+| 标签栏 | SelectableChip_ComponentSet_01 | 左12；右12 |
+| Fab | Fab_Rec_01 | 右24 |
+| 侧边栏 | Sidebar_Component_Fold_LC_Fab_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
+| 侧边栏 | Sidebar_Component_PAD_LC_Fab_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 
-| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
-| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
-| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: _04 |
-| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | N栏; C栏: _07 |
-| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | N栏; C栏: _07 |
+## 栏背景色
+
+### 手机
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 外屏
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface_low |
+| 横屏 | 待定 |
+
+### Fold Q18 — 内屏 / 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Fold Q18 — 内屏 / 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
 
 ## 当前覆盖缺口
 
-以下内容仍未形成正式映射，后续补齐后建议直接追加到上表：
-
-- Phone / Fold外屏 横屏模式
-- Phone / Fold外屏 L栏具体组件定义
+- 手机横屏模式
+- Fold 外屏横屏模式

@@ -15,25 +15,76 @@ status: draft
 
 短信为 LC 布局应用，Phone/Fold外屏无导航栏。
 
-| uiElement | device | screenMode | resultType | variantId | notes |
-| --- | --- | --- | --- | --- | --- |
-| `导航` | `Phone` | `L` | `absent` | | 无导航栏 |
-| `导航` | `Fold外屏` | `L` | `absent` | | 无导航栏 |
-| `导航` | `Fold内屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `导航` | `Pad竖屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `导航` | `Pad横屏` | `LC` | `absent` | | LC栏; 具体组件待定义 |
-| `搜索` | `Phone` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `搜索` | `Fold外屏` | `L` | `variant` | `SearchBar_ComponentSet_02` | |
-| `搜索` | `Fold内屏` | `LC` | `variant` | `SearchBar_ComponentSet_02` | L栏 |
-| `搜索` | `Pad竖屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
-| `搜索` | `Pad横屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
-| `Fab` | `Phone` | `L` | `variant` | `Fab_01` | 彩色 |
-| `Fab` | `Fold外屏` | `L` | `variant` | `Fab_01` | 彩色 |
-| `Fab` | `Fold内屏` | `LC` | `variant` | `Fab_01` | L栏; 彩色 |
-| `Fab` | `Pad竖屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
-| `Fab` | `Pad横屏` | `LC` | `absent` | | L栏: 标题栏新建图标 |
-| `标题栏` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` | |
-| `标题栏` | `Fold外屏` | `L` | `variant` | `NavigationBar_ComponentSet_04` | |
-| `标题栏` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏; C栏: 1.未选中=无标题 2.选中=_04(可无标题) |
-| `标题栏` | `Pad竖屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_07(可无标题) |
-| `标题栏` | `Pad横屏` | `LC` | `variant` | `NavigationBar_ComponentSet_01` | L栏; C栏: 1.未选中=无标题 2.选中=_07(可无标题) |
+| | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| 导航栏 | 无导航栏 | | 无导航栏 | | | LC栏 | | | LC栏 | | | | | LC栏 | | | | | LC栏 | |
+| 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_04（副标题） | | | L栏：NavigationBar_ComponentSet_04；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_04（副标题） | | | | | L栏：NavigationBar_ComponentSet_01；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_7（副标题） | | | | | L栏：NavigationBar_ComponentSet_01；C栏：1.未选中L栏list：无标题 2.选中L栏list：NavigationBar_ComponentSet_7（副标题） | |
+| 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | | | L栏：SearchBar_ComponentSet_02 | | | | | L栏：SearchBar_ComponentSet_02 | |
+| Fab | Fab_01；彩色 | | Fab_01；彩色 | | | L栏：Fab_01；彩色 | | | L栏：Fab_01；彩色 | | | | | L栏：标题栏 新建图标 | | | | | L栏：标题栏 新建图标 | |
+
+## 组件间距
+
+| 组件 | variantId | Space |
+|------|-----------|-------|
+| 标题栏 | NavigationBar_ComponentSet_01 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |
+| 标题栏 | NavigationBar_ComponentSet_07 | 左12；右12 |
+| 搜索 | SearchBar_ComponentSet_02 | 左12；右12 |
+| Fab | Fab_01 | 右24 |
+
+## 栏背景色
+
+### 手机
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface |
+| 横屏 | 待定 |
+
+### Fold Q18 — 外屏
+
+| screenMode | 背景色 |
+|-----------|-------|
+| 竖屏 | 背景色/surface |
+| 横屏 | 待定 |
+
+### Fold Q18 — 内屏 / 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Fold Q18 — 内屏 / 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 竖屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+### Pad — 横屏
+
+| screenMode | N 栏 | L 栏 | C 栏 |
+|-----------|------|------|------|
+| NLC | 不存在 | 不存在 | 不存在 |
+| NLC 收起 | 不存在 | 不存在 | 不存在 |
+| NC | 不存在 | 不存在 | 不存在 |
+| LC | 不存在 | 背景色/surface | 背景色/surface_low |
+| C | 不存在 | 不存在 | 不存在 |
+
+## 当前覆盖缺口
+
+- 手机横屏模式
+- Fold 外屏横屏模式
