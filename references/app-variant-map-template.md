@@ -189,6 +189,7 @@ status: draft
 - `标签栏`
 - `Fab`
 - `工具栏`
+- `浮窗` / `抽屉` / `弹窗` / `菜单`（浮层容器；规格见 `layouts/device-dimensions.md` 的「浮层规格」小节）
 
 谨慎使用：
 

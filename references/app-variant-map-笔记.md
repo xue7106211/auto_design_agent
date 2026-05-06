@@ -82,6 +82,36 @@ status: draft
 | | List_Task_02 | | List_Task_02 | | | List_Task_04 | | | List_Task_04 | | List_Task_04 | List_Task_04 | | | | List_Task_04 | List_Task_04 | | | |
 | Fab | Fab_01；彩色 | | Fab_01；彩色 | | | C栏：Fab_01；彩色 | | | C栏：Fab_01；彩色 | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 |
 
+## 浮层
+
+浮层容器（浮窗 / 抽屉 / 弹窗 / 菜单）的尺寸、位置、遮罩、背景色规范统一位于 `layouts/device-dimensions.md` 的「浮层规格」小节。本节只记录 **笔记应用在各设备 / screenMode 下要调用哪个 variant**，不重复规格。
+
+来源：结构变化表——总表（`笔记 Notes` 行块，2026-05-06 版）。
+
+### 文件夹管理窗口 ManageFoldWindow
+
+| | 手机竖 | Fold外竖 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| variant | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `FloatingWindow_ComponentSet_01` | | | `FloatingWindow_ComponentSet_01` | | | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 |
+
+### 抽屉窗口 / 浮窗 FloatingWindow
+
+| | 手机竖 | Fold外竖 | Fold内 全模式 | Pad竖NLC | Pad横NLC |
+|--|--|--|--|--|--|
+| variant | `DrawerWindow_ComponentSet_high_01` | `DrawerWindow_ComponentSet_high_01` | `FloatingWindow_ComponentSet_01` | `FloatingWindow_ComponentSet_01` | `FloatingWindow_ComponentSet_01` |
+
+### 弹窗 Dialog
+
+| | 全设备 / 全 screenMode |
+|--|--|
+| variant | `AlertDialog-ComponentSet_01` |
+
+### 菜单 Menu
+
+| | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
+|--|--|--|--|--|--|--|--|--|
+| variant | `Menu-ComponentSet_03` | `Menu-ComponentSet_03` | L栏：`Menu-ComponentSet_03` | L栏：`Menu-ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu-ComponentSet_03` |
+
 ## 遮罩规则
 
 笔记和待办在 NLC / LC 模式下均适用以下遮罩规则。遮罩样式参见 `device-dimensions.md` 中的遮罩定义（遮罩色/mask，#000000，20%）。
