@@ -22,7 +22,7 @@ status: draft
 
 | 组件 | variantId | Space |
 |------|-----------|-------|
-| 导航栏 | BottomBar_Showcase_01 | 最小弹：左24；右24 |
+| 导航栏 | BottomBar_Showcase_01 | 最小：左24；右24 |
 | 导航栏 | TopBar_01 | 左12；右12 |
 | 标题栏 | NavigationBar_ComponentSet_Calendar_01 | 左16；右12 |
 | 标题栏 | NavigationBar_ComponentSet_04 | 左12；右12；标题左侧：28 |

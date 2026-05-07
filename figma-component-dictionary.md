@@ -308,6 +308,9 @@
 | `Menu` | — | `Menu-ComponentSet_01` | 默认菜单 | 待建立 | `manual` |
 | `Menu` | — | `Menu-ComponentSet_02` | 分组_选择菜单 | 待建立 | `manual` |
 | `Menu` | — | `Menu-ComponentSet_03` | 分组_进入二级菜单 | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls-ComponentSet_01` | 默认 | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls-ComponentSet_02` | 分段按钮_容器 | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls-ComponentSet_03` | 分段按钮_Pad | 待建立 | `manual` |
 
 注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 
@@ -352,7 +355,7 @@
 
 以下组件族已在字典层注册，但执行层记录尚未通过 Figma 探查验证，需逐步补充：
 
-TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / Menu
+TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / Menu / SegmentedControls
 
 ## 硬约束
 

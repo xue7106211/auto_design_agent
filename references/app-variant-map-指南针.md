@@ -24,7 +24,7 @@ status: draft
 
 | 组件 | variantId | Space |
 |------|-----------|-------|
-| 导航栏 | BottomBar_Showcase_01 | 最小弹：左24；右24 |
+| 导航栏 | BottomBar_Showcase_01 | 最小：左24；右24 |
 | 标题栏 | NavigationBar_ComponentSet_10 | 左12；右12 |
 
 ## 栏背景色
