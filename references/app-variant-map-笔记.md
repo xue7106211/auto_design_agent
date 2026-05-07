@@ -59,7 +59,7 @@ status: draft
 
 | | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| 导航栏 | NavigationBar_ComponentSet_01 待办图标 | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | | NavigationBar_ComponentSet_04 待办图标 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
+| 导航栏 | BottomBar_Showcase_00 | | BottomBar_Showcase_00 | | | L栏：BottomBar_Showcase_00 | | | L栏：BottomBar_Showcase_00 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
 | 标题栏 | NavigationBar_ComponentSet_01 | | NavigationBar_ComponentSet_04 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | | | |
 | 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | | L栏：SelectableChip_ComponentSet_Notes_02 | | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 文件夹列表 | 不展示 | | | 不展示 |
@@ -74,7 +74,7 @@ status: draft
 
 | | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| 导航栏 | NavigationBar_ComponentSet_02 | | NavigationBar_ComponentSet_05 | | | L栏：NavigationBar_ComponentSet_05 | | | L栏：NavigationBar_ComponentSet_05 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
+| 导航栏 | BottomBar_Showcase_00 | | BottomBar_Showcase_00 | | | L栏：BottomBar_Showcase_00 | | | L栏：BottomBar_Showcase_00 | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_02 | | | |
 | 标题栏 | NavigationBar_ComponentSet_02 | | NavigationBar_ComponentSet_05 | | | L栏：NavigationBar_ComponentSet_05；C栏：无标题 | | | L栏：NavigationBar_ComponentSet_05；C栏：无标题 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_07；C栏：无标题 | | | |
 | 搜索 | SearchBar_ComponentSet_02 | | SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | | L栏：SearchBar_ComponentSet_02 | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | | L栏：NavigationBar_ComponentSet_07 搜索图标 | L栏：NavigationBar_ComponentSet_07 搜索图标 | | | |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 |
@@ -116,11 +116,28 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 |--|--|
 | variant | `SegmentedControls-ComponentSet_01` |
 
+### 选择器 Picker
+
+日期 / 时间选择的浮层容器，规格（宽度、位置）参见 `device-dimensions.md` 的「浮层规格」小节。
+
+| | 全设备 / 全 screenMode |
+|--|--|
+| variant | `WheelPicker-ComponentSet_01` |
+
+### 滚动条 Scrollbar
+
+各栏内容区均可按需挂载；全设备 / 全 screenMode 统一使用同一 variant。Pad NLC 收起态下 N 栏不展示滚动条。
+
+| | 全设备 / 全 screenMode |
+|--|--|
+| variant | `Scrollbar_ComponentSet_01` |
+| 例外 | Pad NLC 收起 → N 栏不展示 |
+
 ### 菜单 Menu
 
 | | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
 |--|--|--|--|--|--|--|--|--|
-| variant | `Menu-ComponentSet_03` | `Menu-ComponentSet_03` | L栏：`Menu-ComponentSet_03` | L栏：`Menu-ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu-ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu-ComponentSet_03` |
+| variant | `Menu_ComponentSet_03` | `Menu_ComponentSet_03` | L栏：`Menu_ComponentSet_03` | L栏：`Menu_ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu_ComponentSet_03` |
 
 ## 遮罩规则
 
@@ -153,6 +170,8 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | 侧边栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 文字格式弹窗 | TextFormatPanel_01 | 最小：左12；右12 |
 | 分段按钮 | SegmentedControls-ComponentSet_01 | 左12；右12 |
+| 选择器 | WheelPicker-ComponentSet_01 | 宽度 368；手机：左12；右12；底部 12；Fold：左右居中；底部 28；Pad：左右居中；上下居中 |
+| 滚动条 | Scrollbar_ComponentSet_01 | 右 0 |
 | 文字格式弹窗 | TextFormatPanel_02 | 最小：左12；右12 |
 | 列表 | List_Notes_01 ~ 06 | 左12；右12 |
 | 列表 | List_Task_01 ~ 04 | 左12；右12 |
