@@ -150,6 +150,23 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 **标准实例命中与退化**：有明确目标实例名时（来自 `app-variant-map`、布局 reference、组件字典或用户输入）必须优先命中；仅在确认当前文件内不存在、无法访问或实例化失败后才允许退化为局部素材重组，并说明退化原因；标准组件默认保留实例状态，不预先执行 `detachInstance`
 
+**设计系统组件检索不可跳过**：`currentPage.findAll(...)` 或当前 section / 当前 page 搜索只能证明“当前画布是否已有落地实例”，不能证明外部组件库或设计系统中不存在目标变体。凡 `app-variant-map`、布局 reference、组件字典或用户输入给出明确 `variantId` / 标准实例名时，必须按以下顺序命中，不允许因为当前 page 未找到同名节点就直接 `fallback`：
+
+1. 读取源实例的 `mainComponent`、组件集身份、组件属性和可用 `VariantId`
+2. 使用 Figma Skill 的设计系统搜索能力（如 `search_design_system`）查找目标组件族 / 组件集 / `variantId`
+3. 找到组件或组件集后，使用 `importComponentByKeyAsync(...)` / `importComponentSetByKeyAsync(...)` 导入，并通过 `createInstance()`、`setProperties(...)` 或 `swapComponent(...)` 命中目标变体
+4. 再做当前 page / 当前 section 已落地实例检索，作为可 clone 的就地资源补充
+5. 只有当设计系统搜索无结果、导入失败、目标 `variantId` 在组件集中不存在、或实例化 / 切换被 Figma 限制阻塞时，才允许进入 `fallback` / `blocked`
+
+检索结论必须区分：
+
+| 结论 | 含义 | 后续动作 |
+| --- | --- | --- |
+| 当前 page 未落地目标实例 | 只表示画布上没有现成节点 | 继续设计系统搜索 / 组件库导入 |
+| 设计系统搜索无结果 | 外部组件库未命中目标组件族或组件集 | 记录搜索词和结果，进入 `blocked` 或同族 fallback |
+| 组件集存在但目标 `variantId` 不存在 | 组件族存在，具体变体缺失 | 中止该目标映射；不得跨组件族替换 |
+| 导入或实例化失败 | 目标存在但 Figma 写入受限 | 记录错误后再判断是否 clone / detach 降级 |
+
 **导航语义约束**：
 - 组件族由映射表决定，不由 `layoutType` / 栏位名 / `screenMode` 推断；`LC` 的 `L` 栏 ≠ `Sidebar`，仅 `NC / NLC` 显式存在 `N` 栏时才允许把底部导航迁移为 `Sidebar`
 - `variantId` 不可跨语义替换：映射表命中的 `variantId` 在组件集中不可用时，不允许自动改用其他 `variantId`（尤其禁止 `BottomBar` → `Sidebar`）；此时中止汇报缺口，或退化为无新增导航语义的空容器
@@ -163,14 +180,15 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 2. 识别组件族、当前 `VariantId`、`resolvedUiElement`
 3. 查字典层
 4. 加载组件族 reference
-5. 决定 `setProperties(...)` 或 `swapComponent(...)`
-6. 检查 `fontDegradationMap`，决定回写路径：
+5. 若目标来自外部组件库，先通过设计系统搜索和 `importComponentByKeyAsync(...)` / `importComponentSetByKeyAsync(...)` 导入目标组件或组件集
+6. 决定 `setProperties(...)` 或 `swapComponent(...)`
+7. 检查 `fontDegradationMap`，决定回写路径：
    - 标准组件优先保留实例态：先尝试 `loadFontAsync → setProperties / swapComponent → 必要的实例级文本或属性修改 → appendChild`
    - 只有在以下条件同时成立时，才允许进入 `detachInstance` 降级路径：目标实例路径已尝试失败、确实需要修改实例内部文本或结构、且字体或组件依赖阻塞无法通过实例态完成
    - 如果进入降级路径 → `clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
    - 如果字体全部可用 → 走正常路径：直接 `setProperties` 或 `swapComponent`
-7. 执行 Figma 回写
-8. 做截图和 metadata 验证
+8. 执行 Figma 回写
+9. 做截图和 metadata 验证
 
 基础组件的额外硬约束：
 
@@ -209,6 +227,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 - 即使文件中已有看似可用的整页结果，也不得直接视为当前任务输出；最多只能作为比对样例，除非用户已明确确认复用
 - 不允许把“复用顶部模块 / 底部模块 / 页面局部结构”执行成“直接保留源稿基础组件的当前变体”；凡属于基础组件的节点，在装配进目标骨架前必须先完成独立映射
 - 不允许用“源稿里已经有标题栏 / 状态栏 / 底部导航，所以先 clone 过去”替代组件映射；clone 只能作为命中目标实例失败后的回退路径，不能作为默认路径
+- 不允许把“当前 page 未找到目标组件实例”写成“组件库中不存在目标变体”；在进入 `fallback` / `blocked` 前，必须已经执行设计系统搜索、组件导入或组件集 `variantId` 校验，并在 `componentTaskList` 中记录证据
 - 凡 `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件，必须进入目标稿必落地清单；执行脚本不得隐藏、删除或跳过该节点。若无法命中标准实例，只能标记 `fallback` 或 `blocked`，并保留对应语义位置
 
 **目标稿放置约束**：
