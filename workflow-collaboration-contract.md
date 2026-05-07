@@ -26,10 +26,11 @@
 5. 识别每个实例的 `resolvedUiElement`
 6. 生成 `componentTaskList`
 7. 按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
-8. 对需要组件级处理的任务，读取 `figma-component-dictionary.md`
-9. 按布局类型读取 `references/layouts/*.md` 并做回写
-10. 回读 metadata 做结构校验
-11. 按布局 reference 的验收项做最终校验
+8. 将 `resultType = variant` 且未标记 `hidden / absent` 的记录收敛为目标稿必落地清单
+9. 对需要组件级处理的任务，读取 `figma-component-dictionary.md`
+10. 按布局类型读取 `references/layouts/*.md` 并做回写
+11. 回读 metadata 做结构校验
+12. 按布局 reference 的验收项和 `componentTaskList` 做最终校验
 
 其中主链路内的组件处理步骤至少包括：
 
@@ -95,6 +96,12 @@
 | `references/app-variant-map-*.md` | 语义→目标映射（§4 详述） | appName + device + screenMode + resolvedUiElement | resultType + variantId |
 | `references/component-dictionary/*.md` | 组件族定位与执行参数供给 | 组件族名 | 字段、值域、回退规则 |
 
+补充执行约束：
+
+- `resolvedUiElement` 和 `app-variant-map` 返回结果优先级高于组件名、组件族名和布局直觉；主流程不得仅凭组件名改写语义。
+- `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件必须进入目标稿必落地清单；无法命中标准实例时只能标记 `fallback` 或 `blocked`。
+- 验证阶段必须反查 `componentTaskList`；`fallback` 不等于 `mapped`，跨组件族 fallback 不得通过验收。
+
 ## 4. 应用 variant 映射表层需要稳定输出给主流程的字段
 
 上下游之间最核心的接口如下。
@@ -158,6 +165,7 @@
 - 优先写 Figma 中真实存在的正式 `VariantId`
 - 不要长期保留临时命名
 - 如果暂时只能用占位值，必须在 `notes` 中标记
+- 只要 `resultType = variant`，主流程会按必落地任务处理；如果目标组件族尚未具备执行路径，映射表维护者应在 `notes` 中明确缺口，避免调用方误判为已完成映射
 
 ## 6. 应用 variant 映射表推荐结构
 

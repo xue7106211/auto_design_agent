@@ -1,12 +1,18 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-04-28",
+  "version": "1.0.1",
+  "lastUpdated": "2026-05-07",
   "skill": {
     "entry": "SKILL.md",
-    "version": "1.0.0"
+    "version": "1.0.1"
+  },
+  "executionGuards": {
+    "mappingPriority": "resolvedUiElement and app-variant-map results override component names, component family names, and layout intuition",
+    "requiredLanding": "variant results that are not hidden or absent must be present in the target semantic position, or be reported as fallback or blocked",
+    "reverseValidation": "fallback is not mapped; cross-family fallback cannot satisfy component validation"
   },
   "references": {
     "commonRules": "references/common-rules.md",
+    "fontDegradation": "references/font-degradation.md",
     "appVariantMapTemplate": "references/app-variant-map-template.md",
     "layouts": {
       "lcNc": "references/layouts/lc-nc-layout.md",
@@ -19,13 +25,13 @@
   },
   "appVariantMaps": [
     {
-      "app": "文管",
-      "file": "references/app-variant-map-文管.md",
+      "app": "文件管理",
+      "file": "references/app-variant-map-文件管理.md",
       "status": "draft",
       "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
-      "screenModes": ["N", "L", "C", "NC"],
-      "mappedUiElements": 11,
-      "knownGaps": 5
+      "screenModes": ["C", "NC"],
+      "mappedUiElements": 4,
+      "knownGaps": 2
     },
     {
       "app": "笔记",
@@ -73,15 +79,6 @@
       "knownGaps": 0
     },
     {
-      "app": "图库",
-      "file": "references/app-variant-map-图库.md",
-      "status": "draft",
-      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
-      "screenModes": ["L", "LC", "NLC", "C", "NLC收起"],
-      "mappedUiElements": 5,
-      "knownGaps": 0
-    },
-    {
       "app": "短信",
       "file": "references/app-variant-map-短信.md",
       "status": "draft",
@@ -118,17 +115,26 @@
       "knownGaps": 0
     },
     {
-      "app": "日历",
-      "file": "references/app-variant-map-日历.md",
+      "app": "指南针",
+      "file": "references/app-variant-map-指南针.md",
       "status": "draft",
       "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
-      "screenModes": ["L", "C"],
-      "mappedUiElements": 1,
-      "knownGaps": 0
+      "screenModes": ["C"],
+      "mappedUiElements": 2,
+      "knownGaps": 2
     },
     {
-      "app": "收藏",
-      "file": "references/app-variant-map-收藏.md",
+      "app": "时钟",
+      "file": "references/app-variant-map-时钟.md",
+      "status": "draft",
+      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
+      "screenModes": ["C"],
+      "mappedUiElements": 2,
+      "knownGaps": 2
+    },
+    {
+      "app": "日历",
+      "file": "references/app-variant-map-日历.md",
       "status": "draft",
       "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
       "screenModes": ["L", "C"],
@@ -150,15 +156,6 @@
       "status": "draft",
       "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
       "screenModes": ["C"],
-      "mappedUiElements": 1,
-      "knownGaps": 0
-    },
-    {
-      "app": "扫一扫",
-      "file": "references/app-variant-map-扫一扫.md",
-      "status": "draft",
-      "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
-      "screenModes": ["C", "NC"],
       "mappedUiElements": 1,
       "knownGaps": 0
     },

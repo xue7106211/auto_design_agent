@@ -41,8 +41,9 @@ flowchart TD
     B7 --> B8[生成 componentTaskList]
     B8 --> B9[按 appName + device + screenMode + resolvedUiElement 查询 app-variant-map]
     B9 --> B10[优先命中基础组件级映射 页面框架类记录仅作骨架补充]
+    B10 --> B11[生成必落地清单 variant 且非 hidden / absent]
 
-    B10 --> C[阶段 C：组件处理与布局写入]
+    B11 --> C[阶段 C：组件处理与布局写入]
     C --> C1[读取 figma-component-dictionary.md]
     C1 --> C2[命中组件族后读取对应 component reference]
     C2 --> C3{决定动作}
@@ -52,6 +53,7 @@ flowchart TD
     C5 --> C6
     C6 --> C7[回读 metadata 做结构校验]
     C7 --> C8[按布局 reference 验收项做最终校验]
+    C8 --> C9[按 componentTaskList 做组件反向验收]
 
     style A fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
     style B fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
@@ -66,6 +68,8 @@ flowchart TD
 - `app-variant-map` 是数据映射层，不是流程入口；它在主链路中按 `componentTaskList` 被批量查询。
 - `app-variant-map` 当前已有统一模板 `references/app-variant-map-template.md`，后续新建或重构应用映射表应优先按该模板收敛。
 - 应用映射表默认优先维护基础组件级条目；`页面框架` 类记录只作为骨架级补充，不应替代 `状态栏`、`标题栏`、`底部导航`、`侧边栏`、`搜索栏`、`标签栏`、`Fab` 等基础组件映射。
+- `resolvedUiElement` 和 `app-variant-map` 返回结果优先级高于组件名、组件族名和布局直觉；映射表命中的 `variant` 不得在写入阶段被隐藏、删除或跨语义替换。
+- `fallback` 只表示退化占位，不等于 `mapped`；跨组件族 fallback 不能通过组件反向验收。
 - 整页多端适配链路已经恢复布局 reference 依赖，但独立验证 reference 仍未活跃化；当前验证依赖各布局 reference 的“默认验收标准”。
 
 ## Reference 加载矩阵
@@ -86,6 +90,8 @@ flowchart TD
 - 未读取对应布局 reference 前，不允许执行 Figma 写入。
 - 布局 reference 中的栏宽、栏位职责和验收项优先级高于模型推断。
 - 例如 Fold LC 下，NavigationBar 必须位于 L 栏内，不能作为全宽标题栏跨越 C 栏。
+- `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件必须进入目标稿必落地清单。
+- `componentTaskList` 中 `status != hidden/absent` 的任务必须在目标 frame 中存在对应语义节点；`Sidebar_*` 不得由 `BottomBar_*` 计为完成。
 
 ## 关键字段归属
 
@@ -98,6 +104,7 @@ flowchart TD
 | `layoutType` | `SKILL.md` | 活跃 |
 | `layoutReference` | `references/layouts/*.md` | 活跃 |
 | `componentTaskList` | `SKILL.md` | 应显式产出 |
+| `requiredLandingList` | `SKILL.md` + `references/app-variant-map-{appName}.md` | `variant` 且非 `hidden/absent` 的组件必落地清单 |
 | `resolvedUiElement` | `figma-component-dictionary.md` | 活跃 |
 | `resultType` | `references/app-variant-map-{appName}.md` | 活跃 |
 | `targetVariantId` | `references/app-variant-map-{appName}.md`、`figma-component-dictionary.md` | 活跃 |

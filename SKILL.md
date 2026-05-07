@@ -2,8 +2,8 @@
 name: SKILL
 description: 多终端界面适配生产主入口技能。默认用于整页 Fold / Pad 适配，在主链路内部完成页面级组件任务生成、按需读取 reference、组件处理、布局执行和验证。
 disable-model-invocation: false
-version: 1.0.0
-lastUpdated: 2026-04-26
+version: 1.0.1
+lastUpdated: 2026-05-07
 ---
 
 # 多终端界面适配
@@ -146,6 +146,8 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 **基础组件独立映射**：基础组件（至少包括 `StatusBar`、`NavigationBar`、`BottomBar`、`Sidebar`、`SearchBar`、`SelectableChip`、`Fab` 及布局 reference 点名的标准结构组件）必须单独收敛为组件任务，不允许混在”顶部模块””页面骨架”等打包动作中跳过；每个基础组件必须独立走完 `resolvedUiElement` → `screenMode` → `app-variant-map` → 目标实例命中全链路，仅完成位置迁移、尺寸拉伸、整体 clone 或”沿用源稿当前变体”不视为完成；命中标准实例后，后续骨架执行只能复用该命中结果，不允许回退到源稿原始变体
 
+**映射表优先级**：`resolvedUiElement` 和 `app-variant-map` 返回结果优先级高于组件名、组件族名和布局直觉；执行时不得仅凭组件名改写语义。例如 `BottomBar_Showcase_Notes_01` 在笔记应用中命中 `底部工具栏` 时，必须按工具栏处理，不得按手机底部导航删除
+
 **标准实例命中与退化**：有明确目标实例名时（来自 `app-variant-map`、布局 reference、组件字典或用户输入）必须优先命中；仅在确认当前文件内不存在、无法访问或实例化失败后才允许退化为局部素材重组，并说明退化原因；标准组件默认保留实例状态，不预先执行 `detachInstance`
 
 **导航语义约束**：
@@ -207,6 +209,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 - 即使文件中已有看似可用的整页结果，也不得直接视为当前任务输出；最多只能作为比对样例，除非用户已明确确认复用
 - 不允许把“复用顶部模块 / 底部模块 / 页面局部结构”执行成“直接保留源稿基础组件的当前变体”；凡属于基础组件的节点，在装配进目标骨架前必须先完成独立映射
 - 不允许用“源稿里已经有标题栏 / 状态栏 / 底部导航，所以先 clone 过去”替代组件映射；clone 只能作为命中目标实例失败后的回退路径，不能作为默认路径
+- 凡 `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件，必须进入目标稿必落地清单；执行脚本不得隐藏、删除或跳过该节点。若无法命中标准实例，只能标记 `fallback` 或 `blocked`，并保留对应语义位置
 
 **目标稿放置约束**：
 
@@ -304,6 +307,8 @@ await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
 **尺寸、圆角与栏宽**：画布尺寸、设备圆角、栏宽、边距符合预期参数；栏内第一层语义容器必须使用 Auto Layout / `Fill Container` 跟随栏宽收敛，禁止保留旧固定宽度后靠裁切隐藏；Fold 内屏目标 frame 四角圆角必须为 `50dp`，Pad 目标 frame 四角圆角必须为 `34dp`
 
 **基础组件映射**：源稿中的基础组件（`NavigationBar`、`StatusBar`、`BottomBar` 等）在目标稿中已完成独立映射，而非源稿原始实例、原始 `VariantId` 或未经校验的 clone；映射表返回 `hidden` / `absent` 的除外
+
+**组件反向验收**：对 `componentTaskList` 中所有 `status != hidden/absent` 的任务，必须检查目标 frame 中存在对应语义节点；`fallback` 不等于 `mapped`，跨组件族 fallback 不得通过验收。例如 `Sidebar_*` 不得由 `BottomBar_*` 计为完成
 
 验证不通过时，根据偏差项修正后再次验证，最多循环 3 次。
 

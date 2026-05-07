@@ -139,11 +139,14 @@ auto_design_agent/
 5. 批量查询 `app-variant-map`
 6. 按布局类型读取 `references/layouts/*.md`
 7. 在主链路内按组件字典 reference 处理组件
-8. 按对应布局 reference 的验收项做结果验证
+8. 按对应布局 reference 的验收项和 `componentTaskList` 做结果验证
 
 补充约束：
 
 - `app-variant-map` 默认优先维护基础组件级条目，如 `状态栏`、`标题栏`、`底部导航`、`侧边栏`、`搜索栏`、`标签栏`、`Fab`
+- `resolvedUiElement` 和 `app-variant-map` 返回结果优先级高于组件名、组件族名和布局直觉；映射命中后不得仅凭组件名改写语义
+- `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件必须进入目标稿必落地清单；无法命中标准实例时，只能标记 `fallback` 或 `blocked`
+- 验证阶段必须反查 `componentTaskList`；`fallback` 不等于 `mapped`，跨组件族 fallback 不能通过组件验收
 - `页面框架` 类记录只作为骨架级补充，不应替代基础组件映射
 - 分栏适配不能只让 viewport 命中栏宽；栏内第一层语义容器也必须跟随栏宽收敛，优先通过 Auto Layout / `Fill Container` 实现，而不是依赖裁切隐藏超宽内容
 - 新增或重构应用映射表时，优先参照 [references/app-variant-map-template.md](./references/app-variant-map-template.md)
@@ -214,6 +217,7 @@ auto_design_agent/
 - 参考文档保持按需加载，不把细节重新堆回主 Skill
 - 应用 variant 映射表和组件 reference 都属于活跃输入文档，路径变化时要同步更新 README
 - `app-variant-map` 优先维护基础组件级映射；页面框架类条目只作为骨架级补充
+- 主链路新增执行护栏时，应同步更新 `manifest.json` 的 `executionGuards`、本 README、`current-execution-map.md` 和 `workflow-collaboration-contract.md`
 - `SKILL.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
 - 组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
 - 非主入口文档不要保留 Skill frontmatter；统一写成普通 reference 文档
@@ -227,4 +231,3 @@ auto_design_agent/
 - 新增或重构 Skill / reference 的统一 Prompt 见 [prompt-skill-consistency.md](./prompt-skill-consistency.md)
 - 当前可执行链路与断点状态见 [current-execution-map.md](./current-execution-map.md)
 - 历史适配方案和旧规则文档见 `Archive/`
-
