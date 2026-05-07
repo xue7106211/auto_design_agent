@@ -90,9 +90,11 @@ status: draft
 
 ### 文件夹管理窗口 ManageFoldWindow
 
-| | 手机竖 | Fold外竖 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
-|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| variant | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `FloatingWindow_ComponentSet_01` | | | `FloatingWindow_ComponentSet_01` | | | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 |
+Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附着于 L 栏。
+
+| | 手机竖 | Fold外竖 | Fold内竖 全模式 | Fold内横 全模式 | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
+|--|--|--|--|--|--|--|--|--|
+| variant | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `Sidebar_Component_Fold_LC_01`（宽度定制 283dp） | `FloatingWindow_ComponentSet_01` | `FloatingWindow_ComponentSet_01` | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 | L栏：`Sidebar_Component_PAD_NLC_01` 文件夹列表 | 不展示 |
 
 ### 抽屉窗口 / 浮窗 FloatingWindow
 
@@ -105,6 +107,14 @@ status: draft
 | | 全设备 / 全 screenMode |
 |--|--|
 | variant | `AlertDialog-ComponentSet_01` |
+
+### 分段按钮 Segmented Controls
+
+仅在浮窗 / 抽屉内部使用（如 录音详情的「总结 / 原文」切换），不作为独立浮层。全设备 / 全 screenMode 统一使用同一 variant。
+
+| | 全设备 / 全 screenMode |
+|--|--|
+| variant | `SegmentedControls-ComponentSet_01` |
 
 ### 菜单 Menu
 
@@ -137,12 +147,13 @@ status: draft
 | 搜索 | SearchBar_ComponentSet_02 | 左12；右12 |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | 左12 |
 | 标签栏 | SelectableChip_ComponentSet_Notes_02 | 左12 |
-| 底部工具栏 | BottomBar_Showcase_Notes_01 | 最小弹：左24；右24 |
+| 底部工具栏 | BottomBar_Showcase_Notes_01 | 最小：左24；右24 |
 | Fab | Fab_01 | 右24 |
 | 侧边栏 | Sidebar_Component_PAD_NLC_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 侧边栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
-| 文字格式弹窗 | TextFormatPanel_01 | 最小弹：左12；右12 |
-| 文字格式弹窗 | TextFormatPanel_02 | 最小弹：左12；右12 |
+| 文字格式弹窗 | TextFormatPanel_01 | 最小：左12；右12 |
+| 分段按钮 | SegmentedControls-ComponentSet_01 | 左12；右12 |
+| 文字格式弹窗 | TextFormatPanel_02 | 最小：左12；右12 |
 | 列表 | List_Notes_01 ~ 06 | 左12；右12 |
 | 列表 | List_Task_01 ~ 04 | 左12；右12 |
 

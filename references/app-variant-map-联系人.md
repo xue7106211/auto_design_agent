@@ -41,7 +41,7 @@ status: draft
 
 | 组件 | variantId | Space |
 |------|-----------|-------|
-| 导航栏 | BottomBar_Showcase_Fab_01 | Padding：最小弹：左24；右24；Gap：12 |
+| 导航栏 | BottomBar_Showcase_Fab_01 | Padding：最小：左24；右24；Gap：12 |
 | 导航栏 | BottomBar_Showcase_02 | 左24 |
 | 导航栏 | Sidebar_Component_PAD_NLC_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 导航栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
