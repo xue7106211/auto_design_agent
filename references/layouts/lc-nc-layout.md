@@ -62,6 +62,7 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 - 清空目标 frame 子节点
 - 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
 - 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
+- 如果目标设备为 Pad，设置目标 frame 四角圆角为 `34dp`
 - 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
 - 建立主内容区 frame（水平布局）
 - 建立左栏 frame（列表栏，宽度按当前文档定义）
@@ -134,6 +135,7 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 每次关键写入后读取结构，检查：
 - 目标 frame 尺寸
 - Fold 内屏 Q18 目标 frame 圆角是否为 `50dp`
+- Pad 目标 frame 圆角是否为 `34dp`
 - 状态栏尺寸
 - 左右栏尺寸
 - 栏内第一层语义容器尺寸是否跟随栏宽，而不是保留旧固定宽度
@@ -164,6 +166,7 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 
 - 目标页面尺寸精确匹配设备规格
 - Fold 内屏 Q18 目标 frame 四角圆角精确为 `50dp`
+- Pad 目标 frame 四角圆角精确为 `34dp`
 - 左右栏宽度精确匹配当前文档定义
 - 不能出现“viewport 是目标栏宽，但栏内第一层语义容器仍保留旧固定宽度”的情况
 - Fold 内屏竖屏 `LC` 下，`L` 栏 viewport 为 `283dp` 时，`L` 栏根容器、`NavigationBar`、搜索栏、标签栏、列表区根容器都必须收敛到 `283dp` 语义

@@ -301,7 +301,7 @@ await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
 
 **版本完整性**：对照 `targetVariantPlan`，每个设备 × 方向版本都已实际创建；缺失任何未经用户豁免的版本不得报成功
 
-**尺寸与栏宽**：画布尺寸、栏宽、边距符合预期参数；栏内第一层语义容器必须使用 Auto Layout / `Fill Container` 跟随栏宽收敛，禁止保留旧固定宽度后靠裁切隐藏；Fold 内屏还须验证目标 frame 四角圆角为 `50dp`
+**尺寸、圆角与栏宽**：画布尺寸、设备圆角、栏宽、边距符合预期参数；栏内第一层语义容器必须使用 Auto Layout / `Fill Container` 跟随栏宽收敛，禁止保留旧固定宽度后靠裁切隐藏；Fold 内屏目标 frame 四角圆角必须为 `50dp`，Pad 目标 frame 四角圆角必须为 `34dp`
 
 **基础组件映射**：源稿中的基础组件（`NavigationBar`、`StatusBar`、`BottomBar` 等）在目标稿中已完成独立映射，而非源稿原始实例、原始 `VariantId` 或未经校验的 clone；映射表返回 `hidden` / `absent` 的除外
 
