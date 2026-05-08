@@ -83,6 +83,8 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 此外，`sourceDesignContext` 中还必须明确：关键组件和变体已识别、页面功能区域已划分（导航区、列表区、内容区、操作区等）。
 
+**页面状态完整性约束**：源 Section 中每个直接子 Frame 必须在最终输出中有对应物（适配 frame、叠加态、或标记跳过原因）。源 Frame 数量与目标覆盖数量对不上时，不得报适配完成。
+
 ### Phase 2：判断目标设备和布局类型
 
 根据用户需求和源设计稿特征，确定：
