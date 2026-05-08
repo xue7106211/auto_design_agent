@@ -106,7 +106,15 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 | | 全设备 / 全 screenMode |
 |--|--|
-| variant | `AlertDialog-ComponentSet_01` |
+| variant | `AlertDialog_ComponentSet_01` |
+
+### 行动操作按钮 ActionSheet
+
+底部对齐的浮层，规格（宽度、位置）参见 `device-dimensions.md` 的「浮层规格」小节。
+
+| | 全设备 / 全 screenMode |
+|--|--|
+| variant | `Actionsheet_ComponentSet_01` |
 
 ### 分段按钮 Segmented Controls
 
@@ -122,7 +130,7 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 | | 全设备 / 全 screenMode |
 |--|--|
-| variant | `WheelPicker-ComponentSet_01` |
+| variant | `WheelPicker_ComponentSet_01` |
 
 ### 滚动条 Scrollbar
 
@@ -170,7 +178,9 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | 侧边栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 文字格式弹窗 | TextFormatPanel_01 | 最小：左12；右12 |
 | 分段按钮 | SegmentedControls-ComponentSet_01 | 左12；右12 |
-| 选择器 | WheelPicker-ComponentSet_01 | 宽度 368；手机：左12；右12；底部 12；Fold：左右居中；底部 28；Pad：左右居中；上下居中 |
+| 选择器 | WheelPicker_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp；Pad：上下居中 |
+| 弹窗 | AlertDialog_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp；Pad：上下居中 |
+| 行动操作按钮 | Actionsheet_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp |
 | 滚动条 | Scrollbar_ComponentSet_01 | 右 0 |
 | 文字格式弹窗 | TextFormatPanel_02 | 最小：左12；右12 |
 | 列表 | List_Notes_01 ~ 06 | 左12；右12 |
