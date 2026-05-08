@@ -298,6 +298,7 @@
 | `ToolBar` | — | `ToolBar_ComponentSet_01` | 默认 | 待建立 | `manual` |
 | `Divider` | — | `Divider_ComponentSet_01` | 0.7 | 待建立 | `manual` |
 | `FloatingWindow` | — | `FloatingWindow_ComponentSet_01` | 浮窗窗口 | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindow_ComponentSet_02` | 浮窗窗口_二级（小标题返回形态） | 待建立 | `manual` |
 | `FloatingWindow` | — | `FloatingWindowBG_01` | 浮窗_面板 | 待建立 | `manual` |
 | `DrawerWindow` | — | `DrawerWindow_ComponentSet_high_01` | 抽屉窗口_高 | 待建立 | `manual` |
 | `DrawerWindow` | — | `DrawerWindow_ComponentSet_mid_01` | 抽屉窗口_中 | 待建立 | `manual` |

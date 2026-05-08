@@ -342,6 +342,11 @@ NLC 与 NC 框架均适用以下规则：
 - 结构：浮窗窗口（容器壳）+ 浮窗_面板（背景）+ 浮窗_标题栏（小标题形态，variant 按场景选择）
 - 内容边距：左右 **28dp**（默认）；卡片形列表作为内容时由卡片自带 padding（12dp）替代；图片 / 列表首项距标题栏 **12dp**
 
+| variant | 用途 |
+|---------|------|
+| `FloatingWindow_ComponentSet_01` | 一级浮窗（默认 / 编辑形态小标题 `NavigationBar_ComponentSet_09`） |
+| `FloatingWindow_ComponentSet_02` | 二级浮窗（带返回的小标题 `NavigationBar_ComponentSet_08`，用于应用设置二级等深层导航） |
+
 ### 抽屉 DrawerWindow
 
 适用设备：手机、折叠屏外屏。
