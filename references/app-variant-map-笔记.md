@@ -68,7 +68,26 @@ status: draft
 | | List_Notes_05 | | List_Notes_05 | | | L栏：List_Notes_03 | | | L栏：List_Notes_03 | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | | L栏：List_Notes_03 | L栏：List_Notes_03 | | | |
 | | List_Notes_06 | | List_Notes_06 | | | L栏：List_Notes_04 | | | L栏：List_Notes_04 | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | | L栏：List_Notes_04 | L栏：List_Notes_04 | | | |
 | 底部工具栏 | BottomBar_Showcase_Notes_01 | | BottomBar_Showcase_Notes_01 | | | L栏：BottomBar_Showcase_Notes_01 | | | L栏：BottomBar_Showcase_Notes_01 | | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | | | | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | | | |
+| 标题栏 / C栏详情 | NavigationBar_ComponentSet_Notes_01 | | NavigationBar_ComponentSet_Notes_01 | | | C栏：NavigationBar_ComponentSet_Notes_01 | | | C栏：NavigationBar_ComponentSet_Notes_01 | | C栏：NavigationBar_ComponentSet_Notes_01 | C栏：NavigationBar_ComponentSet_Notes_01 | | | | C栏：NavigationBar_ComponentSet_Notes_01 | C栏：NavigationBar_ComponentSet_Notes_01 | | | |
+| 标题栏 / C栏详情 | NavigationBar_ComponentSet_Notes_02 | | NavigationBar_ComponentSet_Notes_02 | | | NavigationBar_ComponentSet_Notes_02 | | | C栏：NavigationBar_ComponentSet_Notes_01 | | C栏：NavigationBar_ComponentSet_Notes_01 | C栏：NavigationBar_ComponentSet_Notes_01 | | | | C栏：NavigationBar_ComponentSet_Notes_01 | C栏：NavigationBar_ComponentSet_Notes_01 | | | |
+| 标题栏 / 编辑模式 | NavigationBar_ComponentSet_03 | | NavigationBar_ComponentSet_06 | | | L栏：NavigationBar_ComponentSet_06；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | | | L栏：NavigationBar_ComponentSet_06；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_09；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_09；C栏：带遮罩 NavigationBar_ComponentSet_Notes_01 | | | |
+| 信息提示 NoticeBar | NoticeBar_ComponentSet_01 | | NoticeBar_ComponentSet_01 | | | L栏：NoticeBar_ComponentSet_01 | | | L栏：NoticeBar_ComponentSet_01 | | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | | | | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | | | |
+| 底部工具栏 / Outline | BottomBar_Notes_Outline_01 | | BottomBar_Notes_Outline_01 | | | BottomBar_Notes_Outline_01 | | | BottomBar_Notes_Outline_01 | | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | | | | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | | | |
+| 底部工具栏 / 编辑面板 | BottomBar_NoteEditPanel_01 | | BottomBar_NoteEditPanel_01 | | | C栏：BottomBar_NoteEditPanel_01 | | | C栏：BottomBar_NoteEditPanel_01 | | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | | | | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | | | |
+| 底部工具栏 / 编辑模式 | ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | | | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | L栏：ToolBar_ComponentSet_01（未选：禁用 Disabled；选中：正常 Normal） | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_01 | | TextInput_ComponentSet_Notes_01 | | | C栏：TextInput_ComponentSet_Notes_01 | | | C栏：TextInput_ComponentSet_Notes_01 | | C栏：TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_01 | | | | C栏：TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_01 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_02 | | TextInput_ComponentSet_Notes_02 | | | TextInput_ComponentSet_Notes_02 | | | TextInput_ComponentSet_Notes_02 | | TextInput_ComponentSet_Notes_02 | TextInput_ComponentSet_Notes_02 | | | | TextInput_ComponentSet_Notes_02 | TextInput_ComponentSet_Notes_02 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_03 | | TextInput_ComponentSet_Notes_03 | | | TextInput_ComponentSet_Notes_03 | | | TextInput_ComponentSet_Notes_03 | | TextInput_ComponentSet_Notes_03 | TextInput_ComponentSet_Notes_03 | | | | TextInput_ComponentSet_Notes_03 | TextInput_ComponentSet_Notes_03 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_04 | | TextInput_ComponentSet_Notes_04 | | | TextInput_ComponentSet_Notes_04 | | | TextInput_ComponentSet_Notes_04 | | TextInput_ComponentSet_Notes_04 | TextInput_ComponentSet_Notes_04 | | | | TextInput_ComponentSet_Notes_04 | TextInput_ComponentSet_Notes_04 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_05 | | TextInput_ComponentSet_Notes_05 | | | TextInput_ComponentSet_Notes_05 | | | TextInput_ComponentSet_Notes_05 | | TextInput_ComponentSet_Notes_05 | TextInput_ComponentSet_Notes_05 | | | | TextInput_ComponentSet_Notes_05 | TextInput_ComponentSet_Notes_05 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_06 | | TextInput_ComponentSet_Notes_06 | | | TextInput_ComponentSet_Notes_06 | | | TextInput_ComponentSet_Notes_06 | | TextInput_ComponentSet_Notes_06 | TextInput_ComponentSet_Notes_06 | | | | TextInput_ComponentSet_Notes_06 | TextInput_ComponentSet_Notes_06 | | | |
+| 底部输入框 Input | TextInput_ComponentSet_Notes_07 | | TextInput_ComponentSet_Notes_07 | | | TextInput_ComponentSet_Notes_07 | | | TextInput_ComponentSet_Notes_07 | | TextInput_ComponentSet_Notes_07 | TextInput_ComponentSet_Notes_07 | | | | TextInput_ComponentSet_Notes_07 | TextInput_ComponentSet_Notes_07 | | | |
+| 滚动条 Scrollbar | Scrollbar_ComponentSet_01 | | Scrollbar_ComponentSet_01 | | | L栏 / C栏：Scrollbar_ComponentSet_01 | | | L栏 / C栏：Scrollbar_ComponentSet_01 | | N栏 / L栏 / C栏：Scrollbar_ComponentSet_01 | N栏：不展示；L栏 / C栏：Scrollbar_ComponentSet_01 | | | | N栏 / L栏 / C栏：Scrollbar_ComponentSet_01 | N栏：不展示；L栏 / C栏：Scrollbar_ComponentSet_01 | | | |
 | 文字格式弹窗 | TextFormatPanel_01 | | TextFormatPanel_01 | | | C栏：TextFormatPanel_02 | | | C栏：TextFormatPanel_01 | | C栏：TextFormatPanel_01 | C栏：TextFormatPanel_01 | | | | C栏：TextFormatPanel_01 | C栏：TextFormatPanel_01 | | | |
+| 笔记详情 DetailNotes | DetailNotes_01 | | DetailNotes_01 | | | C栏：DetailNotes_01 | | | C栏：DetailNotes_01 | | C栏：DetailNotes_01 | C栏：DetailNotes_01 | | | | C栏：DetailNotes_01 | C栏：DetailNotes_01 | | | |
+| AI窗口 AIWindow_Notes | AIWindow_Notes_01 | | AIWindow_Notes_01 | | | AIWindow_Notes_02 | | | AIWindow_Notes_02 | | AIWindow_Notes_02 | AIWindow_Notes_02 | | | | AIWindow_Notes_02 | AIWindow_Notes_02 | | | |
+| AI窗口 AIWindow_Notes | AIWindow_Notes_03 | | AIWindow_Notes_03 | | | AIWindow_Notes_04 | | | AIWindow_Notes_04 | | AIWindow_Notes_04 | AIWindow_Notes_04 | | | | AIWindow_Notes_04 | AIWindow_Notes_04 | | | |
+| 录音窗口 RecordNotes | RecordNotes_01 | | RecordNotes_01 | | | RecordNotes_02 | | | RecordNotes_02 | | RecordNotes_02 | RecordNotes_02 | | | | RecordNotes_02 | RecordNotes_02 | | | |
 
 ### 待办
 
@@ -80,13 +99,17 @@ status: draft
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | | SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | | L栏：SelectableChip_ComponentSet_Notes_01 | | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 | N栏：Sidebar_Component_PAD_NLC_01 待办列表 | 不展示 | | | 不展示 |
 | 列表 | List_Task_01 | | List_Task_01 | | | List_Task_03 | | | List_Task_03 | | List_Task_03 | List_Task_03 | | | | List_Task_03 | List_Task_03 | | | |
 | | List_Task_02 | | List_Task_02 | | | List_Task_04 | | | List_Task_04 | | List_Task_04 | List_Task_04 | | | | List_Task_04 | List_Task_04 | | | |
+| 标题栏 / 编辑模式 | NavigationBar_ComponentSet_03 | | NavigationBar_ComponentSet_06 | | | L栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_06 | | | L栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_06 | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_09 | | | | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_14；L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_09 | | | |
 | Fab | Fab_01；彩色 | | Fab_01；彩色 | | | C栏：Fab_01；彩色 | | | C栏：Fab_01；彩色 | | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 | C栏：Fab_01；彩色 | C栏：Fab_01；彩色 | | | Fab_01；彩色 |
+| 弹窗 AlertDialog | AlertDialog_NewTask_01 | | AlertDialog_NewTask_01 | | | AlertDialog_NewTask_01 | | | AlertDialog_NewTask_01 | | AlertDialog_NewTask_01 | AlertDialog_NewTask_01 | | | | AlertDialog_NewTask_01 | AlertDialog_NewTask_01 | | | |
+| 弹窗 AlertDialog | AlertDialog_NewTask_02 | | AlertDialog_NewTask_02 | | | AlertDialog_NewTask_02 | | | AlertDialog_NewTask_02 | | AlertDialog_NewTask_02 | AlertDialog_NewTask_02 | | | | AlertDialog_NewTask_02 | AlertDialog_NewTask_02 | | | |
+| 待办详情 DetailTask | / | | / | | | C栏：DetailTask_01 | | | C栏：DetailTask_01 | | C栏：DetailTask_01 | C栏：DetailTask_01 | | | | C栏：DetailTask_01 | C栏：DetailTask_01 | | | |
 
-## 浮层
+## 浮层 Overlay
 
-浮层容器（浮窗 / 抽屉 / 弹窗 / 菜单）的尺寸、位置、遮罩、背景色规范统一位于 `layouts/device-dimensions.md` 的「浮层规格」小节。本节只记录 **笔记应用在各设备 / screenMode 下要调用哪个 variant**，不重复规格。
+浮层容器（浮窗 / 抽屉 / 弹窗 / 菜单 / 行动操作按钮 / 选择器 / 分段按钮）的尺寸、位置、遮罩、背景色规范统一位于 `layouts/device-dimensions.md` 的「浮层规格」小节。本节只记录 **笔记应用在各设备 / screenMode 下要调用哪个 variant**，不重复规格。
 
-来源：结构变化表——总表（`笔记 Notes` 行块，2026-05-06 版）。
+来源：结构变化表——总表（`笔记 Notes` 行块，2026-05-08 版）。
 
 ### 文件夹管理窗口 ManageFoldWindow
 
@@ -118,11 +141,12 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 ### 分段按钮 Segmented Controls
 
-仅在浮窗 / 抽屉内部使用（如 录音详情的「总结 / 原文」切换），不作为独立浮层。全设备 / 全 screenMode 统一使用同一 variant。
+仅在浮窗 / 抽屉内部使用（如 录音详情的「总结 / 原文」切换），不作为独立浮层。全设备 / 全 screenMode 适用。
 
-| | 全设备 / 全 screenMode |
+| variant | 用途 |
 |--|--|
-| variant | `SegmentedControls-ComponentSet_01` |
+| `SegmentedControls_ComponentSet_01` | 默认 |
+| `SegmentedControls_ComponentSet_02` | Pad（最小 左16；右16） |
 
 ### 选择器 Picker
 
@@ -131,15 +155,6 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | | 全设备 / 全 screenMode |
 |--|--|
 | variant | `WheelPicker_ComponentSet_01` |
-
-### 滚动条 Scrollbar
-
-各栏内容区均可按需挂载；全设备 / 全 screenMode 统一使用同一 variant。Pad NLC 收起态下 N 栏不展示滚动条。
-
-| | 全设备 / 全 screenMode |
-|--|--|
-| variant | `Scrollbar_ComponentSet_01` |
-| 例外 | Pad NLC 收起 → N 栏不展示 |
 
 ### 菜单 Menu
 
@@ -177,7 +192,14 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | 侧边栏 | Sidebar_Component_PAD_NLC_01 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 侧边栏 | Sidebar_Component_PAD_NLC_02 | 侧边栏组件左侧：12；侧边栏组件内：左12；右12 |
 | 文字格式弹窗 | TextFormatPanel_01 | 最小：左12；右12 |
-| 分段按钮 | SegmentedControls-ComponentSet_01 | 左12；右12 |
+| 分段按钮 | SegmentedControls_ComponentSet_01 | 左12；右12 |
+| 分段按钮 | SegmentedControls_ComponentSet_02 | 最小：左16；右16（Pad） |
+| 底部输入框 | TextInput_ComponentSet_Notes_01 | Q18 内屏：左20；右20；手机 / Q18 外屏：左16；右16 |
+| 底部输入框 | TextInput_ComponentSet_Notes_02 | Q18 横屏：左116；右116；Q18 竖屏：左24；右24；手机 / Q18 外屏：左16；右16 |
+| 底部输入框 | TextInput_ComponentSet_Notes_03 ~ 04 | Q18 横屏：左116；右116；Q18 竖屏：左24；右24；手机 / Q18 外屏：左16；右16 |
+| 底部输入框 | TextInput_ComponentSet_Notes_05 ~ 07 | 定宽；屏中对齐 |
+| 底部工具栏 | BottomBar_NoteEditPanel_01 | 内部工具条定宽 320 |
+| 信息提示 | NoticeBar_ComponentSet_01 | 左12；右12 |
 | 选择器 | WheelPicker_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp；Pad：上下居中 |
 | 弹窗 | AlertDialog_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp；Pad：上下居中 |
 | 行动操作按钮 | Actionsheet_ComponentSet_01 | 定宽 368；最小左右 padding 12；底部：有控制杆→距控制杆顶沿 12dp，无控制杆→距屏幕底部 12dp |
