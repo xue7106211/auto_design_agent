@@ -309,11 +309,32 @@
 | `Menu` | — | `Menu_ComponentSet_01` | 默认菜单 | 待建立 | `manual` |
 | `Menu` | — | `Menu_ComponentSet_02` | 分组_选择菜单 | 待建立 | `manual` |
 | `Menu` | — | `Menu_ComponentSet_03` | 分组_进入二级菜单 | 待建立 | `manual` |
-| `SegmentedControls` | — | `SegmentedControls-ComponentSet_01` | 默认 | 待建立 | `manual` |
-| `SegmentedControls` | — | `SegmentedControls-ComponentSet_02` | 分段按钮_容器 | 待建立 | `manual` |
-| `SegmentedControls` | — | `SegmentedControls-ComponentSet_03` | 分段按钮_Pad | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls_ComponentSet_00` | 无 | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls_ComponentSet_01` | 默认 | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls_ComponentSet_02` | 分段按钮_Pad | 待建立 | `manual` |
+| `SegmentedControls` | — | `SegmentedControls_01` | 分段按钮_容器 | 待建立 | `manual` |
 | `WheelPicker` | — | `WheelPicker_ComponentSet_01` | 日期_时间 | 待建立 | `manual` |
 | `Scrollbar` | — | `Scrollbar_ComponentSet_01` | 默认 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Notes_Outline_01` | 业务_笔记（大纲工具栏） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_01` | 业务_笔记（笔记编辑面板） | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_01` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_02` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_03` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_04` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_05` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_06` | 业务_笔记 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_07` | 业务_笔记 | 待建立 | `manual` |
+| `NoticeBar` | — | `NoticeBar_ComponentSet_01` | 信息提示 | 待建立 | `manual` |
+| `AlertDialog` | — | `AlertDialog_NewTask_01` | 业务_待办_新建（368～411dp） | 待建立 | `manual` |
+| `AlertDialog` | — | `AlertDialog_NewTask_02` | 业务_待办_新建（368～412dp） | 待建立 | `manual` |
+| `DetailNotes` | — | `DetailNotes_01` | 业务_笔记详情 | 待建立 | `manual` |
+| `DetailTask` | — | `DetailTask_01` | 业务_待办详情 | 待建立 | `manual` |
+| `AIWindow_Notes` | — | `AIWindow_Notes_01` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
+| `AIWindow_Notes` | — | `AIWindow_Notes_02` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
+| `AIWindow_Notes` | — | `AIWindow_Notes_03` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
+| `AIWindow_Notes` | — | `AIWindow_Notes_04` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
+| `RecordNotes` | — | `RecordNotes_01` | 业务_笔记 录音窗口 | 待建立 | `manual` |
+| `RecordNotes` | — | `RecordNotes_02` | 业务_笔记 录音窗口 | 待建立 | `manual` |
 
 注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 
@@ -358,7 +379,7 @@
 
 以下组件族已在字典层注册，但执行层记录尚未通过 Figma 探查验证，需逐步补充：
 
-TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / ActionSheet / Menu / SegmentedControls / WheelPicker / Scrollbar
+TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / ActionSheet / Menu / SegmentedControls / WheelPicker / Scrollbar / NoticeBar / TextInput / DetailNotes / DetailTask / AIWindow_Notes / RecordNotes
 
 ## 硬约束
 
