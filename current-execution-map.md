@@ -125,7 +125,7 @@ flowchart TD
 
 当前已存在的活跃映射表包括：
 
-- `references/app-variant-map-文管.md`
+- `references/app-variant-map-文件管理.md`
 - `references/app-variant-map-笔记.md`
 - `references/app-variant-map-录音.md`
 - `references/app-variant-map-设置.md`
@@ -136,10 +136,11 @@ flowchart TD
 - `references/app-variant-map-联系人.md`
 - `references/app-variant-map-电话.md`
 - `references/app-variant-map-计算器.md`
-- `references/app-variant-map-收藏.md`
-- `references/app-variant-map-扫一扫.md`
 - `references/app-variant-map-下载管理.md`
 - `references/app-variant-map-小米换机.md`
+- `references/app-variant-map-手机管家.md`
+- `references/app-variant-map-指南针.md`
+- `references/app-variant-map-时钟.md`
 
 ### 3. 组件族 reference 覆盖面不足
 

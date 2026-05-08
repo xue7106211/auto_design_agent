@@ -53,24 +53,15 @@ auto_design_agent/
 │   │   │   C 通栏布局执行规则。
 │   │   └── foldable-layout.md
 │   │       折叠屏历史适配参考规则。
-│   ├── device-dimensions.md
-│   │   设备尺寸等基础参数（与 layouts 下文件并存时，以主 Skill 实际引用路径为准）。
-│   ├── layout-c.md
-│   │   C 通栏布局规则。
-│   ├── layout-lc-nc.md
-│   │   LC / NC 布局规则正文，定义分栏宽度、各栏职责和适配逻辑。
-│   ├── layout-nlc.md
-│   │   NLC 三栏布局规则，定义 N/L/C 三栏结构和底部 Tab 转侧边导航规则。
 │   ├── app-variant-map-下载管理.md
-│   ├── app-variant-map-图库.md
 │   ├── app-variant-map-天气.md
 │   ├── app-variant-map-小米换机.md
 │   ├── app-variant-map-录音.md
 │   ├── app-variant-map-手机管家.md
-│   ├── app-variant-map-扫一扫.md
-│   ├── app-variant-map-收藏.md
-│   ├── app-variant-map-文管.md
+│   ├── app-variant-map-指南针.md
+│   ├── app-variant-map-文件管理.md
 │   ├── app-variant-map-日历.md
+│   ├── app-variant-map-时钟.md
 │   ├── app-variant-map-电话.md
 │   ├── app-variant-map-相册.md
 │   ├── app-variant-map-短信.md
@@ -84,7 +75,7 @@ auto_design_agent/
 │       └── navigation-bar.md
 │           NavigationBar 组件族 reference。记录当前分支基准链接、组件集身份、
 │           真实字段、可执行记录和回退规则。
-└── Archive/
+└── archive/
     已归档的旧版规则文档和工作流日志，仅供参考。
     ├── component-adaptation.md
     ├── component-routing.md
