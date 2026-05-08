@@ -88,6 +88,8 @@ status: draft
 | AI窗口 AIWindow_Notes | AIWindow_Notes_01 | | AIWindow_Notes_01 | | | AIWindow_Notes_02 | | | AIWindow_Notes_02 | | AIWindow_Notes_02 | AIWindow_Notes_02 | | | | AIWindow_Notes_02 | AIWindow_Notes_02 | | | |
 | AI窗口 AIWindow_Notes | AIWindow_Notes_03 | | AIWindow_Notes_03 | | | AIWindow_Notes_04 | | | AIWindow_Notes_04 | | AIWindow_Notes_04 | AIWindow_Notes_04 | | | | AIWindow_Notes_04 | AIWindow_Notes_04 | | | |
 | 录音窗口 RecordNotes | RecordNotes_01 | | RecordNotes_01 | | | RecordNotes_02 | | | RecordNotes_02 | | RecordNotes_02 | RecordNotes_02 | | | | RecordNotes_02 | RecordNotes_02 | | | |
+| 应用设置 AppSettings / 一级 | 全屏：NavigationBar_ComponentSet_02 | | 全屏：NavigationBar_ComponentSet_02 | | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | | | | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 | | | |
+| 应用设置 AppSettings / 二级 | 全屏：NavigationBar_ComponentSet_02 | | 全屏：NavigationBar_ComponentSet_02 | | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | | | | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | | | |
 
 ### 待办
 
