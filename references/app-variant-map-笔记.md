@@ -143,11 +143,15 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 ### 分段按钮 Segmented Controls
 
-仅在浮窗 / 抽屉内部使用（如 录音详情的「总结 / 原文」切换），不作为独立浮层。全设备 / 全 screenMode 适用。
+仅在浮窗 / 抽屉内部使用（如 录音详情的「总结 / 原文」切换），不作为独立浮层。
+
+| | 手机竖 | Fold外竖 | Fold内 全模式 | Pad竖 全模式 | Pad横 全模式 |
+|--|--|--|--|--|--|
+| variant | `SegmentedControls_ComponentSet_01` | `SegmentedControls_ComponentSet_01` | `SegmentedControls_ComponentSet_01` | `SegmentedControls_ComponentSet_02` | `SegmentedControls_ComponentSet_02` |
 
 | variant | 用途 |
 |--|--|
-| `SegmentedControls_ComponentSet_01` | 默认 |
+| `SegmentedControls_ComponentSet_01` | 默认（手机 / Fold） |
 | `SegmentedControls_ComponentSet_02` | Pad（最小 左16；右16） |
 
 ### 选择器 Picker
@@ -163,6 +167,15 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
 |--|--|--|--|--|--|--|--|--|
 | variant | `Menu_ComponentSet_03` | `Menu_ComponentSet_03` | L栏：`Menu_ComponentSet_03` | L栏：`Menu_ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：搜索图标对应到 `NavigationBar_ComponentSet_12` 中的设置图标；L栏：其他菜单项对应到 `Menu_ComponentSet_03` | N栏：不展示；L栏：其他菜单项对应到 `Menu_ComponentSet_03` |
+
+## Pad 分栏行为覆盖
+
+| 场景 | 行为 |
+|------|------|
+| Pad 竖屏 NLC 展开 | N 栏（侧边栏）以 **覆盖** 形式叠加于 L+C 栏之上；被覆盖的 L+C 栏依「遮罩规则」展示遮罩 |
+| Pad 横屏 NLC 展开 | N 栏与 LC **并列**，沿用 `device-dimensions.md` 通则，无遮罩 |
+
+仅 Pad 竖屏为笔记 app 对 `device-dimensions.md`「分栏布局排版方式」Pad 通则的局部覆写；横屏行为与通则一致。
 
 ## 遮罩规则
 
