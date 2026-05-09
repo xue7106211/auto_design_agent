@@ -326,8 +326,16 @@
 | `TextInput` | — | `TextInput_ComponentSet_Notes_06` | 业务_笔记 | 待建立 | `manual` |
 | `TextInput` | — | `TextInput_ComponentSet_Notes_07` | 业务_笔记 | 待建立 | `manual` |
 | `NoticeBar` | — | `NoticeBar_ComponentSet_01` | 信息提示 | 待建立 | `manual` |
-| `AlertDialog` | — | `AlertDialog_NewTask_01` | 业务_待办_新建（368～411dp） | 待建立 | `manual` |
-| `AlertDialog` | — | `AlertDialog_NewTask_02` | 业务_待办_新建（368～412dp） | 待建立 | `manual` |
+| `NewTaskWindow` | — | `NewTaskWindow_01` | 业务_待办_新建（368～411dp） | 待建立 | `manual` |
+| `NewTaskWindow` | — | `NewTaskWindow_02` | 业务_待办_新建（368～412dp） | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_Notes_00` | 业务_笔记（无标签栏） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Notes_00` | 业务_笔记（无底部工具栏） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Notes_Outline_00` | 业务_笔记（无大纲工具栏） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_00` | 业务_笔记（无笔记编辑面板） | 待建立 | `manual` |
+| `Fab` | — | `Fab_00` | 无 Fab | 待建立 | `manual` |
+| `ToolBar` | — | `ToolBar_ComponentSet_00` | 无工具栏 | 待建立 | `manual` |
+| `TextInput` | — | `TextInput_ComponentSet_Notes_00` | 业务_笔记（无输入框） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_NLC_00` | Pad_NLC（无侧边栏） | 待建立 | `manual` |
 | `DetailNotes` | — | `DetailNotes_01` | 业务_笔记详情 | 待建立 | `manual` |
 | `DetailTask` | — | `DetailTask_01` | 业务_待办详情 | 待建立 | `manual` |
 | `AIWindow_Notes` | — | `AIWindow_Notes_01` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
@@ -380,7 +388,7 @@
 
 以下组件族已在字典层注册，但执行层记录尚未通过 Figma 探查验证，需逐步补充：
 
-TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / ActionSheet / Menu / SegmentedControls / WheelPicker / Scrollbar / NoticeBar / TextInput / DetailNotes / DetailTask / AIWindow_Notes / RecordNotes
+TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / ActionSheet / Menu / SegmentedControls / WheelPicker / Scrollbar / NoticeBar / TextInput / DetailNotes / DetailTask / AIWindow_Notes / RecordNotes / NewTaskWindow
 
 ## 硬约束
 
