@@ -472,8 +472,8 @@ NLC 与 NC 框架均适用以下规则：
 | variant | 用途 |
 |---------|------|
 | `AlertDialog_ComponentSet_01` | 默认弹窗 |
-| `AlertDialog_NewTask_01` | 业务_待办_新建（368～411dp） |
-| `AlertDialog_NewTask_02` | 业务_待办_新建（368～412dp） |
+| `NewTaskWindow_01` | 业务_待办_新建（368～411dp） |
+| `NewTaskWindow_02` | 业务_待办_新建（368～412dp） |
 
 ### 行动操作按钮 ActionSheet
 

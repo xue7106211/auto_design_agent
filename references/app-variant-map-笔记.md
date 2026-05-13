@@ -90,12 +90,12 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 #### 标题栏 NavigationBar — 默认
 
-| 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad竖NC | Pad竖NC收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad横NC | Pad横NC收起 |
-|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| NLC | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — |
-| NL  | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — |
-| NC  | NavigationBar_ComponentSet_11 | NavigationBar_ComponentSet_11 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 |
-| LC  | NavigationBar_ComponentSet_02 | NavigationBar_ComponentSet_05 | N栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | — | — | — | — | — | — |
+| 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad竖NC | Pad竖NC收起 | Pad竖LC | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad横NC | Pad横NC收起 | Pad横LC |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| NLC | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — |
+| NL  | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — | — |
+| NC  | NavigationBar_ComponentSet_11 | NavigationBar_ComponentSet_11 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 | — |
+| LC  | NavigationBar_ComponentSet_02 | NavigationBar_ComponentSet_05 | N栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 |
 
 #### 标题栏 NavigationBar — 详情 NoteDetail / NLC
 
@@ -130,11 +130,23 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| NLC | SearchBar_ComponentSet_02 | SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | — | — | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | — | — | — | — |
-| NL  | SearchBar_ComponentSet_02 | SearchBar_ComponentSet_02 | — | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — |
+| NLC | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — |
+| NL  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | — | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — |
 | LC  | SearchBar_ComponentSet_02 | SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | — | — | — | — | — | — | — | — | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 |
 
 > Pad NL 收起 使用 `TopBar_07`（顶部导航搜索_侧边栏收起变体），同时承载 N 栏恢复功能。
+
+#### 搜索页面 SearchPage（SearchBar + SearchReceiving 复合）
+
+激活搜索态后承接面板。`搜索页面` 与上方常态 `搜索栏 SearchBar` 互斥（激活时替换）。
+
+| 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| NLC | SearchBar_01 + SearchReceiving_00 | SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | L栏：SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | — | — |
+| NL  | SearchBar_01 + SearchReceiving_00 | SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | C栏：SearchBar_04 + SearchReceiving_01 | C栏：SearchBar_04 + SearchReceiving_01 | — | — | C栏：SearchBar_04 + SearchReceiving_01 | C栏：SearchBar_04 + SearchReceiving_01 | — | — |
+| LC  | SearchBar_01 + SearchReceiving_00 | SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | — | — | — | — | — | — | L栏：SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 |
+
+> Pad NL 의 激活搜索为 **C栏承接**（`SearchBar_04` 激活态 + `SearchReceiving_01` Dropdown），对应 `device-dimensions.md` 搜索规格「Pad 承接面板」章节。其余形态使用 `SearchBar_01`（激活态）+ `SearchReceiving_00`（无/占位）— 新页面承接样式。
 
 #### 信息提示 NoticeBar
 
@@ -165,23 +177,23 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | — | — |
-| NL  | List_Notes_06 | List_Notes_06 | — | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — |
+| NL  | List_Notes_06 | List_Notes_06 | — | — | — | L栏：待补 | L栏：待补 | — | — | L栏：待补 | L栏：待补 | — | — |
 | LC  | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | — | — | — | — | — | — | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 |
 
 #### 底部工具栏 ToolBar / BottomBar
 
-| 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
-|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
-| ToolBar / NLC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | — | — |
-| ToolBar / NL | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | — | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — |
-| ToolBar / LC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | — | — | — | — | — | — | — | — | BottomBar_Showcase_Notes_00 | BottomBar_Showcase_Notes_00 |
-| Outline / C | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | — | — | — | — | — | — | — | — | — | — |
-| NoteEditPanel / NLC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_00 | C栏：BottomBar_NoteEditPanel_00 | — | — | C栏：BottomBar_NoteEditPanel_00 | C栏：BottomBar_NoteEditPanel_00 | — | — | — | — |
-| NoteEditPanel / LC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | — | — | — | — | — | — | — | — | L栏：BottomBar_NoteEditPanel_00 | L栏：BottomBar_NoteEditPanel_00 |
-| Edit Mode / NLC | ToolBar_ComponentSet_01（未选：Disabled；选中：Normal） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | — | — |
-| Edit Mode / NL | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — |
-| Edit Mode / LC | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | — | — | — | — | — | — | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） |
-| MindMap_Edit / C | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | — | — | — | — | — | — | — | — | — | — |
+| 场景 | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
+|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+| ToolBar / NLC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | — | — |
+| ToolBar / NL | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | — | — | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — |
+| ToolBar / LC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | — | — | — | — | — | — | — | — | BottomBar_Showcase_Notes_00 | BottomBar_Showcase_Notes_00 |
+| Outline / C | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | — | — | — | — | — | — | — | — | — | — |
+| NoteEditPanel / NLC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 | — | — | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 | — | — | — | — |
+| NoteEditPanel / LC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | — | — | — | — | — | — | — | — | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 |
+| Edit Mode / NLC | ToolBar_ComponentSet_01（未选：Disabled；选中：Normal） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | — | — |
+| Edit Mode / NL | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — |
+| Edit Mode / LC | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | — | — | — | — | — | — | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） |
+| MindMap_Edit / C | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | — | — | — | — | — | — | — | — | — | — |
 
 #### 底部输入框 Input
 

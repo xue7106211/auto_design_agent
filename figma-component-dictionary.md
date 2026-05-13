@@ -372,6 +372,11 @@
 | `List` | — | `List_Task_04` | 业务_待办 列表（编辑） | 待建立 | `manual` |
 | `Menu` | — | `Menu_ComponentSet_00` | 无菜单 | 待建立 | `manual` |
 | `BottomBar` | — | `BottomBar_Notes_Outline_02` | 业务_笔记（思维导图编辑工具栏） | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_03` | sug 词直接搜 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_04` | 平板 顶部导航 激活（左 8 / 右 8） | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_05` | 默认-需要 Check（笔记 NLC / NL 常态） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_02` | 业务_笔记（Pad 编辑面板 / 笔记 Pad NLC・LC） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_03` | 业务_笔记（编辑面板 3） | 待建立 | `manual` |
 
 注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 
