@@ -234,10 +234,14 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 #### 应用设置 AppSettings
 
+依 `page-maps/app-settings.md` 通用规则。笔记 / 待办 无 App 级 override。
+
+承载形态概要（详细 slot 分解、2depth 切换规则见上述 page-map）：
+
 | 层级 | 手机竖 | Fold外竖 | Fold内 全模式 | Pad 全模式 |
 |--|--|--|--|--|
-| 一级 | 全屏：NavigationBar_ComponentSet_02 | 全屏：NavigationBar_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_01 | 浮窗：FloatingWindow_ComponentSet_01 |
-| 二级 | 全屏：NavigationBar_ComponentSet_02 | 全屏：NavigationBar_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 | 浮窗：FloatingWindow_ComponentSet_02 |
+| 一级 | 全屏：NavigationBar_ComponentSet_02 | 全屏：NavigationBar_ComponentSet_05 | 浮窗：FloatingWindow_ComponentSet_01（内 `NavigationBar_09`） | 浮窗：FloatingWindow_ComponentSet_01（内 `NavigationBar_09`） |
+| 二级 | 全屏：NavigationBar_ComponentSet_02 | 全屏：NavigationBar_ComponentSet_05 | 浮窗：FloatingWindow_ComponentSet_02（内 `NavigationBar_08`） | 浮窗：FloatingWindow_ComponentSet_02（内 `NavigationBar_08`） |
 
 ### 待办
 
