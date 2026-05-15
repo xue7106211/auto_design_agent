@@ -63,12 +63,14 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 - 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
 - 如果目标设备为 Fold 内屏 Q18，设置目标 frame 四角圆角为 `50dp`
 - 如果目标设备为 Pad，设置目标 frame 四角圆角为 `34dp`
-- 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
-- 建立主内容区 frame（水平布局）
+- 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）；状态栏高度按 `device-dimensions.md`（Fold 46dp / Pad 34dp）**显式 resize**，不沿用克隆时的自然高度
+- 建立主内容区 frame（水平布局），`main.y = statusBarHeight`
 - 建立左栏 frame（列表栏，宽度按当前文档定义）
 - 建立右栏 frame（内容区，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
 - 对 `L / C / N` 栏内部第一层语义容器立即建立 Auto Layout 约束：默认 `layoutMode` 正确、主内容容器使用 `Fill Container`
+- **栏顶 6dp 间距**：`L / C` 栏内顶部对齐控件（NavigationBar / SearchBar / Chip / List / Detail 等）第一项从 `y = 6` 开始；详见 `device-dimensions.md` 「基本对齐方式」。`Sidebar_Component_*` 外壳例外，直接贴紧状态栏下沿（`y = 0`）
+- **栏 padding**：按 `device-dimensions.md` 「断点间距」表由各栏宽度自动决定，与模式无关；栏内顶部对齐控件 `x = 栏padding`，宽度 = `栏W - 2 * 栏padding`
 
 写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
 

@@ -43,14 +43,18 @@
 - 清空目标 frame 子节点
 - 设置目标 frame 尺寸（从 `references/layouts/device-dimensions.md` 获取）
 - 设置目标 frame 四角圆角为 `34dp`
-- 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）
-- 建立主内容区 frame（水平布局）
+- 建立全局状态栏（通过 `search_design_system` 搜索目标设备变体，或 clone 源页面状态栏）；状态栏高度按 `device-dimensions.md`（Pad 34dp）**显式 resize**，不沿用克隆时的自然高度
+- 建立主内容区 frame（水平布局），`main.y = statusBarHeight`
 - 建立导航栏 frame（最左列，宽度按当前文档定义）
 - 建立列表栏 frame（中间列，宽度按当前文档定义）
 - 建立内容区 frame（最右列，宽度按当前文档定义）
 - 为视口容器设置 `clipsContent = true`
+- **栏顶 6dp 间距**：`L / C` 栏内顶部对齐控件（NavigationBar / SearchBar / Chip / List 等）第一项从 `y = 6` 开始；详见 `device-dimensions.md`「基本对齐方式」。`Sidebar_Component_*` 外壳例外，直接贴紧状态栏下沿（`y = 0`）
+- **栏 padding**：按 `device-dimensions.md`「断点间距」表由各栏宽度自动决定，与模式无关；栏内顶部对齐控件 `x = 栏padding`，宽度 = `栏W - 2 * 栏padding`
+- **Pad 竖屏 NLC 覆盖模式**（应用级可选）：L/C 使用 LC 基准尺寸（L 428 + C 521），Sidebar 以 `覆盖` 形式叠在 L+C 之上；遮罩覆盖整个 frame（含状态栏），Sidebar 位于遮罩之上。详见 `device-dimensions.md`「覆盖 布局实例示范」
+- **N 栏 Sidebar 阴影 z-order 例外（并列 / 覆盖 通用）**：Sidebar 外壳允许阴影外溢，且阴影必须渲染于 L/C 之上。因此 `并列` 模式下必须把 Sidebar 从 N 栏容器取出，改挂到 frame 直接子级（最后位 = 最上层），`main` 改为 non-autolayout，L/C 手动定位到 N 栏宽度之后；`覆盖` 模式天然满足。详见 `device-dimensions.md`「N 栏 Sidebar 阴影 z-order」
 
-写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
+写入模式参考：`references/common-rules.md` 的"写入与降级策略"和"校验与修正"。
 
 完成后校验：截图 + 确认三栏骨架尺寸正确。
 

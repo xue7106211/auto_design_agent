@@ -70,6 +70,25 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 本规则仅适用于笔记应用（`笔记` + `待办` 子场景）。电话、联系人、文件管理等其他应用仍沿用 `Sidebar_Component_PAD_NLC_02` 的 88dp 收起形态。
 
+## `_00` 变体解释（Pad 专用）
+
+笔记 / 待办在 **Pad 全 screenMode**（NLC / NL / NC / LC 等）下，手机 / Fold 版本中出现的若干辅助控件在 Pad 上统一切换为对应的 **`_00` 变体**。`_00` 的统一含义为：
+
+1. **栏内不渲染对应控件**（`_00` 为空内容占位；实际执行时直接从目标栏中移除，不保留空容器）
+2. 对应的操作功能在 Pad 上被 **该栏 NavigationBar 的右侧图标承载**（`NavigationBar_ComponentSet_07 / _08 / _09` 等 Pad 标题栏变体自带右侧图标 slot），或通过别的交互入口实现
+3. 释出的空间由同栏的主内容（`List_Notes` / `Detail_Notes` 等）扩展吸收
+4. Fold 内屏（LC / NC）以及手机版本 **不适用** 本规则，继续使用 `_01`（可见形态）
+
+适用组件清单：
+
+| 源变体（手机 / Fold） | Pad 对应 `_00` 变体 | Pad 处理 |
+|---|---|---|
+| `BottomBar_Showcase_Notes_01` (L 栏 工具栏) | `BottomBar_Showcase_Notes_00` | L 栏不渲染；功能 → L 栏 NavigationBar 右侧图标 |
+| `TextInput_ComponentSet_Notes_01` (C 栏 底部输入框) | `TextInput_ComponentSet_Notes_00` | C 栏不渲染；功能 → C 栏 NavigationBar 右侧图标 |
+| `SelectableChip_ComponentSet_Notes_01 / _02` (L 栏 标签栏) | `SelectableChip_ComponentSet_Notes_00` | L 栏不渲染；标签筛选 → L 栏 NavigationBar 右侧图标 / 文件夹切换 |
+
+> **组件库缺口**：当前组件集中 `BottomBar_Showcase_Notes_00` / `TextInput_ComponentSet_Notes_00` / `SelectableChip_ComponentSet_Notes_00` 尚未落地。按本规则，Pad 执行时即使在组件集中只能找到 `_01 / _02` fallback，也必须**省略渲染**，不得保留 pill / 输入框 / 标签栏。组件库补齐 `_00` 变体后可直接切换。
+
 ## 映射表
 
 来源：结构变化表——总表（`笔记 Notes` + `待办 Tasks` 行块，2026-05-12 版）。
@@ -146,7 +165,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | NL  | SearchBar_01 + SearchReceiving_00 | SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | C栏：SearchBar_04 + SearchReceiving_01 | C栏：SearchBar_04 + SearchReceiving_01 | — | — | C栏：SearchBar_04 + SearchReceiving_01 | C栏：SearchBar_04 + SearchReceiving_01 | — | — |
 | LC  | SearchBar_01 + SearchReceiving_00 | SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 | — | — | — | — | — | — | — | — | L栏：SearchBar_01 + SearchReceiving_00 | L栏：SearchBar_01 + SearchReceiving_00 |
 
-> Pad NL 의 激活搜索为 **C栏承接**（`SearchBar_04` 激活态 + `SearchReceiving_01` Dropdown），对应 `device-dimensions.md` 搜索规格「Pad 承接面板」章节。其余形态使用 `SearchBar_01`（激活态）+ `SearchReceiving_00`（无/占位）— 新页面承接样式。
+> Pad NL 的激活搜索为 **C 栏承接**（`SearchBar_04` 激活态 + `SearchReceiving_01` Dropdown），对应 `device-dimensions.md` 搜索规格「Pad 承接面板」章节。其余形态使用 `SearchBar_01`（激活态）+ `SearchReceiving_00`（无 / 占位）—— 新页面承接样式。
 
 #### 信息提示 NoticeBar
 
@@ -234,9 +253,9 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 #### 应用设置 AppSettings
 
-依 `page-maps/app-settings.md` 通用规则。笔记 / 待办 无 App 级 override。
+依 `layouts/app-settings-layout.md` 通用规则。笔记 / 待办 无 App 级 override。
 
-承载形态概要（详细 slot 分解、2depth 切换规则见上述 page-map）：
+承载形态概要（详细 slot 分解、2depth 切换规则见上述 layout 文档）：
 
 | 层级 | 手机竖 | Fold外竖 | Fold内 全模式 | Pad 全模式 |
 |--|--|--|--|--|
@@ -333,17 +352,17 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 | 场景 | 行为 |
 |------|------|
-| Pad 竖屏 NLC 展开 | N 栏（侧边栏）以 **覆盖** 形式叠加于 L+C 栏之上；被覆盖的 L+C 栏依「遮罩规则」展示遮罩 |
-| Pad 横屏 NLC 展开 | N 栏与 LC **并列**，沿用 `device-dimensions.md` 通则，无遮罩 |
-| Pad NLC / NL / NC 收起 | N 栏直接消失（见「N 收起规则」章节）；Pad 横屏 L/C 扩展吸收 N 宽度；Pad 竖屏 L/C 回归 LC 模式尺寸 |
+| Pad 竖屏 NLC 展开 | 采用 **覆盖** 模式：L/C 回归 LC 基准尺寸（L 428 + C 521），Sidebar 覆盖于 L+C 之上；遮罩覆盖整个 frame（含状态栏），Sidebar 位于遮罩之上。详见 `layouts/device-dimensions.md`「覆盖 布局实例示范」。 |
+| Pad 横屏 NLC 展开 | **并列**（通则；仅此模式，无覆盖选项） |
+| Pad NLC / NL / NC 收起 | N 栏消失（笔记例外规则）；Pad 横屏 L/C 扩展吸收 N 宽度；Pad 竖屏 L/C 回归 LC 尺寸 |
 
 ## 遮罩规则
 
-笔记和待办在 NLC / LC 模式下均适用以下遮罩规则。遮罩样式参见 `device-dimensions.md` 中的遮罩定义（遮罩色/mask，#000000，20%）。
+笔记和待办在 NLC / LC 模式下均适用以下遮罩规则。遮罩样式与适用范围参见 `device-dimensions.md`「遮罩定义」及其「适用范围」小节（默认覆盖整个 frame，覆盖组件 / 触发组件自身除外）。
 
-| 触发条件 | 遮罩位置 |
+| 触发条件 | 遮罩范围 |
 |---------|---------|
-| N 栏进入编辑模式 | L + C 栏全部覆盖遮罩 |
+| N 栏进入编辑模式 | 整个 frame（含状态栏），Sidebar 自身除外 |
 | L 栏进入编辑模式 | 仅 C 栏覆盖遮罩 |
 | C 栏进入编辑模式 | 无遮罩 |
 
@@ -386,9 +405,9 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | 文字格式弹窗 | TextFormatPanel_02 | 最小：左12；右12 |
 | 分段按钮 | SegmentedControls_ComponentSet_01 | 左12；右12 |
 | 分段按钮 | SegmentedControls_ComponentSet_02 | 最小：左16；右16（Pad） |
-| 底部输入框 | TextInput_ComponentSet_Notes_01 | Q18 内屏：左20；右20；手机 / Q18 外屏：左16；右16 |
-| 底部输入框 | TextInput_ComponentSet_Notes_02 | Q18 横屏：左116；右116；Q18 竖屏：左24；右24；手机 / Q18 外屏：左16；右16 |
-| 底部输入框 | TextInput_ComponentSet_Notes_03 ~ 04 | Q18 横屏：左116；右116；Q18 竖屏：左24；右24；手机 / Q18 外屏：左16；右16 |
+| 底部输入框 | TextInput_ComponentSet_Notes_01 | ⚠️ 组件自身问题：本行记录的 `Q18 内屏：左20；右20` 与 `device-dimensions.md` 栏断点规则（Q18 w≤640 默认 12dp）冲突。以 **device-dimensions.md 栏 padding 默认为准** (Fold 内屏 LC 12dp)，本行值将在组件修正后同步更新 |
+| 底部输入框 | TextInput_ComponentSet_Notes_02 | ⚠️ 同上：本行 `Q18 横屏：左116；右116；Q18 竖屏：左24；右24` 与栏断点规则冲突，**以 device-dimensions.md 栏 padding 为准** |
+| 底部输入框 | TextInput_ComponentSet_Notes_03 ~ 04 | ⚠️ 同上，**以 device-dimensions.md 栏 padding 为准** |
 | 底部输入框 | TextInput_ComponentSet_Notes_05 ~ 07 | 定宽；屏中对齐 |
 | 底部工具栏 | BottomBar_NoteEditPanel_01 | 内部工具条定宽 320 |
 | 信息提示 | NoticeBar_ComponentSet_01 | 左12；右12 |

@@ -1,13 +1,13 @@
 ---
-name: page-map-app-settings
+name: app-settings-layout
 description: 应用内「设置」页面的多端承载形态与组件骨架映射
-kind: page-map
+kind: layout
 scope: 全 App 通用（个别 App 可在其 app-variant-map-*.md override）
 sourceOfTruth: Figma 分析帧 (OS4应用框架类型分析, node 234:34207) + 结构变化表 CSV
 status: draft
 ---
 
-# 应用设置 AppSettings 页面映射
+# 应用设置 AppSettings 布局映射
 
 ## 适用范围
 
