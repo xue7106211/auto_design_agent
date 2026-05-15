@@ -205,6 +205,12 @@ const direct = inst.children[0];
 const internalPl = direct.absoluteBoundingBox.x − inst.absoluteBoundingBox.x;
 ```
 
+**权威来源**：组件 internal pl 的最终值以「控件变体清单」CSV（`多端控件映射-控件变体清单`）的 `Space` 列为准。Figma 文件内的实测值与 CSV 不一致时（例如本地 instance 是旧版 / 测量方法误差），**以 CSV 为准**，并在新一轮 import 后用最新组件库实例验证。已知差异：
+
+- `SelectableChip_ComponentSet_Notes_01/02` —— CSV `Space=左 12, 右 0`，Figma 直接子节点测量为 0；以 CSV `internal pl = 12` 为准。
+- `SearchBar_ComponentSet_*` —— CSV `Space=左 12, 右 12`，与实测一致。
+- `List_Notes_*` —— CSV `Space=左 12, 右 12`，与实测一致。
+
 **`Detail_Notes` 特殊**（在内容容器中再做特殊处理）：
 
 `internal pl` = **`20dp`**（Detail 自身定义的封面图左侧距离，非外层 frame paddingLeft）。Detail 的外层 frame `pl=0` 但封面图距 Detail 左缘恒为 20dp，作为 Detail 的「自带 padding」参与合算。本规则**仅适用于 Detail**，不要推广到其他组件。
@@ -221,19 +227,25 @@ const internalPl = direct.absoluteBoundingBox.x − inst.absoluteBoundingBox.x;
 | frame | 栏 | 栏宽 | spec | 组件 | internal | outer | x | 写入 width |
 |-------|----|------|------|------|----------|-------|---|------------|
 | Fold 内横 LC | L | 353 | 12 | SearchBar | 12 | 0 | 0 | 353 |
-| | L | 353 | 12 | SelectableChip | 0 | 12 | 12 | 329 |
+| | L | 353 | 12 | SelectableChip | 12 | 0 | 0 | 353 |
 | | L | 353 | 12 | List_Notes | 12 | 0 | 0 | 353 |
 | | C | 535 | 12 | **Detail_Notes**（特殊 internal=20） | 20 | 0 | 0 | 535 |
 | Fold 内竖 LC | L | 282 | 12 | SearchBar | 12 | 0 | 0 | 282 |
-| | L | 282 | 12 | SelectableChip | 0 | 12 | 12 | 258 |
+| | L | 282 | 12 | SelectableChip | 12 | 0 | 0 | 282 |
 | | L | 282 | 12 | List_Notes | 12 | 0 | 0 | 282 |
 | | C | 346 | 12 | **Detail_Notes**（特殊 internal=20） | 20 | 0 | 0 | 346 |
-| Pad 横 NLC | L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| Pad 横 NLC（展开） | L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
 | | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
 | | C | 722 | **28** | **Detail_Notes**（特殊 internal=20） | 20 | 8 | 8 | 706 |
-| Pad 竖 NLC | L | 428 | **20**（依断点表，详见 device-dimensions.md L 栏 428 → 20dp 解释） | SearchBar | 12 | 8 | 8 | 412 |
+| Pad 竖 NLC（展开 / 覆盖） | L | 428 | **20**（依断点表，详见 device-dimensions.md L 栏 428 → 20dp 解释） | SearchBar | 12 | 8 | 8 | 412 |
 | | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
 | | C | 521 | 12 | **Detail_Notes**（特殊 internal=20） | 20 | 0 | 0 | 521 |
+| Pad 横 NLC 收起（笔记 N 栏直接消失） | L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 994 | **56**（断点 800 < w ≤ 1100 → 56dp） | **Detail_Notes**（特殊 internal=20） | 20 | 36 | 36 | 922 |
+| Pad 竖 NLC 收起（笔记 LC 回归原尺寸） | L | 428 | **20**（断点） | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 521 | **20**（断点 420 < w ≤ 640 → 20dp） | **Detail_Notes**（特殊 internal=20） | 20 | 0 | 0 | 521 |
 
 ### 执行准则
 
