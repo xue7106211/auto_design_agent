@@ -344,6 +344,39 @@
 | `AIWindow_Notes` | — | `AIWindow_Notes_04` | 业务_笔记 AI 窗口 | 待建立 | `manual` |
 | `RecordNotes` | — | `RecordNotes_01` | 业务_笔记 录音窗口 | 待建立 | `manual` |
 | `RecordNotes` | — | `RecordNotes_02` | 业务_笔记 录音窗口 | 待建立 | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_16` | 小标题_左对齐 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_17` | 小标题_侧边栏_收起_文字（笔记/待办 N 收起 默认态） | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_18` | 小标题_侧边栏_编辑_收起（笔记/待办 N 收起 编辑态） | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Notes_02` | 业务_笔记（思维导图） | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Notes_03` | 业务_笔记（Pad NC 收起 L 栏 / 思维导图 Pad） | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `NavigationBar` | `NavigationBar_ComponentSet` | `NavigationBar_ComponentSet_Notes_04` | 业务_笔记 | `references/component-dictionary/navigation-bar.md` | `manual` |
+| `TopBar` | — | `TopBar_06` | 顶部导航搜索_左对齐（NavigationBar_ComponentSet_16 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `TopBar` | — | `TopBar_07` | 顶部导航搜索_侧边栏收起（NavigationBar_ComponentSet_17 + SearchBar_ComponentSet_02） | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_Notes_00` | 业务_笔记（无标签栏） | 待建立 | `manual` |
+| `SelectableChip` | — | `SelectableChip_ComponentSet_Notes_02` | 业务_笔记（L 栏） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Component_NC_01` | NC 模式侧边栏（非笔记） | 待建立 | `manual` |
+| `Sidebar` | — | `Sidebar_Notes_01` | 业务_笔记 侧边栏（定宽 312dp） | 待建立 | `manual` |
+| `FloatingWindow` | — | `FloatingWindow_ComponentSet_Notes_01` | 业务_笔记 浮窗（定宽 320dp） | 待建立 | `manual` |
+| `SearchChips` | — | `SearchChips_01` | 业务_笔记 搜索标签 | 待建立 | `manual` |
+| `TextFormatPanel` | — | `TextFormatPanel_01` | 业务_笔记 文字格式弹窗 | 待建立 | `manual` |
+| `TextFormatPanel` | — | `TextFormatPanel_02` | 业务_笔记 文字格式弹窗（Fold 内屏竖屏 LC） | 待建立 | `manual` |
+| `List` | — | `List_Notes_01` | 业务_笔记 列表（卡片） | 待建立 | `manual` |
+| `List` | — | `List_Notes_02` | 业务_笔记 列表（卡片 编辑） | 待建立 | `manual` |
+| `List` | — | `List_Notes_03` | 业务_笔记 列表 | 待建立 | `manual` |
+| `List` | — | `List_Notes_04` | 业务_笔记 列表（编辑） | 待建立 | `manual` |
+| `List` | — | `List_Notes_05` | 业务_笔记 卡片列表 | 待建立 | `manual` |
+| `List` | — | `List_Notes_06` | 业务_笔记 卡片列表（编辑） | 待建立 | `manual` |
+| `List` | — | `List_Task_01` | 业务_待办 列表（卡片） | 待建立 | `manual` |
+| `List` | — | `List_Task_02` | 业务_待办 列表（卡片 编辑） | 待建立 | `manual` |
+| `List` | — | `List_Task_03` | 业务_待办 列表 | 待建立 | `manual` |
+| `List` | — | `List_Task_04` | 业务_待办 列表（编辑） | 待建立 | `manual` |
+| `Menu` | — | `Menu_ComponentSet_00` | 无菜单 | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_Notes_Outline_02` | 业务_笔记（思维导图编辑工具栏） | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_03` | sug 词直接搜 | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_04` | 平板 顶部导航 激活（左 8 / 右 8） | 待建立 | `manual` |
+| `SearchBar` | — | `SearchBar_ComponentSet_05` | 默认-需要 Check（笔记 NLC / NL 常态） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_02` | 业务_笔记（Pad 编辑面板 / 笔记 Pad NLC・LC） | 待建立 | `manual` |
+| `BottomBar` | — | `BottomBar_NoteEditPanel_03` | 业务_笔记（编辑面板 3） | 待建立 | `manual` |
 
 注意：浮窗_小标题和抽屉_小标题直接引用 `NavigationBar_ComponentSet_09`，不单独注册。
 

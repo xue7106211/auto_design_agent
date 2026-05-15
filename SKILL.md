@@ -331,6 +331,20 @@ await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
 
 **组件反向验收**：对 `componentTaskList` 中所有 `status != hidden/absent` 的任务，必须检查目标 frame 中存在对应语义节点；`fallback` 不等于 `mapped`，跨组件族 fallback 不得通过验收。例如 `Sidebar_*` 不得由 `BottomBar_*` 计为完成
 
+**容器 resize 一致性**：对本轮修改过的 non-autolayout 栏（`L / C / N / main` 等）逐一核对，确认容器宽度与其直接子节点的宽度一致。若容器 resize 后子节点未同步，一律判为不合格。原子执行步骤按 `references/common-rules.md`「6.1 容器 resize / 结构变更 原子单位」执行。
+
+**基础组件尺寸符合设备规格**：StatusBar / NavigationBar / 控制杆（Drawer-Max-BottomIndicator）/ BottomBar_Showcase / ToolBar / Sidebar 等跨设备 variant 切换的组件，切换后实例 **不会自动变大/变小**；必须对照 `references/layouts/device-dimensions.md` 各设备规格显式 `resize` 到目标高度与宽度，不能沿用克隆时的自然尺寸。差值超过 1dp 判不合格。详细规则见 `references/common-rules.md`「3.3 实例克隆与变体切换时的尺寸同步」。
+
+**栏顶 6dp 间距（状态栏 ↔ 栏内容）**：Fold / Pad 各栏内容（NavigationBar / SearchBar / Chip / List / Detail 等顶部对齐控件）必须从 `y = 6` 开始，不能直接贴紧状态栏下沿。依据 `references/layouts/device-dimensions.md`「基本对齐方式」。**例外**：`Sidebar_Component_*` 等侧边栏外壳直接贴紧状态栏下沿（`y = 0`），卡片内部的 6dp 上偏移由组件自带。底部对齐控件（BottomBar_Showcase / ToolBar / TextInput）以栏底为基准，不参与顶部 6dp 规则。
+
+**自带 padding 组件 栏风满规则**：`NavigationBar` / `SearchBar` / `SelectableChip` / `List_*` / `Detail_*` / `TextInput_*` / `BottomBar_Showcase_*` / `Sidebar_Component_*` 等组件 **自身已内置左右 padding**，栏内必须 `x = 0, width = 栏W` 风满放置，**严禁再叠加栏断点 padding**（否则 double-inset）。栏断点 padding 只对 **无自带 padding 的裸 Frame / 业务容器** 生效。依据 `references/layouts/device-dimensions.md`「断点间距」条款起首「自带内部 padding 的组件一律栏内风满」。
+
+**工具栏 遮罩层栏宽**：底部工具栏（`BottomBar_Showcase_*` / `ToolBar_*` 等）instance 整体必须 `x = 0, width = 栏W` 填满栏宽，`Overlay-Showcase` 渐变遮罩层随 instance 一起贴栏边。instance 外壳绝不能整体缩成 `栏W − 48, x = 24`（这会连遮罩层一起缩小，栏两侧露白）。「栏W − 48 铺满」/「定宽 344 居中」规则只适用于 instance 内部的 `TabMaterial-Showcase` 胶囊层。依据 `references/layouts/device-dimensions.md`「工具栏规格 → 结构 → 栏内放置规则」。
+
+**N 栏 Sidebar 阴影 z-order**：NLC 系列布局下 Sidebar 外壳 `clipsContent = false` 允许卡片阴影外溢到 L/C 栏。因此 Sidebar 节点必须是 frame 子级中的 **最后一个**（最顶层 z-order）。`并列` 模式下不要把 Sidebar 留在 horizontal auto-layout main 的第一个子节点（会被 L/C 覆盖阴影），应将其取出到 frame 直接子级，`main` 改 non-autolayout，L/C 手动按 N 栏宽度位移。依据 `references/layouts/device-dimensions.md`「N 栏 Sidebar 阴影 z-order」。
+
+**结构变更后强制截图**：覆盖 ↔ 并列 切换、布局类型重构、栏宽 / 分栏比例变化等会影响结构的操作，执行完毕后必须进行截图验证，不得以 token 成本为由跳过。
+
 验证不通过时，根据偏差项修正后再次验证，最多循环 3 次。
 
 ## 输出要求

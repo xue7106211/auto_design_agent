@@ -78,6 +78,59 @@ status: draft
 - 不重复解释主 Skill 已经覆盖的流程
 - 不写“本文档不负责什么”的长段落
 
+## 1.1 分号 · 跨表合并解释规则
+
+各 `app-variant-map-*.md` 的主映射表采用 **宽透视（wide pivot）形式**：一行 = 一个 uiElement / 子场景，列 = 设备 × screenMode，一个单元格内可出现 `栏：variantId` 的组合。单元格内部与跨表的解释规则如下：
+
+### 1) 单元格内的分号 `；` = sibling（平行）
+
+- `栏A：X；栏B：Y` → 分别放入不同栏 X、Y
+- `栏A：X；栏A：Y` → 同一栏内 X 与 Y **平行放置**（同栏多组件并列）
+- 本规则仅在 **单个单元格范围内** 生效，跨表不适用
+
+### 2) 不同子表针对 **同一栏** = 包含关系（outer → inner）
+
+一份 `app-variant-map` 按组件类型分成多个子表（`#### 导航栏 Sidebar / BottomBar`、`#### 标题栏 NavigationBar`、`#### 搜索栏 SearchBar`、`#### 标签栏`、`#### 列表 List`、`#### 底部工具栏 ToolBar` 等）。当同一栏在两个及以上子表中被提到时，**按下列层级从 outer 合并到 inner，不是 sibling**：
+
+| 层级 | 子表 | 角色 |
+|------|------|------|
+| L0 | `导航栏 Sidebar / BottomBar` | 该栏的外壳 / 底座（Sidebar、BottomBar、TopBar 等） |
+| L1 | `标题栏 NavigationBar` | L0 内部的顶部标题栏 |
+| L2 | `搜索栏 SearchBar` / `标签栏 SelectableChip` / `信息提示 NoticeBar` 等 | L0 内部的顶部辅助控件 |
+| L3 | `列表 List` / `内容容器 Detail*` 等 | L0 内部的主内容 |
+| L4 | `底部工具栏 ToolBar / BottomBar_Showcase` / `底部输入框 Input` | L0 内部的底部控件 |
+| L5 | `Fab` | 位于 L0 之上的定位元素 |
+
+### 3) 外壳（L0）已内置标题栏的情形
+
+`Sidebar_Component_PAD_NLC_*` 等部分外壳组件默认就包含内部标题栏。此时 L1 子表中的 `NavigationBar_*` 条目是 **「该内置标题栏应采用的 variant」** 元数据，**不再以 sibling 形式另外放置**。
+
+判断外壳实例是否已内置标题栏的标准：
+
+- 该外壳 variant 的定义 / 画布实例中已存在标题栏子节点
+- 外壳属于 `Sidebar_Component_*` / `FloatingWindow_ComponentSet_*` / `DrawerWindow_ComponentSet_*` 系列（几乎总是内置标题栏）
+
+外壳未内置标题栏的情形（例如普通 `Frame` 外壳）：
+
+- L1 条目 `NavigationBar_*` 作为 sibling 放置在外壳内部最顶部
+
+### 4) 示例
+
+以 `笔记 Pad 竖屏 NLC` 为例，合并读取两行：
+
+```
+#### 导航栏 Sidebar / BottomBar   → N 栏：Sidebar_Component_PAD_NLC_01
+#### 标题栏 NavigationBar — 默认  → N 栏：NavigationBar_ComponentSet_12
+#### 标题栏 NavigationBar — 默认  → L 栏：NavigationBar_ComponentSet_07
+#### 搜索栏 SearchBar             → L 栏：SearchBar_ComponentSet_05
+#### 列表 List — 默认             → L 栏：List_Notes_03
+```
+
+合并结果：
+
+- **N 栏**：Sidebar_PAD_NLC_01（外壳，内置标题栏）。NavigationBar_12 是其内置标题栏的 variant 指定，**不是** sibling。
+- **L 栏**：普通 Frame 外壳 + 顶部 NavigationBar_07（sibling，平行） + 其下 SearchBar_05 + 主内容 List_Notes_03。
+
 ## 2. 枚举定义
 
 建议每份文件只保留执行期真正会用到的枚举。
