@@ -18,6 +18,7 @@
 12. **任何 fill 写入必须经 token 解析**（`bindFill(...)`）。直接写 RGB SOLID 仅作为 fallback，必须留告警。Phase 0/4 调用 `buildTokenCache()` 一次性加载所有库 token。
 13. **数据不确定时立即报告，禁止猜测**。CSV 损坏 / 编码异常 / 字段缺失 / 映射条目带「需要Check / 待补 / `(／／／)`」标记 等情况，必须中止并向用户报告。禁止用「合理推测」「按上下文推断」填补未知数据。
 14. **栏标识前缀格式统一**：表格 / 文档 / 输出 / 注释中提到栏归属时，**必须用** `L栏：` / `C栏：` / `N栏：`（**含全角冒号**）。禁止变体写法如 `L栏 ：` / `L 栏:` / `L:` / `L-栏` 等。这是跨文档一致性约定，便于 grep 和自动校验。
+15. **Phase 2 钻取层级塌缩检测必做**：源稿多个 phone frame 是同一内容的不同导航深度（list / detail / edit 等）时，`targetVariantPlan` 项数 = **设备 × 方向数**，**不与源 frame 数相乘**。AskUserQuestion 询问 scope 前必须先汇报计数结果 + 塌缩判定。检测触发条件与例外见 `SKILL.md` Phase 2 补充节「targetVariantPlan 计数规则」。
 
 ## §1. 检索与复用边界
 

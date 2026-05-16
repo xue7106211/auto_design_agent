@@ -149,6 +149,48 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
 
+### Phase 2 补充：targetVariantPlan 计数规则（钻取层级合并 / drilldown collapse）
+
+**规则**：`targetVariantPlan` 项数 = **设备 × 方向数**，**不与源 frame 数相乘**。
+
+**原因**：手机端因屏幕窄，会把同一份内容的不同导航深度（list / detail / edit 等）拆为多个独立 frame（钻取式导航）。Fold / Pad 的 LC / NLC 把这些层级**并置在同一画面**，所以源稿的 N 个 phone frame 在适配稿中**塌缩为 1 个 frame**。
+
+**检测触发条件（命中任一即应用塌缩）**：
+
+| # | 触发条件 | 例子 |
+|---|---------|------|
+| 1 | 源 frame 是同一 App / 同一数据模型的不同导航深度 | 笔记首页（list）+ 笔记详情页（detail） |
+| 2 | 源 frame A 的列表项点击后跳转到 frame B（master → detail 关系）| 列表 → 详情 |
+| 3 | 源 frame 同属于一个 BottomBar / Sidebar tab 下的不同层级 | 同一"笔记" tab 的两个深度 |
+| 4 | 各源 frame 判定的 layoutType 都相同（全部 LC 或全部 NLC）| LC 天然吸收两个层级 |
+
+**正确映射示例（笔记 App）**：
+
+- 源：`笔记首页`（list, phone）+ `笔记详情页`（detail, phone）
+- 适配：Fold 内横 / Fold 内竖 / Pad 横 / Pad 竖 = **4 frame**
+  - 每个 frame：`L 栏 ← 笔记首页 list 内容`，`C 栏 ← 笔记详情页 detail 内容`
+- ❌ 错误映射：`2 × 4 = 8 frame`（`笔记首页_*` 4 个 + `笔记详情页_*` 4 个，C 栏内容重复 / 一半 frame 残缺）
+
+**例外（不塌缩的情况）**：
+
+| 场景 | 保留独立 frame 的理由 |
+|------|---------------------|
+| 不同 BottomBar tab | 信息域不同（如`笔记` tab vs `待办` tab）|
+| 不同数据模型 / 业务域 | 笔记 list vs 设置 page |
+| 浮层 / Modal 独立画面 | 适配稿仍需作为独立浮层表达 |
+| 用户**显式**要求"两个层级各自独立 frame" | 显式优先 |
+
+**Phase 2 强制执行步骤**：
+
+1. 列出源 section 的所有直接子 frame
+2. 用上表逐项检查 → 识别需要塌缩的 frame 组
+3. 按 **每组 1 frame × 设备数** 计算 `targetVariantPlan` 项数
+4. 通过 `AskUserQuestion` 与用户确认 scope 时，**必须先汇报计数结果 + 塌缩判定**，再询问执行规模
+   - ❌ 错误问法："8 frame 一次性 vs 分批"（计数错了用户也无从纠正）
+   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系，将合并为同一 LC/NLC 画面 → 4 个适配 frame（设备 × 方向）。是否正确？"
+
+> **本规则的根因**：2026-05-16 笔记多端适配任务中，AI 误把"2 源 frame × 4 设备 = 8 frame"作为默认计数，导致一半 frame 的 C 栏空缺。此规则将检测点固化在 Phase 2 计数阶段，并强制 AskUserQuestion 暴露计数结果，避免错误计数被用户的"完整执行"答复掩盖。
+
 ### Phase 3：加载通用规则
 
 > **🔁 RE-CHECK（Phase 3 必读 = 单纯加载）**：本 Phase 唯一动作是加载下表 3 个文件。任何文件未完整读取严禁进入 Phase 4。
