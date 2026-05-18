@@ -105,14 +105,34 @@ inst.y = (Pad横 ? 0 : statusBarH);   // overlay 模式从 statusBarH 开始
 
 ## NLC 覆盖模式 z-order
 
-Pad 竖 NLC 覆盖时 frame 子级顺序：
+Pad 竖 NLC 覆盖时 frame 子级顺序（`scenarioFlags.NCovering=true` 单独激活）：
 
 ```
-1. 主内容区
-2. 状态栏-StatusBar
-3. 遮罩-N覆盖
+1. 主内容区（main，含 L/C）
+2. 遮罩-N覆盖
+3. 状态栏-StatusBar  ← 在遮罩之上保证时间/信号可读（笔记/待办 修订）
 4. 栏间分割线（如有）
-5. Sidebar（最顶）
+5. Sidebar           ← 紧贴状态栏下沿
+6. 杆子（最顶 z）
 ```
 
-详见 `common-rules.md §3.7`。
+详见 `common-rules.md §3.7`（笔记/待办 修订版表）。
+
+## 多 mask 同时激活时的 z-order（§3.7b）
+
+当 `scenarioFlags.LEditMode + NCovering` **同时为 true** 时（如 笔记 编辑模式 V2 适配 中 列表多选 + Pad 竖覆盖），Sidebar 的 z 位与单 NCovering 不同：
+
+```
+1. 主内容区（仅 C 栏；L 栏已 promote 至 frame 直接子级）
+2. 遮罩-编辑 (Cw × frameH)
+3. 状态栏-StatusBar
+4. 栏间分割线
+5. L 栏              ← 编辑遮罩 之上，N 覆盖遮罩 之下
+6. 遮罩-N覆盖（全 frame）
+7. Sidebar           ← N 覆盖遮罩 之上（唯一豁免：Sidebar = N 覆盖 trigger）
+8. 杆子（最顶）
+```
+
+**关键**：Sidebar 在多 mask 场景仍位于 N 覆盖遮罩之上（trigger 豁免原则）。L 栏不豁免 N 覆盖遮罩，但豁免编辑遮罩。**禁止凭直觉将 L 栏与 Sidebar 同 z 层处理**。
+
+详见 `common-rules.md §3.7b`。
