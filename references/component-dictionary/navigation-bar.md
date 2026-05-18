@@ -6,24 +6,19 @@
 
 命中以下 `variantId` 时加载本文档：
 
-- `NavigationBar_ComponentSet_00`
-- `NavigationBar_ComponentSet_01`
-- `NavigationBar_ComponentSet_02`
-- `NavigationBar_ComponentSet_03`
-- `NavigationBar_ComponentSet_04`
-- `NavigationBar_ComponentSet_05`
-- `NavigationBar_ComponentSet_06`
-- `NavigationBar_ComponentSet_07`
-- `NavigationBar_ComponentSet_08`
-- `NavigationBar_ComponentSet_09`
-- `NavigationBar_ComponentSet_10`
-- `NavigationBar_ComponentSet_11`
+- `NavigationBar_ComponentSet_00` ~ `NavigationBar_ComponentSet_18`（`_12` ~ `_18` 部分待暴露，详见下文）
 - `Pad_TopBar_01`
 - `Pad_TopBar_02`
 - `TopBar_00`
 - `TopBar_03`
 - `TopBar_04`
 - `TopBar_05`
+- `TopBar_06`（CSV2 15 日新增，待暴露）
+- `TopBar_07`（CSV2 新增，侧边栏收起态搜索栏）
+- `TopBar_Navigation_01`（CSV2 复合体内 sub-variant，最小左 16；右 16）
+- `NavigationBar_ComponentSet_Calendar_01`（业务变体，日历专用）
+- `NavigationBar_ComponentSet_Notes_01` ~ `NavigationBar_ComponentSet_Notes_04`（业务变体，笔记专用）
+- `NavigationBar_ComponentSet_Weather_01`（业务变体，天气专用）
 
 ## 核心结论
 
@@ -108,9 +103,19 @@
 - `NavigationBar_ComponentSet_13`
 - `NavigationBar_ComponentSet_14`
 - `NavigationBar_ComponentSet_15`
+- `NavigationBar_ComponentSet_16`（CSV2 2026-05-15 新增，小标题_左对齐；待 Figma 探查）
+- `NavigationBar_ComponentSet_17`（CSV2 2026-05-15 新增，侧边栏_收起_文字；待 Figma 探查）
+- `NavigationBar_ComponentSet_18`（CSV2 2026-05-15 新增，侧边栏_编辑_收起；待 Figma 探查）
 - `NavigationBar_ComponentSet_Calendar_01`
 - `NavigationBar_ComponentSet_Notes_01`
+- `NavigationBar_ComponentSet_Notes_02`（CSV2 笔记 思维导图 标题栏；待 Figma 探查）
+- `NavigationBar_ComponentSet_Notes_03`（CSV2 笔记 Pad 思维导图 标题栏；待 Figma 探查）
+- `NavigationBar_ComponentSet_Notes_04`（CSV2 笔记 标题栏 变体；待 Figma 探查）
 - `NavigationBar_ComponentSet_Weather_01`
+- `TopBar_06`（CSV2 2026-05-15 新增，顶部标题栏搜索_左对齐；待 Figma 探查）
+- `TopBar_07`（CSV2 新增，顶部导航搜索_侧边栏收起；待 Figma 探查）
+
+> CSV1 / CSV2 同步日期：2026-05-18。新增 variant 暴露后将其从本节移入「执行记录」。
 
 ### 当前禁止使用的旧字段
 

@@ -9,9 +9,11 @@
 - `SearchBar_ComponentSet_00`
 - `SearchBar_ComponentSet_01`
 - `SearchBar_ComponentSet_02`
-- `SearchBar_ComponentSet_03`（待入库）
-- `SearchBar_ComponentSet_04`（待入库）
-- `SearchBar_ComponentSet_05`（待入库）
+- `SearchBar_ComponentSet_03`（CSV2 2026-05-15，sug 词直显；待 Figma 探查）
+- `SearchBar_ComponentSet_04`（CSV2 2026-05-15，Pad 顶部导航 / 激活；待 Figma 探查）
+- `SearchBar_ComponentSet_05`（CSV2 2026-05-15，NLC 默认；待 Figma 探查）
+
+> CSV1 / CSV2 同步日期：2026-05-18。`_03` / `_04` / `_05` 已在 CSV2 标 "15 日 YES"，nodeId / componentKey 待首次 import 后补齐。
 
 ## 核心结论
 

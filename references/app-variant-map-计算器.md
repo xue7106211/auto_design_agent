@@ -8,6 +8,8 @@ status: draft
 ---
 
 > 本文档由 `figma-component-dictionary.md` 的 Step 1 按需加载。
+>
+> **CSV1 / CSV2 同步日期：2026-05-18**（cell-level 校验完成；任何不一致以 CSV 为准）。
 
 # 计算器 App Variant Map
 

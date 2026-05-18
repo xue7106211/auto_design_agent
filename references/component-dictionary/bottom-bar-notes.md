@@ -2,7 +2,11 @@
 
 本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = BottomBar`（笔记业务工具栏 `Showcase` 类）。
 
-> 笔记业务还包含 `BottomBar_Notes_Outline_*`（思维导图 / 大纲工具栏） 与 `BottomBar_NoteEditPanel_*`（编辑面板）变体集，未在本文档落库；后续按需补充。
+> 笔记业务还包含 `BottomBar_Notes_Outline_00 / _01 / _02`（思维导图 / 大纲工具栏） 与 `BottomBar_NoteEditPanel_00 / _01 / _02 / _03`（编辑面板）变体集，未在本文档落库；后续按需补充。
+>
+> 通用 `BottomBar_Showcase_00 / _01 / _02 / _Fab_01 / _Fab_02` 也属于同族但不归本文档；后续可拆分至独立 `bottom-bar-showcase.md` 字典文件。
+>
+> CSV1 / CSV2 同步日期：2026-05-18。
 
 ## 适用记录
 

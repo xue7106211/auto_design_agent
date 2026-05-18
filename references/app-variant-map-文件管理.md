@@ -8,8 +8,32 @@ status: draft
 ---
 
 > 本文档由 `figma-component-dictionary.md` 的 Step 1 按需加载。
+>
+> **CSV1 / CSV2 同步日期：2026-05-18**（cell-level 校验完成；`Sidebar_Component_NC_01` 仍待 dictionary 端定夺，详见 plan 中 핵심 불일치 #1）。
 
 # 文件管理 App Variant Map
+
+## §0. 应用规则要点（必读，先于映射表）
+
+### §0.1 各设备默认 layoutType
+
+| device | default layoutType | 说明 |
+|---|---|---|
+| 手机 / Fold 外屏 | C | 单栏 |
+| Fold 内屏 横/竖 | NC / LC | 多视图（默认 LC，N 触发时 NC）|
+| Pad 横屏 | NLC（并列）| N + L + C 三栏 |
+| Pad 竖屏 | NLC（并列）| 文件管理默认并列；覆盖仅 user 显式指定 |
+
+### §0.1b scenarioFlags 导出信号表
+
+> **状态**：skeleton。实际适配 文件管理 时按 source frame 实测填写本表，**禁止推测**（common-rules §0 #13）。
+
+| flag | 激活信号 | 关联触发 |
+|------|---------|---------|
+| `LEditMode` | （待 实际适配实测）| §3.7a |
+| `NEditMode` | （待 实际适配实测）| §3.7a / §3.7b |
+| `CEditMode` | （待 实际适配实测）| §3.7a 末 |
+| `NCovering` | layoutType = `NLC覆盖`（仅 user 显式指定）| §3.7 |
 
 ## 映射表
 
