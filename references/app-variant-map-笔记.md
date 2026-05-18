@@ -15,6 +15,108 @@ status: draft
 - 输出：`resultType + variantId`
 - 若未命中：返回 `undefined`，调用方必须中止，不允许猜测
 
+---
+
+## §0. 应用规则要点（必读，先于映射表）
+
+> 本节是 笔记 / 待办 适配的**强制规则**，落位前必须全部内化。映射表只回答「用哪个 variant」，本节回答「怎么放」。Phase 6 通用 `verifyChecklist` 之外另需验证本节项目。
+
+### §0.1 落位关键规则（速查）
+
+| # | 规则 | 详细 |
+|---|------|------|
+| 1 | **C 栏 TextInput bottom flush** | `y = mainH − TI.h`，**bottom 贴 frame 底**，与杆子 16dp 重叠（笔记 NoteEditPanel 源稿 convention） |
+| 2 | **Detail 高度延伸** | `Detail.height = mainH − 62`（延伸到 TI 下方，TI 通过 z-order + fade 自然 overlay）；不能算成 `mainH − 154` |
+| 3 | **C 栏 z-order** | `NavBar → Detail → TextInput`（TI 在上层 fade overlay 在 Detail 之上）；杆子在 frame 直接子级 |
+| 4 | **L 栏 顺序** | `NavBar(56) → SearchBar(56) → SelectableChip(52) → List → BottomBar(100, 底)`；**与源稿 Chip↔Search 顺序差异时以 spec 为准** |
+| 5 | **杆子（home indicator）** | `x=0, width=frameW` 风满；`fills=[]` 透明；frame 直接子级**最顶 z-order**（Sidebar 之上） |
+| 6 | **覆盖模式 状态栏可读性** | Pad 竖 NLC 覆盖：z-order = `main → 遮罩 → 状态栏 → 分割线 → Sidebar → 杆子`。状态栏**必须在遮罩之上**（时间/信号可读），Sidebar 在状态栏之上 |
+| 7 | **栏背景色 token** | 所有 LC / NLC 模式的 frame / L栏 / C栏 fill 必须绑定 `背景色/surface`（key `5804f51e302d6fda00b3a8ce9d509d9b8ee09225`）。详见本文档「栏背景色」表 |
+| 8 | **N 收起 替代规则** | 笔记 / 待办专属：N 收起态**不使用** `Sidebar_Component_PAD_NLC_02`（88dp 形态）；改为 N 栏直接消失 + L/C 栏 NavigationBar 最左加 `_17`(默认)/`_18`(编辑) 收起图标。详见「N 收起 规则」节 |
+
+### §0.2 padding 合算应用表（笔记 / 待办）
+
+> 通用合算公式见 `common-rules.md §3.4a`。本表列具体 frame × 栏 × 组件的 `outer / x / 写入 width`，**直接抄表**。
+
+**特殊（框架性）组件**：`NavigationBar` / `NavigationBar_ComponentSet_Notes` / `BottomBar_*` / `ToolBar_*` / `Sidebar_*` / `TextInput_ComponentSet_Notes` —— 在所属栏内**永远 `x=0, width=栏W` 风满**，**不参与下表合算**。
+
+**Detail_Notes 特殊 `internal=20`**：Detail 外层 frame `paddingLeft=0` 但封面图距 Detail 左缘恒为 20dp，作为 Detail 「自带 padding」参与合算。**仅适用 Detail_Notes**，不推广到其它组件。
+
+| frame | 栏 | 栏宽 | spec | 组件 | internal | outer | x | 写入 width |
+|-------|----|------|------|------|----------|-------|---|------------|
+| Fold 内横 LC | L | 353 | 12 | SearchBar | 12 | 0 | 0 | 353 |
+| | L | 353 | 12 | SelectableChip | 12 | 0 | 0 | 353 |
+| | L | 353 | 12 | List_Notes | 12 | 0 | 0 | 353 |
+| | C | 535 | 12 | **Detail_Notes** | 20 | 0 | 0 | 535 |
+| Fold 内竖 LC | L | 282 | 12 | SearchBar | 12 | 0 | 0 | 282 |
+| | L | 282 | 12 | SelectableChip | 12 | 0 | 0 | 282 |
+| | L | 282 | 12 | List_Notes | 12 | 0 | 0 | 282 |
+| | C | 346 | 12 | **Detail_Notes** | 20 | 0 | 0 | 346 |
+| Pad 横 NLC（展开）| L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 722 | **28** | **Detail_Notes** | 20 | 8 | 8 | 706 |
+| Pad 竖 NLC（展开 / 覆盖）| L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 521 | 12 | **Detail_Notes** | 20 | 0 | 0 | 521 |
+| Pad 横 NLC 收起 | L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 994 | **56** | **Detail_Notes** | 20 | 36 | 36 | 922 |
+| Pad 竖 NLC 收起 | L | 428 | **20** | SearchBar | 12 | 8 | 8 | 412 |
+| | L | 428 | 20 | List_Notes | 12 | 8 | 8 | 412 |
+| | C | 521 | **20** | **Detail_Notes** | 20 | 0 | 0 | 521 |
+
+### §0.3 必用 token 引用
+
+| 用途 | Token 名 | Library Key |
+|------|---------|------------|
+| frame / L栏 / C栏 fill | `背景色/surface` | `5804f51e302d6fda00b3a8ce9d509d9b8ee09225` |
+| 栏间分割线 fill | `分割线色/outline` | `96f2cf4d1ce0d56cff2f8e98da6a5e16bd59983e` |
+| Pad 竖 NLC 覆盖 遮罩 fill（opacity 0.2）| `遮罩色/mask` | `0ed62540049dd3839b40b63d40f82492c4bac664` |
+
+### §0.4 关键组件 set keys（重要）
+
+| set | key | 备注 |
+|-----|-----|------|
+| `状态栏-StatusBar` | `599a7d4bf61b848414c8141da76ab3b3c6596686` | 含 手机/fold/pad 三 variant；pad 自然高 38, **强制 resize 34** |
+| `NavigationBar` | `a89cd38d06061fcbb5ff7e596b92f8f3cf3888de` | 含 `_00`~`_18` 系列。**`_Notes_*` 已分离到下方独立 set** |
+| `NavigationBar_ComponentSet_Notes` | `ac60af7e28e6491b3520ecaefd71fa7e03832c31` | 业务组件库；含 `_Notes_01`/`_Notes_02` |
+| `SearchBar_ComponentSet` | `2316a63eb824ab38f388c3127101e535b7668398` | LC 默认风满用 `_05`（不是 `_02`）|
+| `SelectableChip_ComponentSet_Notes` | `af1e1df353e8fb1fe8005b82fed310422f2eae4c` | |
+| `List_Notes` | `94f9b4085ba12b43511a95282fa84225241f6f9e` | |
+| `Detail_Notes` | `961f0e237edea438d52e6d2ad9b4e38c99bd2c68` | |
+| `BottomBar_Showcase_Notes` | `303649c8435835bcbfb5e85e668a0b6562497cad` | |
+| `TextInput_ComponentSet_Notes` | `0dc20401cde070d654725146db336032d2f886a2` | **Fold 内 LC C 栏 默认 = `_08`**（非 `_01`）|
+| `BottomBar`（含 `Sidebar_Component_PAD_NLC_*`）| `414cabc8e633c33cc6441ff0f936f971dc9babd3` | Sidebar 在此 set 内；2026-05-15 卡片 y=0 h=788 |
+| `杆子` | `eaa1eedcfecafc098f1383119303223843baa3c5` | 含 手机/折叠屏/pad × 横/竖 × 浅/深 全 variant |
+
+### §0.5 组件库变更日志
+
+| 组件 | 更新日期 | 影响 |
+|------|---------|------|
+| `Sidebar_Component_PAD_NLC_01` | 2026-05-15 | 卡片 `y=6, h=782` → `y=0, h=788`。卡片紧贴外壳上沿，无 6dp 顶部空间 |
+| `NavigationAtoms` 高度（Sidebar 内部使用）| 2026-05-14 之前 | 44dp → 56dp。内容区域起点变为 `y = 56 + 6 = 62` |
+| `NavigationBar` set ↔ `NavigationBar_ComponentSet_Notes` set 拆分 | 2026-05-15 实测 | `_Notes_*` variant 已迁到独立 set，引用旧 set 找不到 `_Notes_01` |
+| `TextInput_ComponentSet_Notes_08` | 2026-05-15 新增 | 392×92, Q18 内屏 padding 左20 右20。Fold 内 LC C 栏 NoteEditPanel 默认从 `_01` 改用 `_08` |
+
+### §0.6 历史踩坑（笔记 / 待办 应用专用）
+
+> 通用 instance reflow 陷阱见 `common-rules.md §3.6`。本表只列 **笔记 / 待办 变体选择 / 特殊位置** 的应用专属失误。
+
+| 类别 | 失误 | 正确做法 |
+|------|------|---------|
+| 变体选择 | L 栏 NavBar 用 `_05`（带返回箭头）| 笔记 LC 列表页 default = `_04`（无返回）|
+| 变体选择 | L 栏 SearchBar 用 `_02`（自然 176×44 是 Pad 顶部导航内嵌）| LC 风满 = `_05`（392×56）|
+| 变体选择 | C 栏 TextInput 用 `_01` | Fold 内 LC C 栏 = `_08`（CSV2 2026-05-15 新增，Q18 内屏 padding 20）|
+| 位置 | Pad 竖 NLC 覆盖 杆子 `x=272`（避 Sidebar）| 杆子风满 `x=0, w=frameW`；z-order 而非位置避让 |
+| 位置 | C 栏 TextInput `y=mainH-108`（避 杆子）| `y=mainH-92`（bottom flush，与杆子 16dp 重叠）|
+| 位置 | Detail 高度 `mainH-154`（避 TI）| `mainH-62`（延伸到 TI 下方，TI 通过 z-order + fade overlay）|
+| 顺序 | L 栏 Chip→Search（源稿顺序）| spec 通例 NavBar→Search→Chip→List |
+| Token | frame fill 直接 RGB 灰色 / 白色 | `bindFill('背景色/surface', ...)` 绑定 |
+| Token | 分割线 fill RGB | `bindFill('分割线色/outline', ...)` |
+| Token | 遮罩 fill RGB | `bindFill('遮罩色/mask', ..., 0.2)` |
+
+---
+
 ## 枚举定义
 
 ### `device`
@@ -84,10 +186,14 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 源变体（手机 / Fold） | Pad 对应 `_00` 变体 | Pad 处理 |
 |---|---|---|
 | `BottomBar_Showcase_Notes_01` (L 栏 工具栏) | `BottomBar_Showcase_Notes_00` | L 栏不渲染；功能 → L 栏 NavigationBar 右侧图标 |
-| `TextInput_ComponentSet_Notes_01` (C 栏 底部输入框) | `TextInput_ComponentSet_Notes_00` | C 栏不渲染；功能 → C 栏 NavigationBar 右侧图标 |
+| `TextInput_ComponentSet_Notes_01` (C 栏 底部输入框) | `（／／／）` 待补 | C 栏不渲染；功能 → C 栏 NavigationBar 右侧图标。**2026-05-15 起**：CSV1 不再标 `_00`，改 `（／／／）` 表示组件 spec 仍待定。Pad 执行仍按"省略渲染"，等组件库新规格落地后回填。|
 | `SelectableChip_ComponentSet_Notes_01 / _02` (L 栏 标签栏) | `SelectableChip_ComponentSet_Notes_00` | L 栏不渲染；标签筛选 → L 栏 NavigationBar 右侧图标 / 文件夹切换 |
 
-> **组件库缺口**：当前组件集中 `BottomBar_Showcase_Notes_00` / `TextInput_ComponentSet_Notes_00` / `SelectableChip_ComponentSet_Notes_00` 尚未落地。按本规则，Pad 执行时即使在组件集中只能找到 `_01 / _02` fallback，也必须**省略渲染**，不得保留 pill / 输入框 / 标签栏。组件库补齐 `_00` 变体后可直接切换。
+> **组件库缺口（2026-05-15 更新）**：
+> - `Sidebar_Component_PAD_NLC_00` 已落地（CSV2 标 "15日 YES"）✅
+> - `BottomBar_Showcase_Notes_00` / `TextInput_ComponentSet_Notes_00` / `SelectableChip_ComponentSet_Notes_00` 仍未落地；Pad 执行按"省略渲染"
+> - **`TextInput_ComponentSet_Notes_08` 新增**（CSV2 标 "15日 YES"）：Q18 内屏 padding `左20；右20`；专用于 Fold 内屏 LC C 栏 NoteEditPanel 默认态
+> - Pad NLC C 栏 NoteEditPanel 输入框规格 `（／／／）`：CSV1 标记待补，组件库尚未给出明确变体。临时按"不渲染"处理，等 spec 落地
 
 ## 映射表
 
@@ -147,11 +253,13 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 #### 搜索栏 SearchBar
 
+> **2026-05-15 修订**：LC 行原来 `_02` 映射有误（CSV2 `_02` = 平板/顶部导航 内嵌 search icon，自然 176×44）。LC 风满搜索栏正确变体为 `_05`（默认，自然 392×56）。CSV1 LC 行待下次同步时一并修正。
+
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — |
 | NL  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | — | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — |
-| LC  | SearchBar_ComponentSet_02 | SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | — | — | — | — | — | — | — | — | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 |
+| LC  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — | — | — | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 |
 
 > Pad NL 收起 使用 `TopBar_07`（顶部导航搜索_侧边栏收起变体），同时承载 N 栏恢复功能。
 
@@ -218,9 +326,11 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 #### 底部输入框 Input
 
+> **2026-05-15 更新**：源自结构变化表 CSV1 + 控件变体清单 CSV2。`_01` 在 Fold 内屏 LC C 栏改用 **`_08`** 新变体（Q18 内屏 padding `左20；右20`）；Pad NLC C 栏暂标记 `（／／／）`（待补，组件 spec 尚未定型）。`_00` 仍为不渲染占位。
+
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
 |--|--|--|--|--|--|--|--|
-| NoteEditPanel / _01 | TextInput_ComponentSet_Notes_01 | TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 |
+| NoteEditPanel / _01 | TextInput_ComponentSet_Notes_01 | TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_08 | C栏：（／／／） | C栏：（／／／） | C栏：（／／／） | C栏：（／／／） |
 | _02 | TextInput_ComponentSet_Notes_02 | TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 |
 | _03 | TextInput_ComponentSet_Notes_03 | TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 |
 | _04 | TextInput_ComponentSet_Notes_04 | TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 |
@@ -357,6 +467,30 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 | Pad 竖屏 NLC 展开 | 采用 **覆盖** 模式：L/C 回归 LC 基准尺寸（L 428 + C 521），Sidebar 覆盖于 L+C 之上；遮罩覆盖整个 frame（含状态栏），Sidebar 位于遮罩之上。详见 `layouts/device-dimensions.md`「覆盖 布局实例示范」。 |
 | Pad 横屏 NLC 展开 | **并列**（通则；仅此模式，无覆盖选项） |
 | Pad NLC / NL / NC 收起 | N 栏消失（笔记例外规则）；Pad 横屏 L/C 扩展吸收 N 宽度；Pad 竖屏 L/C 回归 LC 尺寸 |
+
+## C 栏图片适配
+
+`Detail_Notes` 内含图片的原始最大宽度为 **395dp**。各设备 / screenMode 下 C 栏（或单栏）实际内容宽度不同，按以下规则适配：
+
+**核心公式**：`图片.width = min(C 栏内容宽, 395)`，`图片.height = 图片.width × (原始H / 原始W)`（**原始比例等比缩放**），**左对齐**，右侧产生空白留白。
+
+| screenMode / 设备 | C 栏内容宽 | 图片宽 | 备注 |
+|---|---|---|---|
+| 手机竖（单栏） | 392 | 392 | cap 接近原值，近全幅 |
+| Fold 外竖（单栏） | 392 | 392 | 同上 |
+| Fold 内竖 LC | 346 | **346**（cap 未达，随栏宽缩） | 图片随栏宽等比缩小，高度同比缩 |
+| Fold 内横 LC | 535 | **395** | 右侧留白 140 |
+| Pad 竖 NLC / NLC 收起 / LC | 521 | **395** | 右侧留白 126 |
+| Pad 横 NLC 展开 | 706（内容宽，去 8dp 左 padding） | **395** | 右侧留白 311 |
+| Pad 横 NLC 收起 | 922（内容宽，去左右 36dp padding） | **395** | 右侧留白 527 |
+| Pad 横 LC | 521 | **395** | 右侧留白 126 |
+
+执行注意：
+
+- 所有端 **必须等比缩放**，禁止固定高度或裁切
+- 图片容器在 `Detail_Notes` 内 **左对齐 hug**，右侧空白保留为留白，不拉伸图片
+- Fold 内竖（346）是唯一 cap 未达的端，实例 swap / resize 后必须显式 override `width = 346` 并按比例 resize 高度（参见 [[feedback_swap_reset_overrides]] / [[feedback_variant_swap_resize]]）
+- 本规则仅适用 **笔记**（含 `笔记` 子场景的 `Detail_Notes` 内媒体），不影响 `待办` / 其他应用
 
 ## 遮罩规则
 

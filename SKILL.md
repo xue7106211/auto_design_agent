@@ -22,7 +22,14 @@ lastUpdated: 2026-05-07
 
 ## 强制工作流
 
+> 📌 **全 Phase 通用前置**：本 Skill 任何 `use_figma` 调用前，**必须先调用 `figma-use` skill**（Figma plugin 工具的 mandatory prerequisite）。`use_figma` 直接调用会触发隐藏的 fail 模式（字体加载 / instance reflow / page 切换错误等），`figma-use` skill 内含完整使用规则。**首次 `use_figma` 出现在 Phase 1（字体预检），所以 Phase 1 进入前必须先 figma-use skill 加载完成**。
+
 ### Phase 0：进入生产主链路
+
+> **🔁 RE-CHECK（Phase 0 必读）**：
+> - common-rules §1 检索与复用边界（当前 page 隔离 / 整页复用条件 / 标准实例必探查）
+> - common-rules §2 内容来源边界（密度守恒 / 业务内容 vs 结构组件 / 宽 frame 行为）
+> - common-rules §0 #11~#14（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式）
 
 默认进入整页多端适配主链路。
 
@@ -36,6 +43,12 @@ lastUpdated: 2026-05-07
 - 目标适配稿放源稿旁边，同 section、同横向对照带
 
 ### Phase 1：读取源设计稿上下文
+
+> **🔁 RE-CHECK（Phase 1 必读）**：
+> - 全 Phase 通用前置：**进入 Phase 1 前必须先 `figma-use` skill 加载完成**（首次 `use_figma` 出现于本 Phase 第 4 步字体预检）
+> - 字体预检脚本（本节 inline）必须运行；产出 `fontDegradationMap` 是 Phase 5 必要前置
+> - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV / metadata 异常时立即停止）
+> - 「字体降级规则」节（本文档 Phase 5 后）—— `fontDegradationMap` 结构示例与降级表
 
 获取手机端源设计稿的完整信息：
 
@@ -87,6 +100,15 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 ### Phase 2：判断目标设备和布局类型
 
+> **🔁 RE-CHECK（Phase 2 必读）**：
+> - **`references/layouts/device-dimensions.md`**（设备画布尺寸 + 栏宽 + 圆角 + statusBar 高度 + 断点 padding 表）—— Phase 5 落位的 spec 来源
+> - 各布局 reference（按 layoutType 选一）：
+>   - NLC → `references/layouts/nlc-layout.md`（Pad 专用）
+>   - LC / NC → `references/layouts/lc-nc-layout.md`
+>   - C → `references/layouts/c-layout.md`
+> - 应用专用 layout 例外（如 笔记 N 收起规则 / Pad 竖 NLC 覆盖 z-order）→ `references/app-variant-map-{app}.md §0`
+> - 默认必出 4 版本（Fold 横 / Fold 竖 / Pad 横 / Pad 竖），用户明确缩小范围才减
+
 根据用户需求和源设计稿特征，确定：
 
 **目标设备**（用户指定或推断）：
@@ -127,78 +149,168 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
 
+### Phase 2 补充：targetVariantPlan 计数规则（钻取层级合并 / drilldown collapse）
+
+**规则**：`targetVariantPlan` 项数 = **设备 × 方向数**，**不与源 frame 数相乘**。
+
+**原因**：手机端因屏幕窄，会把同一份内容的不同导航深度（list / detail / edit 等）拆为多个独立 frame（钻取式导航）。Fold / Pad 的 LC / NLC 把这些层级**并置在同一画面**，所以源稿的 N 个 phone frame 在适配稿中**塌缩为 1 个 frame**。
+
+**检测触发条件（命中任一即应用塌缩）**：
+
+| # | 触发条件 | 例子 |
+|---|---------|------|
+| 1 | 源 frame 是同一 App / 同一数据模型的不同导航深度 | 笔记首页（list）+ 笔记详情页（detail） |
+| 2 | 源 frame A 的列表项点击后跳转到 frame B（master → detail 关系）| 列表 → 详情 |
+| 3 | 源 frame 同属于一个 BottomBar / Sidebar tab 下的不同层级 | 同一"笔记" tab 的两个深度 |
+| 4 | 各源 frame 判定的 layoutType 都相同（全部 LC 或全部 NLC）| LC 天然吸收两个层级 |
+
+**正确映射示例（笔记 App）**：
+
+- 源：`笔记首页`（list, phone）+ `笔记详情页`（detail, phone）
+- 适配：Fold 内横 / Fold 内竖 / Pad 横 / Pad 竖 = **4 frame**
+  - 每个 frame：`L 栏 ← 笔记首页 list 内容`，`C 栏 ← 笔记详情页 detail 内容`
+- ❌ 错误映射：`2 × 4 = 8 frame`（`笔记首页_*` 4 个 + `笔记详情页_*` 4 个，C 栏内容重复 / 一半 frame 残缺）
+
+**例外（不塌缩的情况）**：
+
+| 场景 | 保留独立 frame 的理由 |
+|------|---------------------|
+| 不同 BottomBar tab | 信息域不同（如`笔记` tab vs `待办` tab）|
+| 不同数据模型 / 业务域 | 笔记 list vs 设置 page |
+| 浮层 / Modal 独立画面 | 适配稿仍需作为独立浮层表达 |
+| 用户**显式**要求"两个层级各自独立 frame" | 显式优先 |
+
+**Phase 2 强制执行步骤**：
+
+1. 列出源 section 的所有直接子 frame
+2. 用上表逐项检查 → 识别需要塌缩的 frame 组
+3. 按 **每组 1 frame × 设备数** 计算 `targetVariantPlan` 项数
+4. 通过 `AskUserQuestion` 与用户确认 scope 时，**必须先汇报计数结果 + 塌缩判定**，再询问执行规模
+   - ❌ 错误问法："8 frame 一次性 vs 分批"（计数错了用户也无从纠正）
+   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系，将合并为同一 LC/NLC 画面 → 4 个适配 frame（设备 × 方向）。是否正确？"
+
+> **本规则的根因**：2026-05-16 笔记多端适配任务中，AI 误把"2 源 frame × 4 设备 = 8 frame"作为默认计数，导致一半 frame 的 C 栏空缺。此规则将检测点固化在 Phase 2 计数阶段，并强制 AskUserQuestion 暴露计数结果，避免错误计数被用户的"完整执行"答复掩盖。
+
 ### Phase 3：加载通用规则
 
-读取 `references/common-rules.md`，确认执行原则和禁止项。
+> **🔁 RE-CHECK（Phase 3 必读 = 单纯加载）**：本 Phase 唯一动作是加载下表 3 个文件。任何文件未完整读取严禁进入 Phase 4。
 
-### Phase 4：生成页面级组件任务
+**强制读取以下三个文件全文（不可只读目录或片段）**：
 
-在读取布局 reference 并执行写入之前，先完成页面级组件任务生成：
+| # | 文件 | 角色 | 必读理由 |
+|---|------|------|---------|
+| 1 | `references/common-rules.md` | 通用原则 / 内容边界 / 检索规则 / §3.x 实例陷阱 / §6.2 验证清单 / §7 禁止项 | Phase 0~6 横跨；§3.6 reflow 陷阱是过去 18+ 错误的核心 |
+| 2 | `references/component-placement-protocol.md` | **`placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 四个函数本体** | **唯一权威源**。Phase 5 落位 / Phase 6 验证 都直接调用这些函数。SKILL.md 本文档只列签名 + 示例，函数体在此 |
+| 3 | `references/font-degradation.md` | **`fixFonts` 函数本体** + 降级 / 强制顺序 / degradationMap 结构示例 | **唯一权威源**。Phase 5 字体不可用实例处理直接调用 `fixFonts`；本节签名 + 业务降级表在 SKILL.md 内 |
 
-1. 盘点页面级关键组件实例
-2. 识别每个实例的 `resolvedUiElement`
-3. 生成 `componentTaskList`
-4. 先基于页面级 `layoutType` 和组件所在栏位或子场景推导 `screenMode`，再按 `appName + device + screenMode + resolvedUiElement` 批量查询 `app-variant-map`
+> ⚠️ **未完整读取上述 3 文件严禁进入 Phase 4 / Phase 5**。Phase 5 写入代码会调用 `placeStandardComponent({...})` / `bindFill(...)` / `verifyChecklist(...)` / `fixFonts(...)`；这些函数仅在对应 reference 内有完整实现。未读 → 调用失败 / 误用必发生。
+>
+> 应用专属规则另在 `app-variant-map-{app}.md`（Phase 4 读取）。
 
-强制约束：
+> 关键决定（2026-05-15）：`resetOverrides` **默认 OFF**。仅当 swap 后必须清旧 override 时才显式 `true`。reset 会清掉 width override 触发 instance hug content reflow，是过去最频繁的失败根因。
 
-**任务生成不可跳过**：不管文件内有无相似样例，`metadata` 中出现的源稿直接子组件必须全部进入 `componentTaskList`，不可跳过或删除；后续读取结果少于 metadata 时只能记录差异，不允许据此删减任务
+### Phase 4：生成页面级组件任务 + Token 缓存
 
-**检索边界**：遵循 Phase 0 检索边界规则；本阶段补充——组件级节点、骨架节点或当前 frame 内局部结构可复用，但整页级复用仍需用户确认
+> **🔁 RE-CHECK（Phase 4 进入时必读）**：
+> - common-rules §3.1 基础组件清单（必入清单的最少 9 个 family）
+> - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV "需要Check" / "待补" 必须用户确认）
+> - app-variant-map-{app}.md §0 应用规则要点 + §0.6 历史踩坑
 
-**基础组件独立映射**：基础组件（至少包括 `StatusBar`、`NavigationBar`、`BottomBar`、`Sidebar`、`SearchBar`、`SelectableChip`、`Fab` 及布局 reference 点名的标准结构组件）必须单独收敛为组件任务，不允许混在”顶部模块””页面骨架”等打包动作中跳过；每个基础组件必须独立走完 `resolvedUiElement` → `screenMode` → `app-variant-map` → 目标实例命中全链路，仅完成位置迁移、尺寸拉伸、整体 clone 或”沿用源稿当前变体”不视为完成；命中标准实例后，后续骨架执行只能复用该命中结果，不允许回退到源稿原始变体
+**强制 6 步**（顺序固定，缺一不可）：
 
-**映射表优先级**：`resolvedUiElement` 和 `app-variant-map` 返回结果优先级高于组件名、组件族名和布局直觉；执行时不得仅凭组件名改写语义。例如 `BottomBar_Showcase_Notes_01` 在笔记应用中命中 `底部工具栏` 时，必须按工具栏处理，不得按手机底部导航删除
+| # | 动作 | 函数本体 | 输出 / 副作用 |
+|---|------|---------|--------------|
+| 1 | 盘点页面级关键组件实例（基于 Phase 1 metadata）| — | 实例列表 |
+| 2 | 识别每个实例的 `resolvedUiElement` | — | 业务语义标签 |
+| 3 | 推导 `screenMode`（由 `layoutType` + 栏位 / 子场景）| — | screenMode 值 |
+| 4 | 批量查询 `app-variant-map` (`appName + device + screenMode + resolvedUiElement`) | `references/app-variant-map-{app}.md` | 各组件 variantId |
+| 5 | 生成 `componentTaskList`：每条目含 **`variantId + 目标 x/y/w/h + parent + z-order + sourceDetected + status`** | — | 完整任务清单 |
+| 6 | **执行 `TOKEN_CACHE = await buildTokenCache()`**（一次性缓存所有库 token，赋全局变量） | **`protocol.md §4`** | `TOKEN_CACHE.color` 就绪 |
 
-**标准实例命中与退化**：有明确目标实例名时（来自 `app-variant-map`、布局 reference、组件字典或用户输入）必须优先命中；仅在确认当前文件内不存在、无法访问或实例化失败后才允许退化为局部素材重组，并说明退化原因；标准组件默认保留实例状态，不预先执行 `detachInstance`
+> ⚠️ 第 6 步是 Phase 5 `bindFill(...)` 的前置依赖。若漏掉 → Phase 5 fill 写入会全部 fallback RGB，token 绑定失败。Phase 6 `verifyChecklist` ② 必报错。
 
-**设计系统组件检索不可跳过**：`currentPage.findAll(...)` 或当前 section / 当前 page 搜索只能证明“当前画布是否已有落地实例”，不能证明外部组件库或设计系统中不存在目标变体。凡 `app-variant-map`、布局 reference、组件字典或用户输入给出明确 `variantId` / 标准实例名时，必须按以下顺序命中，不允许因为当前 page 未找到同名节点就直接 `fallback`：
+> ⚠️ 第 5 步 componentTaskList 必须**列齐 spec**（不仅是 variantId）。落位时直接调用 `placeStandardComponent({inst, targetVariant, x, y, w, h, parent, ...})`，**禁止落位时再现场决定** x / y / w / h。
 
-1. 读取源实例的 `mainComponent`、组件集身份、组件属性和可用 `VariantId`
-2. 使用 Figma Skill 的设计系统搜索能力（如 `search_design_system`）查找目标组件族 / 组件集 / `variantId`
-3. 找到组件或组件集后，使用 `importComponentByKeyAsync(...)` / `importComponentSetByKeyAsync(...)` 导入，并通过 `createInstance()`、`setProperties(...)` 或 `swapComponent(...)` 命中目标变体
-4. 再做当前 page / 当前 section 已落地实例检索，作为可 clone 的就地资源补充
-5. 只有当设计系统搜索无结果、导入失败、目标 `variantId` 在组件集中不存在、或实例化 / 切换被 Figma 限制阻塞时，才允许进入 `fallback` / `blocked`
+**强制约束**（与 Phase 4 强制 6 步并行执行）：
 
-检索结论必须区分：
+| # | 约束 | 详细 |
+|---|------|------|
+| 1 | 任务生成不可跳过 | metadata 中所有源稿直接子组件**全部**进 `componentTaskList`；读取差异只能记录，不可删项 |
+| 2 | 检索边界遵循 Phase 0 | 组件级节点 / 骨架节点 / 当前 frame 局部结构可复用，整页级复用仍需用户确认 |
+| 3 | 基础组件独立映射 | StatusBar / NavBar / BottomBar / Sidebar / SearchBar / SelectableChip / Fab + 布局 reference 点名的组件，**每个独立**走完 `resolvedUiElement → screenMode → app-variant-map → 实例命中` 全链路 |
+| 4 | 映射表优先级 | `resolvedUiElement` + `app-variant-map` 返回值 > 组件名 / 族名 / 直觉。如 `BottomBar_Showcase_Notes_01` 命中`底部工具栏` 必须按工具栏，不得按底部导航删 |
+| 5 | 标准实例命中优先级 | 映射表 / 布局 reference / 字典 / 用户给明确目标 → **必须优先命中**；本地不存在才允许退化 |
+| 6 | 标准组件保留实例态 | 默认不预先 `detachInstance` |
+| 7 | 内容密度 | 只迁源稿已有内容；空态源稿保持空态；补示例内容需用户确认 |
+
+**设计系统组件检索（明确 `variantId` 时必走顺序）**：
+
+| 步 | 动作 |
+|---|------|
+| 1 | 读源实例 `mainComponent` / 组件集 / 组件属性 / 可用 `VariantId` |
+| 2 | `search_design_system` 查目标组件族 / 集 / `variantId` |
+| 3 | 命中 → `importComponentByKeyAsync` / `importComponentSetByKeyAsync` 导入 + `createInstance` / `setProperties` / `swapComponent` 命中变体 |
+| 4 | 当前 page / section 已落地实例检索（作 clone 资源补充）|
+| 5 | 仅以下情况进入 `fallback` / `blocked`：搜索无结果 / 导入失败 / 目标 `variantId` 不存在 / Figma 写入限制 |
+
+**检索结论分类**：
 
 | 结论 | 含义 | 后续动作 |
 | --- | --- | --- |
-| 当前 page 未落地目标实例 | 只表示画布上没有现成节点 | 继续设计系统搜索 / 组件库导入 |
-| 设计系统搜索无结果 | 外部组件库未命中目标组件族或组件集 | 记录搜索词和结果，进入 `blocked` 或同族 fallback |
-| 组件集存在但目标 `variantId` 不存在 | 组件族存在，具体变体缺失 | 中止该目标映射；不得跨组件族替换 |
-| 导入或实例化失败 | 目标存在但 Figma 写入受限 | 记录错误后再判断是否 clone / detach 降级 |
+| 当前 page 未落地目标实例 | 画布无现成节点（不证明库无）| 继续设计系统搜索 / 库导入 |
+| 设计系统搜索无结果 | 外部库未命中 | 记录词 + 结果，`blocked` 或同族 fallback |
+| 组件集存在但 `variantId` 不存在 | 族存在变体缺失 | **中止该映射**；不得跨族替换 |
+| 导入 / 实例化失败 | 存在但写入受限 | 记错后判 clone / detach 降级 |
 
 **导航语义约束**：
-- 组件族由映射表决定，不由 `layoutType` / 栏位名 / `screenMode` 推断；`LC` 的 `L` 栏 ≠ `Sidebar`，仅 `NC / NLC` 显式存在 `N` 栏时才允许把底部导航迁移为 `Sidebar`
-- `variantId` 不可跨语义替换：映射表命中的 `variantId` 在组件集中不可用时，不允许自动改用其他 `variantId`（尤其禁止 `BottomBar` → `Sidebar`）；此时中止汇报缺口，或退化为无新增导航语义的空容器
-- Fold 内屏 `LC` 默认不得出现 `Sidebar`，除非映射表明确返回 `Sidebar_*` 且 notes 说明为侧边导航承载
 
-**内容密度**：只迁移源稿已有内容，不跨画布搬运业务数据来”填满”目标栏位；低保真 / 空内容源稿保持相同密度，补示例内容需用户确认
+| 模式 | 允许 | 禁止 |
+|------|------|------|
+| `LC` 的 L 栏 | 列表 / 列表骨架 | **不可放 Sidebar**（除非映射表明确返回 Sidebar_*）|
+| `NC / NLC` 的 N 栏 | Sidebar | — |
+| 任意 `variantId` 在组件集中不可用 | 中止 + 汇报缺口 | **不可自动改用其他 variantId**（如 BottomBar → Sidebar）|
 
-如果某个任务已经收敛为组件级处理，允许在主链路内部读取 `figma-component-dictionary.md`，执行协议至少包括：
+**组件级处理协议**（如某任务收敛到组件级）：
 
-1. 探查当前实例
-2. 识别组件族、当前 `VariantId`、`resolvedUiElement`
-3. 查字典层
-4. 加载组件族 reference
-5. 若目标来自外部组件库，先通过设计系统搜索和 `importComponentByKeyAsync(...)` / `importComponentSetByKeyAsync(...)` 导入目标组件或组件集
-6. 决定 `setProperties(...)` 或 `swapComponent(...)`
-7. 检查 `fontDegradationMap`，决定回写路径：
-   - 标准组件优先保留实例态：先尝试 `loadFontAsync → setProperties / swapComponent → 必要的实例级文本或属性修改 → appendChild`
-   - 只有在以下条件同时成立时，才允许进入 `detachInstance` 降级路径：目标实例路径已尝试失败、确实需要修改实例内部文本或结构、且字体或组件依赖阻塞无法通过实例态完成
-   - 如果进入降级路径 → `clone → setProperties(target variant) → detachInstance → fixFonts → appendChild`
-   - 如果字体全部可用 → 走正常路径：直接 `setProperties` 或 `swapComponent`
-8. 执行 Figma 回写
-9. 做截图和 metadata 验证
+| 步 | 动作 |
+|---|------|
+| 1 | 探查当前实例 |
+| 2 | 识别 family / `VariantId` / `resolvedUiElement` |
+| 3 | 查 `figma-component-dictionary.md` |
+| 4 | 加载组件族 reference |
+| 5 | 外部库 → 设计系统搜索 + `importComponentByKeyAsync` |
+| 6 | 决定 `setProperties` 或 `swapComponent` |
+| 7 | 检查 `fontDegradationMap`，决定路径（标准 = 实例态保留；降级 = `clone → setProperties → detachInstance → fixFonts → appendChild`）|
+| 8 | 通过 `placeStandardComponent` 写入 Figma |
+| 9 | 截图 + metadata 验证 |
 
-基础组件的额外硬约束：
+**componentTaskList 关闭判据**：
 
-- `componentTaskList` 必须显式列出每个基础组件任务；每个任务必须逐项关闭，状态只能是 `mapped` / `hidden` / `absent` / `fallback` / `blocked`；未记录状态视为未完成
-- 完成标准 = 命中目标设备 / 方向 / `screenMode` 下的标准实例或标准变体；仍停留在源稿原始 `VariantId`、旧设备变体或未经校验的 clone 状态视为未完成；只有映射完成后才允许装配回目标骨架，不允许先拼装再补映射
-- 映射前必须校验 `layoutRole` 与 `componentFamily` 的匹配关系；`layoutRole=L` + `componentFamily=Sidebar`，或 `layoutRole=C` + 底部导航/侧边栏族，判为语义冲突并中止该任务
+| 字段 | 取值 |
+|------|------|
+| `status` | 仅允许 `mapped` / `hidden` / `absent` / `fallback` / `blocked`；未记录视为未完成 |
+| 完成标准 | 命中**目标设备 / 方向 / screenMode 下的标准实例**；停留在源稿原始 `VariantId` / 旧设备 variant / 未校验 clone 视为未完成 |
+| layoutRole ↔ componentFamily 校验 | `layoutRole=L` + `componentFamily=Sidebar`，或 `layoutRole=C` + 底部导航 / 侧边栏族 → 判为语义冲突并中止 |
 
 ### Phase 5：读取布局 reference 并执行
+
+> **🔁 RE-CHECK（落位前必读，每次进入 Phase 5 重新加载到工作记忆）**：
+>
+> | § | 内容 |
+> |---|------|
+> | §3.3 | 实例克隆 / variant 切换后必须显式 resize（不会自动） |
+> | §3.4 | swap 后 override 残留清理（与 §3.6 关系：本节 OPT-IN，§3.6 默认 OFF）|
+> | §3.4a | padding 合算 / 特殊 vs 内容容器分类 |
+> | §3.5 | StatusBar 跨设备 variant 强制高度（pad 自然 38 → 强制 34）|
+> | §3.6 | 自带 auto-layout 实例 reflow 陷阱 / 强制 6 步序列 ★ 最高频失败根因 |
+> | §3.7 | NLC 覆盖 遮罩 + z-order（笔记修订：状态栏在遮罩之上，Sidebar 紧贴状态栏）|
+> | §3.8 | 栏间分割线（独立 RECTANGLE，frame 直接子级，全帧高度）|
+> | §3.9 | Sidebar 阴影裁切防止（Pad 横 N + main `clipsContent = false`）|
+> | §3.10 | 视觉异常时优先怀疑 component 库版本（`search_design_system` 比对 `updatedAt`）|
+>
+> **关键决定**：`resetOverrides` 默认 **OFF**。reset 清空 width override → instance hug content reflow，是过去最频繁失败根因。
+>
+> **任何组件 swap / resize / 落位** 必须调用 `protocol.md §2` 的 `placeStandardComponent({...})`（本节列签名 + 调用顺序，函数本体在 protocol.md §2），禁止 inline 临时序列。
 
 根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
@@ -221,85 +333,129 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 **强制约束**：
 
-- 未读取对应布局 reference 前，不允许执行 Figma 写入
-- 布局 reference 中的栏宽、栏位职责和验收项优先级高于模型推断
-- 若 reference 与源稿直觉冲突，以 reference 为准；无法判断时中止并汇报缺口
-- 栏宽约束不能只停留在 viewport 或外层骨架；凡是 `L / C / N` 栏，栏内第一层语义容器也必须跟随栏宽收敛，不允许保留移动端或其他设备的固定宽度后再靠 `clipsContent` / 裁切隐藏超出部分
-- 对需要随栏宽变化的栏级容器，必须优先使用 Auto Layout；列表栏、标题栏、搜索栏、标签栏、正文栏等主内容容器默认应使用 `Fill Container` 跟随父栏宽度，不能把 `clone` 出来的固定宽度直接视为适配完成
-- 即使文件中已有看似可用的整页结果，也不得直接视为当前任务输出；最多只能作为比对样例，除非用户已明确确认复用
-- 不允许把“复用顶部模块 / 底部模块 / 页面局部结构”执行成“直接保留源稿基础组件的当前变体”；凡属于基础组件的节点，在装配进目标骨架前必须先完成独立映射
-- 不允许用“源稿里已经有标题栏 / 状态栏 / 底部导航，所以先 clone 过去”替代组件映射；clone 只能作为命中目标实例失败后的回退路径，不能作为默认路径
-- 不允许把“当前 page 未找到目标组件实例”写成“组件库中不存在目标变体”；在进入 `fallback` / `blocked` 前，必须已经执行设计系统搜索、组件导入或组件集 `variantId` 校验，并在 `componentTaskList` 中记录证据
-- 凡 `app-variant-map` 返回 `variant` 且未标记 `hidden` / `absent` 的组件，必须进入目标稿必落地清单；执行脚本不得隐藏、删除或跳过该节点。若无法命中标准实例，只能标记 `fallback` 或 `blocked`，并保留对应语义位置
+| # | 规则 | 详见 |
+|---|------|------|
+| 1 | 未读取对应布局 reference 前禁止 Figma 写入 | layouts/{nlc,lc-nc,c}-layout.md |
+| 2 | 布局 reference 的栏宽 / 栏位职责 / 验收项优先级**高于模型推断** | — |
+| 3 | reference ↔ 源稿直觉冲突 → 以 reference 为准；无法判断时中止汇报缺口 | — |
+| 4 | 栏宽约束必须贯穿到栏内第一层语义容器（不只 viewport / 外层骨架）| 不允许保留旧固定宽度后靠 `clipsContent` 裁切 |
+| 5 | 栏级容器优先 Auto Layout + `Fill Container`；不能把 clone 固定宽度直接视为完成 | — |
+| 6 | 文件内已有的整页结果只能作”比对样例”，不能直接当输出（除非用户明确复用确认）| common-rules §1.3 |
+| 7 | “复用顶部模块 / 底部模块”不可执行成”直接保留源稿当前变体”；基础组件必须先独立映射 | common-rules §3.1 |
+| 8 | clone 是 fallback 路径，**不是默认路径**（命中目标实例失败时才 clone）| common-rules §4.2 |
+| 9 | “当前 page 未找到” ≠ “组件库不存在”；进入 `fallback` / `blocked` 前必须执行 `search_design_system` + 导入校验 | — |
+| 10 | `app-variant-map` 返回 `variant` 且未 `hidden`/`absent` 的组件**必须落地**；只允许标 `fallback` / `blocked` 但保留语义位置 | — |
 
 **目标稿放置约束**：
 
-- 执行整页适配时，目标 frame 必须默认放在源移动端 frame 旁边，不得随意落在当前 page 的远处
-- 如果源稿位于 section 中，目标 frame 必须优先写回同一 section
-- 放置多个目标设备或多个方向版本时，必须保持稳定顺序和可读间距，便于用户直接从左到右比较
-- 默认顺序应为：`Fold横屏 → Fold竖屏 → Pad横屏 → Pad竖屏`
-- 不允许只创建首个横屏版本就结束；若 `targetVariantPlan` 中仍有未生成版本，必须继续顺排创建
-- 只有在用户明确要求或当前 section 空间明显不足时，才允许偏离“源稿旁边”的默认落位
+| # | 规则 |
+|---|------|
+| 1 | 整页适配 frame 默认放源稿旁边，不可远处随意落 |
+| 2 | 源稿在 section 中 → 目标 frame 优先写回同一 section |
+| 3 | 多设备 / 多方向版本：稳定顺序 + 可读间距，便于左→右对照 |
+| 4 | 默认顺序 `Fold横屏 → Fold竖屏 → Pad横屏 → Pad竖屏` |
+| 5 | 不可只创建首个横屏版本就停；`targetVariantPlan` 未生成项必须继续 |
+| 6 | 偏离默认落位 → 仅在用户明确要求或空间不足时允许，且输出说明 |
+
+### 标准落位代码模板（必用，禁止 inline 临时序列）
+
+> 📌 **单一权威源**：所有函数本体定义在 **`references/component-placement-protocol.md`**。本节只列签名 + 调用顺序 + 笔记应用 token 列表。Phase 5 启动前必须已读 protocol.md（Phase 3 已要求）。
+
+**Phase 5 函数调用顺序（强制）**：
+
+| 阶段 | 函数（签名）| 函数本体定义 | 作用 |
+|------|------------|-------------|------|
+| Phase 4 完成 | `await buildTokenCache()` | protocol.md §4 | 一次性缓存所有库 token → 全局 `TOKEN_CACHE` |
+| Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[] })` | **protocol.md §2** | swap → FIXED → resize → x/y → 自检 6 步 |
+| Phase 5 fill 写入 each node | `await bindFill(node, tokenName, fallbackRGB, opacity=1)` | protocol.md §4 | token lookup + setBoundVariableForPaint，无则 RGB fallback |
+| Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | 本文档「字体降级规则」节（笔记业务专用，未抽到 protocol） | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
+| Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec)` | **protocol.md §6** | 9 项自动检测，`errors.length > 0` 必须修复 |
+
+**禁止顺序倒置**：
+- `bindFill` 必须在 `placeStandardComponent` 之后（节点已落位才能写 fill）
+- `fixFonts` 仅用于不可用字体实例，且 `appendChild` 之前必须完成
+- `verifyChecklist` 只在 frame 全部 component 落位完毕后调用
+
+**笔记 / 待办 应用必用 token（`bindFill` 第二参传值）**：
+
+| 用途 | tokenName | library key | fallbackRGB | opacity |
+|------|-----------|-------------|-------------|---------|
+| frame / L栏 / C栏 fill | `背景色/surface` | `5804f51e302d6fda00b3a8ce9d509d9b8ee09225` | `{r:1,g:1,b:1}` | 1 |
+| 栏间分割线 fill | `分割线色/outline` | `96f2cf4d1ce0d56cff2f8e98da6a5e16bd59983e` | `{r:0,g:0,b:0}` | 0.1 |
+| Pad 竖 NLC 覆盖 遮罩 fill | `遮罩色/mask` | `0ed62540049dd3839b40b63d40f82492c4bac664` | `{r:0,g:0,b:0}` | **0.2** |
+
+**调用示例**（笔记应用 Fold 横 LC frame fill）：
+```javascript
+// Phase 4 已完成：const TOKEN_CACHE = await buildTokenCache();
+const frame = figma.createFrame();
+frame.resize(888, 628);
+frame.cornerRadius = 50;
+await bindFill(frame, '背景色/surface', { r: 1, g: 1, b: 1 });
+
+// 落位 NavigationBar
+await placeStandardComponent({
+  inst: navInst,
+  targetVariant: navBar04,
+  parent: lCol,
+  x: 0, y: 6, w: 353, h: 56,
+});
+```
+
+### 落位 layout spec 模板（与上节代码模板搭配使用）
+
+> 上节是「**怎么调用函数**」，本节是「**spec 应该填什么值**」。
+
+**栏内 stack 顺序（spec 通例，源稿冲突时以本表为准）**：
+
+| 栏 | 顺序 |
+|---|------|
+| L 栏 | `NavBar(y=6, h=56) → SearchBar(y=62, h=44/56) → Chip → List → BottomBar(y=mainH-100, h=100)` |
+| C 栏（笔记应用）| `NavBar_Notes(y=6, h=56) → Detail(y=62, h=mainH-62)` + `TextInput(y=mainH-92, h=92, bottom flush)` |
+
+C 栏 z-order：必须 `Detail → TextInput`（TextInput 在上层 fade overlay）。
+
+**frame 直接子节点 z-order**：
+
+| 布局 | z-order（从底到顶） |
+|---|---|
+| LC（Fold 内屏） | `main` → `状态栏` → `分割线` → `杆子`（最顶 / 透明 / 风满） |
+| NLC 并列（Pad 横） | `main`（含 L/C） → `状态栏` → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
+| NLC 覆盖（Pad 竖） | `main` → `遮罩` → `状态栏`(在遮罩之上保证可读) → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
+
+**杆子（home indicator）通用规则**：所有 Pad / Fold 模式下统一 —— `x=0, width=frameW, fills=[]`（透明背景），z-order 最顶。
 
 ### 字体降级规则
 
-本节适用于主链路和所有 reference 执行阶段。当 Phase 1 检测到不可用字体时，后续所有涉及 appendChild 或文本属性修改的操作必须遵守以下规则。
+> 📌 **单一权威源**：完整降级表 + 强制执行顺序 + `fixFonts` 函数本体 + `degradationMap` 结构示例 + 文本属性修改场景，全部在 **`references/font-degradation.md`**。本节只列签名 + 强制顺序 + 笔记业务降级表索引。Phase 5 启动前必须已读 font-degradation.md（Phase 3 已要求）。
 
-**降级映射表**：
+**降级映射表（笔记 / HyperOS 业务）**：
 
 | 不可用字体 | 降级目标 family | style 映射 |
 |-----------|----------------|------------|
 | MiSans VF | MiSans | Medium → Medium，其余 → Regular |
 | HyperOS Symbols VF | MiSans | Medium → Medium，其余 → Regular |
 
-如果遇到不在此表中的不可用字体，用 `listAvailableFontsAsync()` 查找同 family 的可用变体；如果没有同 family 可用变体，降级到 `{ family: 'MiSans', style: 'Regular' }` 并在输出中记录。
+> 不在此表中的字体 → `listAvailableFontsAsync()` 查同 family 可用变体；没有 → 降级到 `{family:'MiSans', style:'Regular'}` 并在输出中记录。
 
-**涉及不可用字体的实例，强制执行顺序**：
+**涉及不可用字体的实例，强制执行顺序**（详见 font-degradation.md）：
 
 ```
 clone → setProperties(target variant) → detachInstance → fixFonts → appendChild
 ```
 
-关键约束：
-- variant 切换（`setProperties`）必须在 `detachInstance` 之前完成，detach 后无法再切换 variant
-- `fixFonts` 必须在 `appendChild` 之前完成，否则 appendChild 触发字体加载报错
-- detach 后节点不再是 instance，这是已知代价，在输出中标记为妥协项
+| 约束 | 说明 |
+|------|------|
+| variant 切换（`setProperties`）必须在 `detachInstance` 之前 | detach 后无法切换 variant |
+| `fixFonts` 必须在 `appendChild` 之前 | 否则 appendChild 触发字体加载报错 |
+| detach 后节点不再是 instance | 已知代价，输出中标记为妥协项 |
 
-**fixFonts 代码模板**：
+**`fixFonts` 函数签名（本体见 font-degradation.md）**：
 
 ```javascript
-async function fixFonts(node, degradationMap) {
-  if (node.type === 'TEXT' && node.characters.length > 0) {
-    const fn = node.fontName;
-    if (fn !== figma.mixed) {
-      const key = fn.family;
-      if (degradationMap[key]) {
-        const target = degradationMap[key];
-        const newFont = { family: target.family, style: target.styleMap[fn.style] || target.defaultStyle };
-        await figma.loadFontAsync(newFont);
-        node.fontName = newFont;
-      }
-    } else {
-      for (let i = 0; i < node.characters.length; i++) {
-        const rf = node.getRangeFontName(i, i + 1);
-        const key = rf.family;
-        if (degradationMap[key]) {
-          const target = degradationMap[key];
-          const newFont = { family: target.family, style: target.styleMap[rf.style] || target.defaultStyle };
-          await figma.loadFontAsync(newFont);
-          node.setRangeFontName(i, i + 1, newFont);
-        }
-      }
-    }
-  }
-  if ('children' in node) {
-    for (const child of node.children) { await fixFonts(child, degradationMap); }
-  }
-}
+await fixFonts(node, degradationMap);
 ```
 
-其中 `degradationMap` 结构示例：
-
+`degradationMap` 结构（笔记业务）：
 ```javascript
 {
   'MiSans VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' },
@@ -307,45 +463,113 @@ async function fixFonts(node, degradationMap) {
 }
 ```
 
-**文本属性修改场景**：
-
-如果需要修改已有文本节点的 fontSize、characters 等属性（非 appendChild 场景），必须先加载降级后的字体：
+**文本属性修改场景（非 appendChild）**：先加载降级后字体再改属性：
 
 ```javascript
 await figma.loadFontAsync({ family: 'MiSans', style: 'Regular' });
 await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
-// 然后才能修改文本属性
+// 然后才能修改 fontSize / characters 等
 ```
 
 ### Phase 6：验证
 
+> **🔁 RE-CHECK（验证前必读）**：
+> - common-rules §6.2（20 项强制清单）
+> - common-rules §6.3（每 frame 写入完成后的强制截图）
+> - app-variant-map-{app}.md 「§C 应用专项验证」（如有）
+> - **必须调用 `protocol.md §6` 的 `verifyChecklist(frame, spec)` 函数**（本节列签名 + spec 模板，函数本体在 protocol.md §6）。错误项 > 0 不得汇报"适配完成"
+
 布局执行完成后，先按对应布局 reference 的验收标准验证；如存在独立验证 reference，再做最终校验。
 
-验收检查（任一不通过即视为适配未完成）：
+### 自动验证函数（必调用，每 frame 写入完成后立即跑）
 
-**版本完整性**：对照 `targetVariantPlan`，每个设备 × 方向版本都已实际创建；缺失任何未经用户豁免的版本不得报成功
+> 📌 **单一权威源**：`verifyChecklist` 函数本体定义在 **`references/component-placement-protocol.md §6`**。本节只列签名 + spec 模板 + 调用方式 + 9 项检查清单。Phase 6 启动前必须已读 protocol.md（Phase 3 已要求）。
 
-**尺寸、圆角与栏宽**：画布尺寸、设备圆角、栏宽、边距符合预期参数；栏内第一层语义容器必须使用 Auto Layout / `Fill Container` 跟随栏宽收敛，禁止保留旧固定宽度后靠裁切隐藏；Fold 内屏目标 frame 四角圆角必须为 `50dp`，Pad 目标 frame 四角圆角必须为 `34dp`
+**函数签名 + 调用模式**：
 
-**基础组件映射**：源稿中的基础组件（`NavigationBar`、`StatusBar`、`BottomBar` 等）在目标稿中已完成独立映射，而非源稿原始实例、原始 `VariantId` 或未经校验的 clone；映射表返回 `hidden` / `absent` 的除外
+```javascript
+// verifyChecklist 定义于 protocol.md §6；返回 errors[]，长度 > 0 即未通过
+const errors = await verifyChecklist(frame, spec);
+if (errors.length > 0) {
+  // 修复后重新跑，禁止 silently 通过
+  return { status: 'failed', errors };
+}
+```
 
-**组件反向验收**：对 `componentTaskList` 中所有 `status != hidden/absent` 的任务，必须检查目标 frame 中存在对应语义节点；`fallback` 不等于 `mapped`，跨组件族 fallback 不得通过验收。例如 `Sidebar_*` 不得由 `BottomBar_*` 计为完成
+**spec 模板（Pad 竖 NLC 覆盖示例）**：
 
-**容器 resize 一致性**：对本轮修改过的 non-autolayout 栏（`L / C / N / main` 等）逐一核对，确认容器宽度与其直接子节点的宽度一致。若容器 resize 后子节点未同步，一律判为不合格。原子执行步骤按 `references/common-rules.md`「6.1 容器 resize / 结构变更 原子单位」执行。
+```javascript
+const spec = {
+  frameW: 949, frameH: 1422,
+  cornerRadius: 34,
+  statusBarH: 34,                    // pad 强制 34（自然 38）
+  cols: { 'L 栏': 428, 'C 栏': 521 },
+  sidebar: { h: 1388 },              // 仅 Pad NLC 时设
+  mask: true,                        // 仅 Pad 竖 NLC 覆盖时设
+  divider: true,                     // LC / NLC 模式 true，NC / C 通栏 false
+  componentChecks: [                 // 任何需要 reflow 自检的组件
+    { id: '1xxx:yyyy', label: 'L NavBar_07', w: 428, h: 56 },
+    { id: '1xxx:yyyy', label: 'L SearchBar_05', w: 412, h: 56 },
+  ]
+};
+```
 
-**基础组件尺寸符合设备规格**：StatusBar / NavigationBar / 控制杆（Drawer-Max-BottomIndicator）/ BottomBar_Showcase / ToolBar / Sidebar 等跨设备 variant 切换的组件，切换后实例 **不会自动变大/变小**；必须对照 `references/layouts/device-dimensions.md` 各设备规格显式 `resize` 到目标高度与宽度，不能沿用克隆时的自然尺寸。差值超过 1dp 判不合格。详细规则见 `references/common-rules.md`「3.3 实例克隆与变体切换时的尺寸同步」。
+**verifyChecklist 内部 9 项检查（与 protocol.md §6 一一对应）**：
 
-**栏顶 6dp 间距（状态栏 ↔ 栏内容）**：Fold / Pad 各栏内容（NavigationBar / SearchBar / Chip / List / Detail 等顶部对齐控件）必须从 `y = 6` 开始，不能直接贴紧状态栏下沿。依据 `references/layouts/device-dimensions.md`「基本对齐方式」。**例外**：`Sidebar_Component_*` 等侧边栏外壳直接贴紧状态栏下沿（`y = 0`），卡片内部的 6dp 上偏移由组件自带。底部对齐控件（BottomBar_Showcase / ToolBar / TextInput）以栏底为基准，不参与顶部 6dp 规则。
+| 项 | 检查内容 |
+|---|---|
+| ① | `frame.cornerRadius === spec.cornerRadius` |
+| ② | `frame.fills[0].boundVariables.color` 已绑定 token |
+| ③ | StatusBar：宽度 / 高度 / `y=0`（Pad 自然 38 → 必须强制 34）|
+| ④ | 栏宽 与 `spec.cols` 一致 |
+| ⑤ | Sidebar 高度 + z-order（仅 `spec.sidebar` 时）|
+| ⑥ | 遮罩-N覆盖 存在 + 绑定 `遮罩色/mask` token（仅 `spec.mask` 时）|
+| ⑦ | 栏间分割线 全帧高度 + 绑定 `分割线色/outline` token |
+| ⑧ | 杆子：风满 + `fills=[]` 透明 + 最顶 z-order |
+| ⑨ | `spec.componentChecks` 列出的所有组件 width/height 与目标偏差 < 0.5dp |
 
-**自带 padding 组件 栏风满规则**：`NavigationBar` / `SearchBar` / `SelectableChip` / `List_*` / `Detail_*` / `TextInput_*` / `BottomBar_Showcase_*` / `Sidebar_Component_*` 等组件 **自身已内置左右 padding**，栏内必须 `x = 0, width = 栏W` 风满放置，**严禁再叠加栏断点 padding**（否则 double-inset）。栏断点 padding 只对 **无自带 padding 的裸 Frame / 业务容器** 生效。依据 `references/layouts/device-dimensions.md`「断点间距」条款起首「自带内部 padding 的组件一律栏内风满」。
+### 验收 自动 vs 手动 分类（独立维度，与 §6.2 互补）
 
-**工具栏 遮罩层栏宽**：底部工具栏（`BottomBar_Showcase_*` / `ToolBar_*` 等）instance 整体必须 `x = 0, width = 栏W` 填满栏宽，`Overlay-Showcase` 渐变遮罩层随 instance 一起贴栏边。instance 外壳绝不能整体缩成 `栏W − 48, x = 24`（这会连遮罩层一起缩小，栏两侧露白）。「栏W − 48 铺满」/「定宽 344 居中」规则只适用于 instance 内部的 `TabMaterial-Showcase` 胶囊层。依据 `references/layouts/device-dimensions.md`「工具栏规格 → 结构 → 栏内放置规则」。
+> 📌 **权威源**：完整 20 项检查清单在 **`common-rules.md §6.2`**。本表是**互补维度** —— 把 20 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
 
-**N 栏 Sidebar 阴影 z-order**：NLC 系列布局下 Sidebar 外壳 `clipsContent = false` 允许卡片阴影外溢到 L/C 栏。因此 Sidebar 节点必须是 frame 子级中的 **最后一个**（最顶层 z-order）。`并列` 模式下不要把 Sidebar 留在 horizontal auto-layout main 的第一个子节点（会被 L/C 覆盖阴影），应将其取出到 frame 直接子级，`main` 改 non-autolayout，L/C 手动按 N 栏宽度位移。依据 `references/layouts/device-dimensions.md`「N 栏 Sidebar 阴影 z-order」。
+**A. verifyChecklist 自动覆盖（9 项 ↔ protocol.md §6 内的 ①~⑨）**：
 
-**结构变更后强制截图**：覆盖 ↔ 并列 切换、布局类型重构、栏宽 / 分栏比例变化等会影响结构的操作，执行完毕后必须进行截图验证，不得以 token 成本为由跳过。
+| `verifyChecklist` 项 | §6.2 # | 说明 |
+|---|---|---|
+| ① cornerRadius | §6.2 #3 | Fold 50 / Pad 34 |
+| ② frame fill token | §6.2 #17 | 绑定 `背景色/surface` |
+| ③ StatusBar 高 / 宽 / y=0 | §6.2 #4-6 | Pad 强制 34（自然 38）|
+| ④ 栏宽 | §6.2 #7 | 与 device-dimensions 一致 |
+| ⑤ Sidebar 高度 + z-order | §6.2 #9 | Pad NLC 仅 |
+| ⑥ 遮罩-N覆盖 + token | §6.2 #10 | Pad 竖 NLC 覆盖 仅 |
+| ⑦ 栏间分割线 全帧高 + token | §6.2 #12-13 | LC / NLC 仅 |
+| ⑧ 杆子 风满 + 透明 + 最顶 z | §6.2 #11 | 全模式 |
+| ⑨ spec.componentChecks reflow 自检 | §6.2 #8 | 列出的所有标准组件 |
 
-验证不通过时，根据偏差项修正后再次验证，最多循环 3 次。
+**B. 必须手动校验（剩余 11 项，verifyChecklist 不覆盖）**：
+
+| §6.2 # | 项目 | 备注 |
+|---|---|---|
+| #1 | Section 命名（含测试名 + 日期）| 用户确认 |
+| #2 | 4 版本完整性（`targetVariantPlan`）| 用户确认 |
+| #14 | Pad 横 NLC Sidebar 阴影越过 N\|L 边界 | 截图视觉验证 |
+| #15 | 浮动 Tab / 键盘 / 玻璃材质 删除或 visible=false | 截图 |
+| #16 | 组件库时间戳（视觉异常时 `search_design_system` 比 `updatedAt`）| §3.10 |
+| §6.1 | 容器 resize 一致性（main / L / C / N 与子节点同步）| 结构变更后必查 |
+| §6.3 | 每 frame 写入完成后立即截图 | 强制 |
+| §3.4a | 通用内容容器（List / Search / Chip / Detail）合算 padding | 与 app-variant-map §A 应用表对照 |
+| device-dim | 栏顶 6dp 间距（NavBar / Search / Chip 起 y=6；Sidebar 例外 y=0）| 「基本对齐方式」|
+| device-dim | 工具栏 instance 栏风满（不缩 `栏W-48`）；胶囊层另算 | 「工具栏规格」|
+| app §C | 应用专项验证（如笔记 TI bottom flush / Detail h 延伸）| `app-variant-map-{app}.md §C` |
+
+**调用流程**：
+
+1. 每完成一个 frame → 立即 `await verifyChecklist(frame, spec)`（A 部分自动）
+2. `errors.length > 0` → 修复（按 common-rules §6.0.1 优先级：尺寸 → 位置 → 文本）
+3. `errors === 0` + B 部分手动项全部通过 → 进入下一 frame
+4. 4 frame 全部完成后 → 总验证（B 部分必查）
+
+验证循环最多 3 次；仍 fail → 中止汇报，向用户报告未通过项 + 缺口。
 
 ## 输出要求
 
