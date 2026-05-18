@@ -94,9 +94,31 @@ async function placeStandardComponent({
 |---|---|
 | LC（Fold 内屏） | `main` → `状态栏` → `栏间分割线` → `杆子`（最顶 / 透明 / 风满）|
 | NLC 并列（Pad 横） | `main`（含 L/C，N 栏空位）→ `状态栏` → `栏间分割线` → `Sidebar`（z-顶其二）→ `杆子`（z-顶其一 / 风满 / 透明）|
-| NLC 覆盖（Pad 竖） | `main`（含 L/C）→ `遮罩` → `状态栏` → `栏间分割线` → `Sidebar`（z-顶其二）→ `杆子`（z-顶其一 / 风满 / 透明）|
+| NLC 覆盖（Pad 竖） | `main`（含 L/C）→ `状态栏` → `遮罩-N覆盖` → `栏间分割线` → `Sidebar`（z-顶其二）→ `杆子`（z-顶其一 / 风满 / 透明）|
 
-> 状态栏在覆盖模式下必须**位于遮罩之上**（保证时间 / 信号可读）。Sidebar 在所有模式下必须**位于状态栏之上**（笔记 / 待办 N 收起规则下，Sidebar 标题栏紧贴状态栏下沿）。**杆子在所有模式下必须最顶 z-order + 透明背景 + 风满 frame 宽**（设备 home indicator 标准）。
+> **遮罩覆盖范围按列归属决定**：N 覆盖 trigger = Sidebar 列；遮罩覆盖 = 全 frame − Sidebar 列（含状态栏的 N 列以外区段）。因此 `遮罩-N覆盖` 必须**在状态栏之上** —— 状态栏被 dim 是正答，旧版「保证时间 / 信号可读」rationale 已弃用（用户 2026-05-18 显式确认）。Sidebar 必须在 `遮罩-N覆盖` 之上（trigger 列豁免）。**杆子在所有模式下必须最顶 z-order + 透明背景 + 风满 frame 宽**（设备 home indicator 标准）。
+
+### 编辑模式（L 栏 触发遮罩）扩展模板
+
+**触发**：`app-variant-map-{app}.md`「遮罩规则」声明 L 栏编辑触发遮罩（笔记 / 待办：L 栏编辑 → 仅 C 栏覆盖遮罩）。详见 `common-rules.md §3.7a`。
+
+**结构变更**（与上表区别）：
+- `main` 内只保留 C 栏，**L 栏（含 N 栏 Sidebar 如有）必须从 main 内部 promote 到 frame 直接子级**。原因：遮罩在 frame 直接子级，main 内部子节点无法在 frame z-order 中超越遮罩。
+- 新增 `遮罩-编辑`（`Cw × frameH`，仅 C 列）放 frame 直接子级。
+
+**z-order（笔记 / 待办 编辑模式 LC + NLC 通用，含多遮罩叠加）**：
+
+| 布局 | frame 直接子级 z-order（从底到顶） |
+|---|---|
+| LC（Fold） + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑(C 列)` → `栏间分割线` → `L 栏` → `杆子` |
+| NLC 并列（Pad 横） + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑(C 列)` → `栏间分割线` → `L 栏` → `Sidebar` → `杆子` |
+| NLC 覆盖（Pad 竖） + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑(C 列)` → `栏间分割线` → `L 栏` → `遮罩-N覆盖(全幅)` → `Sidebar` → `杆子` |
+
+**关键**：
+- **遮罩按列归属覆盖**：`遮罩-编辑` 覆盖 C 列全域（**含 C 列上方 status bar 区段**），`遮罩-N覆盖` 覆盖 frame − Sidebar 列（**含状态栏除 N 列外区段**）。因此两遮罩都必须**在状态栏之上**。
+- `遮罩-编辑` 在 L 栏 **下方** z（L 栏豁免），`遮罩-N覆盖` 在 L 栏 **上方** z（L 栏被覆盖一并 dim）。两遮罩各自有不同的 trigger 控件豁免（L 栏 vs Sidebar），不可并列同 z 处理。
+- ❌ **NEVER**：把 `状态栏` 提升到任一遮罩之上（旧版「保证可读」rationale 已弃用）。
+- 用户提供 reference frame 时，**直接 dump 其 children z-order 比对**，不要从 spec text 推测多 mask 顺序 —— 但若 reference 与本表冲突（旧版 V2 reference 状态栏放错 z），按本表为准并提示用户更新 reference。
 
 **栏内组件 stack 顺序模板**（顶部 6dp 间距起始）：
 
@@ -173,11 +195,14 @@ async function bindFill(node, tokenName, fallbackRGB, opacity = 1) {
 
 ## 6. 组件落位后的强制验证
 
-**每个 frame 写完所有组件后**，调用统一 `verifyChecklist(frame, spec)` 函数。失败任何一项立即修复 + 重检。
+**每个 frame 写完所有组件后**，调用统一 `verifyChecklist(frame, spec, scenarioFlags?)` 函数。失败任何一项立即修复 + 重检。
+
+**签名扩展 (2026-05-18)**：新增 `scenarioFlags` 参数（可选，向后兼容）。未传入时 ⑩~⑬ 检查跳过 — graceful degradation。传入时直接采用 SKILL Phase 4 step 7 输出。
 
 ```js
-async function verifyChecklist(frame, spec) {
+async function verifyChecklist(frame, spec, scenarioFlags = null) {
   const errors = [];
+  const flags = scenarioFlags || {};
   
   // ① 状态栏
   const sb = frame.children.find(c => c.name.includes('状态栏'));
@@ -220,7 +245,7 @@ async function verifyChecklist(frame, spec) {
   
   // ⑥ Sidebar 高度（仅 Pad NLC）
   if (spec.sidebar) {
-    const sd = await findSidebar(frame);
+    const sd = frame.children.find(c => c.name?.includes('Sidebar'));
     if (sd) {
       if (Math.abs(sd.height - spec.sidebar.h) > 1) {
         errors.push(`Sidebar.height ${sd.height} != ${spec.sidebar.h}（reflow？）`);
@@ -228,15 +253,116 @@ async function verifyChecklist(frame, spec) {
     }
   }
   
-  // ⑦ NavBar / SearchBar 等关键组件 width === 栏W（reflow 自动检测）
-  // ... 按 spec.componentChecks 遍历
+  // ⑦ spec.componentChecks 遍历 —— 标准组件 reflow 自动检测
+  if (Array.isArray(spec.componentChecks)) {
+    for (const chk of spec.componentChecks) {
+      const node = await figma.getNodeByIdAsync(chk.id);
+      if (!node) {
+        errors.push(`componentCheck[${chk.label}] node not found (id=${chk.id})`);
+        continue;
+      }
+      if (chk.w !== undefined && Math.abs(node.width - chk.w) > 0.5) {
+        errors.push(`${chk.label}.width ${node.width} != ${chk.w} (reflow)`);
+      }
+      if (chk.h !== undefined && Math.abs(node.height - chk.h) > 0.5) {
+        errors.push(`${chk.label}.height ${node.height} != ${chk.h} (reflow)`);
+      }
+      if (chk.x !== undefined && Math.abs(node.x - chk.x) > 0.5) {
+        errors.push(`${chk.label}.x ${node.x} != ${chk.x}`);
+      }
+      if (chk.y !== undefined && Math.abs(node.y - chk.y) > 0.5) {
+        errors.push(`${chk.label}.y ${node.y} != ${chk.y}`);
+      }
+    }
+  }
   
-  // ⑧ 遮罩 fill 已绑定 token（仅 Pad 竖 NLC 覆盖）
-  if (spec.mask) {
+  // ⑧ NLC 覆盖遮罩 fill 已绑定 token（spec.mask 或 flags.NCovering）
+  if (spec.mask || flags.NCovering) {
     const mask = frame.children.find(c => c.name === '遮罩-N覆盖');
-    if (!mask?.fills?.[0]?.boundVariables?.color) {
+    if (!mask) {
+      errors.push(`遮罩-N覆盖 missing (NCovering trigger)`);
+    } else if (!mask.fills?.[0]?.boundVariables?.color) {
       errors.push(`mask.fill not bound to token`);
     }
+  }
+  
+  // ⑨ 分割线 token 绑定
+  const div = frame.children.find(c => c.name === '栏间分割线');
+  if (div && !div.fills?.[0]?.boundVariables?.color) {
+    errors.push(`分割线.fill not bound to token`);
+  }
+  
+  // ⑩ L 编辑遮罩 (§3.7a) —— flags.LEditMode trigger
+  if (flags.LEditMode) {
+    const editMask = frame.children.find(c => c.name === '遮罩-编辑');
+    if (!editMask) {
+      errors.push(`遮罩-编辑 missing (LEditMode trigger §3.7a)`);
+    } else {
+      if (Math.abs(editMask.height - spec.frameH) > 1) {
+        errors.push(`遮罩-编辑.h ${editMask.height} != frameH ${spec.frameH}`);
+      }
+      if (!editMask.fills?.[0]?.boundVariables?.color) {
+        errors.push(`遮罩-编辑.fill not bound to '遮罩色/mask' token`);
+      }
+      // 遮罩-编辑 必须在 状态栏 之上 z-order（C 列 status bar 区段 dim 必需）—— 2026-05-18 修订
+      const sbIdx = frame.children.findIndex(c => c.name.includes('状态栏'));
+      const emIdx = frame.children.indexOf(editMask);
+      if (sbIdx >= 0 && emIdx <= sbIdx) {
+        errors.push(`遮罩-编辑 must be ABOVE 状态栏 in z-order (§3.7a, sbIdx=${sbIdx}, emIdx=${emIdx})`);
+      }
+      // L 栏 是否已 promote 到 frame 直接子级
+      const L = frame.children.find(c => c.name === 'L 栏');
+      if (!L) {
+        errors.push(`L 栏 not promoted to frame direct child (§3.7a requires promote)`);
+      }
+    }
+  }
+  
+  // ⑩b 遮罩-N覆盖 必须在 状态栏 之上 z-order（§3.7 修订 2026-05-18）
+  if (flags.NCovering || spec.mask) {
+    const ncMask = frame.children.find(c => c.name === '遮罩-N覆盖');
+    const sbIdx = frame.children.findIndex(c => c.name.includes('状态栏'));
+    if (ncMask && sbIdx >= 0) {
+      const ncIdx = frame.children.indexOf(ncMask);
+      if (ncIdx <= sbIdx) {
+        errors.push(`遮罩-N覆盖 must be ABOVE 状态栏 in z-order (§3.7 revised, sbIdx=${sbIdx}, ncIdx=${ncIdx})`);
+      }
+    }
+  }
+  
+  // ⑪ 多 mask z-order (§3.7b) —— LEditMode + NCovering 同时
+  if (flags.LEditMode && flags.NCovering) {
+    const expected = ['main', '状态栏', '遮罩-编辑', '栏间分割线', 'L 栏', '遮罩-N覆盖', 'Sidebar', '杆子'];
+    const actual = frame.children.map(c => {
+      const name = c.name || '';
+      if (name === 'main') return 'main';
+      if (name.includes('遮罩-编辑')) return '遮罩-编辑';
+      if (name.includes('状态栏')) return '状态栏';
+      if (name.includes('栏间分割线')) return '栏间分割线';
+      if (name === 'L 栏') return 'L 栏';
+      if (name.includes('遮罩-N覆盖')) return '遮罩-N覆盖';
+      if (name.includes('Sidebar')) return 'Sidebar';
+      if (name.startsWith('杆子')) return '杆子';
+      return name;
+    });
+    for (let i = 0; i < expected.length; i++) {
+      if (actual[i] !== expected[i]) {
+        errors.push(`多 mask z-order [${i}] expected '${expected[i]}' got '${actual[i]}' (§3.7b)`);
+      }
+    }
+  }
+  
+  // ⑫ C 编辑时无 mask (§3.7a 末)
+  if (flags.CEditMode && !flags.LEditMode && !flags.NEditMode) {
+    const editMask = frame.children.find(c => c.name === '遮罩-编辑');
+    if (editMask) {
+      errors.push(`遮罩-编辑 should NOT exist when only CEditMode active`);
+    }
+  }
+  
+  // ⑬ scenarioFlags 一致性 —— flags === null 时 §6.2 #21~#24 检查跳过提示
+  if (scenarioFlags === null && (spec.editMask || spec.NCoverMask)) {
+    errors.push(`scenarioFlags not provided but spec contains mask spec — §6.2 #23 violation`);
   }
   
   return errors;
@@ -244,6 +370,24 @@ async function verifyChecklist(frame, spec) {
 ```
 
 错误清单 > 0 时禁止汇报「适配完成」。先修后再 verify。
+
+**检查项映射** (`common-rules.md §6.2`)：
+
+| 函数项 | §6.2 # | 说明 |
+|---|---|---|
+| ① | #4-#6 | StatusBar |
+| ② | #3 | cornerRadius |
+| ③ | #17 | frame fill token |
+| ④ | #7 | 栏宽 |
+| ⑤ | #11 | 杆子 z-order |
+| ⑥ | #9 | Sidebar 高度 |
+| ⑦ | #8 | componentChecks reflow |
+| ⑧ | #10 | NLC 覆盖遮罩 |
+| ⑨ | #12 | 分割线 token |
+| **⑩** | **#21** | **L 编辑遮罩 (§3.7a) ★ NEW** |
+| **⑪** | **#22** | **多 mask z-order (§3.7b) ★ NEW** |
+| **⑫** | **#24** | **C 编辑无 mask ★ NEW** |
+| **⑬** | **#23** | **scenarioFlags 一致性 ★ NEW** |
 
 ## 7. 与既有规则文件的关系
 
