@@ -30,10 +30,56 @@ status: draft
 | 3 | **C 栏 z-order** | `NavBar → Detail → TextInput`（TI 在上层 fade overlay 在 Detail 之上）；杆子在 frame 直接子级 |
 | 4 | **L 栏 顺序** | `NavBar(56) → SearchBar(56) → SelectableChip(52) → List → BottomBar(100, 底)`；**与源稿 Chip↔Search 顺序差异时以 spec 为准** |
 | 5 | **杆子（home indicator）** | `x=0, width=frameW` 风满；`fills=[]` 透明；frame 直接子级**最顶 z-order**（Sidebar 之上） |
-| 6 | **覆盖模式 状态栏可读性** | Pad 竖 NLC 覆盖：z-order = `main → 遮罩 → 状态栏 → 分割线 → Sidebar → 杆子`。状态栏**必须在遮罩之上**（时间/信号可读），Sidebar 在状态栏之上 |
+| 6 | **覆盖模式 遮罩 z-order**（2026-05-18 修订）| Pad 竖 NLC 覆盖：z-order = `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`。**遮罩-N覆盖 必须在状态栏之上**（按列归属：N 列以外含状态栏全部 dim）。Sidebar 在遮罩之上（trigger 列豁免）。**旧版「保证可读」rationale 已弃用**。L 编辑遮罩同理：`遮罩-编辑` 在 `状态栏` 之上 |
 | 7 | **栏背景色 token** | 所有 LC / NLC 模式的 frame / L栏 / C栏 fill 必须绑定 `背景色/surface`（key `5804f51e302d6fda00b3a8ce9d509d9b8ee09225`）。详见本文档「栏背景色」表 |
 | 8 | **N 收起 替代规则** | 笔记 / 待办专属：N 收起态**不使用** `Sidebar_Component_PAD_NLC_02`（88dp 形态）；改为 N 栏直接消失 + L/C 栏 NavigationBar 最左加 `_17`(默认)/`_18`(编辑) 收起图标。详见「N 收起 规则」节 |
 | 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**（不是全设备一致）。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。例（List 默认 / NL）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_08` / `Fold内横 C 单栏=_09` / `Pad竖NL=_10` / `Pad竖NL收起=_11` / `Pad横NL=_12` / `Pad横NL收起=_13`。**编辑模式例外**：`列表 List / 编辑 / NL` CSV1 显示全设备一致 `_06`（仅此变体存在）。 |
+
+### §0.1a 各设备默认 layoutType（强制 lookup，禁止跨设备共用）
+
+> **本表是 Phase 2 `targetVariantPlan` 的 layoutType 决定权威**。每个适配 frame 的 layoutType 必须按本表 device 列查询，**不得**因「源稿塌缩为单一画面」而把所有 frame 统一为同一 layoutType。
+
+| device | default layoutType | 子模式 / 说明 |
+|---|---|---|
+| 手机 / Fold 外屏 | C（单一画面）| — |
+| Fold 内屏 横屏 | **LC** | 0.4:0.6（笔记常规）；0.5:0.5 仅电话 |
+| Fold 内屏 竖屏 | **LC** | — |
+| Pad 横屏 | **NLC（并列）** | N 272 + L 428 + C 722；NLC 横屏无覆盖形态 |
+| Pad 竖屏 | **NLC（覆盖）** | N 272 覆盖 L 428 + C 521；含 `遮罩-N覆盖` |
+
+**例外（必须 user 显式指定才允许偏离）**：
+
+| 偏离场景 | 触发条件 |
+|---|---|
+| Pad 用 LC（无 N 栏） | 仅秘密笔记 / 用户明确「Pad 不要 N 栏」|
+| Pad 用 NL / NC | 用户明确「无 C 栏 / 无 L 栏」 |
+| Fold 内用 NC / C | 用户明确指定 |
+
+**Phase 2 强制流程**：
+
+1. step A：钻取塌缩（drilldown collapse）→ 决定 frame 数（device × 方向）
+2. step B：每个 frame 查本表 → 决定该 frame 的 layoutType（**device 别**，不共用）
+3. step C：AskUserQuestion 时 **device 别**列示 layoutType（如 `Fold→LC, Pad→NLC`），禁止「全部 LC」「全部 NLC」单选项作为默认
+
+**Phase 6 校验**：`frame.name` 中的 layoutType ↔ 本表 device default 一致。偏离 → user 明示记录在「妥协项」中。
+
+### §0.1b scenarioFlags 导出信号表（笔记 / 待办）
+
+> **作用**：SKILL Phase 4 step 7 输出 `scenarioFlags` JSON 时，唯一权威 lookup source。**禁止从直觉推测 flag 值**，必须按本表信号匹配。
+
+| flag | 激活信号（任一 ✅ 即激活）| 关联触发 |
+|------|--------------------------|---------|
+| `LEditMode` | source frame 名含 `已选` / `选择` / `编辑模式` • L 栏 `List_Notes` variant ∈ `{_02, _04, _06}`（编辑系列）• L 栏出现 `ToolBar_ComponentSet_01` / `_02`（编辑工具栏）• L 栏 NavigationBar variant ∈ `{_03, _06, _09, _18}`（编辑系列） | **`§3.7a` `遮罩-编辑`（C 列）** |
+| `NEditMode` | Sidebar variant = `Sidebar_Component_PAD_NLC_03`（编辑态）• N 栏 NavigationBar variant ∈ `{_13}`（编辑） | **`§3.7a` 整 frame 遮罩，Sidebar 除外** |
+| `CEditMode` | C 栏 NoteEditPanel 变体 ∈ `{_01, _02, _03}` 出现 • C 栏 NavigationBar variant ∈ `{_03, _06, _09}` | **`§3.7a` 末 → 无 mask** |
+| `NCovering` | layoutType = `NLC覆盖`（per §0.1a 由 device 决定：Pad 竖 NLC default = 覆盖） | **`§3.7` `遮罩-N覆盖`（全 frame）** |
+
+**填写规则**：
+
+1. **每 flag 独立判定**，互不互斥；多 flag 同时 `true` 时按 `§3.7b` 多 mask z-order 处理
+2. **信号 缺失 → flag 默认 `false`**，不可推测
+3. 笔记 / 待办 共用本表（同 app 子场景）；其他应用各自独立信号集
+4. **新增 flag**（如 search active）→ 本表 + `common-rules §3.7*` 同步增行
 
 ### §0.2 padding 合算应用表（笔记 / 待办）
 
@@ -203,14 +249,14 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 源变体（手机 / Fold） | Pad 对应 `_00` 变体 | Pad 处理 |
 |---|---|---|
 | `BottomBar_Showcase_Notes_01` (L 栏 工具栏) | `BottomBar_Showcase_Notes_00` | L 栏不渲染；功能 → L 栏 NavigationBar 右侧图标 |
-| `TextInput_ComponentSet_Notes_01` (C 栏 底部输入框) | `（／／／）` 待补 | C 栏不渲染；功能 → C 栏 NavigationBar 右侧图标。**2026-05-15 起**：CSV1 不再标 `_00`，改 `（／／／）` 表示组件 spec 仍待定。Pad 执行仍按"省略渲染"，等组件库新规格落地后回填。|
+| `TextInput_ComponentSet_Notes_01` (C 栏 底部输入框) | `TextInput_ComponentSet_Notes_00` | **2026-05-18 起 `_00` 已落地**（CSV2 控件总表 + CSV1 控件变体清单）。Pad NLC C 栏直接使用 `_00` 变体。先前 `（／／／）` / "省略渲染" 描述废弃。|
 | `SelectableChip_ComponentSet_Notes_01 / _02` (L 栏 标签栏) | `SelectableChip_ComponentSet_Notes_00` | L 栏不渲染；标签筛选 → L 栏 NavigationBar 右侧图标 / 文件夹切换 |
 
 > **组件库缺口（2026-05-15 更新）**：
 > - `Sidebar_Component_PAD_NLC_00` 已落地（CSV2 标 "15日 YES"）✅
-> - `BottomBar_Showcase_Notes_00` / `TextInput_ComponentSet_Notes_00` / `SelectableChip_ComponentSet_Notes_00` 仍未落地；Pad 执行按"省略渲染"
-> - **`TextInput_ComponentSet_Notes_08` 新增**（CSV2 标 "15日 YES"）：Q18 内屏 padding `左20；右20`；专用于 Fold 内屏 LC C 栏 NoteEditPanel 默认态
-> - Pad NLC C 栏 NoteEditPanel 输入框规格 `（／／／）`：CSV1 标记待补，组件库尚未给出明确变体。临时按"不渲染"处理，等 spec 落地
+> - **2026-05-18 落地**：`TextInput_ComponentSet_Notes_00` ✅、`BottomBar_NoteEditPanel_03` ✅
+> - `BottomBar_Showcase_Notes_00` / `SelectableChip_ComponentSet_Notes_00` 仍未落地；Pad 执行按"省略渲染"
+> - `TextInput_ComponentSet_Notes_08` (Fold 内屏 LC C 栏 NoteEditPanel 默认态, Q18 padding 左20/右20)
 
 ## 映射表
 
@@ -351,7 +397,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
 |--|--|--|--|--|--|--|--|
-| NoteEditPanel / _01 | TextInput_ComponentSet_Notes_01 | TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_08 | C栏：（／／／） | C栏：（／／／） | C栏：（／／／） | C栏：（／／／） |
+| NoteEditPanel / _01 | TextInput_ComponentSet_Notes_01 | TextInput_ComponentSet_Notes_01 | C栏：TextInput_ComponentSet_Notes_08 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 | C栏：TextInput_ComponentSet_Notes_00 |
 | _02 | TextInput_ComponentSet_Notes_02 | TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 | C栏：TextInput_ComponentSet_Notes_02 |
 | _03 | TextInput_ComponentSet_Notes_03 | TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 | C栏：TextInput_ComponentSet_Notes_03 |
 | _04 | TextInput_ComponentSet_Notes_04 | TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 | C栏：TextInput_ComponentSet_Notes_04 |
@@ -517,11 +563,13 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 笔记和待办在 NLC / LC 模式下均适用以下遮罩规则。遮罩样式与适用范围参见 `device-dimensions.md`「遮罩定义」及其「适用范围」小节（默认覆盖整个 frame，覆盖组件 / 触发组件自身除外）。
 
-| 触发条件 | 遮罩范围 |
-|---------|---------|
-| N 栏进入编辑模式 | 整个 frame（含状态栏），Sidebar 自身除外 |
-| L 栏进入编辑模式 | 仅 C 栏覆盖遮罩 |
-| C 栏进入编辑模式 | 无遮罩 |
+| 触发条件 | 遮罩范围 | z-order 强制 |
+|---------|---------|---|
+| N 栏进入编辑模式 / NLC 覆盖 | 整个 frame（含 N 列以外的状态栏区段），Sidebar 自身除外 | `遮罩-N覆盖` 在 `状态栏` **之上**（含 status bar dim） |
+| L 栏进入编辑模式 | 仅 C 列（含 C 列上方 status bar 区段），L 列豁免 | `遮罩-编辑` 在 `状态栏` **之上**（C 列 status bar 区段 dim） |
+| C 栏进入编辑模式（仅 CEditMode）| 无遮罩 | — |
+
+**核心原则**（2026-05-18 修订）：遮罩按 **列归属** 决定覆盖范围。trigger 列以外的全域（含 status bar 该列对应区段）一律 dim。**禁止**用「时间 / 信号可读性」rationale 把状态栏提升到遮罩之上。
 
 收起态下 N 栏已消失（笔记例外规则），不再产生 N 栏遮罩触发。
 

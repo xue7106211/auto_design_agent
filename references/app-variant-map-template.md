@@ -52,6 +52,7 @@ status: draft
 
 每份 `app-variant-map` 建议保持以下顺序：
 
+0. **应用规则要点 §0（含 scenarioFlags 导出信号表 —— 含遮罩 / 编辑 trigger 的应用必填）**
 1. 查询契约
 2. 枚举定义
 3. 子场景约定（如果需要）
@@ -59,6 +60,67 @@ status: draft
 5. 当前覆盖缺口
 
 除上述结构外，默认不要追加大段重复说明。
+
+## 0. 应用规则要点（含 scenarioFlags 导出信号表）
+
+**适用范围**：当该应用在多端适配中 **可能触发任一 mask 或 编辑 trigger**（如 L 栏多选编辑 / N 覆盖 / N 编辑 等）时，本节 **必填**。无 trigger 的纯静态应用可省略本节。
+
+### §0.1 layoutType 默认（必填）
+
+每设备给出 default `layoutType`，禁止跨设备共用。示例：
+
+```md
+| device | default layoutType | 子模式 / 说明 |
+|---|---|---|
+| Phone / Fold外屏 | C | — |
+| Fold内屏 横/竖 | LC | — |
+| Pad 横屏 | NLC（并列）| — |
+| Pad 竖屏 | NLC（覆盖）| 含 `遮罩-N覆盖` |
+```
+
+### §0.X scenarioFlags 导出信号表（**含 trigger 应用必填**）
+
+**作用**：SKILL Phase 4 step 7 输出 `scenarioFlags` JSON 时，唯一权威 lookup source。**禁止从 source frame 名 / variant 推测 flag 值** —— 必须按本表的列出信号匹配。
+
+**标准 skeleton**：
+
+```md
+### §0.X scenarioFlags 导出信号表
+
+| flag | 激活信号（任一 ✅ 即激活）| 关联 §3.7? |
+|------|--------------------------|-----------|
+| `LEditMode` | source frame 名含 `已选` / `选择` / `编辑` • L 栏 List variant ∈ 编辑系列（如 `_02/_04/_06`）• L 栏出现 `ToolBar_*` 编辑工具栏 | §3.7a 触发 |
+| `NEditMode` | source N 栏明确 编辑标识 • Sidebar variant ∈ 编辑系列（如 `_03`）| §3.7a / §3.7b 触发 |
+| `CEditMode` | source C 栏明确 编辑/输入 状态（如 NoteEditPanel `_01/_02/_03` 出现） | §3.7a 末（无 mask）|
+| `NCovering` | layoutType = `NLC覆盖` （由 §0.1 决定） | §3.7 触发 |
+```
+
+**填写规则**：
+
+1. **每行 trigger 至少一个 信号**；信号缺失 → flag 默认 `false`（不可推测为 `true`）
+2. **同应用内信号统一**：信号集应该 cross-frame 一致；不同 frame 同 trigger 的信号不一致 → 在 notes 列说明
+3. **多 trigger 同时**：每 flag 独立判定，不互斥 —— Phase 4 step 7 输出时所有 flag 都给出 boolean
+4. **新增 flag**：当应用引入新 trigger（例：搜索激活、浮层 弹出）时，向本表增行 + 同步更新 `common-rules §3.7*` 触发条件描述
+
+### §0.Y 应用专用 trigger 例外（可选）
+
+若该应用对 `common-rules §3.7 / §3.7a / §3.7b` 的通用规则有 **明确偏离**，本节列出。无偏离时省略。
+
+示例：
+
+```md
+### §0.Y 应用专用 trigger 例外
+
+| 偏离场景 | 说明 |
+|---|---|
+| 笔记 N 收起 | 不使用 `Sidebar_PAD_NLC_02`；改为 N 栏直接消失 + L/C 标题栏内嵌恢复图标 |
+```
+
+### §0.Z 其他应用规则（落位关键 / padding / token / 历史踩坑）
+
+参考 `app-variant-map-笔记.md §0.1~§0.6` 实例。各应用按需展开，不强制全部填写。
+
+---
 
 ## 1. 查询契约
 
