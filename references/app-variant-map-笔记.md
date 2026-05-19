@@ -155,9 +155,13 @@ status: draft
 | `Sidebar_Component_PAD_NLC_01` | 2026-05-18 | wrapper `h=800 fixed` → **hug content**；自然尺寸 272×800 → **272×812**（pb=12 显式化）；内部 `BoardMaterialSection` 默认 `flex-[1_0_0] FILL` → **`shrink-0 HUG`**。**影响**：mainH resize 后卡片不再自动扩展 → 内部子节点 sizing override 必需（详见 §0.6）|
 | `List_Notes` NL 映射 + Fold 内 NL→C fallback | 2026-05-18 | ⚠️ **本条 ① ② 已于 2026-05-19 部分还原**（见下条）：① 原把 Pad NL 默认归并为 `_05`，实为 device-specific（_10/_11/_12/_13）。② 「NL 全设备 variant 一致原则」已撤回。③ 仅 CSV2 编辑 NL Fold 内 C 由 `_04` 修正为 `_06`（编辑 NL 全设备 `_06`，CSV1 sources 一致）—— 此项保留。|
 | §0.3 背景 token 拆分 | 2026-05-18 | 原仅列 `背景色/surface` 单一项 → 拆分为 framework 条件： NLC/LC = `surface`（白）、**NL / 列表页 = `surface_low`（灰）+ 卡片 `surface`（白）对比**。源验证：phone `首页卡片` frame fill 实测 = `surface_low`（rgb 243,243,243）。修正后 NL 适配 4 frame 全部从 surface 改为 surface_low。|
-| ToolBar 编辑模式 手机 / Fold外 变体 修正 | 2026-05-19 | 三行（NLC / NL / LC）的 手机竖 + Fold外竖 由 `ToolBar_ComponentSet_01` → **`_02`**（CSV1 控件总表 同步）。`_02` 与 `_01` 同 392×100，但属不同 ComponentSet variant；手机端原始为 `_02`、Fold 内 / Pad 各设备的 L 栏才用 `_01`。|
+| `TextInput_ComponentSet_Notes_00` 落地 | 2026-05-18 | Pad NLC C 栏 NoteEditPanel 输入框；先前标记 `（／／／）` 不渲染已废弃 |
+| `BottomBar_NoteEditPanel_03` 落地 | 2026-05-18 | 新增 NoteEditPanel 变体（场景 spec 待补） |
+| **CSV1 / CSV2 全表同步** | 2026-05-18 完成 | 与 `结构变化表-控件总表` (CSV1) + `多端控件映射-控件变体清单` (CSV2) 全行块比对完成；`笔记` + `待办` 子场景所有 cell 已一致。SearchBar LC 行 CSV1 仍标 `_02`（错误），本表保持 `_05`（spec 正确），等待 CSV1 下次回填修正 |
+| **CSV2 新增 variant 信号** | 2026-05-15 标记 / 2026-05-18 同步 | `NavigationBar_ComponentSet_16/17/18`、`TopBar_06/07`、`SearchBar_ComponentSet_03/04/05`、`Sidebar_Component_PAD_NLC_00`、`Fab_00`、`TextInput_ComponentSet_Notes_08` 已在 CSV2 标 "15日 YES"；本表已使用 `_17/_18`、`TopBar_07`、`SearchBar_05`、`PAD_NLC_00`、`Fab_00`、`TextInput_08`。`_16` / `TopBar_06` 暂未在 笔记 行块中出现，保留观察 |
+| ToolBar 编辑模式 手机 / Fold外 变体 修正 | 2026-05-19 | 三行(NLC / NL / LC)的 手机竖 + Fold外竖 由 `ToolBar_ComponentSet_01` → **`_02`**（CSV1 控件总表 同步）。`_02` 与 `_01` 同 392×100，但属不同 ComponentSet variant；手机端原始为 `_02`、Fold 内 / Pad 各设备的 L 栏才用 `_01`。|
 | ToolBar 编辑模式 Pad NLC L栏 变体 修正 | 2026-05-19 | NLC 行 Pad 竖/横 NLC + NLC 收起 共 4 单元格 由 `L栏：ToolBar_ComponentSet_00` → **`L栏：_01`**（CSV1 同步）。`_00` 仅用于 Pad NL framework，NLC 应用 `_01`。NL 行 Pad NL 仍保持 `_00` 不变。|
-| NoteEditPanel Fold 内横 LC 修正 | 2026-05-19 | NoteEditPanel/NLC 行 Fold内横LC 由 `C栏：BottomBar_NoteEditPanel_02` → **`_01`**（CSV1 同步）。`_02` 仅用于 Pad NLC C 栏；Fold 内屏 LC（竖+横）C 栏 NoteEditPanel 默认 = `_01`。|
+| NoteEditPanel Fold 内横 LC 修正 | 2026-05-18 / 2026-05-19 | NoteEditPanel/NLC 行 Fold内横LC 由 `C栏：BottomBar_NoteEditPanel_02` → **`_01`**（CSV1/CSV2 控件总表 同步）。`_02` 仅用于 Pad NLC C 栏；Fold 内屏 LC（竖+横）C 栏 NoteEditPanel 默认 = `_01`。|
 | List/NL 行 device-specific 变体 还原 | 2026-05-19 | 2026-05-18 错误归并为 `List_Notes_05` 全设备一致。CSV1+CSV2 实为 device-specific：`手机竖=_05`、`Fold外竖=_07`、`Fold内竖 C fallback=_08`、`Fold内横 C fallback=_09`、`Pad竖NL=_10`、`Pad竖NL收起=_11`、`Pad横NL=_12`、`Pad横NL收起=_13`。§0 #9 通则同步修订（移除"NL 全设备一致原则"提法）。编辑模式 NL 全设备 `_06` 不变（CSV1 sources 一致）。|
 
 ### §0.6 历史踩坑（笔记 / 待办 应用专用）

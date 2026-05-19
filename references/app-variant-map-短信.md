@@ -11,6 +11,27 @@ status: draft
 
 # 短信 App Variant Map
 
+## §0. 应用规则要点（必读，先于映射表）
+
+### §0.1 各设备默认 layoutType
+
+| device | default layoutType | 说明 |
+|---|---|---|
+| 手机 / Fold 外屏 | C | 单栏 |
+| Fold 内屏 横/竖 | LC | 列表 + 会话详情 |
+| Pad 横屏 | LC | 列表 + 会话详情（无 Sidebar）|
+| Pad 竖屏 | LC | 同横屏 |
+
+### §0.1b scenarioFlags 导出信号表
+
+> **状态**：skeleton。实际适配 短信 时按 source frame 实测填写，**禁止推测**。
+
+| flag | 激活信号 | 关联触发 |
+|------|---------|---------|
+| `LEditMode` | （待实测）| §3.7a |
+| `CEditMode` | （待实测）| §3.7a 末 |
+| `NEditMode` / `NCovering` | 短信无 N 栏 → 默认 `false` | — |
+
 ## 映射表
 
 短信为 LC 布局应用，Phone/Fold外屏无导航栏。

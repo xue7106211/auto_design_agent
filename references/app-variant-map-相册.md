@@ -11,6 +11,28 @@ status: draft
 
 # 相册 App Variant Map
 
+## §0. 应用规则要点（必读，先于映射表）
+
+### §0.1 各设备默认 layoutType
+
+| device | default layoutType | 说明 |
+|---|---|---|
+| 手机 / Fold 外屏 | C | 单栏（缩略图网格 + 详情）|
+| Fold 内屏 横/竖 | LC | 缩略图 + 大图 |
+| Pad 横屏 | NLC（并列）| 含 Sidebar |
+| Pad 竖屏 | NLC（并列）| 默认并列；覆盖仅 user 显式指定 |
+
+### §0.1b scenarioFlags 导出信号表
+
+> **状态**：skeleton。实际适配 相册 时按 source frame 实测填写，**禁止推测**。
+
+| flag | 激活信号 | 关联触发 |
+|------|---------|---------|
+| `LEditMode` | （待实测；含 多选 / 编辑模式）| §3.7a |
+| `NEditMode` | （待实测）| §3.7a / §3.7b |
+| `CEditMode` | （待实测）| §3.7a 末 |
+| `NCovering` | layoutType = `NLC覆盖`（仅 user 显式指定）| §3.7 |
+
 ## 映射表
 
 相册支持横屏，且横屏使用不同变体。
