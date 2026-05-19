@@ -273,6 +273,13 @@ async function verifyChecklist(frame, spec, scenarioFlags = null) {
       if (chk.y !== undefined && Math.abs(node.y - chk.y) > 0.5) {
         errors.push(`${chk.label}.y ${node.y} != ${chk.y}`);
       }
+      // ⑦b inner first child clipping (common-rules §3.6.A) — TopBar_03/_07 等含固定宽 root child 必查
+      if (node.children?.[0]) {
+        const c0 = node.children[0];
+        if (Math.abs(c0.width - node.width) > 0.5) {
+          errors.push(`${chk.label} INNER CLIPPING: instance ${node.width} vs child[0] '${c0.name}' ${c0.width} (need child[0].layoutSizingHorizontal='FILL')`);
+        }
+      }
     }
   }
   

@@ -32,8 +32,8 @@ status: draft
 | 5 | **杆子（home indicator）** | `x=0, width=frameW` 风满；`fills=[]` 透明；frame 直接子级**最顶 z-order**（Sidebar 之上） |
 | 6 | **覆盖模式 遮罩 z-order**（2026-05-18 修订）| Pad 竖 NLC 覆盖：z-order = `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`。**遮罩-N覆盖 必须在状态栏之上**（按列归属：N 列以外含状态栏全部 dim）。Sidebar 在遮罩之上（trigger 列豁免）。**旧版「保证可读」rationale 已弃用**。L 编辑遮罩同理：`遮罩-编辑` 在 `状态栏` 之上 |
 | 7 | **栏背景色 token** | 所有 LC / NLC 模式的 frame / L栏 / C栏 fill 必须绑定 `背景色/surface`（key `5804f51e302d6fda00b3a8ce9d509d9b8ee09225`）。详见本文档「栏背景色」表 |
-| 8 | **N 收起 替代规则** | 笔记 / 待办专属：N 收起态**不使用** `Sidebar_Component_PAD_NLC_02`（88dp 形态）；改为 N 栏直接消失 + L/C 栏 NavigationBar 最左加 `_17`(默认)/`_18`(编辑) 收起图标。详见「N 收起 规则」节 |
-| 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**（不是全设备一致）。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。例（List 默认 / NL）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_08` / `Fold内横 C 单栏=_09` / `Pad竖NL=_10` / `Pad竖NL收起=_11` / `Pad横NL=_12` / `Pad横NL收起=_13`。**编辑模式例外**：`列表 List / 编辑 / NL` CSV1 显示全设备一致 `_06`（仅此变体存在）。 |
+| 8 | **N 收起 替代规则** (2026-05-19 PM3 정정) | 笔记 / 待办 **宫格 NL framework 특수**: N 收起 시 N 栏 자체 消失 + L 栏 풀폭. **default NL** 시 L NavBar = `_00` (不渲染), `TopBar_07` (search 변체) 自体가 N 复원 icon 포함하므로 L NavBar 不要. **编辑 NL** 시 L NavBar = `_18` (편집 변체, N 复원 icon 포함). NLC framework (笔记 / 待办 외) 에서는 88dp `Sidebar_Component_PAD_NLC_00` 사용. 詳見「N 收起 规则」节 |
+| 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。**2026-05-19 CSV2 同步 신값**（List 默认 / NL）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_09` / `Fold内横 C 单栏=_11` / `Pad竖NL=_13` / `Pad竖NL收起=_15` / `Pad横NL=_17` / `Pad横NL收起=_19`. **编辑 NL** (짝수 시퀀스, device-specific): `手机竖=_06` / `Fold外竖=_08` / `Fold内竖=_10` / `Fold内横=_12` / `Pad竖NL=_14` / `Pad竖NL收起=_16` / `Pad横NL=_18` / `Pad横NL收起=_20`. **이전 「编辑 NL 全设备 _06」 통칙 폐기**. |
 
 ### §0.1a 各设备默认 layoutType（强制 lookup，禁止跨设备共用）
 
@@ -132,7 +132,9 @@ status: draft
 
 | set | key | 备注 |
 |-----|-----|------|
-| `状态栏-StatusBar` | `599a7d4bf61b848414c8141da76ab3b3c6596686` | 含 手机/fold/pad 三 variant；pad 自然高 38, **强制 resize 34** |
+| `StatusBar_01`（Hyper OS4 UI Kit，手机+Fold） | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 自然 392×46。**手机 + Fold 外+内 通用**。Hyper OS4 file `FBvQ3xM5C62MgIcA1JHWIs` 的独立 COMPONENT（非 set） |
+| `StatusBar_02`（Hyper OS4） | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 自然 888×38。**当前未使用 deprecated**，禁止使用 |
+| `StatusBar_03`（Hyper OS4 UI Kit，Pad） | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 自然 1422×38。**Pad 专用**。resize 时强制 H=34（自然 38 易 reflow） |
 | `NavigationBar` | `a89cd38d06061fcbb5ff7e596b92f8f3cf3888de` | 含 `_00`~`_18` 系列。**`_Notes_*` 已分离到下方独立 set** |
 | `NavigationBar_ComponentSet_Notes` | `ac60af7e28e6491b3520ecaefd71fa7e03832c31` | 业务组件库；含 `_Notes_01`/`_Notes_02` |
 | `SearchBar_ComponentSet` | `2316a63eb824ab38f388c3127101e535b7668398` | LC 默认风满用 `_05`（不是 `_02`）|
@@ -163,6 +165,17 @@ status: draft
 | ToolBar 编辑模式 Pad NLC L栏 变体 修正 | 2026-05-19 | NLC 行 Pad 竖/横 NLC + NLC 收起 共 4 单元格 由 `L栏：ToolBar_ComponentSet_00` → **`L栏：_01`**（CSV1 同步）。`_00` 仅用于 Pad NL framework，NLC 应用 `_01`。NL 行 Pad NL 仍保持 `_00` 不变。|
 | NoteEditPanel Fold 内横 LC 修正 | 2026-05-18 / 2026-05-19 | NoteEditPanel/NLC 行 Fold内横LC 由 `C栏：BottomBar_NoteEditPanel_02` → **`_01`**（CSV1/CSV2 控件总表 同步）。`_02` 仅用于 Pad NLC C 栏；Fold 内屏 LC（竖+横）C 栏 NoteEditPanel 默认 = `_01`。|
 | List/NL 行 device-specific 变体 还原 | 2026-05-19 | 2026-05-18 错误归并为 `List_Notes_05` 全设备一致。CSV1+CSV2 实为 device-specific：`手机竖=_05`、`Fold外竖=_07`、`Fold内竖 C fallback=_08`、`Fold内横 C fallback=_09`、`Pad竖NL=_10`、`Pad竖NL收起=_11`、`Pad横NL=_12`、`Pad横NL收起=_13`。§0 #9 通则同步修订（移除"NL 全设备一致原则"提法）。编辑模式 NL 全设备 `_06` 不变（CSV1 sources 一致）。|
+| **List/NL 行 + 编辑 NL 行 CSV2 全表 재동기화** | **2026-05-19 (PM)** | 위 「还原」 entry 의 시퀀스 (`_08/_09/_10/_11/_12/_13`)도 잘못이었음 — CSV2 List_Notes 카탈로그 검증 결과 **奇数 = 일반 / 偶数 = 编辑** 의 device-specific 시퀀스가 정답: 일반 NL = `_05/_07/_09/_11/_13/_15/_17/_19` (Phone/Fold外/Fold内竖/Fold内横/Pad竖NL/Pad竖NL收起/Pad横NL/Pad横NL收起). 编辑 NL = `_06/_08/_10/_12/_14/_16/_18/_20`. **§0 #9 통칙 마지막 줄 「编辑 NL 全设备 _06」 폐기**. 「2026-05-19 还原 entry」도 재폐기 (이중 잘못).|
+| **NavBar/SearchBar/Chip/BottomBar NL 行 Fold 内 column 명시 추가** | 2026-05-19 (PM) | 이전 4 표의 NL 행 Fold 内 col = "—" 미명시였음. CSV1 笔记 row 직접 검증: NavBar `C栏：_04`, SearchBar `C栏：_05`, Chip `C栏：_Notes_01`, BottomBar `C栏：_Notes_02`. **이전 미명시 → fallback proxy 추론 의존도 제거**. |
+| **状态栏 set key 更新** ⚠️ **PM8 废弃** | 2026-05-19（PM，PM8 修订） | （旧）§0.4 的 旧 key `599a7d4bf61b848414c8141da76ab3b3c6596686` → `15e94d49a30e5033525fd9c360a235f66007860a`（HyperOS v0.8）的变更尝试。**PM8 废弃**: HyperOS v0.8 并非源稿库。准确权威为 Xiaomi Hyper OS4 UI Kit 的独立 component（StatusBar_01/_02/_03）。旧 key import 失败实为 **stale 缓存** 所致（component 本体有效，库刷新后 key 重新签发）。详见 PM8 条目。 |
+| **TopBar_07 / BottomBar_Showcase_Notes_02 落地 상태** | 2026-05-19 (PM) → 정정 (PM2) | CSV2 표기 그대로 ✅ 둘 다 落地: `BottomBar_Showcase_Notes_02` (set 내 _00/_01/_02), `TopBar_07` (NavigationBar set 내, key=`b95b5b9e2f3d6a1306a0cbd14975164463528cf6`, 자연 1422×56). 초기 PM 판정 시 set 캐시 stale → "미落地" 오판. NavigationBar set 이 2026-05-19 07:35Z 갱신되어 _07 추가됨. **fresh import 후 발견 ✅**. Pad NL 收起 SearchBar = `TopBar_07` 직접 사용 가능 (이전 TopBar_03 fallback 폐기). |
+| **CSV1 笔记 row 정밀 재독 정정** | 2026-05-19 (PM2) | ① List/NL 行 `Fold内LC` 컬럼 단일값 표기 → **Fold内竖C / Fold内横C 분리** 표기 (기본 `_09`/`_11`, 编辑 `_10`/`_12`). 이전 단일값(_09/_10) 은 竖屏 값으로만 정확하고 横屏 값(_11/_12) 누락이었음. ② **秘密笔记 / LC** 行 Pad竖LC + Pad横LC C栏 = `NavigationBar_ComponentSet_Notes_01` → **`_Notes_00`** 정정 (CSV1 笔记 秘密笔记 row 권위). ③ **ToolBar / NL** 行 Fold內 컬럼 prefix `C栏：BottomBar_Showcase_Notes_02` → **`L栏：`** 통일 (CSV1 NL row prefix 표기 우선). ④ **导航栏 / NL** 行 Fold 内 NC/LC/C 컬럼 = `C栏：BottomBar_Showcase_00` 명시 추가 (이전 "—" 미명시). ⑤ **NoticeBar / NL** 行 Fold 内 NC/LC/C 컬럼 = `C栏：NoticeBar_ComponentSet_01` 명시 추가. ⑥ TextFormatPanel / AIWindow_Notes / DetailNotes / RecordNotes / AppSettings 행 모두 이미 반영되어 있음 (재확인 완료). |
+| **NavigationBar 编辑 / NL row Fold内 column 추가** | 2026-05-19 (PM3) | NL 编辑 행 Fold內LC 컬럼 = `—` (미명시) → **`C栏：NavigationBar_ComponentSet_06`** 추가. CSV1 笔记 NavBar / 编辑 / NL row 가 Fold外横+Fold内 NC/LC/C 全 컬럼에 NavBar_06 명시. NL→C fallback 시 编辑 NavBar 변체 = `_06`. |
+| **§0.6 잠재 결함 → 실제 fix 적용** | 2026-05-19 (PM3) | Sidebar_Component_PAD_NLC_01 swap+resize 후 내부 `BoardMaterialSection.layoutSizingVertical='FILL'` 만으로는 부족. 그 안의 **`NavigationSizeSection` 도 'FILL' override 필요** (default HUG = 800 고정). 추가로 `NavigationSizeSection > 内容区域` 도 FILL 처리 필요. 실측 (Pad竖 NL 펼침): override 전 navSize 800 → BoardMaterialSection 1376 vs navSize 800 = 하단 빈 576dp. override 후 navSize=1376 / 内容区域=1304 = 카드 풀높이. **§0.6 항목 보강 필요**: 「`inst.children[0].layoutSizingVertical='FILL'`」 → 「`inst.children[0].layoutSizingVertical='FILL'; inst.children[0].children[0].layoutSizingVertical='FILL'; (inst.children[0].children[0]).children.find(c=>c.name==='内容区域').layoutSizingVertical='FILL'`」 3-단계 재귀 override. |
+| **CSV1 신값 NL row 동기화 (笔记 宫格 NL 특수)** | 2026-05-19 (PM4) | ① **NavigationBar / 默认 NL row Pad 4 컬럼**: L栏 변체 `_07/_17` → **`_00` (전 컬럼 동일)** 변경. 笔记 宫格 NL 특수 모드에서 L NavBar 不渲染, `TopBar_03/_07` (search 변체) 자체가 顶部 NavBar 역할 + N 복원 icon 자체 포함. ② **ToolBar / NL row Pad 4 컬럼**: `_00 (不渲染)` → **`_02`** (Fold 内 spec 변체, CSV2 落地 ✅) 변경. Pad NL 4 frame 모두 ToolBar 必요. ③ **§0 #8 통칙 정정**: `NavBar_17/_18` 강제 사용 표현 폐기 — framework 별 분기 (NLC = _17/_18, NL default = _00 + TopBar_07, NL 编辑 = _18). ④ figma Pad NL 4 frame 적응 변경 必要: L NavBar 인스턴스 삭제 + BottomBar_Showcase_Notes_02 추가. |
+| **TopBar_03/_07 inner child reflow 결함 → fix** | 2026-05-19 (PM5) | TopBar_03/_07 component 의 root child `Pad-TopBar_01` 가 자연 width 1422 + `layoutSizingHorizontal='FIXED'`. instance.resize(targetW) 후에도 child 가 1422 유지 → instance width ≠ child width 발생 시 우측 잘림 (검색박스/편집/메뉴 icon 보이지 않음). **§3.6 강제 6 단계 시퀀스로 부족** — TopBar_03/_07 변체 落位 시 추가로 `inst.children[0].layoutSizingHorizontal = 'FILL'` override 必要. 4 frame 검증: Pad横 NL展开 (1150 vs 1422 = 272dp 잘림), Pad竖 NL展开 (677 vs 1422 = 745dp 잘림 = 절반↑), Pad竖 NL收起 (949 vs 1422 = 473dp 잘림); Pad横 NL收起 (1422 vs 1422 = 우연 OK). FILL override 후 全 4 frame match. **§3.6 보강 항목**: `TopBar_03/_07` (혹은 NavBar set 내 다른 ComboBar 변체) 落位 시 `inst.children[0].layoutSizingHorizontal='FILL'` 추가 필수. |
+| **ToolBar/NL row CSV1 재정정 (_02 → _01)** | 2026-05-19 (PM6) | 사용자 제공 신 CSV1 ToolBar/NL row Fold內 + Pad NL 컬럼 全 `_02` → **`_01`** 변경 (BottomBar_Showcase_Notes_01 사용). 이전 PM4 entry 의 「`_02` 적용」 폐기. 6 frame (Fold內 횡/세로, Pad横/竖 NL 펼침/接기) 모두 `_01` swap 完了. SearchBar 264 default width 미적용 건은 component limitation 으로 별도 task (디자인 팀 component 수정 필요). |
+| **StatusBar canonical 库修订（PM7 → PM8）** | 2026-05-19（PM8） | **废弃** PM7 条目的「HyperOS v0.8 set `15e94d49...`」权威主张。准确权威为 **Xiaomi Hyper OS4 UI Kit**（file `FBvQ3xM5C62MgIcA1JHWIs`）。该库**非 ComponentSet，由 3 个独立 COMPONENT 组成**: ① `StatusBar_01`（key `51a9e973...`，392×46）—— 手机 + Fold 外+内 通用; ② `StatusBar_02`（key `3f550237...`，888×38）—— deprecated; ③ `StatusBar_03`（key `6c9d87a1...`，1422×38）—— Pad 专用。**PM7 的 v0.8 假设**: HyperOS v0.8（`15e94d49...`）虽含 `设备` parameter 的 24 variant，但**并非用户源库**。笔记 宫格 多端适配 v5 的 F1/F2 在 PM7 被 swap 至 v0.8 的 `设备=手机` variant，PM8 已重新 swap 至 Hyper OS4 的 `StatusBar_01`。7 个 instance（Source + F1-F6）现统一使用 Hyper OS4 canonical。**启示**: design system 权威库须先通过 file 的「libraries_added_to_file」核实后再向用户确认；禁止依据「HyperOS v0.8」/「Hyper OS4」名字相似性自行推测。 |
 
 ### §0.6 历史踩坑（笔记 / 待办 应用专用）
 
@@ -170,6 +183,7 @@ status: draft
 
 | 类别 | 失误 | 正确做法 |
 |------|------|---------|
+| 库选择 | StatusBar 适配时使用 HyperOS v0.8 set（`15e94d49...`）（PM7） | **权威 = Xiaomi Hyper OS4 UI Kit** 的 3 个独立 COMPONENT（`StatusBar_01/_02/_03` 各自独立 key）。file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`。禁止依据 v0.8 ↔ Hyper OS4 名字相似性自行推测（PM8 修订） |
 | 变体选择 | L 栏 NavBar 用 `_05`（带返回箭头）| 笔记 LC 列表页 default = `_04`（无返回）|
 | 变体选择 | L 栏 SearchBar 用 `_02`（自然 176×44 是 Pad 顶部导航内嵌）| LC 风满 = `_05`（392×56）|
 | 变体选择 | C 栏 TextInput 用 `_01` | Fold 内 LC C 栏 = `_08`（CSV2 2026-05-15 新增，Q18 内屏 padding 20）|
@@ -230,12 +244,14 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 - N 栏直接消失
   - Pad 横屏：L / C 吸收 N 宽度（收起尺寸等同 LC 模式）
   - Pad 竖屏：N 本来以覆盖形式叠加于 LC 上，收起后 LC 回归原尺寸
-- N 恢复图标内嵌于 L（或 C）标题栏最左
-  - 默认态使用 `NavigationBar_ComponentSet_17`
-  - 编辑态使用 `NavigationBar_ComponentSet_18`
+- N 恢复图标 위치 (framework 별 분기):
+  - **NLC framework / 默认**: L 栏 NavigationBar 최左 = `NavigationBar_ComponentSet_17`
+  - **NLC framework / 编辑**: L 栏 NavigationBar 최左 = `NavigationBar_ComponentSet_18`
+  - **NL framework (宫格 default)**: L 栏 NavBar 不 渲染 (`_00`), N 复원 icon = **`TopBar_07`** (search 변체 자체 포함). 별도 NavBar_17 不要. **2026-05-19 PM3 정정** (CSV1 신값 동기화)
+  - **NL framework (编辑)**: L 栏 NavigationBar = `NavigationBar_ComponentSet_18` (편집 변체, N 复원 icon 자체 포함)
 - 侧边栏组件本体：
-  - 展开态：`Sidebar_Component_PAD_NLC_01`
-  - 收起态：`Sidebar_Component_PAD_NLC_00`（极简/空容器变体，不再使用 `_02`）
+  - 展开态: `Sidebar_Component_PAD_NLC_01`
+  - 收起态: N 栏 자체 消失 (笔记 NL 宫格 specifically). 笔记 NLC framework 에서는 `Sidebar_Component_PAD_NLC_00` (空 容器 변체).
 
 本规则仅适用于笔记应用（`笔记` + `待办` 子场景）。电话、联系人、文件管理等其他应用仍沿用 `Sidebar_Component_PAD_NLC_02` 的 88dp 收起形态。
 
@@ -277,7 +293,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad竖NC | Pad竖NC收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad横NC | Pad横NC收起 |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | BottomBar_Showcase_00 | BottomBar_Showcase_00 | L栏：BottomBar_Showcase_00 | L栏：BottomBar_Showcase_00 | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — | — | — |
-| NL  | BottomBar_Showcase_00 | BottomBar_Showcase_00 | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — |
+| NL  | BottomBar_Showcase_00 | BottomBar_Showcase_00 | C栏：BottomBar_Showcase_00 | C栏：BottomBar_Showcase_00 | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — |
 | NC  | BottomBar_Showcase_00 | BottomBar_Showcase_00 | — | — | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 | — | — | — | — | N栏：Sidebar_Component_PAD_NLC_01 | N栏：Sidebar_Component_PAD_NLC_00 |
 
 #### 标题栏 NavigationBar — 默认
@@ -285,7 +301,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad竖NC | Pad竖NC收起 | Pad竖LC | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad横NC | Pad横NC收起 | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | L栏：NavigationBar_ComponentSet_04；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — |
-| NL  | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_07 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_17 | — | — | — |
+| NL  | NavigationBar_ComponentSet_01 | NavigationBar_ComponentSet_04 | C栏：NavigationBar_ComponentSet_04 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_00 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_00 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_00 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_00 | — | — | — |
 | NC  | NavigationBar_ComponentSet_11 | NavigationBar_ComponentSet_11 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 | — | — | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_11 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_Notes_03 | — |
 | LC  | NavigationBar_ComponentSet_02 | NavigationBar_ComponentSet_05 | N栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 |
 
@@ -300,7 +316,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | L栏：NavigationBar_ComponentSet_06；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — |
-| NL  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | — | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18 | — | — |
+| NL  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | C栏：NavigationBar_ComponentSet_06 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18 | — | — |
 | LC  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | L栏：NavigationBar_ComponentSet_06；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 |
 
 #### 标题栏 NavigationBar — 其他子场景（C 栏单屏）
@@ -316,7 +332,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 | | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|
-| variant | NavigationBar_ComponentSet_02 | NavigationBar_ComponentSet_02 | L栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_Notes_01 | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_01 |
+| variant | NavigationBar_ComponentSet_02 | NavigationBar_ComponentSet_02 | L栏：NavigationBar_ComponentSet_05；C栏：NavigationBar_ComponentSet_Notes_01 | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_00 | L栏：NavigationBar_ComponentSet_08；C栏：NavigationBar_ComponentSet_Notes_00 |
 
 #### 搜索栏 SearchBar
 
@@ -325,7 +341,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — |
-| NL  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | — | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — |
+| NL  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | C栏：SearchBar_ComponentSet_05 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — | L栏：TopBar_03 | L栏：TopBar_07 | — | — |
 | LC  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — | — | — | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 |
 
 > Pad NL 收起 使用 `TopBar_07`（顶部导航搜索_侧边栏收起变体），同时承载 N 栏恢复功能。
@@ -347,43 +363,43 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 |
 |--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | NoticeBar_ComponentSet_01 | NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | — | — | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | — | — |
-| NL  | NoticeBar_ComponentSet_01 | NoticeBar_ComponentSet_01 | — | — | — | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | — | — | C栏：NoticeBar_ComponentSet_01 | C栏：NoticeBar_ComponentSet_01 |
+| NL  | NoticeBar_ComponentSet_01 | NoticeBar_ComponentSet_01 | C栏：NoticeBar_ComponentSet_01 | — | — | L栏：NoticeBar_ComponentSet_01 | L栏：NoticeBar_ComponentSet_01 | — | — | C栏：NoticeBar_ComponentSet_01 | C栏：NoticeBar_ComponentSet_01 |
 
 #### 标签栏 SelectableChip
 
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖C | Pad横C |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | SelectableChip_ComponentSet_Notes_01 | SelectableChip_ComponentSet_Notes_01 | L栏：SelectableChip_ComponentSet_Notes_02 | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — | 不展示 | 不展示 |
-| NL  | SelectableChip_ComponentSet_Notes_01 | SelectableChip_ComponentSet_Notes_01 | — | — | — | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — |
+| NL  | SelectableChip_ComponentSet_Notes_01 | SelectableChip_ComponentSet_Notes_01 | C栏：SelectableChip_ComponentSet_Notes_01 | — | — | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — | L栏：SelectableChip_ComponentSet_Notes_00 | 不展示 | — | — |
 
 #### 列表 List — 默认
 
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | List_Notes_01 | List_Notes_01 | L栏：List_Notes_03 | L栏：List_Notes_03 | L栏：List_Notes_03 | — | — | L栏：List_Notes_03 | L栏：List_Notes_03 | — | — | — | — |
-| NL  | List_Notes_05 | List_Notes_07 | — | — | — | L栏：List_Notes_10 | L栏：List_Notes_11 | — | — | L栏：List_Notes_12 | L栏：List_Notes_13 | — | — |
+| NL  | List_Notes_05 | List_Notes_07 | **Fold内竖C：List_Notes_09 / Fold内横C：List_Notes_11** | — | — | L栏：List_Notes_13 | L栏：List_Notes_15 | — | — | L栏：List_Notes_17 | L栏：List_Notes_19 | — | — |
 | LC  | List_Notes_01 | List_Notes_01 | L栏：List_Notes_03 | — | — | — | — | — | — | — | — | L栏：List_Notes_03 | L栏：List_Notes_03 |
 
-> **Fold 内 NL→C 单栏 fallback**：Fold 内屏 framework 仅含 NC / LC / C，无 NL。NL 语义在 Fold 内屏 fallback 为 **C 单栏**，list 直接占据 C 栏：`Fold内竖 C 单栏：List_Notes_08` / `Fold内横 C 单栏：List_Notes_09`（默认；device-specific 变体）。详见 §0「Fold 内 NL→C fallback 通则」。
-> **2026-05-19 修正**：CSV1 控件总表 `List / NL` 行实为 device-specific 变体（_05/_07/_08/_09/_10/_11/_12/_13），先前 2026-05-18 误归并为 `_05` 全设备一致已修订。编辑模式 NL 仍为 `_06` 全设备一致（CSV1 sources 一致）。
+> **Fold 内 NL→C 单栏 fallback**：Fold 内屏 framework 仅含 NC / LC / C，无 NL。NL 语义在 Fold 内屏 fallback 为 **C 单栏**，list 直接占据 C 栏：`Fold内竖 C 单栏：List_Notes_09` / `Fold内横 C 单栏：List_Notes_11`（CSV2 卡片列表 family；竖屏 = `Fold_内屏_竖屏`、横屏 = `Fold_内屏_横屏`）。详见 §0「Fold 内 NL→C fallback 通则」。
+> **2026-05-19 CSV2 同步**：List/NL 行 device-specific 变体 全部更新为奇数序列（`_05/_07/_09/_11/_13/_15/_17/_19`），对应 Phone/Fold外/Fold内竖/Fold内横/Pad竖NL/Pad竖NL收起/Pad横NL/Pad横NL收起。先前 (2026-05-18 / 5-19 환원판) 의 `_08/_09/_10/_11/_12/_13` 시퀀스 폐기 — 그 시퀀스는 **편집(짝수)/일반(홀수) 분리 규칙을 무시**한 잘못된 매핑이었음. CSV2 List_Notes 카탈로그 권위.
 
 #### 列表 List — 编辑模式 Edit Mode
 
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | — | — |
-| NL  | List_Notes_06 | List_Notes_06 | — | — | — | L栏：List_Notes_06 | L栏：List_Notes_06 | — | — | L栏：List_Notes_06 | L栏：List_Notes_06 | — | — |
+| NL  | List_Notes_06 | List_Notes_08 | **Fold内竖C：List_Notes_10 / Fold内横C：List_Notes_12** | — | — | L栏：List_Notes_14 | L栏：List_Notes_16 | — | — | L栏：List_Notes_18 | L栏：List_Notes_20 | — | — |
 | LC  | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | — | — | — | — | — | — | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 |
 
-> **Fold 内 NL→C 单栏 fallback**：编辑模式同样适用。`Fold内竖 C 单栏：List_Notes_06` / `Fold内横 C 单栏：List_Notes_06`（CSV2 2026-05-18 修订：原 `_04` 更正为 `_06`，与 NL 全设备一致）。详见 §0「Fold 内 NL→C fallback 通则」。
-> **2026-05-18 更新**：Pad 横/竖 NL / NL收起 由 `待补` → `L栏：List_Notes_06`（CSV2 同步；编辑变体 `_06`，非 `_05`）。
+> **Fold 内 NL→C 单栏 fallback (编辑)**：`Fold内竖 C 单栏：List_Notes_10` / `Fold内横 C 单栏：List_Notes_12` (CSV2 짝수 시퀀스 = 编辑 변체).
+> **2026-05-19 CSV2 同步**：List/NL **编辑** 행 device-specific 변체 全部 갱신: `_06/_08/_10/_12/_14/_16/_18/_20`. 이전 「编辑 NL 全设备 _06 일치」 통칙 (§0 #9) 폐기. 짝수 인덱스 = 该 device 의 编辑 변체.
 
 #### 底部工具栏 ToolBar / BottomBar
 
 | 场景 | 手机竖 | Fold外竖 | Fold内竖LC | Fold内横LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | ToolBar / NLC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_02 | L栏：BottomBar_Showcase_Notes_02 | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | — | — |
-| ToolBar / NL | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | — | — | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — | L栏：BottomBar_Showcase_Notes_00 | L栏：BottomBar_Showcase_Notes_00 | — | — |
+| ToolBar / NL | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | — | — | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | — | — | L栏：BottomBar_Showcase_Notes_01 | L栏：BottomBar_Showcase_Notes_01 | — | — |
 | ToolBar / LC | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_01 | BottomBar_Showcase_Notes_02 | BottomBar_Showcase_Notes_02 | — | — | — | — | — | — | — | — | BottomBar_Showcase_Notes_00 | BottomBar_Showcase_Notes_00 |
 
 > **`BottomBar_Showcase_Notes_02` 变体源文件未落地**：CSV 总表已将 Fold 内屏 LC 模式（NLC / LC）的 L 栏 ToolBar 规格更新为 `_02`，但当前 Figma 组件库中该变体尚未落地（仅有 `_01`）。临时方案：执行时先用 `_01` fallback 渲染，待组件库补齐 `_02` 后通过 `swapComponent` 升级。映射表保持 `_02` 不修改，作为权威 spec。
