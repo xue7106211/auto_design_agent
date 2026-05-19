@@ -16,9 +16,17 @@
 - `TopBar_06`（CSV2 15 日新增，待暴露）
 - `TopBar_07`（CSV2 新增，侧边栏收起态搜索栏）
 - `TopBar_Navigation_01`（CSV2 复合体内 sub-variant，最小左 16；右 16）
-- `NavigationBar_ComponentSet_Calendar_01`（业务变体，日历专用）
-- `NavigationBar_ComponentSet_Notes_01` ~ `NavigationBar_ComponentSet_Notes_04`（业务变体，笔记专用）
-- `NavigationBar_ComponentSet_Weather_01`（业务变体，天气专用）
+
+> **CSV2 2026-05-19 family 切分**：以下 variant 的 family 归属已变更，请加载对应字典文件：
+> - `TopBar_00 / _01 / _02` → `TopBar.md`（family = `TopBar`）
+> - `TopBar_Calendar_01` → `Calendar_TopBar.md`（family = `Calendar_TopBar`）
+> - `NavigationBar_ComponentSet_Calendar_01` → `Calendar_NavigationBar.md`（family = `Calendar_NavigationBar`）
+> - `NavigationBar_ComponentSet_Weather_01` → `Weather_NavigationBar.md`（family = `Weather_NavigationBar`）
+> - `NavigationBar_ComponentSet_02`（业务_设置）→ `Settings_NavigationBar.md`（family = `Settings_NavigationBar`，共通 variant 引用，spec 仍以本文档为准）
+>
+> 但因为 `TopBar_*` / `Pad_TopBar_*` 在 Figma 实物中仍属于同一 `NavigationBar_ComponentSet`（set key `a439...`），执行路径不变，本文档保留它们的 nodeId / componentKey 记录作为 probed 数据来源。
+>
+> 笔记业务变体 `NavigationBar_ComponentSet_Notes_01 ~ _04` 已分离至 `Notes_NavigationBar.md`（family = `Notes_NavigationBar`，独立 set key `ac60af7e28e6491b3520ecaefd71fa7e03832c31`）。本文档不再覆盖。
 
 ## 核心结论
 
@@ -107,10 +115,6 @@
 - `NavigationBar_ComponentSet_17`（CSV2 2026-05-15 新增，侧边栏_收起_文字；待 Figma 探查）
 - `NavigationBar_ComponentSet_18`（CSV2 2026-05-15 新增，侧边栏_编辑_收起；待 Figma 探查）
 - `NavigationBar_ComponentSet_Calendar_01`
-- `NavigationBar_ComponentSet_Notes_01`
-- `NavigationBar_ComponentSet_Notes_02`（CSV2 笔记 思维导图 标题栏；待 Figma 探查）
-- `NavigationBar_ComponentSet_Notes_03`（CSV2 笔记 Pad 思维导图 标题栏；待 Figma 探查）
-- `NavigationBar_ComponentSet_Notes_04`（CSV2 笔记 标题栏 变体；待 Figma 探查）
 - `NavigationBar_ComponentSet_Weather_01`
 - `TopBar_06`（CSV2 2026-05-15 新增，顶部标题栏搜索_左对齐；待 Figma 探查）
 - `TopBar_07`（CSV2 新增，顶部导航搜索_侧边栏收起；待 Figma 探查）

@@ -2,7 +2,7 @@
 
 本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = ToolBar`（编辑模式底部工具栏）。
 
-> 笔记 / 待办 编辑模式专用 ToolBar；常规底部工具栏使用 `BottomBar_Showcase_*`（详见 `bottom-bar-notes.md`）。
+> 笔记 / 待办 编辑模式专用 ToolBar；常规底部工具栏使用 `BottomBar_Showcase_*`（详见 `Notes_BottomBar.md`）。
 
 ## 适用记录
 

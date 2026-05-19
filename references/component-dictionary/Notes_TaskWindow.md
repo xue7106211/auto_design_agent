@@ -1,6 +1,8 @@
-# NewTaskWindow 组件字典参考
+# Notes_TaskWindow 组件字典参考
 
-本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = NewTaskWindow`（待办 新建任务弹窗）。
+本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = Notes_TaskWindow`（待办 新建任务弹窗）。
+
+> CSV2 权威：`componentFamily = Notes_TaskWindow`（CSV2 2026-05-19 切分），variantId 沿用 `NewTaskWindow_*`。
 
 ## 适用记录
 
@@ -13,7 +15,14 @@
 | --- | --- | --- |
 | `variantid` | 主变体 | `_01` / `_02` |
 
-## 尺寸（按 CSV2）
+## 执行记录
+
+| variantId | nodeId | size | 语义 | componentKey | sourceOfTruth |
+| --- | --- | --- | --- | --- | --- |
+| `NewTaskWindow_01` | 待补 | 待补 | 新建任务弹窗（最小宽度 368；最大宽度 411） | 待补 | `csv2-listed` |
+| `NewTaskWindow_02` | 待补 | 待补 | 新建任务弹窗（最小 368；最大 412） | 待补 | `csv2-listed` |
+
+## 内部尺寸 / padding（按 CSV2）
 
 | 变体 | 尺寸 / padding |
 | --- | --- |
@@ -39,4 +48,4 @@
 - `nodeId` / `componentKey` / `componentSetId` 待补
 - `_01` 与 `_02` 子场景差异（输入态 / 编辑态）待 探查
 
-> CSV1 / CSV2 同步日期：2026-05-18。
+> CSV1 / CSV2 同步日期：2026-05-19。

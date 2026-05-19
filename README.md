@@ -111,7 +111,7 @@ auto_design_agent/
 | [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md)                                 | 计算器应用 variant 映射表                                                    |
 | [references/app-variant-map-设置.md](./references/app-variant-map-设置.md)                                   | 设置应用 variant 映射表                                                     |
 | [references/common-rules.md](./references/common-rules.md)                                               | 通用执行原则、禁止项、clone 降级规则和分步写入规范                                         |
-| [references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
+| [references/component-dictionary/NavigationBar.md](./references/component-dictionary/NavigationBar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
 
 
 ### 归档文件
@@ -173,7 +173,7 @@ auto_design_agent/
 - 设备尺寸：`references/layouts/device-dimensions.md`
 - 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`
 - 应用 variant 映射表（16 个应用）：`references/app-variant-map-{appName}.md`
-- 组件族 reference：[references/component-dictionary/navigation-bar.md](./references/component-dictionary/navigation-bar.md)
+- 组件族 reference：[references/component-dictionary/NavigationBar.md](./references/component-dictionary/NavigationBar.md)
 
 其中已建立的应用映射表包括：
 

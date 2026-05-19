@@ -1,6 +1,8 @@
-# SelectableChip_Notes 组件字典参考
+# Notes_SelectableChip 组件字典参考
 
-本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = SelectableChip`（笔记业务变体）。
+本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = Notes_SelectableChip`（笔记 业务专属标签栏）。
+
+> 通用 `SelectableChip_ComponentSet_00 / _01` 不在本文档范围（属于公共 SelectableChip 集，单独落库）。
 
 ## 适用记录
 
@@ -10,13 +12,9 @@
 - `SelectableChip_ComponentSet_Notes_01`
 - `SelectableChip_ComponentSet_Notes_02`
 
-通用 `SelectableChip_ComponentSet_00 / _01` 不在本文档范围（属于公共 SelectableChip 集，单独落库）。
-
 ## 核心结论
 
-### 已验证可执行的组件集
-
-- `componentFamily = SelectableChip`
+- `componentFamily = Notes_SelectableChip`
 - `componentName = SelectableChip_ComponentSet_Notes`
 - `componentSetId = 536:15179`
 - `componentSetKey = af1e1df353e8fb1fe8005b82fed310422f2eae4c`
@@ -26,7 +24,7 @@
 
 | 字段 | 值 |
 | --- | --- |
-| `componentFamily` | `SelectableChip` |
+| `componentFamily` | `Notes_SelectableChip` |
 | `componentName` | `SelectableChip_ComponentSet_Notes` |
 | `componentSetId` | `536:15179` |
 | `componentSetKey` | `af1e1df353e8fb1fe8005b82fed310422f2eae4c` |
@@ -41,6 +39,7 @@
 
 | variantId | nodeId | size | componentKey | sourceOfTruth |
 | --- | --- | --- | --- | --- |
+| `SelectableChip_ComponentSet_Notes_00` | 待补 | 待补 | 待补 | `csv2-listed` |
 | `SelectableChip_ComponentSet_Notes_01` | `536:15180` | `392x52` | `c4a5237b08cb7cb6ae0cc64c440cc91d44b6cafb` | `probed` |
 | `SelectableChip_ComponentSet_Notes_02` | `536:15197` | `392x52` | `7d2d83d88d1de6ea6888713ad6508e4e7748b149` | `probed` |
 
@@ -72,3 +71,5 @@ instance.setProperties({
 ## 缺口
 
 - `_00`（笔记 Pad 展开规格）未在本地组件集中落地。Pad 执行时省略渲染（按映射表「不展示」），不需要变体本体即可完成。
+
+> CSV1 / CSV2 同步日期：2026-05-19。

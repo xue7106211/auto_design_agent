@@ -1,6 +1,6 @@
-# TextFormatPanel 组件字典参考
+# Notes_TextFormatPanel 组件字典参考
 
-本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = TextFormatPanel`（笔记 文字格式弹窗）。
+本文档是 `figma-component-dictionary` 的组件族 reference，只服务 `componentFamily = Notes_TextFormatPanel`（笔记 文字格式弹窗）。
 
 ## 适用记录
 
@@ -12,6 +12,13 @@
 | 字段 | 说明 | 已验证值 |
 | --- | --- | --- |
 | `variantid` | 主变体 | `_01` / `_02` |
+
+## 执行记录
+
+| variantId | nodeId | size | 语义 | componentKey | sourceOfTruth |
+| --- | --- | --- | --- | --- | --- |
+| `TextFormatPanel_01` | 待补 | 待补 | 文字格式弹窗（默认） | 待补 | `csv2-listed` |
+| `TextFormatPanel_02` | 待补 | 待补 | 文字格式弹窗（Fold 内竖 LC C 栏） | 待补 | `csv2-listed` |
 
 ## 内部 padding（按 CSV2）
 
@@ -36,4 +43,4 @@
 - `nodeId` / `componentKey` / `componentSetId` 待补
 - `_01` 与 `_02` 自然尺寸差异 待 探查
 
-> CSV1 / CSV2 同步日期：2026-05-18。
+> CSV1 / CSV2 同步日期：2026-05-19。
