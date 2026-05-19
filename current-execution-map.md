@@ -146,7 +146,7 @@ flowchart TD
 
 当前活跃的组件族 reference 主要是：
 
-- `references/component-dictionary/navigation-bar.md`
+- `references/component-dictionary/NavigationBar.md`
 
 ## use_figma 回写拆解
 

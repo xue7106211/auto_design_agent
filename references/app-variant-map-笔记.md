@@ -33,6 +33,7 @@ status: draft
 | 6 | **覆盖模式 遮罩 z-order**（2026-05-18 修订）| Pad 竖 NLC 覆盖：z-order = `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`。**遮罩-N覆盖 必须在状态栏之上**（按列归属：N 列以外含状态栏全部 dim）。Sidebar 在遮罩之上（trigger 列豁免）。**旧版「保证可读」rationale 已弃用**。L 编辑遮罩同理：`遮罩-编辑` 在 `状态栏` 之上 |
 | 7 | **栏背景色 token** | 所有 LC / NLC 模式的 frame / L栏 / C栏 fill 必须绑定 `背景色/surface`（key `5804f51e302d6fda00b3a8ce9d509d9b8ee09225`）。详见本文档「栏背景色」表 |
 | 8 | **N 收起 替代规则** | 笔记 / 待办专属：N 收起态**不使用** `Sidebar_Component_PAD_NLC_02`（88dp 形态）；改为 N 栏直接消失 + L/C 栏 NavigationBar 最左加 `_17`(默认)/`_18`(编辑) 收起图标。详见「N 收起 规则」节 |
+| 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**（不是全设备一致）。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。例（List 默认 / NL）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_08` / `Fold内横 C 单栏=_09` / `Pad竖NL=_10` / `Pad竖NL收起=_11` / `Pad横NL=_12` / `Pad横NL收起=_13`。**编辑模式例外**：`列表 List / 编辑 / NL` CSV1 显示全设备一致 `_06`（仅此变体存在）。 |
 
 ### §0.1a 各设备默认 layoutType（强制 lookup，禁止跨设备共用）
 
@@ -115,9 +116,17 @@ status: draft
 
 | 用途 | Token 名 | Library Key |
 |------|---------|------------|
-| frame / L栏 / C栏 fill | `背景色/surface` | `5804f51e302d6fda00b3a8ce9d509d9b8ee09225` |
+| **NLC / LC frame / L栏 / C栏 fill**（白底，分栏 with 卡片） | `背景色/surface` | `5804f51e302d6fda00b3a8ce9d509d9b8ee09225` |
+| **NL / 列表页 frame / L栏 fill**（灰底，卡片浮起对比） | `背景色/surface_low` | `e74b063d74a3444a44a4e00bb7417c2dbea305ba` |
+| 卡片 / 内容容器 fill（浮于 surface_low 之上） | `背景色/surface` | 同上（组件自带 binding，无需手动）|
 | 栏间分割线 fill | `分割线色/outline` | `96f2cf4d1ce0d56cff2f8e98da6a5e16bd59983e` |
 | Pad 竖 NLC 覆盖 遮罩 fill（opacity 0.2）| `遮罩色/mask` | `0ed62540049dd3839b40b63d40f82492c4bac664` |
+
+> **背景 token 选择规则**（重要）：
+> - **list-only framework**（NL / Phone NL / Fold内 NL→C fallback / Pad NL）→ frame + 栏 都用 `背景色/surface_low`（灰底）。卡片实例自带 `背景色/surface`（白），自然形成对比。
+> - **list+detail framework**（NLC / LC）→ frame + L栏 + C栏 都用 `背景色/surface`（白）。栏间分割线区分 L/C，无需灰底对比。
+> - 判定标准 = **framework**，不是设备：源为 NL 即使 fallback 到 Fold 内 C 单栏，仍用 surface_low；源为 LC 即使在 Fold 内仍用 surface。
+> - 历史 (2026-05-18 之前) §0.3 仅列 surface 一项，导致 NL 适配时 frame 也填白色 → 与卡片无对比。已修订。
 
 ### §0.4 关键组件 set keys（重要）
 
@@ -143,11 +152,13 @@ status: draft
 | `NavigationAtoms` 高度（Sidebar 内部使用）| 2026-05-14 之前 | 44dp → 56dp。内容区域起点变为 `y = 56 + 6 = 62` |
 | `NavigationBar` set ↔ `NavigationBar_ComponentSet_Notes` set 拆分 | 2026-05-15 实测 | `_Notes_*` variant 已迁到独立 set，引用旧 set 找不到 `_Notes_01` |
 | `TextInput_ComponentSet_Notes_08` | 2026-05-15 新增 | 392×92, Q18 内屏 padding 左20 右20。Fold 内 LC C 栏 NoteEditPanel 默认从 `_01` 改用 `_08` |
-| `TextInput_ComponentSet_Notes_00` | 2026-05-18 落地 | Pad NLC C 栏 NoteEditPanel 输入框；先前标记 `（／／／）` 不渲染已废弃 |
-| `BottomBar_NoteEditPanel_03` | 2026-05-18 落地 | 新增 NoteEditPanel 变体（场景 spec 待补） |
-| NoteEditPanel / NLC Fold 内横 LC | 2026-05-18 修订 | C 栏 `_02` → `_01` (CSV2 控件总表) |
-| **CSV1 / CSV2 全表同步** | 2026-05-18 完成 | 与 `结构变化表-控件总表` (CSV1) + `多端控件映射-控件变体清单` (CSV2) 全行块比对完成；`笔记` + `待办` 子场景所有 cell 已一致。SearchBar LC 行 CSV1 仍标 `_02`（错误），本表保持 `_05`（spec 正确），等待 CSV1 下次回填修正 |
-| **CSV2 新增 variant 信号** | 2026-05-15 标记 / 2026-05-18 同步 | `NavigationBar_ComponentSet_16/17/18`、`TopBar_06/07`、`SearchBar_ComponentSet_03/04/05`、`Sidebar_Component_PAD_NLC_00`、`Fab_00`、`TextInput_ComponentSet_Notes_08` 已在 CSV2 标 "15日 YES"；本表已使用 `_17/_18`、`TopBar_07`、`SearchBar_05`、`PAD_NLC_00`、`Fab_00`、`TextInput_08`。`_16` / `TopBar_06` 暂未在 笔记 行块中出现，保留观察 |
+| `Sidebar_Component_PAD_NLC_01` | 2026-05-18 | wrapper `h=800 fixed` → **hug content**；自然尺寸 272×800 → **272×812**（pb=12 显式化）；内部 `BoardMaterialSection` 默认 `flex-[1_0_0] FILL` → **`shrink-0 HUG`**。**影响**：mainH resize 后卡片不再自动扩展 → 内部子节点 sizing override 必需（详见 §0.6）|
+| `List_Notes` NL 映射 + Fold 内 NL→C fallback | 2026-05-18 | ⚠️ **本条 ① ② 已于 2026-05-19 部分还原**（见下条）：① 原把 Pad NL 默认归并为 `_05`，实为 device-specific（_10/_11/_12/_13）。② 「NL 全设备 variant 一致原则」已撤回。③ 仅 CSV2 编辑 NL Fold 内 C 由 `_04` 修正为 `_06`（编辑 NL 全设备 `_06`，CSV1 sources 一致）—— 此项保留。|
+| §0.3 背景 token 拆分 | 2026-05-18 | 原仅列 `背景色/surface` 单一项 → 拆分为 framework 条件： NLC/LC = `surface`（白）、**NL / 列表页 = `surface_low`（灰）+ 卡片 `surface`（白）对比**。源验证：phone `首页卡片` frame fill 实测 = `surface_low`（rgb 243,243,243）。修正后 NL 适配 4 frame 全部从 surface 改为 surface_low。|
+| ToolBar 编辑模式 手机 / Fold外 变体 修正 | 2026-05-19 | 三行（NLC / NL / LC）的 手机竖 + Fold外竖 由 `ToolBar_ComponentSet_01` → **`_02`**（CSV1 控件总表 同步）。`_02` 与 `_01` 同 392×100，但属不同 ComponentSet variant；手机端原始为 `_02`、Fold 内 / Pad 各设备的 L 栏才用 `_01`。|
+| ToolBar 编辑模式 Pad NLC L栏 变体 修正 | 2026-05-19 | NLC 行 Pad 竖/横 NLC + NLC 收起 共 4 单元格 由 `L栏：ToolBar_ComponentSet_00` → **`L栏：_01`**（CSV1 同步）。`_00` 仅用于 Pad NL framework，NLC 应用 `_01`。NL 行 Pad NL 仍保持 `_00` 不变。|
+| NoteEditPanel Fold 内横 LC 修正 | 2026-05-19 | NoteEditPanel/NLC 行 Fold内横LC 由 `C栏：BottomBar_NoteEditPanel_02` → **`_01`**（CSV1 同步）。`_02` 仅用于 Pad NLC C 栏；Fold 内屏 LC（竖+横）C 栏 NoteEditPanel 默认 = `_01`。|
+| List/NL 行 device-specific 变体 还原 | 2026-05-19 | 2026-05-18 错误归并为 `List_Notes_05` 全设备一致。CSV1+CSV2 实为 device-specific：`手机竖=_05`、`Fold外竖=_07`、`Fold内竖 C fallback=_08`、`Fold内横 C fallback=_09`、`Pad竖NL=_10`、`Pad竖NL收起=_11`、`Pad横NL=_12`、`Pad横NL收起=_13`。§0 #9 通则同步修订（移除"NL 全设备一致原则"提法）。编辑模式 NL 全设备 `_06` 不变（CSV1 sources 一致）。|
 
 ### §0.6 历史踩坑（笔记 / 待办 应用专用）
 
@@ -165,6 +176,7 @@ status: draft
 | Token | frame fill 直接 RGB 灰色 / 白色 | `bindFill('背景色/surface', ...)` 绑定 |
 | Token | 分割线 fill RGB | `bindFill('分割线色/outline', ...)` |
 | Token | 遮罩 fill RGB | `bindFill('遮罩色/mask', ..., 0.2)` |
+| 变体内部 sizing | Sidebar mainH resize 后 inner `BoardMaterialSection` 仍 800/812（HUG）→ 卡片不延伸；Pad 竖 NLC 覆盖时 L 栏 list/ToolBar 从卡片下方 leak；Pad 横 NLC N 栏下方留白 | swap + resize 后 **`inst.children[0].layoutSizingVertical = 'FILL'`** 强制 BoardMaterialSection 填充 wrapper（旧组件 default = FILL；2026-05-18 起新组件 default = HUG，必须显式 override）。校验：`inst.children[0].height === inst.height − 12 (pb)` |
 
 ---
 
@@ -345,18 +357,22 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | List_Notes_01 | List_Notes_01 | L栏：List_Notes_03 | L栏：List_Notes_03 | L栏：List_Notes_03 | — | — | L栏：List_Notes_03 | L栏：List_Notes_03 | — | — | — | — |
-| NL  | List_Notes_05 | List_Notes_05 | — | — | — | L栏：待补 | L栏：待补 | — | — | L栏：待补 | L栏：待补 | — | — |
+| NL  | List_Notes_05 | List_Notes_07 | — | — | — | L栏：List_Notes_10 | L栏：List_Notes_11 | — | — | L栏：List_Notes_12 | L栏：List_Notes_13 | — | — |
 | LC  | List_Notes_01 | List_Notes_01 | L栏：List_Notes_03 | — | — | — | — | — | — | — | — | L栏：List_Notes_03 | L栏：List_Notes_03 |
 
-> Pad NL 的 List 变体待补（结构表 2026-05-12 占位）。
+> **Fold 内 NL→C 单栏 fallback**：Fold 内屏 framework 仅含 NC / LC / C，无 NL。NL 语义在 Fold 内屏 fallback 为 **C 单栏**，list 直接占据 C 栏：`Fold内竖 C 单栏：List_Notes_08` / `Fold内横 C 单栏：List_Notes_09`（默认；device-specific 变体）。详见 §0「Fold 内 NL→C fallback 通则」。
+> **2026-05-19 修正**：CSV1 控件总表 `List / NL` 行实为 device-specific 变体（_05/_07/_08/_09/_10/_11/_12/_13），先前 2026-05-18 误归并为 `_05` 全设备一致已修订。编辑模式 NL 仍为 `_06` 全设备一致（CSV1 sources 一致）。
 
 #### 列表 List — 编辑模式 Edit Mode
 
 | 场景 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 | — | — | — | — |
-| NL  | List_Notes_06 | List_Notes_06 | — | — | — | L栏：待补 | L栏：待补 | — | — | L栏：待补 | L栏：待补 | — | — |
+| NL  | List_Notes_06 | List_Notes_06 | — | — | — | L栏：List_Notes_06 | L栏：List_Notes_06 | — | — | L栏：List_Notes_06 | L栏：List_Notes_06 | — | — |
 | LC  | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | — | — | — | — | — | — | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 |
+
+> **Fold 内 NL→C 单栏 fallback**：编辑模式同样适用。`Fold内竖 C 单栏：List_Notes_06` / `Fold内横 C 单栏：List_Notes_06`（CSV2 2026-05-18 修订：原 `_04` 更正为 `_06`，与 NL 全设备一致）。详见 §0「Fold 内 NL→C fallback 通则」。
+> **2026-05-18 更新**：Pad 横/竖 NL / NL收起 由 `待补` → `L栏：List_Notes_06`（CSV2 同步；编辑变体 `_06`，非 `_05`）。
 
 #### 底部工具栏 ToolBar / BottomBar
 
@@ -370,9 +386,9 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | Outline / C | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | BottomBar_Notes_Outline_01 | — | — | — | — | — | — | — | — | — | — |
 | NoteEditPanel / NLC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_01 | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 | — | — | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 | — | — | — | — |
 | NoteEditPanel / LC | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | BottomBar_NoteEditPanel_01 | — | — | — | — | — | — | — | — | C栏：BottomBar_NoteEditPanel_02 | C栏：BottomBar_NoteEditPanel_02 |
-| Edit Mode / NLC | ToolBar_ComponentSet_01（未选：Disabled；选中：Normal） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | — | — |
-| Edit Mode / NL | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — |
-| Edit Mode / LC | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | — | — | — | — | — | — | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） |
+| Edit Mode / NLC | ToolBar_ComponentSet_02（未选：Disabled；选中：Normal） | ToolBar_ComponentSet_02（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01 | L栏：ToolBar_ComponentSet_01 | — | — | L栏：ToolBar_ComponentSet_01 | L栏：ToolBar_ComponentSet_01 | — | — | — | — |
+| Edit Mode / NL | ToolBar_ComponentSet_02（同左） | ToolBar_ComponentSet_02（同左） | ToolBar_ComponentSet_01（同左） | ToolBar_ComponentSet_01（同左） | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — | L栏：ToolBar_ComponentSet_00 | L栏：ToolBar_ComponentSet_00 | — | — |
+| Edit Mode / LC | ToolBar_ComponentSet_02（同左） | ToolBar_ComponentSet_02（同左） | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） | — | — | — | — | — | — | — | — | L栏：ToolBar_ComponentSet_01（同左） | L栏：ToolBar_ComponentSet_01（同左） |
 | MindMap_Edit / C | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | BottomBar_Notes_Outline_02 | — | — | — | — | — | — | — | — | — | — |
 
 #### 底部输入框 Input

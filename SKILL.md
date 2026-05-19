@@ -160,28 +160,48 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 **布局类型**（根据源页面功能结构判断）：
 
 - **NLC**（导航-列表-内容）：源页面有底部 Tab 导航 + 列表 + 详情，适合三栏（Pad 专用）
+- **NL**（导航-列表）：源页面只有列表（含 ToolBar 创建工具），**无 detail 页面**；适合 Sidebar + 列表（Pad）/ C 单栏 fallback（Fold 内）
 - **NC**（导航-内容）：源页面有底部 Tab 导航但无需列表栏，适合分栏
 - **LC**（列表-内容）：源页面是列表 + 详情的组合，无底部 Tab 导航，适合分栏
 - **C**（通栏）：源页面是单一内容页（设置、关于等），适合通栏拉宽
 
-判断依据：
+判断依据（**先看 detail 是否存在**）：
 
-- 有底部 Tab 导航 + 列表 + 详情 → NLC（仅 Pad）
-- 有底部 Tab 导航，无列表栏 → NC
-- 有明确的列表-详情关系，无底部 Tab → LC
-- 单一内容展示 → C
+| 源 frame 包含 | framework |
+|---|---|
+| 底部 Tab + 列表 + detail | **NLC** |
+| 底部 Tab + detail（无列表） | **NC** |
+| 列表 + detail（无底部 Tab） | **LC** |
+| **列表 + ToolBar（无 detail，无底部 Tab）** | **NL** ← list-only 핵심 분기 |
+| 底部 Tab + 列表（无 detail） | **NL** |
+| 单一 detail 内容 | **C** |
+
+**list-only 강제 NL 규칙**（중요）：
+
+- 源 frame 에 detail 페이지가 **존재하지 않으면** framework = **NL** 로 확정. **NLC / LC 로 우선 판정 금지**.
+- 「detail 없음 → C 栏 어떻게 채울까」류 질문은 **잘못된 질문**. NL 은 C 栏 자체가 없음.
+- NL 매핑 lookup 은 `app-variant-map-{app}.md` 의 **NL 行** 에서. NLC / LC 행에서 lookup 시 가짜 detail / 잘못된 list variant 발생 (例: `List_Notes_03` 대신 `_05` 가 정답).
+- Fold 내屏 NL → **C 单栏 fallback** (per `app-variant-map-{app}.md §0 #9`「Fold 内 NL→C 单栏 fallback 통칙」). list / 顶部모듈 / ToolBar 모두 C 单栏에 직접 적층.
+- Pad NL = N 栏 (Sidebar) + L 栏 (list 통합 단栏). C 栏 없음. 各栏 padding 은 device-dimensions「Pad NL 展开 / 收起」 spec 적용.
+
+> **AskUserQuestion 가이드라인**: framework 가 결정 트리상 모호할 때, **C 栏 처리 방법**부터 물으면 안 됨 (NLC 로 잠긴 framing). **framework 자체** (NL vs NLC vs LC vs NC vs C) 를 첫 질문으로 옵션 제시할 것.
+
 - 用户明确指定布局类型时，以用户指定为准
 
 加载设备尺寸规则：读取 `references/layouts/device-dimensions.md` 获取目标设备的画布尺寸和栏宽参数。
 
-本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成：
+本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成 **+ 各 frame 的 framework**:
 
-- `Fold内屏-横屏`
-- `Fold内屏-竖屏`
-- `Pad-横屏`
-- `Pad-竖屏`
+| target | framework 결정 |
+|---|---|
+| `Fold内屏-横屏` | NLC 不可（仅 Pad）；其他 framework 按上方决策树。**list-only 时 = Fold内 NL→C 单栏 fallback** |
+| `Fold内屏-竖屏` | 同上 |
+| `Pad-横屏` | list-only 时 = **Pad NL** (Sidebar + L 단栏，无 C)；list+detail 时 = NLC |
+| `Pad-竖屏` | 同上 |
 
 若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
+
+**framework × device 매트릭스 일치성 검증**: 4 frame 의 framework 가 일치하지 않으면 (예: Fold = LC + Pad = NLC) 정상이지만, **모두 동일 source 라면 framework 자체는 일관** 해야 함 (list-only → 모두 NL fallback / list+detail → LC + NLC 페어). framework 불일치 발견 시 user 에게 의도 확인.
 
 ### Phase 2 补充：targetVariantPlan 计数规则（钻取层级合并 / drilldown collapse）
 
