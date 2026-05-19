@@ -252,38 +252,38 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 
 **症状**：源稿 StatusBar = 手机 variant，clone 到 Fold/Pad 后**不会自动切换**。必须显式 `swapComponent` + `resize`。
 
-**CSV 권위 매핑**（CSV1 系统组件 行 + CSV2 변체 정의, 2026-05-19 PM8 정정）:
+**CSV 权威映射**（CSV1 系统组件 行 + CSV2 变体定义，2026-05-19 PM8 修订）:
 
-권위 라이브러리 = **Xiaomi Hyper OS4 UI Kit** (file `FBvQ3xM5C62MgIcA1JHWIs`, node `127160:4132` 「状态栏-StatusBar」). **ComponentSet 가 아닌 개별 COMPONENT 3 개** 로 구성:
+权威库 = **Xiaomi Hyper OS4 UI Kit**（file `FBvQ3xM5C62MgIcA1JHWIs`，node `127160:4132` 「状态栏-StatusBar」）。**非 ComponentSet，由 3 个独立 COMPONENT 组成**:
 
-| CSV VariantId | Hyper OS4 component key | 자연 사이즈 | 적용 디바이스 |
+| CSV VariantId | Hyper OS4 component key | 自然尺寸 | 适用设备 |
 |---|---|---|---|
-| `StatusBar_01` | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 392×46 | **手机 + Fold (외+내) 통합** |
-| `StatusBar_02` | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 888×38 | **현재 미사용 (deprecated)** |
-| `StatusBar_03` | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 1422×38 | **Pad 전용** |
+| `StatusBar_01` | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 392×46 | **手机 + Fold（外+内）通用** |
+| `StatusBar_02` | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 888×38 | **当前未使用（deprecated）** |
+| `StatusBar_03` | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 1422×38 | **Pad 专用** |
 
-**핵심**: Fold 내屏/외屏 모두 `StatusBar_01` 사용. Pad 모두 `StatusBar_03`. `StatusBar_02` 사용 금지.
+**核心**: Fold 内屏/外屏 一律使用 `StatusBar_01`；Pad 一律使用 `StatusBar_03`；`StatusBar_02` 禁止使用。
 
-| 디바이스 | Component | spec 높이 | 자연 높이 | 비고 |
+| 设备 | Component | spec 高度 | 自然高度 | 备注 |
 |------|-----------|----------|---------|------|
-| 手机 | `StatusBar_01` | 46 | 46 | 자연 일치 |
-| Fold 외屏 / 내屏 | `StatusBar_01` | 46 | 46 | 자연 W 392, target W 다른 경우 (888/628 등) `inst.children[0].layoutSizingHorizontal = 'FILL'` + resize |
-| Pad 横/竖 | `StatusBar_03` | **34** | **38** | swap 후 강제 resize 34; **易 reflow 回 38** |
+| 手机 | `StatusBar_01` | 46 | 46 | 自然一致 |
+| Fold 外屏 / 内屏 | `StatusBar_01` | 46 | 46 | 自然 W=392，target W 不同（888/628 等）时需 `inst.children[0].layoutSizingHorizontal = 'FILL'` + resize |
+| Pad 横/竖 | `StatusBar_03` | **34** | **38** | swap 后强制 resize 34；**易 reflow 回 38** |
 
 **MUST**:
-1. swap target = Hyper OS4 의 canonical component (`StatusBar_01` 또는 `_03`), 직관 추측 금지
-2. Fold 적응 시 `StatusBar_01` (key `51a9e97...`)
-3. Pad 적응 시 `StatusBar_03` (key `6c9d87a...`)
-4. swap 후 즉시 `resize(frameW, specH) → x=0, y=0`
-5. resize 후 자연 width 로 reflow 발견 시 `inst.children[0].layoutSizingHorizontal = 'FILL'` 추가 후 재 resize
-6. **完成 모든 변경 후 재차 검증**, 38 발견 시 즉시 `resize(_, 34)` 강제
-7. Phase 6 필검: `(width === frameW, height ∈ {46, 34})`
+1. swap target = Hyper OS4 的 canonical component（`StatusBar_01` 或 `_03`），禁止凭直觉猜测
+2. Fold 适配时使用 `StatusBar_01`（key `51a9e97...`）
+3. Pad 适配时使用 `StatusBar_03`（key `6c9d87a...`）
+4. swap 后立即 `resize(frameW, specH) → x=0, y=0`
+5. resize 后若 reflow 回自然 width，需先 `inst.children[0].layoutSizingHorizontal = 'FILL'` 再 resize
+6. **完成全部变更后二次校验**，发现 38 立即 `resize(_, 34)` 强制
+7. Phase 6 必检：`(width === frameW, height ∈ {46, 34})`
 
 **NEVER**:
-- 源稿 deprecated set (구 key `599a7d4b...` 등) 그대로 두고 적응 (canonical 으로 swap 필수)
-- HyperOS v0.8 (`15e94d49...`) 사용 (file 구독 라이브러리 아님 — PM7 시도 실패, PM8 정정)
-- StatusBar_02 사용 (deprecated)
-- file 구독 라이브러리 미확인 시 자체 추측으로 set/component 선택 (common-rules §0 #13 위반)
+- 源稿 deprecated set（旧 key `599a7d4b...` 等）直接沿用（必须 swap 至 canonical）
+- 使用 HyperOS v0.8（`15e94d49...`）（非 file 订阅库 —— PM7 尝试失败，PM8 修订）
+- 使用 StatusBar_02（deprecated）
+- 未核对 file 订阅库即凭推测选 set/component（违反 common-rules §0 #13）
 
 ## §3.6 自带 auto-layout 实例的 resize / 落位通用陷阱
 
@@ -572,7 +572,7 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 3. 用该 key 重试 `importComponentSetByKeyAsync`
 4. 成功后**更新 `app-variant-map-{app}.md §0.4` 的 key** + §0.5 变更日志增项
 
-**根因案例**: §0.4 의 `状态栏-StatusBar` key `599a7d4b...` (Hyper OS4 UI Kit ComponentSet) stale → `not found`. 当时 search_design_system 显示活跃 set = `15e94d49...` (HyperOS v0.8). **PM8 정정**: HyperOS v0.8 은 file 구독 라이브러리가 아님. 권위 = Xiaomi Hyper OS4 UI Kit 의 개별 COMPONENT 3 개 (StatusBar_01 `51a9e973...`, StatusBar_02 `3f550237...` deprecated, StatusBar_03 `6c9d87a1...`). file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`. 「`15e94d49...` 활용 가능」 는 cross-library import 가 successful 했을 뿐, file 의 canonical 라이브러리는 아님. **교훈**: search_design_system 결과만 보고 권위 라이브러리 판단 금지 → 반드시 `get_libraries` 의 `libraries_added_to_file` 확인.
+**根因案例**: §0.4 的 `状态栏-StatusBar` key `599a7d4b...`（Hyper OS4 UI Kit ComponentSet）stale → `not found`。当时 search_design_system 显示活跃 set = `15e94d49...`（HyperOS v0.8）。**PM8 修订**: HyperOS v0.8 并非 file 订阅库。权威 = Xiaomi Hyper OS4 UI Kit 的 3 个独立 COMPONENT（StatusBar_01 `51a9e973...`、StatusBar_02 `3f550237...` deprecated、StatusBar_03 `6c9d87a1...`），file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`。「`15e94d49...` 可调用」仅说明 cross-library import 成功，并非 file 的 canonical 库。**教训**: 禁止仅凭 search_design_system 结果断定权威库 → 必须通过 `get_libraries` 的 `libraries_added_to_file` 直接确认。
 
 ## §3.11 CSV vs map source-of-truth 冲突 (PM4/PM6 根因)
 
