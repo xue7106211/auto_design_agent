@@ -19,6 +19,12 @@
 13. **数据不确定时立即报告，禁止猜测**。CSV 损坏 / 编码异常 / 字段缺失 / 映射条目带「需要Check / 待补 / `(／／／)`」标记 等情况，必须中止并向用户报告。禁止用「合理推测」「按上下文推断」填补未知数据。
 14. **栏标识前缀格式统一**：表格 / 文档 / 输出 / 注释中提到栏归属时，**必须用** `L栏：` / `C栏：` / `N栏：`（**含全角冒号**）。禁止变体写法如 `L栏 ：` / `L 栏:` / `L:` / `L-栏` 等。这是跨文档一致性约定，便于 grep 和自动校验。
 15. **Phase 2 钻取层级塌缩检测必做**：源稿多个 phone frame 是同一内容的不同导航深度（list / detail / edit 等）时，`targetVariantPlan` 项数 = **设备 × 方向数**，**不与源 frame 数相乘**。AskUserQuestion 询问 scope 前必须先汇报计数结果 + 塌缩判定。检测触发条件与例外见 `SKILL.md` Phase 2 补充节「targetVariantPlan 计数规则」。
+16. **用户拒绝发言精确范围适用**：用户说「X 不用」/「X 不该出现」时，仅删除 X 本身。**禁止**自动牵连删除堆叠的其它独立组件（Y/Z 等），即使它们语义相邻。模糊时先 confirm。例：用户说「NoteEditPanel 这里不用」 ≠ 同时删除 TextInput（两者各自独立，spec 里来自不同表行）。
+17. **遮罩 / z-order 决策禁止推测**：遮罩位置、尺寸、z-order 必须按以下顺序直接 read 源文件，不可凭直觉：
+    - `device-dimensions.md`「遮罩定义 / 适用范围」（基本范围 + 触发控件除外原则）
+    - 应用 `app-variant-map-{app}.md`「遮罩规则」（应用专用触发条件 + 范围）
+    - `component-placement-protocol.md §3` (z-order 模板)
+    - 如有用户提供 reference frame，**直接 dump 其 children z-order 比对**，不要从 spec text 推测多 mask 叠加顺序。
 
 ## §1. 检索与复用边界
 
@@ -329,22 +335,97 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | fill | 绑定 `遮罩色/mask` token，opacity `0.2` |
 | 圆角 | 与 frame 一致（Pad 34dp） |
 
-**frame 直接子级 z-order**（从底到顶；笔记 / 待办 修订版）：
+**遮罩覆盖范围原则（核心）**：
+- 遮罩 = 该 trigger 列**全域**（含其上方 status bar 区域）。
+- N 覆盖 trigger = Sidebar 列。**Sidebar 列以外的全部区域（含 状态栏 全幅）= 遮罩范围**。
+- ❌ 不要再用「状态栏可读性 / 时间信号可读」这类 rationale 推导 z-order。覆盖关系按「列归属」决定：trigger 列豁免，其它列（含 status bar 对应区段）一律 dim。
+
+**frame 直接子级 z-order**（从底到顶）：
 
 ```
 1. main（含 L 栏 + C 栏）
-2. 遮罩-N覆盖
-3. 状态栏-StatusBar  ← 在遮罩之上保证时间/信号可读
+2. 状态栏-StatusBar
+3. 遮罩-N覆盖              ← 在状态栏之上 → 状态栏被 dim（仅 N 列除外，由 Sidebar promote 完成）
 4. 栏间分割线
-5. Sidebar           ← 紧贴状态栏下沿（笔记/待办 N 栏标题栏）
-6. 杆子              ← 风满 + 透明 + 最顶 z
+5. Sidebar                 ← N 覆盖遮罩之上（Sidebar = N trigger，唯一豁免）
+6. 杆子                    ← 风满 + 透明 + 最顶 z
 ```
 
 **MUST**:
-- Sidebar 在所有后续 appendChild 后必须保持上述 z 位（不能在最末位时杆子取代）
-- 状态栏 必须显式提到 mask 之上（默认 mask 覆盖 frame 全幅会盖住 status bar 时间信号）
+- 遮罩-N覆盖 必须在状态栏之上（否则状态栏不被 dim，违反「全 frame 除 trigger 列豁免」原则）。
+- Sidebar 在所有后续 appendChild 后必须保持上述 z 位（不能被杆子取代）。
 
-**NEVER**: 缺 `遮罩-N覆盖` —— 否则 N 栏与 L+C 视觉无分层。
+**NEVER**:
+- 把 `状态栏` 提升到 `遮罩-N覆盖` 之上（旧版「保证可读」rationale 已弃用 —— 用户 2026-05-18 显式确认 V2 reference 中 状态栏 在 N 覆盖遮罩之下 dim 是正答）。
+- 缺 `遮罩-N覆盖` —— 否则 N 栏与 L+C 视觉无分层。
+
+### §3.7a 编辑状态遮罩（L 栏进入编辑模式时）
+
+**WHEN**: `app-variant-map-{app}.md`「遮罩规则」表声明 L 栏编辑模式触发遮罩（笔记 / 待办：「L 栏进入编辑模式 → 仅 C 栏覆盖遮罩」）。
+
+**MUST 添加 `遮罩-编辑` 矩形（C 列形态，非全幅）**：
+
+| 属性 | 值 |
+|------|-----|
+| 类型 | `RECTANGLE` |
+| 名称 | `遮罩-编辑` |
+| 父节点 | frame 直接子级（不放入 main / C 栏内部） |
+| 尺寸 | **`Cw × frameH`**（仅 C 列，从画面顶到底；不是全 frame）|
+| 位置 | `x = C 列起点` (LC: x=Lw；NLC 并列: x=N+L；NLC 覆盖: x=Lw)，`y = 0` |
+| 圆角 | `topRightRadius / bottomRightRadius = 34 (Pad) / 50 (Fold)`，左侧两角 `0`（被 L 栏遮住） |
+| fill | 绑定 `遮罩色/mask` token，opacity `0.2` |
+
+**关键解释**：spec `device-dimensions.md`「遮罩定义 / 适用范围」 写「整个 frame，触发控件除外」。**触发控件 = L 栏整列**（含其上方 status bar 区域）。所以遮罩区 = `frame − L 列 = C 列（含 C 列上方 status bar 区段）`。N 栏触发时同理（遮罩 = 全 frame − Sidebar 列）。
+
+**遮罩覆盖范围原则（与 §3.7 一致）**：
+- 遮罩-编辑覆盖 **C 列全域，含 C 列上方的 status bar 区段**（即 status bar 的 C 列区段必须被 dim）。
+- ❌ 不要再用「状态栏可读性 / 时间信号可读」rationale 推导 z-order。L 列上方的 status bar 不被 dim 是因为它属于 trigger 列（L），与「可读性」无关。
+
+**z-order 强制（遮罩-编辑 必须在状态栏之上，C 列 status bar 区段才会 dim）**：
+
+```
+1. main（仅含 C 栏；L 栏从 main 提升到 frame 直接子级）
+2. 状态栏-StatusBar
+3. 遮罩-编辑（C 列）       ← 在状态栏之上 → C 列 status bar 区段被 dim
+4. 栏间分割线
+5. L 栏                    ← frame 直接子，覆盖在编辑遮罩之上（trigger 除外）
+6. 杆子
+```
+
+**MUST**:
+- 遮罩-编辑 必须在状态栏之上（C 列 status bar 区段 dim 必需）。
+- L 栏从 main 内部移出至 frame 直接子级（`frame.appendChild(L)`），定位 `x = L 列起点, y = statusBarH`。否则无法在 z-order 上凌驾于 frame 级遮罩之上。
+- main 内部仅保留 C 栏（其它列 promote）。
+- 遮罩-编辑 必须位于 frame 直接子级，禁止放入 C 栏内部（C 栏内部遮罩无法盖住 C 列上方 status bar 区域，且无法被 frame-level 圆角裁切）。
+
+**NEVER**:
+- 把 `状态栏` 提升到 `遮罩-编辑` 之上（旧版 z-order 已弃用 —— 用户 2026-05-18 显式确认「C 列遮罩必须覆盖状态栏」是正答）。
+- 把 `遮罩-编辑` 做成全 frame 尺寸 → 会盖住 L 列触发区域。
+- 把 `遮罩-编辑` 放入 C 栏 children → C 栏只占 mainH 高，盖不到 status bar 区。
+- L 栏继续留在 main 内部 → 无法 z-promote 到遮罩之上。
+
+### §3.7b 多遮罩叠加 z-order（编辑遮罩 + N 覆盖遮罩同时存在）
+
+**WHEN**: Pad 竖 NLC 覆盖模式 + L 栏编辑同时激活（用户显式确认两种 trigger 共存）。
+
+**z-order 强制（按 reference frame 验证，禁止从 spec text 推测）**：
+
+```
+1. main（仅 C 栏）
+2. 状态栏-StatusBar
+3. 遮罩-编辑（C 列）       ← 在状态栏之上（与 §3.7a 一致）→ C 列 status bar 区段 dim
+4. 栏间分割线
+5. L 栏                    ← 编辑遮罩 之上，N 覆盖遮罩 之下
+6. 遮罩-N覆盖（全 frame）  ← 高 z；L 栏 / 状态栏 / 编辑遮罩 都被 N 覆盖一并 dim
+7. Sidebar                 ← N 覆盖遮罩 之上（唯一豁免：Sidebar = N 覆盖 trigger）
+8. 杆子
+```
+
+**关键**：
+- **每个遮罩都覆盖该 trigger 列以外的全域（含 status bar 对应区段）**，与「可读性」rationale 无关。
+- 两遮罩对 L 栏的覆盖关系**不同** —— 编辑遮罩在 L 之下（L 豁免），N 覆盖遮罩在 L 之上（L 被覆盖）。各自的 trigger 控件（L 栏 / Sidebar）相对各自遮罩 z-up，与另一 trigger 无关。
+- ❌ **不可**凭直觉把两遮罩并列在 L 栏下方（曾发生过的错误）。
+- ❌ **不可**把 `状态栏` 提升到任一遮罩之上（V2/V3 旧版 z-order 已弃用 —— 状态栏在两遮罩之下，按列归属规则被 dim 是正答）。
 
 ## §3.8 栏间分割线规则
 
@@ -531,6 +612,11 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | 18 | 特殊组件铺满 | `NavigationBar` / `BottomBar` / `ToolBar` / `Sidebar` / `TextInput_Notes` 在所属栏内 `x=0, width=栏W`，不参与 padding 合算，**禁止**给它们加 outer 偏移 |
 | 19 | 通用内容容器 padding 合算 | `List_*` / `SearchBar_*` / `SelectableChip_*` / `Detail_*` 按所在栏 spec 与组件 internal padding 合算；具体应用表见各应用 `app-variant-map-{app}.md`「padding 合算应用表」节 |
 | 20 | C 栏 TextInput bottom flush | 笔记 / 待办：C 栏 TextInput `y = mainH − h`（bottom 贴 frame 底，与杆子 16dp 重叠）；Detail 高度 = `mainH − 62`（延伸到 TI 底，TI 通过 z-order 与 fade overlay 自然遮盖）|
+| 21 | **L 编辑遮罩** (§3.7a) | `scenarioFlags.LEditMode === true` 时 → `遮罩-编辑` RECTANGLE 存在 + 尺寸 `Cw × frameH` + 位置 `x=C 列起点, y=0` + fill 绑定 `遮罩色/mask` token + opacity 0.2 + L 栏 已从 main 提升至 frame 直接子级 + **`遮罩-编辑` 在 `状态栏` 之上**（C 列 status bar 区段必须 dim） |
+| 22 | **多 mask z-order** (§3.7b) | `LEditMode + NCovering` 同时 时 → frame.children 顺序 `main(仅 C) → 状态栏 → 遮罩-编辑 → 分割线 → L 栏 → 遮罩-N覆盖 → Sidebar → 杆子` 完全一致（**状态栏 在两遮罩之下**，按列归属 dim）|
+| 22b | **NLC 覆盖 z-order** (§3.7) | `NCovering === true && LEditMode === false` 时 → frame.children 顺序 `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`（状态栏 在 遮罩-N覆盖 之下，整 frame status bar dim）|
+| 23 | **scenarioFlags 一致性** | Phase 4 step 7 输出的 `scenarioFlags` JSON 必须作为参数传入 verifyChecklist 调用；flags 激活项与 frame 实际 mask 存在与否无矛盾 |
+| 24 | **C 栏编辑时无 mask** (§3.7a 末) | `CEditMode === true && LEditMode === false && NEditMode === false` 时 → 确认 `遮罩-编辑` 节点不存在 |
 
 ### §6.3 每个目标 frame 写入完成后的强制截图
 
@@ -570,6 +656,7 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | 14 | StatusBar 沿用手机 variant 适配 Fold / Pad | §3.5 |
 | 15 | 仅 `inst.resize()` 设 Sidebar 高度，缺 sizing FIXED 序列 | §3.6 |
 | 16 | 省略 Pad 竖 NLC 覆盖模式的 `遮罩-N覆盖` 矩形 | §3.7 |
+| 16b | 把 `状态栏` 提升到 `遮罩-N覆盖` / `遮罩-编辑` 之上（旧版「保证可读」rationale 已弃用）| §3.7 / §3.7a / §3.7b |
 | 17 | NLC 模式 N\|L 边界添加分割线 | §3.8 |
 | 18 | 用 C 栏 `strokeLeftWeight` 实现栏间分割线 | §3.8 |
 | 19 | Pad 横 NLC 时 N 栏 / 主内容区 `clipsContent = true` | §3.9 |
@@ -582,3 +669,7 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | 21 | `verifyChecklist` 错误项 > 0 时汇报"适配完成" | §6.2 |
 | 22 | fills 直接 RGB SOLID（不经 token lookup）| §0 #12 |
 | 23 | 数据不确定时猜测填补 | §0 #13 |
+| 24 | `scenarioFlags.LEditMode === true` 时省略 `遮罩-编辑` 矩形或不 promote L 栏 | §3.7a / §6.2 #21 |
+| 25 | `LEditMode + NCovering` 同时为 true 时 z-order 错放（如把两遮罩并列于同一 z 层 / L 栏置于 N 覆盖遮罩之上）| §3.7b / §6.2 #22 |
+| 26 | `scenarioFlags` JSON 缺失下汇报"适配完成"（Phase 4 step 7 未执行）| §6.2 #23 / SKILL Phase 4 step 7 |
+| 27 | scenarioFlags 信号未在 `app-variant-map-{app}.md §0.1b 导出信号表` 列出时凭直觉填 flag 值 | §0 #13 / app-variant-map-template §0.X |

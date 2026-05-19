@@ -29,7 +29,40 @@ lastUpdated: 2026-05-07
 > **🔁 RE-CHECK（Phase 0 必读）**：
 > - common-rules §1 检索与复用边界（当前 page 隔离 / 整页复用条件 / 标准实例必探查）
 > - common-rules §2 内容来源边界（密度守恒 / 业务内容 vs 结构组件 / 宽 frame 行为）
-> - common-rules §0 #11~#14（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式）
+> - common-rules §0 #11~#17（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式 / Phase 2 塌缩 / 用户拒绝精确范围 / **遮罩+z-order 禁止推测**）
+
+### Phase 0.0：权威源 inventory gate（soft gate, .md-only 为 default）
+
+> **作用**（2026-05-18 修订）：默认信任 `references/app-variant-map-{app}.md`，**不再每次 session 强制 user 提供 CSV**。CSV 仅在 .md 编辑 / 新增 mapping 条目时显式触发。
+
+**默认行为（任务 ≠ .md 编辑时）**：
+
+| # | 检查项 | 通过条件 |
+|---|---|---|
+| 1 | `app-variant-map-{app}.md` 存在且任务路径有覆盖 | git-tracked 文件直接 read，无需 user 确认 |
+| 2 | 既存映射表条目 `(／／／)` / `待补` / `需要Check` 标记 | 任务路径上命中 → 必须 user confirm 后才能继续，**禁止推测**（common-rules §0 #13）|
+
+**CSV 强制要求（仅以下场景，AI 主动索取）**：
+
+- user 任务包含「.md 更新 / 新增映射 / 修复映射」类工作 → 必须最新 CSV
+- 任务路径上的 .md 条目自身存在矛盾（同 variant 不同 size）→ 必须 CSV cross-check
+- user 显式提供 CSV → 按提供版本以 CSV 为准
+
+**输出**（向 user 显式报告，1 行）：
+
+```
+✓ Phase 0.0 inventory: app-variant-map-{app}.md last edit = YYYY-MM-DD; mode = .md-only (default) | csv-checked (CSV provided YYYY-MM-DD)
+```
+
+**.md-only 默认下，AI 不再每次输出 "results may diverge from latest CSV" 警告**（noise 制造）。该警告仅在以下时刻输出：
+
+- 任务路径上有 `需要Check` / `待补` / `(／／／)` 条目命中（具体条目列出）
+- user 显式声明 "本次跳过 CSV 也确认" 但路径含明显风险条目
+
+**绕过条件（无 CSV 检查必要）**：
+
+- 仅 figma 探查 / 截图等只读任务，不涉及 .md 写入或 spec 决策
+- 全 .md 任务路径（已 git-tracked，无 stale 嫌疑）
 
 默认进入整页多端适配主链路。
 
@@ -52,6 +85,7 @@ lastUpdated: 2026-05-07
 
 获取手机端源设计稿的完整信息：
 
+0. **源 page 识别（强制）**：`getNodeByIdAsync(sourceId)` 返回结果与 `currentPage` 无关。**必须**通过 `node.parent` 链向上追溯到 `type === 'PAGE'` 节点确定真实 page，禁止假设第一个 page 即源 page。然后 `await figma.setCurrentPageAsync(sourcePage)` 并对源节点重新 `getNodeByIdAsync` 取 fresh ref。**目标 frame 必须从一开始就在该 page 创建**，禁止跨 page move（cross-page `appendChild` + 后续 stale ref 访问会破坏 atomic，已观察到节点丢失）。
 1. 用 `get_metadata` 获取源页面的图层结构（节点 ID、名称、类型、位置、尺寸）
 2. 若结构复杂（节点数 > 50）或局部信息不足，分区域用 `get_design_context` 补充组件、Auto Layout、层级和局部布局信息
 3. 用 `get_screenshot` 获取源页面视觉参考，作为后续布局和验证的视觉基线
@@ -126,28 +160,48 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 **布局类型**（根据源页面功能结构判断）：
 
 - **NLC**（导航-列表-内容）：源页面有底部 Tab 导航 + 列表 + 详情，适合三栏（Pad 专用）
+- **NL**（导航-列表）：源页面只有列表（含 ToolBar 创建工具），**无 detail 页面**；适合 Sidebar + 列表（Pad）/ C 单栏 fallback（Fold 内）
 - **NC**（导航-内容）：源页面有底部 Tab 导航但无需列表栏，适合分栏
 - **LC**（列表-内容）：源页面是列表 + 详情的组合，无底部 Tab 导航，适合分栏
 - **C**（通栏）：源页面是单一内容页（设置、关于等），适合通栏拉宽
 
-判断依据：
+判断依据（**先看 detail 是否存在**）：
 
-- 有底部 Tab 导航 + 列表 + 详情 → NLC（仅 Pad）
-- 有底部 Tab 导航，无列表栏 → NC
-- 有明确的列表-详情关系，无底部 Tab → LC
-- 单一内容展示 → C
+| 源 frame 包含 | framework |
+|---|---|
+| 底部 Tab + 列表 + detail | **NLC** |
+| 底部 Tab + detail（无列表） | **NC** |
+| 列表 + detail（无底部 Tab） | **LC** |
+| **列表 + ToolBar（无 detail，无底部 Tab）** | **NL** ← list-only 핵심 분기 |
+| 底部 Tab + 列表（无 detail） | **NL** |
+| 单一 detail 内容 | **C** |
+
+**list-only 강제 NL 규칙**（중요）：
+
+- 源 frame 에 detail 페이지가 **존재하지 않으면** framework = **NL** 로 확정. **NLC / LC 로 우선 판정 금지**.
+- 「detail 없음 → C 栏 어떻게 채울까」류 질문은 **잘못된 질문**. NL 은 C 栏 자체가 없음.
+- NL 매핑 lookup 은 `app-variant-map-{app}.md` 의 **NL 行** 에서. NLC / LC 행에서 lookup 시 가짜 detail / 잘못된 list variant 발생 (例: `List_Notes_03` 대신 `_05` 가 정답).
+- Fold 내屏 NL → **C 单栏 fallback** (per `app-variant-map-{app}.md §0 #9`「Fold 内 NL→C 单栏 fallback 통칙」). list / 顶部모듈 / ToolBar 모두 C 单栏에 직접 적층.
+- Pad NL = N 栏 (Sidebar) + L 栏 (list 통합 단栏). C 栏 없음. 各栏 padding 은 device-dimensions「Pad NL 展开 / 收起」 spec 적용.
+
+> **AskUserQuestion 가이드라인**: framework 가 결정 트리상 모호할 때, **C 栏 처리 방법**부터 물으면 안 됨 (NLC 로 잠긴 framing). **framework 자체** (NL vs NLC vs LC vs NC vs C) 를 첫 질문으로 옵션 제시할 것.
+
 - 用户明确指定布局类型时，以用户指定为准
 
 加载设备尺寸规则：读取 `references/layouts/device-dimensions.md` 获取目标设备的画布尺寸和栏宽参数。
 
-本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成：
+本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成 **+ 各 frame 的 framework**:
 
-- `Fold内屏-横屏`
-- `Fold内屏-竖屏`
-- `Pad-横屏`
-- `Pad-竖屏`
+| target | framework 결정 |
+|---|---|
+| `Fold内屏-横屏` | NLC 不可（仅 Pad）；其他 framework 按上方决策树。**list-only 时 = Fold内 NL→C 单栏 fallback** |
+| `Fold内屏-竖屏` | 同上 |
+| `Pad-横屏` | list-only 时 = **Pad NL** (Sidebar + L 단栏，无 C)；list+detail 时 = NLC |
+| `Pad-竖屏` | 同上 |
 
 若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
+
+**framework × device 매트릭스 일치성 검증**: 4 frame 의 framework 가 일치하지 않으면 (예: Fold = LC + Pad = NLC) 정상이지만, **모두 동일 source 라면 framework 자체는 일관** 해야 함 (list-only → 모두 NL fallback / list+detail → LC + NLC 페어). framework 불일치 발견 시 user 에게 의도 확인.
 
 ### Phase 2 补充：targetVariantPlan 计数规则（钻取层级合并 / drilldown collapse）
 
@@ -185,9 +239,12 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 1. 列出源 section 的所有直接子 frame
 2. 用上表逐项检查 → 识别需要塌缩的 frame 组
 3. 按 **每组 1 frame × 设备数** 计算 `targetVariantPlan` 项数
-4. 通过 `AskUserQuestion` 与用户确认 scope 时，**必须先汇报计数结果 + 塌缩判定**，再询问执行规模
+4. **每个 frame 单独查 `app-variant-map-{app}.md §0.1a` 决定 layoutType**（device 别 lookup，禁止跨设备共用 layoutType）
+5. 通过 `AskUserQuestion` 与用户确认 scope 时，**必须先汇报计数结果 + 塌缩判定 + 各 frame 的 layoutType**，再询问执行规模
    - ❌ 错误问法："8 frame 一次性 vs 分批"（计数错了用户也无从纠正）
-   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系，将合并为同一 LC/NLC 画面 → 4 个适配 frame（设备 × 方向）。是否正确？"
+   - ❌ 错误问法："塌缩为 LC（4 frame）vs 各自独立"（把所有 device 统一为 LC，忽略 Pad 默认 NLC）
+   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系 → 4 个适配 frame：Fold 横/竖 = LC，Pad 横/竖 = NLC（按 app-variant-map §0.1a 默认）。是否正确？"
+   - 用户若希望 Pad 也用 LC（如秘密笔记），必须 **显式偏离**并记录在妥协项
 
 > **本规则的根因**：2026-05-16 笔记多端适配任务中，AI 误把"2 源 frame × 4 设备 = 8 frame"作为默认计数，导致一半 frame 的 C 栏空缺。此规则将检测点固化在 Phase 2 计数阶段，并强制 AskUserQuestion 暴露计数结果，避免错误计数被用户的"完整执行"答复掩盖。
 
@@ -216,7 +273,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 > - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV "需要Check" / "待补" 必须用户确认）
 > - app-variant-map-{app}.md §0 应用规则要点 + §0.6 历史踩坑
 
-**强制 6 步**（顺序固定，缺一不可）：
+**强制 7 步**（顺序固定，缺一不可）：
 
 | # | 动作 | 函数本体 | 输出 / 副作用 |
 |---|------|---------|--------------|
@@ -226,6 +283,11 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | 4 | 批量查询 `app-variant-map` (`appName + device + screenMode + resolvedUiElement`) | `references/app-variant-map-{app}.md` | 各组件 variantId |
 | 5 | 生成 `componentTaskList`：每条目含 **`variantId + 目标 x/y/w/h + parent + z-order + sourceDetected + status`** | — | 完整任务清单 |
 | 6 | **执行 `TOKEN_CACHE = await buildTokenCache()`**（一次性缓存所有库 token，赋全局变量） | **`protocol.md §4`** | `TOKEN_CACHE.color` 就绪 |
+| **7** | **导出 `scenarioFlags` JSON（trigger 单一权威 source）** — 仅使用 `app-variant-map-{app}.md §0「scenarioFlags 导出信号表」` lookup 结果，**禁止推测** | `app-variant-map-{app}.md` | `{ LEditMode, NEditMode, CEditMode, NCovering, ... }` |
+
+> ⚠️ **Step 7 = Phase 5/6 的 single source of truth**：后续 mask 决定 / spec auto-derive / verifyChecklist 自动检查 全部引用 `scenarioFlags`。本 step 缺失即 Phase 5 进入阻断。
+>
+> ⚠️ flag 导出规则仅来自各 app `app-variant-map-{app}.md §0` 的「scenarioFlags 导出信号表」。表缺失或信号无匹配 → 必须 user confirm，**禁止推测** entries（common-rules §0 #13, #17）。
 
 > ⚠️ 第 6 步是 Phase 5 `bindFill(...)` 的前置依赖。若漏掉 → Phase 5 fill 写入会全部 fallback RGB，token 绑定失败。Phase 6 `verifyChecklist` ② 必报错。
 
@@ -249,9 +311,10 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 |---|------|
 | 1 | 读源实例 `mainComponent` / 组件集 / 组件属性 / 可用 `VariantId` |
 | 2 | `search_design_system` 查目标组件族 / 集 / `variantId` |
-| 3 | 命中 → `importComponentByKeyAsync` / `importComponentSetByKeyAsync` 导入 + `createInstance` / `setProperties` / `swapComponent` 命中变体 |
-| 4 | 当前 page / section 已落地实例检索（作 clone 资源补充）|
-| 5 | 仅以下情况进入 `fallback` / `blocked`：搜索无结果 / 导入失败 / 目标 `variantId` 不存在 / Figma 写入限制 |
+| 3 | **同名结果 ≥ 2 个时强制验证（不可信任首匹配）**：逐个 `importComponentSetByKeyAsync` 后比对 ① `propDefs` 的 variant property 名称 ② 自然 W×H ③ 变体个数 — 与 CSV 「控件变体清单」 spec 完全一致的才采用。`updatedAt` 较新的优先但不绝对（同名 deprecated 可能仍存在）。例：`ToolBar_ComponentSet` 同名两个 set，正确 set propDef = `Property 1` 含 `_00/_01/_02`、自然 392×100；错误 set propDef = `材质 × 深色模式`、自然 344×56 |
+| 4 | 命中 → `importComponentByKeyAsync` / `importComponentSetByKeyAsync` 导入 + `createInstance` / `setProperties` / `swapComponent` 命中变体 |
+| 5 | 当前 page / section 已落地实例检索（作 clone 资源补充）|
+| 6 | 仅以下情况进入 `fallback` / `blocked`：搜索无结果 / 导入失败 / 目标 `variantId` 不存在 / Figma 写入限制 |
 
 **检索结论分类**：
 
@@ -303,7 +366,9 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 > | §3.4a | padding 合算 / 特殊 vs 内容容器分类 |
 > | §3.5 | StatusBar 跨设备 variant 强制高度（pad 自然 38 → 强制 34）|
 > | §3.6 | 自带 auto-layout 实例 reflow 陷阱 / 强制 6 步序列 ★ 最高频失败根因 |
-> | §3.7 | NLC 覆盖 遮罩 + z-order（笔记修订：状态栏在遮罩之上，Sidebar 紧贴状态栏）|
+> | §3.7 | NLC 覆盖 遮罩 + z-order（**2026-05-18 修订**：遮罩-N覆盖 在状态栏 **之上**，状态栏被 dim 是正答；旧版「保证可读」rationale 已弃用）|
+> | **§3.7a** | **L 编辑模式遮罩 `遮罩-编辑`（Cw × frameH，仅 C 列）+ L 栏从 main 提升至 frame 直接子级 ★ scenarioFlags.LEditMode trigger ★ 遮罩-编辑 在状态栏之上** |
+> | **§3.7b** | **多 mask z-order（编辑遮罩 + N 覆盖遮罩 同时存在时）；以 reference frame children dump 比对为准，但 reference 与 §3.7/§3.7a 修订冲突时按修订为准（旧 V2 reference 状态栏 z-order 错位 case）** |
 > | §3.8 | 栏间分割线（独立 RECTANGLE，frame 直接子级，全帧高度）|
 > | §3.9 | Sidebar 阴影裁切防止（Pad 横 N + main `clipsContent = false`）|
 > | §3.10 | 视觉异常时优先怀疑 component 库版本（`search_design_system` 比对 `updatedAt`）|
@@ -420,7 +485,9 @@ C 栏 z-order：必须 `Detail → TextInput`（TextInput 在上层 fade overlay
 |---|---|
 | LC（Fold 内屏） | `main` → `状态栏` → `分割线` → `杆子`（最顶 / 透明 / 风满） |
 | NLC 并列（Pad 横） | `main`（含 L/C） → `状态栏` → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
-| NLC 覆盖（Pad 竖） | `main` → `遮罩` → `状态栏`(在遮罩之上保证可读) → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
+| NLC 覆盖（Pad 竖）| `main` → `状态栏` → `遮罩-N覆盖`(状态栏之上, 含状态栏 dim) → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
+| LC + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑`(C 列, 状态栏之上) → `分割线` → `L 栏` → `杆子` |
+| NLC 覆盖 + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑`(C 列) → `分割线` → `L 栏` → `遮罩-N覆盖`(全幅) → `Sidebar` → `杆子` |
 
 **杆子（home indicator）通用规则**：所有 Pad / Fold 模式下统一 —— `x=0, width=frameW, fills=[]`（透明背景），z-order 最顶。
 
@@ -496,55 +563,86 @@ if (errors.length > 0) {
 }
 ```
 
-**spec 模板（Pad 竖 NLC 覆盖示例）**：
+**spec 模板（Pad 竖 NLC 覆盖 + L 编辑模式 示例）**：
 
 ```javascript
+// Phase 4 step 7 输出（单一权威 source）
+const scenarioFlags = {
+  LEditMode: true,    // 来自 app-variant-map §0「scenarioFlags 导出信号表」lookup
+  NEditMode: false,
+  CEditMode: false,
+  NCovering: true,    // Pad 竖 NLC default 覆盖（per app-variant-map §0.1a）
+};
+
+// spec 由 scenarioFlags + 设备/布局 自动推导（不手写 mask/editMask 字段）
 const spec = {
   frameW: 949, frameH: 1422,
   cornerRadius: 34,
   statusBarH: 34,                    // pad 强制 34（自然 38）
   cols: { 'L 栏': 428, 'C 栏': 521 },
   sidebar: { h: 1388 },              // 仅 Pad NLC 时设
-  mask: true,                        // 仅 Pad 竖 NLC 覆盖时设
   divider: true,                     // LC / NLC 模式 true，NC / C 通栏 false
   componentChecks: [                 // 任何需要 reflow 自检的组件
-    { id: '1xxx:yyyy', label: 'L NavBar_07', w: 428, h: 56 },
+    { id: '1xxx:yyyy', label: 'L NavBar_09', w: 428, h: 56 },
     { id: '1xxx:yyyy', label: 'L SearchBar_05', w: 412, h: 56 },
   ]
+  // mask / editMask 字段已废弃 —— 由 scenarioFlags trigger，protocol.md §6 ⑩~⑫ 自动检查
 };
+
+// 调用必须三参数齐全（scenarioFlags 缺失则 §6.2 #23 报错）
+const errors = await verifyChecklist(frame, spec, scenarioFlags);
 ```
 
-**verifyChecklist 内部 9 项检查（与 protocol.md §6 一一对应）**：
+**字段约定**：
 
-| 项 | 检查内容 |
-|---|---|
-| ① | `frame.cornerRadius === spec.cornerRadius` |
-| ② | `frame.fills[0].boundVariables.color` 已绑定 token |
-| ③ | StatusBar：宽度 / 高度 / `y=0`（Pad 自然 38 → 必须强制 34）|
-| ④ | 栏宽 与 `spec.cols` 一致 |
-| ⑤ | Sidebar 高度 + z-order（仅 `spec.sidebar` 时）|
-| ⑥ | 遮罩-N覆盖 存在 + 绑定 `遮罩色/mask` token（仅 `spec.mask` 时）|
-| ⑦ | 栏间分割线 全帧高度 + 绑定 `分割线色/outline` token |
-| ⑧ | 杆子：风满 + `fills=[]` 透明 + 最顶 z-order |
-| ⑨ | `spec.componentChecks` 列出的所有组件 width/height 与目标偏差 < 0.5dp |
+| 字段 | 来源 | 必填 |
+|---|---|---|
+| `frameW` / `frameH` / `cornerRadius` / `statusBarH` | `device-dimensions.md` | ✅ |
+| `cols` | `device-dimensions.md` 分栏宽度 | ✅ |
+| `sidebar.h` | `device-dimensions.md` + 应用规则 | Pad NLC 时 ✅ |
+| `divider` | layoutType（LC/NLC = true）| ✅ |
+| `componentChecks` | Phase 4 `componentTaskList` 派生 | ✅ |
+| ~~`mask` / `editMask` / `NCoverMask`~~ | **已废弃** —— `scenarioFlags` 派生 | — |
+
+**verifyChecklist 内部 13 项检查（与 protocol.md §6 一一对应）**：
+
+| 项 | 检查内容 | trigger |
+|---|---|---|
+| ① | StatusBar：宽度 / 高度 / `y=0`（Pad 自然 38 → 必须强制 34）| 通用 |
+| ② | `frame.cornerRadius === spec.cornerRadius` | 通用 |
+| ③ | `frame.fills[0].boundVariables.color` 已绑定 token | 通用 |
+| ④ | 栏宽 与 `spec.cols` 一致 | 通用 |
+| ⑤ | 杆子 风满 + `fills=[]` 透明 + 最顶 z-order | 通用 |
+| ⑥ | Sidebar 高度（`spec.sidebar` 时）| Pad NLC |
+| ⑦ | `componentChecks` reflow 自检（width / height / x / y 偏差 < 0.5dp）| 通用 |
+| ⑧ | 遮罩-N覆盖 存在 + 绑定 `遮罩色/mask` token | `flags.NCovering` |
+| ⑨ | 栏间分割线 fill 绑定 `分割线色/outline` token | LC / NLC |
+| **⑩** | **遮罩-编辑 (Cw × frameH) + L 栏 frame 直接子级 promote** (§3.7a) | **`flags.LEditMode`** |
+| **⑪** | **多 mask z-order 完全一致 (§3.7b)** | **`flags.LEditMode + NCovering`** |
+| **⑫** | **遮罩-编辑 不存在** (§3.7a 末) | **`flags.CEditMode` only** |
+| **⑬** | **scenarioFlags 一致性** (§6.2 #23) | flags 缺失 + spec 含 mask 字段时报错 |
 
 ### 验收 自动 vs 手动 分类（独立维度，与 §6.2 互补）
 
-> 📌 **权威源**：完整 20 项检查清单在 **`common-rules.md §6.2`**。本表是**互补维度** —— 把 20 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
+> 📌 **权威源**：完整 24 项检查清单在 **`common-rules.md §6.2`**。本表是**互补维度** —— 把 24 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
 
-**A. verifyChecklist 自动覆盖（9 项 ↔ protocol.md §6 内的 ①~⑨）**：
+**A. verifyChecklist 自动覆盖（13 项 ↔ protocol.md §6 内的 ①~⑬）**：
 
 | `verifyChecklist` 项 | §6.2 # | 说明 |
 |---|---|---|
-| ① cornerRadius | §6.2 #3 | Fold 50 / Pad 34 |
-| ② frame fill token | §6.2 #17 | 绑定 `背景色/surface` |
-| ③ StatusBar 高 / 宽 / y=0 | §6.2 #4-6 | Pad 强制 34（自然 38）|
+| ① StatusBar 高 / 宽 / y=0 | §6.2 #4-6 | Pad 强制 34（自然 38）|
+| ② cornerRadius | §6.2 #3 | Fold 50 / Pad 34 |
+| ③ frame fill token | §6.2 #17 | 绑定 `背景色/surface` |
 | ④ 栏宽 | §6.2 #7 | 与 device-dimensions 一致 |
-| ⑤ Sidebar 高度 + z-order | §6.2 #9 | Pad NLC 仅 |
-| ⑥ 遮罩-N覆盖 + token | §6.2 #10 | Pad 竖 NLC 覆盖 仅 |
-| ⑦ 栏间分割线 全帧高 + token | §6.2 #12-13 | LC / NLC 仅 |
-| ⑧ 杆子 风满 + 透明 + 最顶 z | §6.2 #11 | 全模式 |
-| ⑨ spec.componentChecks reflow 自检 | §6.2 #8 | 列出的所有标准组件 |
+| ⑤ 杆子 风满 + 透明 + 最顶 z | §6.2 #11 | 全模式 |
+| ⑥ Sidebar 高度 | §6.2 #9 | Pad NLC 仅 |
+| ⑦ componentChecks reflow | §6.2 #8 | 列出的所有标准组件 |
+| ⑧ 遮罩-N覆盖 + token | §6.2 #10 | `flags.NCovering` |
+| ⑨ 栏间分割线 token | §6.2 #12 | LC / NLC 仅 |
+| **⑩ 遮罩-编辑 (§3.7a)** | **§6.2 #21** | **`flags.LEditMode` ★ NEW** |
+| **⑪ 多 mask z-order (§3.7b)** | **§6.2 #22** | **`flags.LEditMode + NCovering` ★ NEW** |
+| **⑫ C 编辑无 mask** | **§6.2 #24** | **`flags.CEditMode` only ★ NEW** |
+| **⑬ scenarioFlags 一致性** | **§6.2 #23** | **flags 缺失 + spec mask 矛盾时 ★ NEW** |
 
 **B. 必须手动校验（剩余 11 项，verifyChecklist 不覆盖）**：
 
@@ -570,6 +668,36 @@ const spec = {
 4. 4 frame 全部完成后 → 总验证（B 部分必查）
 
 验证循环最多 3 次；仍 fail → 中止汇报，向用户报告未通过项 + 缺口。
+
+### Phase 6.5：完成报告前 3 问 gate（hard gate，必通过才能汇报"适配完成"）
+
+> **作用**：阻止 verifyChecklist 自动检查 + 截图通过后即匆忙汇报，强制 AI 在汇报前明确回答 trigger 状态 / 适用规则 / 实际产物 三个问题，发现自检漏项。
+
+**3 问 强制回答**（每个问题必须 explicit reference 形式回答，含 file:line 锚点；含糊回答视为未通过）：
+
+| Q | 问题 | 通过标准 |
+|---|---|---|
+| Q1 | 该 source frame 的 interaction state 是什么？（trigger 标识）| 一句话 + scenarioFlags JSON 实际值，如 `LEditMode=true (源 frame "列表选择-已选" 命中 §0.1b 信号)` |
+| Q2 | `common-rules §3.7 / §3.7a / §3.7b` 哪些节被本次 trigger 激活？| 列出激活节 + 对应 mask 名称（如 `§3.7a → 遮罩-编辑(C 列)`，`§3.7 不激活`）|
+| Q3 | 这些 mask / z-order 在最终 Figma frame 中的实际位置？| 每 mask 报 frame.children index + 节点名（如 `frame.children[1]: 遮罩-编辑`）；scenarioFlags 任一 flag=true 但对应 mask 缺席 → fail |
+
+**通过条件**：
+- 3 问全部 explicit 回答 + 回答内容与 verifyChecklist errors=0 结果一致
+- 任一回答为 "未确认" / "default" / "推测" 等含糊表达 → fail，重新验证
+
+**fail 处理**：
+- Q1 fail → Phase 4 step 7 重新执行（scenarioFlags 缺失）
+- Q2 fail → Phase 5 RE-CHECK 表 §3.7~§3.7b 重读，识别遗漏 trigger
+- Q3 fail → 补加遗漏 mask + verifyChecklist 重新执行
+
+**示例（笔记 编辑模式V2 适配）**：
+```
+Q1: LEditMode=true (源 "列表选择-已选" 含 "已选" 信号 + List_Notes_04 + ToolBar_01 → §0.1b 匹配)
+    NCovering=true (Pad 竖 default per §0.1a 覆盖)
+    NEditMode=false, CEditMode=false
+Q2: §3.7 (NCovering=true → 遮罩-N覆盖) + §3.7a (LEditMode=true → 遮罩-编辑) + §3.7b (两者同时 → 多 mask z-order)
+Q3: frame.children = [main, 状态栏, 遮罩-编辑, 分割线, L 栏, 遮罩-N覆盖, Sidebar, 杆子] (§3.7b 修订 一致 — 状态栏 在两遮罩之下, 遮罩 按列归属覆盖含 status bar 区段)
+```
 
 ## 输出要求
 
