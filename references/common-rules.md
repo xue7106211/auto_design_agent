@@ -252,19 +252,38 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 
 **症状**：源稿 StatusBar = 手机 variant，clone 到 Fold/Pad 后**不会自动切换**。必须显式 `swapComponent` + `resize`。
 
-| 设备 | variant 名 | spec 高度 | 自然高度 | 备注 |
+**CSV 권위 매핑**（CSV1 系统组件 行 + CSV2 변체 정의, 2026-05-19 PM8 정정）:
+
+권위 라이브러리 = **Xiaomi Hyper OS4 UI Kit** (file `FBvQ3xM5C62MgIcA1JHWIs`, node `127160:4132` 「状态栏-StatusBar」). **ComponentSet 가 아닌 개별 COMPONENT 3 개** 로 구성:
+
+| CSV VariantId | Hyper OS4 component key | 자연 사이즈 | 적용 디바이스 |
+|---|---|---|---|
+| `StatusBar_01` | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 392×46 | **手机 + Fold (외+내) 통합** |
+| `StatusBar_02` | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 888×38 | **현재 미사용 (deprecated)** |
+| `StatusBar_03` | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 1422×38 | **Pad 전용** |
+
+**핵심**: Fold 내屏/외屏 모두 `StatusBar_01` 사용. Pad 모두 `StatusBar_03`. `StatusBar_02` 사용 금지.
+
+| 디바이스 | Component | spec 높이 | 자연 높이 | 비고 |
 |------|-----------|----------|---------|------|
-| 手机 | `变体类型=手机` | 46 | 46 | OK |
-| Fold 内屏 | `变体类型=fold` | 46 | 38 | swap 后强制 resize 46 |
-| Pad 横/竖 | `变体类型=pad` | **34** | **38** | swap 后强制 resize 34；**易 reflow 回 38** |
+| 手机 | `StatusBar_01` | 46 | 46 | 자연 일치 |
+| Fold 외屏 / 내屏 | `StatusBar_01` | 46 | 46 | 자연 W 392, target W 다른 경우 (888/628 등) `inst.children[0].layoutSizingHorizontal = 'FILL'` + resize |
+| Pad 横/竖 | `StatusBar_03` | **34** | **38** | swap 후 강제 resize 34; **易 reflow 回 38** |
 
 **MUST**:
-1. clone 后**第一步** swap 到目标 variant
-2. swap 后立即 `resetOverrides() → resize(targetW, specH) → x=0, y=0`
-3. **完成所有变更后再次校验**，发现 38 立即 `resize(_, 34)` 强制
-4. Phase 6 必检：`(width === frameW, height ∈ {46, 34})`
+1. swap target = Hyper OS4 의 canonical component (`StatusBar_01` 또는 `_03`), 직관 추측 금지
+2. Fold 적응 시 `StatusBar_01` (key `51a9e97...`)
+3. Pad 적응 시 `StatusBar_03` (key `6c9d87a...`)
+4. swap 후 즉시 `resize(frameW, specH) → x=0, y=0`
+5. resize 후 자연 width 로 reflow 발견 시 `inst.children[0].layoutSizingHorizontal = 'FILL'` 추가 후 재 resize
+6. **完成 모든 변경 후 재차 검증**, 38 발견 시 즉시 `resize(_, 34)` 강제
+7. Phase 6 필검: `(width === frameW, height ∈ {46, 34})`
 
-**NEVER**: 沿用手机 variant 适配 Fold / Pad。
+**NEVER**:
+- 源稿 deprecated set (구 key `599a7d4b...` 등) 그대로 두고 적응 (canonical 으로 swap 필수)
+- HyperOS v0.8 (`15e94d49...`) 사용 (file 구독 라이브러리 아님 — PM7 시도 실패, PM8 정정)
+- StatusBar_02 사용 (deprecated)
+- file 구독 라이브러리 미확인 시 자체 추측으로 set/component 선택 (common-rules §0 #13 위반)
 
 ## §3.6 自带 auto-layout 实例的 resize / 落位通用陷阱
 
@@ -319,6 +338,48 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | 3 | Phase 6 调用 `verifyChecklist(...)` 自动检测 width/height/x/y 偏差 > 0.5dp 即不合格 |
 | 4 | Sidebar 额外校验：Pad 横 NLC `height === N 栏 mainH`；Pad 竖 NLC 覆盖 `height === frame.height − statusBarH` |
 | 5 | 视觉异常（卡片多余留白 / 内容错位）→ 先怀疑 component 库版本（参见 §3.10），后查 instance 写错 |
+| **6** | **Instance resize 后 `inst.children[0].width === inst.width` 自动校验** ★ 新增 (PM5/PM6 结构性根因). 不一致时立即 `inst.children[0].layoutSizingHorizontal = 'FILL'`; 仍不一致则尝试 `inst.children[0].layoutSizingVertical = 'FILL'`. 失败则报告「component limitation」妥协项 + 拆分到 design-team 专项 task (instance-level 不可解决). |
+| **7** | **Sidebar / Pad-TopBar 等含多层 auto-layout 组件需 3 级递归 FILL override**: `inst.children[0].layoutSizingVertical = 'FILL'` + `inst.children[0].children[0].layoutSizingVertical = 'FILL'` + `(.children[0].children[0]).children.find(c=>c.name==='内容区域'相似).layoutSizingVertical = 'FILL'`. 单一层 override 不足 (PM3 验证). |
+
+### §3.6.A 自动校验函数补强 (verifyChecklist 增项)
+
+**WHEN**: 标准组件 instance 落位后调用 verifyChecklist 时
+**MUST**: 除外部 instance W/H 校验外，**新增 inner first child W 比对**（clipping 检测）：
+
+```js
+// 新增项: clipping 检测
+for (const chk of spec.componentChecks) {
+  const node = await figma.getNodeByIdAsync(chk.id);
+  // 外部
+  if (Math.abs(node.width - chk.w) > 0.5) errors.push(`${chk.label}.width reflow`);
+  // 内部 first child clipping
+  if (node.children?.[0] && Math.abs(node.children[0].width - node.width) > 0.5) {
+    errors.push(`${chk.label} INNER clipping: instance ${node.width} vs child[0] ${node.children[0].width}`);
+  }
+}
+```
+
+**根因**: `Pad-TopBar_01`（TopBar_03/_07 root child）`layoutSizingHorizontal='FIXED'` 自然 1422. instance.resize(targetW) 仅作用于外层, child 不跟随. PM5 验证 4 frame 中 3 frame 右侧裁切 (272~745dp). verifyChecklist 通过但视觉 fail.
+
+**Phase 6 强制增项**: 全部 `componentChecks` 项必须包含 inner clipping 自动检测. **仅校验外部 W 不足**.
+
+### §3.6.B `_00` 变体语义一致性表
+
+**WHEN**: variant lookup 结果为 `*_00` 时
+**MUST**: 按下表确定语义 (family 不同含义不同)：
+
+| family | `_00` 含义 | 适配处理 |
+|---|---|---|
+| `NavigationBar_ComponentSet_00` | 无 NavBar (空变体) | **不创建 instance** (skip) |
+| `Sidebar_Component_PAD_NLC_00` | 笔记 / 待办 NLC framework: 空容器 (88dp 收起替代) | 创建 instance, 撑 88dp |
+| `Sidebar_Component_PAD_NLC_00` | 笔记 / 待办 **NL framework**: N 栏自身消失 | **不创建 instance** |
+| `BottomBar_Showcase_Notes_00` / `_Showcase_00` | 不渲染 | 不创建 instance |
+| `SelectableChip_ComponentSet_Notes_00` | 不渲染 | 不创建 instance |
+| `ToolBar_ComponentSet_00` | Pad NL framework 工具栏占位 | 仅 Pad NL, 创建 instance |
+| `Fab_00` | 无 Fab | 不创建 instance |
+| `TextInput_ComponentSet_Notes_00` | 不渲染占位 | 不创建 instance |
+
+**原则**: `_00` 默认含义 = **「不渲染」或「空容器」**. family 未列出时**默认不创建 instance**. 应用层例外 (如「保留 88dp 容器」) 须在 `app-variant-map-{app}.md §0` 显式声明.
 
 ## §3.7 NLC 覆盖模式 遮罩 + z-order
 
@@ -478,6 +539,92 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 2. 设计系统有更新版本 → **`importComponentSetByKeyAsync` 导入并替换**，**不要**继续 clone 旧结构
 3. 替换流程：`importComponentSetByKeyAsync(key) → 找目标 variant → 旧 instance.swapComponent(新 variant) → §3.6 强制序列`
 4. 视觉异常优先怀疑 component 库版本不一致，**后**查 instance 写错
+
+### §3.10.A 「variant 未落地」 判定前 fresh-import 强制 ★ 新增 (PM5 根因)
+
+**WHEN**: variant lookup `set.children.find(c => /TargetVariantName/.test(c.name))` 结果 `undefined` 时
+**NEVER**: 立即得出「未落地 / 需 fallback」结论
+**MUST 顺序**:
+
+1. `search_design_system` 重新搜索 set 名 → 检查 `updatedAt`
+2. 比当前 session import 时刻更新 → **重新调用 `importComponentSetByKeyAsync(key)`** (废弃旧 import 对象)
+3. fresh set.children 中重新查找 target variant
+4. 仍缺失 → 才能判定「未落地」+ 仅 spec
+
+**根因案例**: TopBar_07 首次搜索时 NavigationBar set 内仅见 TopBar_00~_06 → 判定「未落地」→ 使用 TopBar_03 fallback. 后经用户指出, fresh import 重试 → 找到 TopBar_07 (set 在 task 进行中已更新, key=`b95b5b9e2f3d6a1306a0cbd14975164463528cf6`). NavigationBar set updatedAt = 2026-05-19 07:35Z, 之前 import 缓存 stale.
+
+**自动检查推荐**: 发现 variant 缺失时强制执行如下:
+```js
+// 规避 stale cache
+const freshSet = await figma.importComponentSetByKeyAsync(setKey);
+const freshTarget = freshSet.children.find(c => predicate(c.name));
+if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
+// 真实缺失 → 上报
+```
+
+### §3.10.B Set key stale 检测 (PM2 根因)
+
+**WHEN**: `importComponentSetByKeyAsync(key)` 抛出 `Component set with key not found` 错误
+**NEVER**: 信任 app-variant-map §0.4 的 key 为永久权威
+**MUST**:
+1. `search_design_system` 重新搜索 set 名
+2. 同名 set 中取最大 `updatedAt` 对应的 `componentKey`
+3. 用该 key 重试 `importComponentSetByKeyAsync`
+4. 成功后**更新 `app-variant-map-{app}.md §0.4` 的 key** + §0.5 变更日志增项
+
+**根因案例**: §0.4 의 `状态栏-StatusBar` key `599a7d4b...` (Hyper OS4 UI Kit ComponentSet) stale → `not found`. 当时 search_design_system 显示活跃 set = `15e94d49...` (HyperOS v0.8). **PM8 정정**: HyperOS v0.8 은 file 구독 라이브러리가 아님. 권위 = Xiaomi Hyper OS4 UI Kit 의 개별 COMPONENT 3 개 (StatusBar_01 `51a9e973...`, StatusBar_02 `3f550237...` deprecated, StatusBar_03 `6c9d87a1...`). file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`. 「`15e94d49...` 활용 가능」 는 cross-library import 가 successful 했을 뿐, file 의 canonical 라이브러리는 아님. **교훈**: search_design_system 결과만 보고 권위 라이브러리 판단 금지 → 반드시 `get_libraries` 의 `libraries_added_to_file` 확인.
+
+## §3.11 CSV vs map source-of-truth 冲突 (PM4/PM6 根因)
+
+**WHEN**: 用户提供 CSV1/CSV2 + `app-variant-map-{app}.md` 已更新版本同时存在
+**NEVER**: 偏信任一方 / silently 无视一方
+**MUST**:
+
+| # | 动作 |
+|---|------|
+| 1 | 收到 CSV1/CSV2 立即对**全部行进行差异 audit** (特别是变更频繁的 NL/编辑 row) |
+| 2 | 发现差异 → **立即向用户提示「CSV 为新值, .md outdated」+ 询问是否进行修正** |
+| 3 | **CSV1 默认权威**, .md 为 CSV1 的反映. 若 CSV2 与 spec 存在差异 (如 variant 自然尺寸 mismatch), 用 footnote 标注 .md 的有意分支 |
+| 4 | 同一 row **多次变更**时: 变更日志按时间顺序 (PM1/PM2/PM3...) 全记. 明确**作废前次修正** (PM4 entry → PM6 polite override) |
+| 5 | NL row 等变更频繁的行须**每次询问用户「本次 CSV 是否最新」**确认 |
+
+**根因案例** (笔记 NL row 历史):
+- PM3: List/NL Pad 映射 `_05` (全设备一致) → 错误
+- PM4 修正: device-specific `_08/_09/_10/_11/_12/_13` → 仍错 (序列忽略 编辑/默认 分离)
+- PM5 再修正: `_05/_07/_09/_11/_13/_15/_17/_19` (奇数=默认, 偶数=编辑) → 正解
+- PM6 追加: ToolBar/NL `_02 → _01` 变更, NavBar/NL `_07/_17 → _00` 变更
+
+各阶段均为用户提供 CSV 后发现 — 即 AI 仅信任前次 .md 必 stale. **每次必须强制 audit CSV1**.
+
+## §3.12 Component property 缺失时 instance-level 调整界限 (PM6 SearchBar 264dp 案例)
+
+**WHEN**: spec (如 device-dimensions §搜索规格) 要求 instance-level 调整 (width 264dp 等), 实测 component 未提供对应 property
+**NEVER**:
+- 用 detach 绕过 (§3.2 违规)
+- 硬编码强制尺寸 (无视 HUG layoutSizingHorizontal)
+- 假报告「AI 已按 spec 应用」
+
+**MUST**:
+1. dump `node.mainComponent.parent.componentPropertyDefinitions` (set 级 propDefs)
+2. 检查 propDefs 中是否含 spec 所需 property (如 `搜索框宽度: 264/176`)
+3. propDefs 为空 (`{}`) 或缺失对应 property → **报告「component limitation」妥协项 + 拆分到 design-team 组件修正专项 task**
+4. 保持自然尺寸不变 (HUG 结果)
+
+**根因案例**: Pad-TopBar_01 `componentPropertyDefinitions = {}`. 内部 SearchBar `layoutSizingHorizontal='HUG'` + variant `_02` 自然 176×44. AI 尝试 resize 至 264 → 被忽略. 保持自然 176 + 报告「component limitation: SearchBar 264 default 未应用. 库需在 `Pad-TopBar` 增加 `搜索框宽度` 变体 property」妥协项.
+
+## §3.13 CSV column 表示歧义处理 (PM4 NL→C fallback 案例)
+
+**WHEN**: CSV1 column header 为单一 `Fold內LC`, 但 NL framework 中存在 NL→C fallback 内容上提
+**NEVER**:
+- 单一列内 silently 合并两个分支值
+- 自行修改「L 栏:」/「C 栏:」 prefix
+
+**MUST**:
+1. 严格遵循 CSV1 NL row Fold內 列值 (含 prefix)
+2. 单一列内 device 间存在不同值 (Fold內竖 vs 横) 时**用 footnote 显式分离**: `**Fold内竖C：X / Fold内横C：Y**` 格式
+3. 「L 栏:」/「C 栏:」 prefix 冲突时 **CSV1 表示优先** (不做语义分析)
+
+**根因案例**: PM4 ToolBar/NL row Fold內竖LC 列 = CSV1 「L栏:_02」, 但 framework 上系 NL→C fallback, 「C 栏」语义更准. AI silently 改为「C栏:_02」. PM5 校验时与 CSV1 表示 mismatch → 又改回「L栏:_01」. 最终 CSV1 「L栏:」 prefix 保持不变才是正解 (NL→C fallback 时 L 内容 promote 的语义保留).
 
 **应用专用变更日志**（迁出，避免本节膨胀）：
 - 笔记 / 待办 → `app-variant-map-笔记.md §0.5`

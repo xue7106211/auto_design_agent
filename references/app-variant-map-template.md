@@ -113,7 +113,7 @@ status: draft
 
 | 偏离场景 | 说明 |
 |---|---|
-| 笔记 N 收起 | 不使用 `Sidebar_PAD_NLC_02`；改为 N 栏直接消失 + L/C 标题栏内嵌恢复图标 |
+| 笔记 N 收起 (framework 分支) | NLC: 不使用 `Sidebar_PAD_NLC_02`；改为 N 栏直接消失 + L/C 标题栏内嵌 `_17/_18` 恢复图标. NL (宫格): N 栏直接消失 + L NavBar = `_00` (不渲染) + TopBar_07 自带 N 复原 icon. 详见 `app-variant-map-笔记.md §0 #8` |
 ```
 
 ### §0.Z 其他应用规则（落位关键 / padding / token / 历史踩坑）
