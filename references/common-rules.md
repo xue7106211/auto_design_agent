@@ -25,6 +25,9 @@
     - 应用 `app-variant-map-{app}.md`「遮罩规则」（应用专用触发条件 + 范围）
     - `component-placement-protocol.md §3` (z-order 模板)
     - 如有用户提供 reference frame，**直接 dump 其 children z-order 比对**，不要从 spec text 推测多 mask 叠加顺序。
+18. **A 类标准组件 padding 风满（核心规则）**：所有自带 internal padding 的标准组件（StatusBar / NavBar / TopBar / SearchBar / Chip / List / Detail / ToolBar / BottomBar / Sidebar / TextInput / Fab 等）一律 `x = 0, width = 栏W` 风满。**禁止任何 outer 合算**，禁止把 device-dim 断点表 spec 应用到 A 类组件。视觉 padding 由组件 internal 提供（默认 12dp）。详见 §3.4a.1 A/B 二分。
+19. **应用专用 N 收起 L 栏 width 规则**：笔记 / 待办 NL framework 收起态下 N 栏自身消失（不是 device-dim 通用 N=88 + L 缩窄），**L 栏 width = frameW**（吸收 N 宽度）。其它应用按各自 `app-variant-map-{app}.md` 声明，未声明则沿用 device-dim 通用规则。落位 L 栏 frame 时必须先查 app-variant-map 是否有覆盖。
+20. **inner componentProperties 必须与源稿同步**：源稿 instance 的内部 INSTANCE 子节点 `componentProperties`（如 ToolBar 按钮 `状态=禁用` / `数量=4个`、List item 编辑态、SearchBar 激活态等）反映源稿业务态。适配 frame 必须递归继承，**禁止** 仅 swap 顶层 variant 而 inner state 停留在 main default。Phase 1 dump `sourceInnerStateMap` → Phase 5 `placeStandardComponent({ sourceInst, inheritInnerState=true })` 自动继承 → Phase 6 verifyChecklist ⑯ 通过 `spec.componentChecks[i].sourceInstId` 自动比对差异。详见 `component-placement-protocol.md §2 内部状态继承` + §6.2 #25。
 
 ## §1. 检索与复用边界
 
@@ -199,14 +202,18 @@
 
 > 应用专用实测应用表已迁出：笔记 / 待办 → `app-variant-map-笔记.md §0.2`。其它应用 → 各自 `app-variant-map-{app}.md`。
 
-### §3.4a.1 组件分类
+### §3.4a.1 组件分类（A/B 二分）
 
-| 类别 | 含义 | 组件 | padding 处理 |
-|------|------|------|----------|
-| **特殊（框架性）** | 屏幕上/下/侧边固定框架 | `NavigationBar*` / `BottomBar_Showcase_*` / `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` | **永远 `x=0, width=栏W` 风满，不参与合算** |
-| **内容容器** | 栏中间承载内容 / 列表 / 搜索 / 标签 | `List_*` / `Detail_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` | 按 spec ↔ internal **合算** |
+> **核心原则**：分类标准 = 「**是否自带 internal padding**」。所有自带 padding 的标准组件统一为 A 类风满，禁止合算；裸控件 / 自定义业务 frame 为 B 类，按 device-dim 断点表合算。
 
-判定要诀：「上下/侧 边 框架概念」=特殊；「栏中间承载内容」=内容容器。**未列出组件不要凭印象套用，先实测**。
+| 类别 | 判定标准 | 组件 | padding 处理 |
+|------|---------|------|----------|
+| **A 类：自带 internal padding 的标准组件** | `instance.children[0].x > 0` 即自带（典型值 12dp） | `StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` / `List_*` / `Detail_*` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` 等 | **永远 `x = 0, width = 栏W` 风满**。视觉左右 padding = 组件 internal（默认 12dp）。**禁止任何 outer 合算**，禁止把 device-dim 断点表 spec 应用到 A 类组件 |
+| **B 类：裸控件 / 业务自定义 frame** | 无 internal padding 的纯 Frame / 分组卡片外框 / 用户自建容器 | 自定义 frame / 业务容器 | 按 `device-dimensions.md` 断点间距表取 spec：`x = spec, width = 栏W − 2 × spec`。1100 < 栏W 时改 `x = (栏W − 988)/2, width = 988` 居中 |
+
+判定要诀：**「有自带 padding ⇒ A 类风满；没有 ⇒ B 类合算」**。Figma 实测 `instance.children[0].x` > 0 即 A 类；查不到 internal padding 才是 B 类。**未列出的标准组件默认按 A 类处理**（风满），如确认是 B 类（裸 frame）才走合算。
+
+**Detail_Notes 例外**：自带 internal=20（封面图距 Detail 左缘 20dp）仍属 A 类风满，internal=20 仅描述视觉左 padding，不参与合算。
 
 ### §3.4a.2 internal padding 定义
 
@@ -228,14 +235,16 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 | `SearchBar_ComponentSet_*` | 左 12, 右 12 | 一致 | 12 |
 | `List_Notes_*` | 左 12, 右 12 | 一致 | 12 |
 
-### §3.4a.3 合算公式
+### §3.4a.3 合算公式（仅适用 B 类）
 
-| 关系 | x | 写入 width | visible 总 padding |
+> ⚠️ **适用范围**：本节合算公式**仅适用 §3.4a.1 B 类（裸控件 / 业务自定义 frame）**。A 类标准组件（含 `SearchBar` / `Chip` / `List` / `Detail` 等所有自带 padding 的组件）**禁止**调用本公式 —— 一律 `x=0, w=栏W` 风满。
+
+| 关系（仅 B 类）| x | 写入 width | visible 总 padding |
 |------|---|-----------|-------------------|
 | `internal ≥ spec` | 0 | 栏W | internal（自动 ≥ spec）|
 | `internal < spec` | `spec − internal` | `栏W − 2 × outer` | `outer + internal = spec` |
 
-简言之：`outer = max(0, spec − internal)`。
+简言之（仅 B 类）：`outer = max(0, spec − internal)`。1100 < 栏W 时进一步用 `x = (栏W − 988)/2, w = 988` 居中。
 
 ### §3.4a.4 执行准则
 
@@ -334,20 +343,21 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | # | 规则 |
 |---|------|
 | 1 | 任何标准组件实例的 swap / clone / resize 都走以上 6 步，**禁止 inline 简化**。封装见 `component-placement-protocol.md §2` |
+| 1a | **resize 前必须读取 `mainComponent.width` / `mainComponent.height`（自然尺寸）**，与 `device-dimensions.md` spec 比对后决定 targetH。**禁止从源稿高度推测目标高度**（例：源稿手机端 NavBar 大标题 116dp ≠ Fold/Pad 中标题 56dp；TopBar_09 自然 56dp ≠ NavBar+SearchBar 算术和 100dp）。公式：`targetH = min(自然高度, device-dim spec)`；两者冲突时以 device-dim 为准 |
 | 2 | **`resetOverrides` 默认 OFF**（2026-05-15 修订）—— reset 清掉 width override 几乎必然 reflow |
 | 3 | Phase 6 调用 `verifyChecklist(...)` 自动检测 width/height/x/y 偏差 > 0.5dp 即不合格 |
 | 4 | Sidebar 额外校验：Pad 横 NLC `height === N 栏 mainH`；Pad 竖 NLC 覆盖 `height === frame.height − statusBarH` |
 | 5 | 视觉异常（卡片多余留白 / 内容错位）→ 先怀疑 component 库版本（参见 §3.10），后查 instance 写错 |
-| **6** | **Instance resize 后 `inst.children[0].width === inst.width` 自动校验** ★ 新增 (PM5/PM6 结构性根因). 不一致时立即 `inst.children[0].layoutSizingHorizontal = 'FILL'`; 仍不一致则尝试 `inst.children[0].layoutSizingVertical = 'FILL'`. 失败则报告「component limitation」妥协项 + 拆分到 design-team 专项 task (instance-level 不可解决). |
+| **6** | **Instance resize 后 `inst.children[0].width === inst.width` 自动校验**。不一致时立即 `inst.children[0].layoutSizingHorizontal = 'FILL'`; 仍不一致则尝试 `inst.children[0].layoutSizingVertical = 'FILL'`. 失败则报告「component limitation」妥协项 + 拆分到 design-team 专项 task (instance-level 不可解决). |
 | **7** | **Sidebar / Pad-TopBar 等含多层 auto-layout 组件需 3 级递归 FILL override**: `inst.children[0].layoutSizingVertical = 'FILL'` + `inst.children[0].children[0].layoutSizingVertical = 'FILL'` + `(.children[0].children[0]).children.find(c=>c.name==='内容区域'相似).layoutSizingVertical = 'FILL'`. 单一层 override 不足 (PM3 验证). |
 
 ### §3.6.A 自动校验函数补强 (verifyChecklist 增项)
 
 **WHEN**: 标准组件 instance 落位后调用 verifyChecklist 时
-**MUST**: 除外部 instance W/H 校验外，**新增 inner first child W 比对**（clipping 检测）：
+**MUST**: 除外部 instance W/H 校验外，**inner first child W 比对**（clipping 检测）：
 
 ```js
-// 新增项: clipping 检测
+// clipping 检测
 for (const chk of spec.componentChecks) {
   const node = await figma.getNodeByIdAsync(chk.id);
   // 外部
@@ -465,6 +475,16 @@ for (const chk of spec.componentChecks) {
 - 把 `遮罩-编辑` 放入 C 栏 children → C 栏只占 mainH 高，盖不到 status bar 区。
 - L 栏继续留在 main 内部 → 无法 z-promote 到遮罩之上。
 
+### §3.7a-NL NL framework + LEditMode 处理
+
+**WHEN**: framework = NL（list-only，无 detail 列），且 `flags.LEditMode = true`。
+
+**规则**：**所有 device / 所有子形态 一律 mask 不渲染**。NL framework 没有「编辑遮罩」概念。L 栏不 promote，z-order 沿用一般 NL 通则（`main → 状态栏 → 栏间分割线（如有）→ 杆子`）。
+
+§3.7a 的 「mask = C 列形态」 + 「L 栏 promote」 机制仅适用于 LC / NLC / NLC 覆盖 framework（含 C 列）。NL 因结构无 C 列，不存在「编辑遮罩」适用条件。
+
+**verifyChecklist 兼容**：`spec.framework = 'NL'` 时 ⑩~⑫ 全部跳过；不要传 `spec.editMask` 等字段。
+
 ### §3.7b 多遮罩叠加 z-order（编辑遮罩 + N 覆盖遮罩同时存在）
 
 **WHEN**: Pad 竖 NLC 覆盖模式 + L 栏编辑同时激活（用户显式确认两种 trigger 共存）。
@@ -540,7 +560,7 @@ for (const chk of spec.componentChecks) {
 3. 替换流程：`importComponentSetByKeyAsync(key) → 找目标 variant → 旧 instance.swapComponent(新 variant) → §3.6 强制序列`
 4. 视觉异常优先怀疑 component 库版本不一致，**后**查 instance 写错
 
-### §3.10.A 「variant 未落地」 判定前 fresh-import 强制 ★ 新增 (PM5 根因)
+### §3.10.A 「variant 未落地」 判定前 fresh-import 强制
 
 **WHEN**: variant lookup `set.children.find(c => /TargetVariantName/.test(c.name))` 结果 `undefined` 时
 **NEVER**: 立即得出「未落地 / 需 fallback」结论
@@ -756,14 +776,16 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 | 15 | 浮动 Tab / 键盘 / 玻璃材质 | 删除或 `visible=false`，不得保留移动端语义 |
 | 16 | 组件库时间戳 | 怀疑视觉异常时优先 `search_design_system` 比对 `updatedAt`，使用最新版本 |
 | 17 | frame fill / L栏 / C栏 fill / 分割线 / 遮罩 全部绑定 token | `frame.fills[0].boundVariables.color` 必须存在。RGB SOLID 视为 fallback，需有告警记录 |
-| 18 | 特殊组件铺满 | `NavigationBar` / `BottomBar` / `ToolBar` / `Sidebar` / `TextInput_Notes` 在所属栏内 `x=0, width=栏W`，不参与 padding 合算，**禁止**给它们加 outer 偏移 |
-| 19 | 通用内容容器 padding 合算 | `List_*` / `SearchBar_*` / `SelectableChip_*` / `Detail_*` 按所在栏 spec 与组件 internal padding 合算；具体应用表见各应用 `app-variant-map-{app}.md`「padding 合算应用表」节 |
+| 18 | **A 类标准组件全部风满** | 全部 A 类组件（StatusBar / NavBar / TopBar / SearchBar / Chip / List / Detail / ToolBar / BottomBar / Sidebar / TextInput / Fab 等自带 internal padding 的组件）`x === 0` 且 `width === 栏W`。**任何 `x !== 0` 或 `width !== 栏W` 直接判 fail**。详见 §3.4a.1 A/B 二分 |
+| 19 | **B 类裸控件合算（仅在确认无 internal padding 时）** | 裸 frame / 业务自定义容器：按 `device-dimensions.md` 断点表取 spec，`x = spec, w = 栏W − 2×spec`；1100 < 栏W 时 `x = (栏W − 988)/2, w = 988` 居中。A 类组件**不**走本路径 |
+| 19a | **应用专用 N 收起 L 栏 width** | 笔记 / 待办 NL framework 收起：`L 栏 width === frameW`（N 自体消失通则）。其它应用按 `app-variant-map-{app}.md` 声明 |
 | 20 | C 栏 TextInput bottom flush | 笔记 / 待办：C 栏 TextInput `y = mainH − h`（bottom 贴 frame 底，与杆子 16dp 重叠）；Detail 高度 = `mainH − 62`（延伸到 TI 底，TI 通过 z-order 与 fade overlay 自然遮盖）|
 | 21 | **L 编辑遮罩** (§3.7a) | `scenarioFlags.LEditMode === true` 时 → `遮罩-编辑` RECTANGLE 存在 + 尺寸 `Cw × frameH` + 位置 `x=C 列起点, y=0` + fill 绑定 `遮罩色/mask` token + opacity 0.2 + L 栏 已从 main 提升至 frame 直接子级 + **`遮罩-编辑` 在 `状态栏` 之上**（C 列 status bar 区段必须 dim） |
 | 22 | **多 mask z-order** (§3.7b) | `LEditMode + NCovering` 同时 时 → frame.children 顺序 `main(仅 C) → 状态栏 → 遮罩-编辑 → 分割线 → L 栏 → 遮罩-N覆盖 → Sidebar → 杆子` 完全一致（**状态栏 在两遮罩之下**，按列归属 dim）|
 | 22b | **NLC 覆盖 z-order** (§3.7) | `NCovering === true && LEditMode === false` 时 → frame.children 顺序 `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`（状态栏 在 遮罩-N覆盖 之下，整 frame status bar dim）|
 | 23 | **scenarioFlags 一致性** | Phase 4 step 7 输出的 `scenarioFlags` JSON 必须作为参数传入 verifyChecklist 调用；flags 激活项与 frame 实际 mask 存在与否无矛盾 |
 | 24 | **C 栏编辑时无 mask** (§3.7a 末) | `CEditMode === true && LEditMode === false && NEditMode === false` 时 → 确认 `遮罩-编辑` 节点不存在 |
+| 25 | **inner componentProperties 与源稿同步** | 适配 frame 各标准组件 instance 的 inner INSTANCE 子节点 `componentProperties`（变体属性 / boolean / instance-swap / 文本）必须等于源稿同位置 instance 的对应值。覆盖业务态如 ToolBar 按钮 `状态=禁用`（未选编辑模式）、`数量=4个`（源 icon 数量）、List item `编辑态=true` 等。**禁止** 仅 swap 顶层 variant 而忽略 inner state — 源稿 instance 必须通过 `placeStandardComponent({ sourceInst })` 传入，verifyChecklist ⑯ 自动检测 |
 
 ### §6.3 每个目标 frame 写入完成后的强制截图
 
