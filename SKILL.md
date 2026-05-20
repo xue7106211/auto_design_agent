@@ -127,6 +127,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | `designContext` | 关键区域的组件和布局补充信息 | 复杂区域已经过 `get_design_context` 补读 |
 | `screenshot` | 当前页面视觉快照 | 视觉基线截图已生成 |
 | `fontDegradationMap` | 不可用字体 → fallback 映射（全部可用则为空） | 不可用字体已记录降级映射 |
+| `sourceInnerStateMap` | 源稿每个组件实例 → 内部 INSTANCE 子节点的 `componentProperties` 快照（递归收集 状态 / 数量 / 材质 / 编辑态 / 文本 / instance-swap 等业务态）| 源 frame 全部组件 inner state 已 dump，作为 Phase 5 `placeStandardComponent({ sourceInst })` 与 Phase 6 verifyChecklist ⑯ 的同步源 |
 
 此外，`sourceDesignContext` 中还必须明确：关键组件和变体已识别、页面功能区域已划分（导航区、列表区、内容区、操作区等）。
 
@@ -281,7 +282,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | 2 | 识别每个实例的 `resolvedUiElement` | — | 业务语义标签 |
 | 3 | 推导 `screenMode`（由 `layoutType` + 栏位 / 子场景）| — | screenMode 值 |
 | 4 | 批量查询 `app-variant-map` (`appName + device + screenMode + resolvedUiElement`) | `references/app-variant-map-{app}.md` | 各组件 variantId |
-| 5 | 生成 `componentTaskList`：每条目含 **`variantId + 目标 x/y/w/h + parent + z-order + sourceDetected + status`** | — | 完整任务清单 |
+| 5 | 生成 `componentTaskList`：每条目含 **`variantId + 目标 x/y/w/h + parent + z-order + sourceDetected + status`**。**`h` 必须从 `device-dimensions.md` 查表获取，禁止沿用源稿高度**（例：Fold/Pad 中标题 56dp，不是手机大标题 116dp；TopBar 自然高度 56dp，不是 NavBar+SearchBar 算术和 100dp）。查表后与 `mainComponent.height` 比对，取 device-dim spec 值 | — | 完整任务清单 |
 | 6 | **执行 `TOKEN_CACHE = await buildTokenCache()`**（一次性缓存所有库 token，赋全局变量） | **`protocol.md §4`** | `TOKEN_CACHE.color` 就绪 |
 | **7** | **导出 `scenarioFlags` JSON（trigger 单一权威 source）** — 仅使用 `app-variant-map-{app}.md §0「scenarioFlags 导出信号表」` lookup 结果，**禁止推测** | `app-variant-map-{app}.md` | `{ LEditMode, NEditMode, CEditMode, NCovering, ... }` |
 
@@ -365,13 +366,15 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 > | §3.4 | swap 后 override 残留清理（与 §3.6 关系：本节 OPT-IN，§3.6 默认 OFF）|
 > | §3.4a | padding 合算 / 特殊 vs 内容容器分类 |
 > | §3.5 | StatusBar 跨设备 variant 强制高度（pad 自然 38 → 强制 34）|
-> | §3.6 | 自带 auto-layout 实例 reflow 陷阱 / 强制 6 步序列 ★ 最高频失败根因 |
+> | §3.6 | 自带 auto-layout 实例 reflow 陷阱 / 强制 6 步序列（最高频失败根因） |
 > | §3.7 | NLC 覆盖 遮罩 + z-order（**2026-05-18 修订**：遮罩-N覆盖 在状态栏 **之上**，状态栏被 dim 是正答；旧版「保证可读」rationale 已弃用）|
-> | **§3.7a** | **L 编辑模式遮罩 `遮罩-编辑`（Cw × frameH，仅 C 列）+ L 栏从 main 提升至 frame 直接子级 ★ scenarioFlags.LEditMode trigger ★ 遮罩-编辑 在状态栏之上** |
+> | **§3.7a** | **L 编辑模式遮罩 `遮罩-编辑`（Cw × frameH，仅 C 列）+ L 栏从 main 提升至 frame 直接子级（scenarioFlags.LEditMode trigger；遮罩-编辑 在状态栏之上）** |
 > | **§3.7b** | **多 mask z-order（编辑遮罩 + N 覆盖遮罩 同时存在时）；以 reference frame children dump 比对为准，但 reference 与 §3.7/§3.7a 修订冲突时按修订为准（旧 V2 reference 状态栏 z-order 错位 case）** |
 > | §3.8 | 栏间分割线（独立 RECTANGLE，frame 直接子级，全帧高度）|
 > | §3.9 | Sidebar 阴影裁切防止（Pad 横 N + main `clipsContent = false`）|
 > | §3.10 | 视觉异常时优先怀疑 component 库版本（`search_design_system` 比对 `updatedAt`）|
+> | device-dim 「工具栏规格」line 628~711 | ToolBar / BottomBar_Showcase 系 instance 外壳风满 + inner 胶囊（工具个数举例 / TabMaterial-Showcase）独立 width spec：栏 W ≤ 440 → 风满（栏W − 48），栏 W > 440 → 定宽 344 居中（两侧 fill padding）。`app-variant-map-{app}.md §0.2 「A 类一律风满」` 仅针对 instance 外壳，不可递归套到 inner 胶囊。verifyChecklist ⑭ 自动检查 |
+> | common-rules §3.7a-NL | NL framework + LEditMode 时 **一律 mask 不渲染**（所有 device、所有子形态：Fold NL→C fallback / Pad NL 展开 / Pad NL 收起）。L 栏不 promote。z-order 沿用一般 NL 通则 |
 >
 > **关键决定**：`resetOverrides` 默认 **OFF**。reset 清空 width override → instance hug content reflow，是过去最频繁失败根因。
 >
@@ -431,7 +434,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | 阶段 | 函数（签名）| 函数本体定义 | 作用 |
 |------|------------|-------------|------|
 | Phase 4 完成 | `await buildTokenCache()` | protocol.md §4 | 一次性缓存所有库 token → 全局 `TOKEN_CACHE` |
-| Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[] })` | **protocol.md §2** | swap → FIXED → resize → x/y → 自检 6 步 |
+| Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[], sourceInst?, inheritInnerState=true })` | **protocol.md §2** | swap → FIXED → resize → x/y → **inner state 继承** → 自检 7 步。**`sourceInst` 必传**（来自 Phase 1 `sourceInnerStateMap`），否则 inner 业务态（如 ToolBar 按钮 `状态=禁用` / `数量=4个`）停留在 main default，与源稿不一致 |
 | Phase 5 fill 写入 each node | `await bindFill(node, tokenName, fallbackRGB, opacity=1)` | protocol.md §4 | token lookup + setBoundVariableForPaint，无则 RGB fallback |
 | Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | 本文档「字体降级规则」节（笔记业务专用，未抽到 protocol） | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
 | Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec)` | **protocol.md §6** | 9 项自动检测，`errors.length > 0` 必须修复 |
@@ -602,6 +605,7 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 | `sidebar.h` | `device-dimensions.md` + 应用规则 | Pad NLC 时 ✅ |
 | `divider` | layoutType（LC/NLC = true）| ✅ |
 | `componentChecks` | Phase 4 `componentTaskList` 派生 | ✅ |
+| `componentChecks[i].sourceInstId` | Phase 1 `sourceInnerStateMap` 配套（源稿同位置 instance ID）| ✅（涉及业务态组件如 ToolBar / List 编辑态等必填，触发 verifyChecklist ⑯ 内部状态同步检查）|
 | ~~`mask` / `editMask` / `NCoverMask`~~ | **已废弃** —— `scenarioFlags` 派生 | — |
 
 **verifyChecklist 内部 13 项检查（与 protocol.md §6 一一对应）**：
@@ -639,10 +643,10 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 | ⑦ componentChecks reflow | §6.2 #8 | 列出的所有标准组件 |
 | ⑧ 遮罩-N覆盖 + token | §6.2 #10 | `flags.NCovering` |
 | ⑨ 栏间分割线 token | §6.2 #12 | LC / NLC 仅 |
-| **⑩ 遮罩-编辑 (§3.7a)** | **§6.2 #21** | **`flags.LEditMode` ★ NEW** |
-| **⑪ 多 mask z-order (§3.7b)** | **§6.2 #22** | **`flags.LEditMode + NCovering` ★ NEW** |
-| **⑫ C 编辑无 mask** | **§6.2 #24** | **`flags.CEditMode` only ★ NEW** |
-| **⑬ scenarioFlags 一致性** | **§6.2 #23** | **flags 缺失 + spec mask 矛盾时 ★ NEW** |
+| **⑩ 遮罩-编辑 (§3.7a)** | **§6.2 #21** | **`flags.LEditMode`** |
+| **⑪ 多 mask z-order (§3.7b)** | **§6.2 #22** | **`flags.LEditMode + NCovering`** |
+| **⑫ C 编辑无 mask** | **§6.2 #24** | **`flags.CEditMode` only** |
+| **⑬ scenarioFlags 一致性** | **§6.2 #23** | **flags 缺失 + spec mask 矛盾时** |
 
 **B. 必须手动校验（剩余 11 项，verifyChecklist 不覆盖）**：
 
