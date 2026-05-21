@@ -42,4 +42,4 @@
 - 各 variant 的 `nodeId` / `componentKey` / `componentSetId` 待补
 - 状态分支（Disabled / Normal）的子节点细节待 探查 后补
 
-> CSV1 / CSV2 同步日期：2026-05-18。
+> CSV1 / CSV2 同步日期：2026-05-21。

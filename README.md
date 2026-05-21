@@ -61,7 +61,15 @@ auto_design_agent/
 │   ├── app-variant-map-计算器.md           计算器应用 variant 映射表
 │   ├── app-variant-map-设置.md             设置应用 variant 映射表
 │   └── component-dictionary/
-│       └── navigation-bar.md              NavigationBar 组件族 reference
+│       ├── NavigationBar.md               NavigationBar 组件族 reference
+│       ├── TopBar.md                      TopBar 组件族 reference
+│       ├── BottomBar.md                   BottomBar 组件族 reference
+│       ├── Fab.md                         Fab 组件族 reference
+│       ├── Sidebar.md                     Sidebar 组件族 reference
+│       ├── SearchBar.md                   SearchBar 组件族 reference
+│       ├── Notes_List.md                  Notes_List 组件族 reference
+│       ├── Notes_BottomBar.md             Notes_BottomBar 组件族 reference
+│       └── ...                            其他 39 个组件族 reference（详见 manifest.json）
 └── archive/                               已归档的旧版规则文档和日志
     ├── component-adaptation.md
     ├── component-routing.md
@@ -112,6 +120,7 @@ auto_design_agent/
 | [references/app-variant-map-设置.md](./references/app-variant-map-设置.md)                                   | 设置应用 variant 映射表                                                     |
 | [references/common-rules.md](./references/common-rules.md)                                               | 通用执行原则、禁止项、clone 降级规则和分步写入规范                                         |
 | [references/component-dictionary/NavigationBar.md](./references/component-dictionary/NavigationBar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
+| `references/component-dictionary/*.md`（39 份） | 各组件族 reference。记录组件集身份、真实属性键、执行记录、padding 和应用规则 |
 
 
 ### 归档文件
@@ -173,7 +182,7 @@ auto_design_agent/
 - 设备尺寸：`references/layouts/device-dimensions.md`
 - 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`
 - 应用 variant 映射表（16 个应用）：`references/app-variant-map-{appName}.md`
-- 组件族 reference：[references/component-dictionary/NavigationBar.md](./references/component-dictionary/NavigationBar.md)
+- 组件族 reference（39 份）：`references/component-dictionary/{ComponentFamily}.md`
 
 其中已建立的应用映射表包括：
 
