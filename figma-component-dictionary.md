@@ -276,16 +276,17 @@
 | `BottomBar` | — | `BottomBar_Showcase_01` | 默认 | `references/component-dictionary/BottomBar.md` | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_02` | 无FAB_分区展示 | `references/component-dictionary/BottomBar.md` | `manual` |
 | `BottomBar` | — | `BottomBar_Showcase_Fab_01` | 随FAB（BottomBar_Showcase_01 + Fab_01） | `references/component-dictionary/BottomBar.md` | `manual` |
-| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_02 + Fab_01） | `references/component-dictionary/BottomBar.md` | `manual` |
+| `BottomBar` | — | `BottomBar_Showcase_Fab_02` | 随FAB_分区展示（BottomBar_Showcase_02 + Fab_02） | `references/component-dictionary/BottomBar.md` | `manual` |
 | `Notes_BottomBar` | `BottomBar_Showcase_Notes` | `BottomBar_Showcase_Notes_01` | 业务_笔记（底部工具栏） | `references/component-dictionary/Notes_BottomBar.md` | `manual` |
 | `Fab` | — | `Fab_01` | Fab | `references/component-dictionary/Fab.md` | `manual` |
+| `Fab` | — | `Fab_02` | Fab（分开展示用） | `references/component-dictionary/Fab.md` | `manual` |
 | `Recorder_Fab` | — | `Fab_Rec_01` | 业务_录音 | `references/component-dictionary/Recorder_Fab.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_01` | Pad_NLC（内部标题栏: NavigationBar_ComponentSet_12） | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_02` | Pad_NLC_收起（内部标题栏: NavigationBar_ComponentSet_14） | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_NLC_03` | Pad_NLC_编辑（内部标题栏: NavigationBar_ComponentSet_13） | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_PAD_LC_01` | Pad_LC | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_Fold_LC_01` | Fold_LC | `references/component-dictionary/Sidebar.md` | `manual` |
-| `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01 + Fab_Rec_01） | `references/component-dictionary/Sidebar.md` | `manual` |
+| `Sidebar` | — | `Sidebar_Component_PAD_LC_Fab_01` | Pad_LC_随FAB（Sidebar_Component_PAD_LC_01 + Fab_01） | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_Component_Fold_LC_Fab_01` | Fold_LC_随FAB（Sidebar_Component_Fold_LC_01 + Fab_01） | `references/component-dictionary/Sidebar.md` | `manual` |
 | `Sidebar` | — | `Sidebar_BG_01` | 侧边栏_面板 | `references/component-dictionary/Sidebar.md` | `manual` |
 | `SelectableChip` | — | `SelectableChip_ComponentSet_00` | 无标签栏 | `references/component-dictionary/SelectableChip.md` | `manual` |
@@ -297,6 +298,7 @@
 | `SearchReceiving` | — | `SearchReceiving_00` | 无搜索面板 | `references/component-dictionary/SearchReceiving.md` | `manual` |
 | `SearchReceiving` | — | `SearchReceiving_01` | 搜索面板 | `references/component-dictionary/SearchReceiving.md` | `manual` |
 | `ToolBar` | — | `ToolBar_ComponentSet_01` | 默认 | `references/component-dictionary/ToolBar.md` | `manual` |
+| `ToolBar` | — | `ToolBar_ComponentSet_02` | 默认（variant 2） | `references/component-dictionary/ToolBar.md` | `manual` |
 | `Divider` | — | `Divider_ComponentSet_01` | 0.7 | `references/component-dictionary/Divider.md` | `manual` |
 | `FloatingWindow` | — | `FloatingWindow_ComponentSet_01` | 浮窗窗口 | `references/component-dictionary/FloatingWindow.md` | `manual` |
 | `FloatingWindow` | — | `FloatingWindow_ComponentSet_02` | 浮窗窗口_二级（小标题返回形态） | `references/component-dictionary/FloatingWindow.md` | `manual` |
@@ -331,6 +333,7 @@
 | `Notes_TaskWindow` | — | `NewTaskWindow_02` | 业务_待办_新建（368～412dp） | `references/component-dictionary/Notes_TaskWindow.md` | `manual` |
 | `Notes_SelectableChip` | `SelectableChip_ComponentSet_Notes` | `SelectableChip_ComponentSet_Notes_00` | 业务_笔记（无标签栏） | `references/component-dictionary/Notes_SelectableChip.md` | `manual` |
 | `Notes_BottomBar` | `BottomBar_Showcase_Notes` | `BottomBar_Showcase_Notes_00` | 业务_笔记（无底部工具栏） | `references/component-dictionary/Notes_BottomBar.md` | `manual` |
+| `Notes_BottomBar` | `BottomBar_Showcase_Notes` | `BottomBar_Showcase_Notes_02` | 业务_笔记（Fold 内 LC L 栏 spec） | `references/component-dictionary/Notes_BottomBar.md` | `manual` |
 | `Notes_BottomBar` | `BottomBar_Notes_Outline` | `BottomBar_Notes_Outline_00` | 业务_笔记（无大纲工具栏） | `references/component-dictionary/Notes_BottomBar.md` | `manual` |
 | `Notes_BottomBar` | `BottomBar_NoteEditPanel` | `BottomBar_NoteEditPanel_00` | 业务_笔记（无笔记编辑面板） | `references/component-dictionary/Notes_BottomBar.md` | `manual` |
 | `Fab` | — | `Fab_00` | 无 Fab | `references/component-dictionary/Fab.md` | `manual` |
@@ -355,6 +358,8 @@
 | `Notes_NavigationBar` | `NavigationBar_ComponentSet_Notes` | `NavigationBar_ComponentSet_Notes_04` | 业务_笔记 | `references/component-dictionary/Notes_NavigationBar.md` | `manual` |
 | `SearchBar` | — | `TopBar_06` | 顶部导航搜索_左对齐（NavigationBar_ComponentSet_16 + SearchBar_ComponentSet_02） | `references/component-dictionary/SearchBar.md` | `manual` |
 | `SearchBar` | — | `TopBar_07` | 顶部导航搜索_侧边栏收起（NavigationBar_ComponentSet_17 + SearchBar_ComponentSet_02） | `references/component-dictionary/SearchBar.md` | `manual` |
+| `SearchBar` | — | `TopBar_08` | 顶部导航搜索_侧边栏收起_编辑（NavigationBar_ComponentSet_18 + SearchBar_ComponentSet_02） | `references/component-dictionary/SearchBar.md` | `manual` |
+| `SearchBar` | — | `TopBar_09` | 顶部导航搜索_侧边栏_编辑（NavigationBar_ComponentSet_09 + SearchBar_ComponentSet_02） | `references/component-dictionary/SearchBar.md` | `manual` |
 | `Notes_SelectableChip` | `SelectableChip_ComponentSet_Notes` | `SelectableChip_ComponentSet_Notes_00` | 业务_笔记（无标签栏） | `references/component-dictionary/Notes_SelectableChip.md` | `manual` |
 | `Notes_SelectableChip` | `SelectableChip_ComponentSet_Notes` | `SelectableChip_ComponentSet_Notes_02` | 业务_笔记（L 栏） | `references/component-dictionary/Notes_SelectableChip.md` | `probed` |
 | `Sidebar` | — | `Sidebar_Component_NC_01` | NC 模式侧边栏（非笔记） | `references/component-dictionary/Sidebar.md` | `manual` |
@@ -368,6 +373,20 @@
 | `Notes_List` | `List_Notes` | `List_Notes_04` | 业务_笔记 列表（编辑） | `references/component-dictionary/Notes_List.md` | `probed` |
 | `Notes_List` | `List_Notes` | `List_Notes_05` | 业务_笔记 卡片列表 | `references/component-dictionary/Notes_List.md` | `probed` |
 | `Notes_List` | `List_Notes` | `List_Notes_06` | 业务_笔记 卡片列表（编辑） | `references/component-dictionary/Notes_List.md` | `probed` |
+| `Notes_List` | `List_Notes` | `List_Notes_07` | 业务_笔记 卡片列表_Fold_外屏 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_08` | 业务_笔记 卡片列表_Fold_外屏_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_09` | 业务_笔记 卡片列表_Fold_内屏_竖屏 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_10` | 业务_笔记 卡片列表_Fold_内屏_竖屏_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_11` | 业务_笔记 卡片列表_Fold_内屏_横屏 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_12` | 业务_笔记 卡片列表_Fold_内屏_横屏_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_13` | 业务_笔记 卡片列表_Pad_竖屏 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_14` | 业务_笔记 卡片列表_Pad_竖屏_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_15` | 业务_笔记 卡片列表_Pad_竖屏_收起 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_16` | 业务_笔记 卡片列表_Pad_竖屏_收起_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_17` | 业务_笔记 卡片列表_Pad_横屏 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_18` | 业务_笔记 卡片列表_Pad_横屏_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_19` | 业务_笔记 卡片列表_Pad_横屏_收起 | `references/component-dictionary/Notes_List.md` | `manual` |
+| `Notes_List` | `List_Notes` | `List_Notes_20` | 业务_笔记 卡片列表_Pad_横屏_收起_编辑 | `references/component-dictionary/Notes_List.md` | `manual` |
 | `Notes_List_NoteSetting` | — | `List_NoteSetting_01` | 业务_笔记 设置列表 | `references/component-dictionary/Notes_List_NoteSetting.md` | `manual` |
 | `Notes_List` | `List_Notes` | `List_Task_01` | 业务_待办 列表（卡片） | `references/component-dictionary/Notes_List.md` | `manual` |
 | `Notes_List` | `List_Notes` | `List_Task_02` | 业务_待办 列表（卡片 编辑） | `references/component-dictionary/Notes_List.md` | `manual` |
@@ -435,7 +454,7 @@
 
 TopBar / BottomBar / Fab / Sidebar / SelectableChip / SearchBar / SearchReceiving / ToolBar / Divider / FloatingWindow / DrawerWindow / AlertDialog / ActionSheet / Menu / SegmentedControls / WheelPicker / Scrollbar / NoticeBar / TextInput / Keyboard / Recorder_Fab / Calendar_TopBar / Calendar_NavigationBar / Weather_NavigationBar / Settings_NavigationBar
 
-笔记业务专属 family（CSV2 2026-05-19 切分，已建立独立字典文档，但执行层仍待验证）：
+笔记业务专属 family（CSV2 2026-05-21 切分，已建立独立字典文档，但执行层仍待验证）：
 
 Notes_NavigationBar / Notes_DetailNotes / Notes_DetailTask / Notes_AIWindow_Notes / Notes_RecordNotes / Notes_List / Notes_List_NoteSetting / Notes_TextFormatPanel / Notes_Menu / Notes_TextInput / Notes_SelectableChip / Notes_BottomBar / Notes_TaskWindow
 

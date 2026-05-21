@@ -5,20 +5,22 @@
 ## 适用记录
 
 - `Fab_00`（待入库 / 不渲染占位）
-- `Fab_01`（默认）
+- `Fab_01`（默认，右 24dp）
+- `Fab_02`（分开展示用，与 BottomBar_Showcase_Fab_02 配套）
 - `Fab_Rec_01`（录音业务专用）
 
 ## 真实属性键
 
 | 字段 | 说明 | 已验证值 |
 | --- | --- | --- |
-| `variantid` | 主变体 | `Fab_00` / `Fab_01` / `Fab_Rec_01` |
+| `variantid` | 主变体 | `Fab_00` / `Fab_01` / `Fab_02` / `Fab_Rec_01` |
 
 ## 内部 padding（按 CSV2）
 
 | 变体 | 内置右 padding |
 | --- | --- |
 | `Fab_01` | 右 24 |
+| `Fab_02` | 右 24（分开展示配套） |
 | `Fab_00` | 不渲染 |
 | `Fab_Rec_01` | 右 24 |
 
@@ -36,4 +38,4 @@
 - 各 variant 的 `nodeId` / `componentKey` / `componentSetId` 待补
 - `Fab_00`（占位）落地状态待确认
 
-> CSV1 / CSV2 同步日期：2026-05-18。
+> CSV1 / CSV2 同步日期：2026-05-21。

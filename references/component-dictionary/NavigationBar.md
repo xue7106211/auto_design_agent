@@ -15,6 +15,8 @@
 - `TopBar_05`
 - `TopBar_06`（CSV2 15 日新增，待暴露）
 - `TopBar_07`（CSV2 新增，侧边栏收起态搜索栏）
+- `TopBar_08`（CSV2 2026-05-21 新增，侧边栏收起_编辑态搜索栏）
+- `TopBar_09`（CSV2 2026-05-21 新增，侧边栏_编辑态搜索栏）
 - `TopBar_Navigation_01`（CSV2 复合体内 sub-variant，最小左 16；右 16）
 
 > **CSV2 2026-05-19 family 切分**：以下 variant 的 family 归属已变更，请加载对应字典文件：
@@ -118,8 +120,10 @@
 - `NavigationBar_ComponentSet_Weather_01`
 - `TopBar_06`（CSV2 2026-05-15 新增，顶部标题栏搜索_左对齐；待 Figma 探查）
 - `TopBar_07`（CSV2 新增，顶部导航搜索_侧边栏收起；待 Figma 探查）
+- `TopBar_08`（CSV2 2026-05-21 新增，顶部导航搜索_侧边栏收起_编辑：NavigationBar_ComponentSet_18 + SearchBar_ComponentSet_02；待 Figma 探查）
+- `TopBar_09`（CSV2 2026-05-21 新增，顶部导航搜索_侧边栏_编辑：NavigationBar_ComponentSet_09 + SearchBar_ComponentSet_02；待 Figma 探查）
 
-> CSV1 / CSV2 同步日期：2026-05-18。新增 variant 暴露后将其从本节移入「执行记录」。
+> CSV1 / CSV2 同步日期：2026-05-21。新增 variant 暴露后将其从本节移入「执行记录」。
 
 ### 当前禁止使用的旧字段
 

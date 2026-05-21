@@ -11,7 +11,7 @@
 - `TopBar_02`（顶部导航组合_返回：NavigationBar_ComponentSet_11 + TopBar_Navigation_01）
 
 > 业务_日历 顶部栏复合体 `TopBar_Calendar_01` 已分离至 `Calendar_TopBar.md`（family = `Calendar_TopBar`）。
-> `TopBar_03 / _04 / _05 / _06 / _07`（含搜索的复合体）按 CSV2 family 归属 `SearchBar`，详见 `SearchBar.md`。
+> `TopBar_03 / _04 / _05 / _06 / _07 / _08 / _09`（含搜索的复合体）按 CSV2 family 归属 `SearchBar`，详见 `SearchBar.md`。
 > `TopBar_Navigation_01` sub-variant 在与 NavigationBar 复合时由 `NavigationBar.md` 提供基础 spec；与 Calendar 复合时由 `Calendar_TopBar.md` 提供 spec。
 
 ## 真实属性键
@@ -46,4 +46,4 @@
 - `TopBar_01` / `TopBar_02` 的 nodeId / componentKey 待 Figma 探查
 - `TopBar_00` 在重新切分 family 后是否需要独立组件集，待确认
 
-> CSV2 同步日期：2026-05-19。从 `NavigationBar.md` 切分独立 family。
+> CSV2 同步日期：2026-05-21。从 `NavigationBar.md` 切分独立 family。

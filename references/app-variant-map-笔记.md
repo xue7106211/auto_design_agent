@@ -31,7 +31,7 @@ status: draft
 | 4 | **L 栏 顺序** | `NavBar(56) → SearchBar(56) → SelectableChip(52) → List → BottomBar(100, 底)`；**与源稿 Chip↔Search 顺序差异时以 spec 为准** |
 | 5 | **杆子（home indicator）** | `x=0, width=frameW` 风满；`fills=[]` 透明；frame 直接子级**最顶 z-order**（Sidebar 之上） |
 | 6 | **覆盖模式 遮罩 z-order**（2026-05-18 修订）| Pad 竖 NLC 覆盖：z-order = `main → 状态栏 → 遮罩-N覆盖 → 分割线 → Sidebar → 杆子`。**遮罩-N覆盖 必须在状态栏之上**（按列归属：N 列以外含状态栏全部 dim）。Sidebar 在遮罩之上（trigger 列豁免）。**旧版「保证可读」rationale 已弃用**。L 编辑遮罩同理：`遮罩-编辑` 在 `状态栏` 之上 |
-| 7 | **栏背景色 token（card-presence rule）** | 容器有卡片 / Sidebar 菜单 / 套卡 list 时 fill = `背景色/surface_low`（灰底）；单一全幅 panel（笔记 Detail）= `背景色/surface`（白底）。笔记 / 待办：L栏 + N栏 + frame = `surface_low`；C栏 Detail = `surface`。详见 §0.3 + 末尾「栏背景色」表 |
+| 7 | **栏背景色 token（card-presence rule）** | 容器有卡片 / Sidebar 菜单 / 套卡 list 时 fill = `背景色/surface_low`（灰底）；单一全幅 panel / 不带卡片 flat list = `背景色/surface`（白底）。**笔记**：L栏(卡片) + N栏 + frame = `surface_low`；C栏 Detail = `surface`。**待办**：L栏(不带卡片) + C栏 + frame = `surface`；N栏 = `surface_low`。详见 §0.3 + 末尾「栏背景色」表 |
 | 8 | **NL framework L 栏 顶部通则** | 笔记 / 待办 **宫格 NL framework**：N 收起时 N 栏自身消失 + **L 栏 width = frameW**（满幅吸收）。**⚠️ 禁止** device-dim 通用 NL 收起 split（`N=88 + L=1334/861`）。<br>**NL framework L 栏 NavBar 一律 `_00`（不渲染，默认 + 编辑均同）** — 顶部统一使用 `TopBar_X` 单独放置；TopBar 自身为 NavBar + SearchBar 合成变体（NavigationBar set 内「顶部导航」family）。<br>**NL framework N 栏 NavBar 也一律 `_00`（不渲染，默认 + 编辑、展开 + 收起 均同）** — Sidebar (`Sidebar_Component_PAD_NLC_01`) 内部 `NavigationAtoms`（56dp）已承担 N 栏标题栏角色，**禁止** 在 N 栏外部额外放置 `NavigationBar_ComponentSet_12 / _18` 等（旧版「N 栏：NavBar_12」表述已废弃）：<br>&nbsp;&nbsp;• **默认 展开** → `TopBar_03`（内含 NavBar_07 + SearchBar_02）<br>&nbsp;&nbsp;• **默认 收起** → `TopBar_07`（内含 NavBar_17 + SearchBar_02，**自带 N 恢复 icon**）<br>&nbsp;&nbsp;• **编辑 展开** → `TopBar_09`（内含 NavBar_18 + SearchBar_02）<br>&nbsp;&nbsp;• **编辑 收起** → `TopBar_08`（内含 NavBar_18 + SearchBar_02，**自带 N 恢复 icon**）<br>NL framework 中 L NavBar 不允许单独放置，TopBar_X 已吸收 NavBar 角色。NLC framework（笔记 / 待办之外的应用）才使用 88dp `Sidebar_Component_PAD_NLC_00`。详见「N 收起 规则」节 + common-rules §0 #19 |
 | 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。**List 默认 / NL** device-specific 变体（奇数序列）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_09` / `Fold内横 C 单栏=_11` / `Pad竖NL=_13` / `Pad竖NL收起=_15` / `Pad横NL=_17` / `Pad横NL收起=_19`。**编辑 NL** device-specific 变体（偶数序列）：`手机竖=_06` / `Fold外竖=_08` / `Fold内竖=_10` / `Fold内横=_12` / `Pad竖NL=_14` / `Pad竖NL收起=_16` / `Pad横NL=_18` / `Pad横NL收起=_20`。 |
 
@@ -137,25 +137,31 @@ status: draft
 | Pad 竖 NLC 覆盖 遮罩 fill（opacity 0.2）| `遮罩色/mask` | `0ed62540049dd3839b40b63d40f82492c4bac664` |
 
 > **背景 token 选择规则（核心 + 普遍）**：
-> - **判定标准 = 容器内容形态，不是 framework / 设备**：
+> - **判定标准 = 该容器内的列表组件是否带卡片，不是 app 名 / framework / 设备**：
 >   - 容器上有卡片 / 套卡 list / Sidebar 菜单 / 浮起 floating 内容 → 容器 fill = **`背景色/surface_low`**（灰底，让卡片浮起）
->   - 容器是单一全幅 panel（笔记 Detail 单页 / Fab 直接 children 等无卡片）→ 容器 fill = **`背景色/surface`**（白底）
+>   - 容器是单一全幅 panel / **不带卡片的 flat list**（如 `List_Task_03`）→ 容器 fill = **`背景色/surface`**（白底）
 >   - 卡片自身永远 `背景色/surface`（白），由组件自带 binding 提供
+>   - ⚠️ **同一 app 内不同子场景 / 不同设备可能不同**：笔记 `List_Notes` = 全设备带卡片 → `surface_low`；待办 `List_Task_01`（手机/Fold外）= 套卡 → `surface_low`；待办 `List_Task_03`（Fold内/Pad）= flat list 无卡片 → `surface`。**禁止按 app 名或 framework 统一判定，必须按实际 variant 的卡片样式决定**。
 > - **笔记 / 待办 各栏归属（具体应用）**：
->   - **L 栏**（List_Notes 卡片 stacked，全 framework：NL / NLC / LC）→ `surface_low`
+>   - **L 栏 笔记**（List_Notes 卡片 stacked，全 framework：NL / NLC / LC）→ `surface_low`
+>   - **L 栏 待办 手机 / Fold 外屏**（`List_Task_01` 套卡样式）→ `surface_low`
+>   - **L 栏 待办 Fold 内屏 / Pad**（`List_Task_03` flat list 无卡片）→ `surface`
 >   - **N 栏**（外壳 272dp，内部 Sidebar 单一卡片 260dp 浮起）→ `surface_low`
 >   - **C 栏 笔记 Detail**（单一全幅 note 内容 panel）→ `surface`
->   - **C 栏 NL→C fallback**（list 上提到 C 栏 单一画面，仍是 list 卡片）→ `surface_low`
->   - **frame**（外框层，与所属内容栏统一）→ `surface_low`（保持卡片浮起视觉一致；frame 在 LC/NLC 的 visible 区域虽小，仍统一为 surface_low）
+>   - **C 栏 NL→C fallback 笔记**（list 上提到 C 栏 单一画面，仍是 list 卡片）→ `surface_low`
+>   - **C 栏 NL→C fallback 待办**（`List_Task_01` 套卡上提，Fold 内屏 C 单栏）→ `surface_low`
+>   - **frame 笔记**（外框层）→ `surface_low`（保持卡片浮起视觉一致）
+>   - **frame 待办 手机 / Fold 外屏**（List_Task_01 套卡）→ `surface_low`
+>   - **frame 待办 Fold 内屏 / Pad**（List_Task_03 无卡片）→ `surface`
 > - **历史教训（2026-05-18 / 2026-05-20）**：旧版按 framework 划分（NL=surface_low / NLC+LC=surface）→ Pad NLC L 栏列表卡片浮在白底失去对比。修订为 **容器内容形态判定**（card-presence rule）。原则上 framework 不再决定背景色。
 
 ### §0.4 关键组件 set keys（重要）
 
 | set | key | 备注 |
 |-----|-----|------|
-| `StatusBar_01`（Hyper OS4 UI Kit，手机+Fold） | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 自然 392×46。**手机 + Fold 外+内 通用**。Hyper OS4 file `FBvQ3xM5C62MgIcA1JHWIs` 的独立 COMPONENT（非 set） |
-| `StatusBar_02`（Hyper OS4） | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 自然 888×38。**当前未使用 deprecated**，禁止使用 |
-| `StatusBar_03`（Hyper OS4 UI Kit，Pad） | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 自然 1422×38。**Pad 专用**。resize 时强制 H=34（自然 38 易 reflow） |
+| `StatusBar_ComponentSet`（Hyper OS4 UI Kit AI 测试版） | set: `003ec04eb9e763c871c5590e22dca91b4420f140` | 含 `_01/_02/_03` 三 variant。2026-05-21 确认可用 |
+| `StatusBar_01`（手机+Fold） | `dadf3838908886b422b3a5030daea28b8d7972d2` | 自然 330×28，resize 至 392×46（手机）/ 888×46（Fold横）/ 628×46（Fold竖）|
+| `StatusBar_03`（Pad） | `57a5ea78d0c120b146e7bd0d33e3f57132f33351` | 自然 1366×20，resize 至 1422×34（Pad横）/ 949×34（Pad竖）。强制 H=34 |
 | `NavigationBar` | `a89cd38d06061fcbb5ff7e596b92f8f3cf3888de` | 含 `_00`~`_18` 系列。**`_Notes_*` 已分离到下方独立 set** |
 | `NavigationBar_ComponentSet_Notes` | `ac60af7e28e6491b3520ecaefd71fa7e03832c31` | 业务组件库；含 `_Notes_01`/`_Notes_02` |
 | `SearchBar_ComponentSet` | `2316a63eb824ab38f388c3127101e535b7668398` | LC 默认风满用 `_05`（不是 `_02`）|
@@ -477,7 +483,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 
 | 组件 | 手机竖 | Fold外竖 | Fold内LC | Pad竖NLC | Pad竖NLC收起 | Pad横NLC | Pad横NLC收起 |
 |--|--|--|--|--|--|--|--|
-| 搜索栏 | SearchBar_ComponentSet_02 | SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 | L栏：SearchBar_ComponentSet_02 |
+| 搜索栏 | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 |
 | 标签栏 | SelectableChip_ComponentSet_Notes_01 | SelectableChip_ComponentSet_Notes_01 | L栏：SelectableChip_ComponentSet_Notes_02 | N栏：SelectableChip_ComponentSet_Notes_00 | N栏：SelectableChip_ComponentSet_Notes_00 | N栏：SelectableChip_ComponentSet_Notes_00 | N栏：SelectableChip_ComponentSet_Notes_00 |
 | 列表（默认） | List_Task_01 | List_Task_01 | L栏：List_Task_03 | L栏：List_Task_03 | L栏：List_Task_03 | L栏：List_Task_03 | L栏：List_Task_03 |
 | 列表（编辑） | List_Task_02 | List_Task_02 | L栏：List_Task_04 | L栏：List_Task_04 | L栏：List_Task_04 | L栏：List_Task_04 | L栏：List_Task_04 |
@@ -639,12 +645,16 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 ## 栏背景色
 
-> **規則 (2026-05-20 修订)**: card-presence rule. 容器에 卡片 / 套卡 list / Sidebar 菜单 浮 时 = `背景色/surface_low` (灰底); 单一全幅 panel = `背景色/surface`. 笔记 / 待办 적용:
-> - **L 栏** (List_Notes 卡片) → `surface_low`
+> **規則 (2026-05-20 修订)**: card-presence rule. 容器에 卡片 / 套卡 list / Sidebar 菜单 浮 时 = `背景色/surface_low` (灰底); 单一全幅 panel / 不带卡片 flat list = `背景色/surface` (白底). 笔记 / 待办 적용:
+> - **L 栏 笔记** (List_Notes 卡片 stacked) → `surface_low`
+> - **L 栏 待办** (List_Task 不带卡片 flat list) → `surface`
 > - **N 栏** (외壳 안에 Sidebar 单一卡片 浮起, 即「N 栏 = 外壳 + 卡片」구조) → `surface_low`
 > - **C 栏 笔记 Detail** (단일 全幅 note panel) → `surface`
-> - **C 栏 NL→C fallback** (list 카드 上提) → `surface_low`
-> - **frame** → `surface_low` (전체 통일, 분할선/외부 padding 영역 일관)
+> - **C 栏 待办 DetailTask** (단일 全幅 panel) → `surface`
+> - **C 栏 NL→C fallback 笔记** (list 카드 上提) → `surface_low`
+> - **C 栏 NL→C fallback 待办** (list 不带卡片 上提) → `surface`
+> - **frame 笔记** → `surface_low` (卡片浮起视觉一致)
+> - **frame 待办** → `surface` (不带卡片, 白底统一)
 
 「不存在」表示笔记应用不使用该模式。
 

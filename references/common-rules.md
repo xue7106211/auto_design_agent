@@ -28,6 +28,43 @@
 18. **A 类标准组件 padding 风满（核心规则）**：所有自带 internal padding 的标准组件（StatusBar / NavBar / TopBar / SearchBar / Chip / List / Detail / ToolBar / BottomBar / Sidebar / TextInput / Fab 等）一律 `x = 0, width = 栏W` 风满。**禁止任何 outer 合算**，禁止把 device-dim 断点表 spec 应用到 A 类组件。视觉 padding 由组件 internal 提供（默认 12dp）。详见 §3.4a.1 A/B 二分。
 19. **应用专用 N 收起 L 栏 width 规则**：笔记 / 待办 NL framework 收起态下 N 栏自身消失（不是 device-dim 通用 N=88 + L 缩窄），**L 栏 width = frameW**（吸收 N 宽度）。其它应用按各自 `app-variant-map-{app}.md` 声明，未声明则沿用 device-dim 通用规则。落位 L 栏 frame 时必须先查 app-variant-map 是否有覆盖。
 20. **inner componentProperties 必须与源稿同步**：源稿 instance 的内部 INSTANCE 子节点 `componentProperties`（如 ToolBar 按钮 `状态=禁用` / `数量=4个`、List item 编辑态、SearchBar 激活态等）反映源稿业务态。适配 frame 必须递归继承，**禁止** 仅 swap 顶层 variant 而 inner state 停留在 main default。Phase 1 dump `sourceInnerStateMap` → Phase 5 `placeStandardComponent({ sourceInst, inheritInnerState=true })` 自动继承 → Phase 6 verifyChecklist ⑯ 通过 `spec.componentChecks[i].sourceInstId` 自动比对差异。详见 `component-placement-protocol.md §2 内部状态继承` + §6.2 #25。
+21. **组件 import 时源稿实际 ComponentSet 优先**：Phase 4 组件 import 时，**必须先读取源稿 instance 的 `mainComponent.parent`（= 源稿实际使用的 ComponentSet）**，从该 set 中查找目标 variant。`search_design_system` 同名结果可能返回不同 set（同名异库），直接采用会导致错误组件落位。仅当源稿中不存在该组件时才走 `search_design_system` 路径。
+22. **源稿实际 variant 与 CSV / 映射表冲突时处理**：源稿 instance 的实际 variant 与 `app-variant-map` 映射表不一致时，**以源稿实际 variant 为准**执行适配，同时向用户报告差异并建议更新映射表。原因：源稿是设计师最新交付物，映射表可能滞后。（与 §3.11 互补：§3.11 处理 CSV vs .md 冲突；本条处理源稿实物 vs 映射表冲突）
+
+## §0.5 组件源文件架构（强制，Phase 4 / Phase 5 前置）
+
+### §0.5.1 两个权威源文件
+
+所有多端适配的组件**必须且仅从**以下两个 Figma 文件获取：
+
+| # | 文件名 | fileKey | 角色 | 典型组件 |
+|---|--------|---------|------|---------|
+| 1 | **Xiaomi-HyperOS-业务组件库** | `mrvMGwkbZ7qZML7iOfQsvI` | 应用专属业务组件 | List_Task, DetailTask, List_Notes, Detail_Notes, AIWindow_Notes, RecordNotes, NewTaskWindow, TextInput_Notes, BottomBar_Showcase_Notes, BottomBar_NoteEditPanel 等 |
+| 2 | **Xiaomi-Hyper-OS4-UI-Kit** | `FBvQ3xM5C62MgIcA1JHWIs` | 系统通用组件 | StatusBar, NavigationBar, SearchBar, BottomBar, Sidebar, ToolBar, Fab, SelectableChip, SwipeIndicator, TopBar, Scrollbar, Menu, FloatingWindow 等 |
+
+### §0.5.2 CSV 与源文件的关系
+
+| CSV | 内容 | 与源文件关系 |
+|-----|------|-------------|
+| **控件总表**（结构变化表——总表） | 应用 × 设备 × screenMode → variantId 全量映射 | 每个 variantId 对应上述两文件之一中的实际组件变体 |
+| **控件变体清单**（全表） | 所有 variant 的 ComponentFamily / VariantId / Space(padding) / 完成状况 | variant 是否已落地、spacing spec 的权威来源 |
+
+### §0.5.3 执行约束
+
+| # | 规则 |
+|---|------|
+| 1 | **framework 判定必须基于 CSV 控件总表**：判断某 app 在某 device 下是否有 C 栏内容（Detail / Fab / TextInput 等），以 CSV 该 app 行的对应设备列是否存在 `C栏：XXX` 为准。**禁止**仅根据源 section 内是否有 detail frame 来判断 framework |
+| 2 | **Phase 4 variant lookup**：`app-variant-map-{app}.md` 映射表 → CSV 控件总表（cross-check）→ 源文件 import。三者一致时直接执行；不一致时按 §3.11 冲突处理 |
+| 3 | **源 section 内未见 detail frame ≠ 该 app 无 detail**：业务组件库中的 Detail 组件（如 `DetailTask_01`）通过 `importComponentByKeyAsync` 导入，不要求源 section 中预先存在 detail frame |
+| 4 | **`search_design_system` 查询时**：优先使用 `app-variant-map-{app}.md §0.4` 中记录的 component set key；未记录时用 CSV 控件变体清单中的 ComponentFamily + VariantId 构造查询词 |
+
+### §0.5.4 常见误判与纠正
+
+| 误判 | 根因 | 正确做法 |
+|------|------|---------|
+| "源 frame 无 detail → 判定 NL" | 仅看源 section，未查 CSV | 查 CSV 控件总表该 app 行 `C栏` 列；存在 DetailTask / DetailNotes → LC/NLC |
+| "业务组件库是另一个文件，与适配无关" | 不了解两文件架构 | 业务组件库 = 业务组件唯一权威源 |
+| "手机源稿是单一列表页所以大屏也只有列表" | 忽视大屏 C 栏内容来自库而非源稿 | 大屏 LC/NLC 的 C 栏通过 import 库组件填充 |
 
 ## §1. 检索与复用边界
 
@@ -381,8 +418,9 @@ for (const chk of spec.componentChecks) {
 | family | `_00` 含义 | 适配处理 |
 |---|---|---|
 | `NavigationBar_ComponentSet_00` | 无 NavBar (空变体) | **不创建 instance** (skip) |
-| `Sidebar_Component_PAD_NLC_00` | 笔记 / 待办 NLC framework: 空容器 (88dp 收起替代) | 创建 instance, 撑 88dp |
+| `Sidebar_Component_PAD_NLC_00` | 笔记 / 待办 NLC framework **收起态**: N 栏直接消失（笔记 N 收起规则） | **不创建 instance**（N 消失，L/C 吸收宽度） |
 | `Sidebar_Component_PAD_NLC_00` | 笔记 / 待办 **NL framework**: N 栏自身消失 | **不创建 instance** |
+| `Sidebar_Component_PAD_NLC_00` | 其他应用 NLC 收起态: 88dp 图标侧边栏 | 创建 instance, 撑 88dp |
 | `BottomBar_Showcase_Notes_00` / `_Showcase_00` | 不渲染 | 不创建 instance |
 | `SelectableChip_ComponentSet_Notes_00` | 不渲染 | 不创建 instance |
 | `ToolBar_ComponentSet_00` | Pad NL framework 工具栏占位 | 仅 Pad NL, 创建 instance |
@@ -541,12 +579,21 @@ for (const chk of spec.componentChecks) {
 
 **症状**: `Sidebar_Component_PAD_NLC_*` 卡片自带圆角 + 外阴影。父 frame 链上任一层 `clipsContent = true` → 阴影被裁掉，N \| L 边界视觉无浮起。
 
+**Sidebar 配置位置（强制）**：
+
+| 模式 | Sidebar 父节点 | 原因 |
+|------|--------------|------|
+| Pad 横 NLC（并列）| **frame 直接子级**（不放入 N 栏内部）| N 栏内部放置 → 阴影被 N 栏边界裁切，即使 `clipsContent=false` 也因 z-order 层级不足无法越过 L 栏 |
+| Pad 竖 NLC（覆盖）| **frame 直接子级** | 覆盖模式天然满足 |
+
+> ⚠️ **禁止将 Sidebar 放入 `main > N 栏` 内部**。Sidebar 必须是 frame 直接子级，通过 z-order（`protocol.md §3` 模板）实现阴影投射到 L 栏之上。N 栏 frame 仅作为 main 内部的空间占位（可保留空 frame 或省略）。
+
 **clipsContent 配置**：
 
-| 模式 | 目标 frame | main | N 栏 |
-|------|-----------|------|-----|
-| Pad 横 NLC（Sidebar 在 N 栏内）| `true`（保留圆角）| **`false`** | **`false`** |
-| Pad 竖 NLC（Sidebar 是 frame 直接子级）| `true` | 不影响 | — |
+| 模式 | 目标 frame | main |
+|------|-----------|------|
+| Pad 横 NLC | `true`（保留圆角）| **`false`** |
+| Pad 竖 NLC | `true` | 不影响 |
 
 **Phase 6 校验**: Pad 横截图能看到 Sidebar 右侧阴影渐变越过 N\|L 边界进入 L 栏。
 

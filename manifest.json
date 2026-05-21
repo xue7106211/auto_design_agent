@@ -1,6 +1,6 @@
 {
-  "version": "1.0.1",
-  "lastUpdated": "2026-05-07",
+  "version": "1.1.0",
+  "lastUpdated": "2026-05-21",
   "skill": {
     "entry": "SKILL.md",
     "version": "1.0.1"
@@ -36,11 +36,11 @@
     {
       "app": "笔记",
       "file": "references/app-variant-map-笔记.md",
-      "status": "draft",
+      "status": "active",
       "devices": ["Phone", "Fold外屏", "Fold内屏", "Pad竖屏", "Pad横屏"],
-      "screenModes": ["L", "C", "NC", "LC", "NLC"],
-      "mappedUiElements": 8,
-      "knownGaps": 10
+      "screenModes": ["L", "C", "NC", "LC", "NLC", "NL"],
+      "mappedUiElements": 12,
+      "knownGaps": 3
     },
     {
       "app": "录音",
@@ -173,85 +173,274 @@
     {
       "name": "NavigationBar",
       "status": "active",
-      "reference": "references/component-dictionary/navigation-bar.md",
-      "dictionaryEntries": 25,
+      "reference": "references/component-dictionary/NavigationBar.md",
+      "dictionaryEntries": 30,
       "executionEntries": 18
     },
     {
       "name": "TopBar",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 4,
-      "executionEntries": 0
-    },
-    {
-      "name": "BottomBar",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 6,
-      "executionEntries": 0
-    },
-    {
-      "name": "Fab",
-      "status": "pending",
-      "reference": null,
+      "status": "active",
+      "reference": "references/component-dictionary/TopBar.md",
       "dictionaryEntries": 3,
       "executionEntries": 0
     },
     {
-      "name": "Sidebar",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 7,
+      "name": "BottomBar",
+      "status": "active",
+      "reference": "references/component-dictionary/BottomBar.md",
+      "dictionaryEntries": 5,
       "executionEntries": 0
     },
     {
+      "name": "Fab",
+      "status": "active",
+      "reference": "references/component-dictionary/Fab.md",
+      "dictionaryEntries": 4,
+      "executionEntries": 0
+    },
+    {
+      "name": "Sidebar",
+      "status": "active",
+      "reference": "references/component-dictionary/Sidebar.md",
+      "dictionaryEntries": 10,
+      "executionEntries": 7
+    },
+    {
       "name": "SelectableChip",
-      "status": "pending",
-      "reference": null,
+      "status": "active",
+      "reference": "references/component-dictionary/SelectableChip.md",
       "dictionaryEntries": 2,
       "executionEntries": 0
     },
     {
       "name": "SearchBar",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 3,
-      "executionEntries": 0
+      "status": "active",
+      "reference": "references/component-dictionary/SearchBar.md",
+      "dictionaryEntries": 12,
+      "executionEntries": 4
     },
     {
       "name": "SearchReceiving",
-      "status": "pending",
-      "reference": null,
+      "status": "active",
+      "reference": "references/component-dictionary/SearchReceiving.md",
       "dictionaryEntries": 2,
       "executionEntries": 0
     },
     {
       "name": "ToolBar",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 1,
+      "status": "active",
+      "reference": "references/component-dictionary/ToolBar.md",
+      "dictionaryEntries": 3,
       "executionEntries": 0
     },
     {
       "name": "Divider",
-      "status": "pending",
-      "reference": null,
+      "status": "active",
+      "reference": "references/component-dictionary/Divider.md",
       "dictionaryEntries": 1,
       "executionEntries": 0
     },
     {
       "name": "FloatingWindow",
-      "status": "pending",
-      "reference": null,
-      "dictionaryEntries": 2,
+      "status": "active",
+      "reference": "references/component-dictionary/FloatingWindow.md",
+      "dictionaryEntries": 3,
       "executionEntries": 0
     },
     {
       "name": "DrawerWindow",
-      "status": "pending",
-      "reference": null,
+      "status": "active",
+      "reference": "references/component-dictionary/DrawerWindow.md",
       "dictionaryEntries": 5,
+      "executionEntries": 0
+    },
+    {
+      "name": "AlertDialog",
+      "status": "active",
+      "reference": "references/component-dictionary/AlertDialog.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "ActionSheet",
+      "status": "active",
+      "reference": "references/component-dictionary/ActionSheet.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Menu",
+      "status": "active",
+      "reference": "references/component-dictionary/Menu.md",
+      "dictionaryEntries": 4,
+      "executionEntries": 0
+    },
+    {
+      "name": "SegmentedControls",
+      "status": "active",
+      "reference": "references/component-dictionary/SegmentedControls.md",
+      "dictionaryEntries": 4,
+      "executionEntries": 0
+    },
+    {
+      "name": "WheelPicker",
+      "status": "active",
+      "reference": "references/component-dictionary/WheelPicker.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Scrollbar",
+      "status": "active",
+      "reference": "references/component-dictionary/Scrollbar.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "NoticeBar",
+      "status": "active",
+      "reference": "references/component-dictionary/NoticeBar.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Keyboard",
+      "status": "active",
+      "reference": "references/component-dictionary/Keyboard.md",
+      "dictionaryEntries": 8,
+      "executionEntries": 0
+    },
+    {
+      "name": "TextInput",
+      "status": "active",
+      "reference": "references/component-dictionary/TextInput.md",
+      "dictionaryEntries": 6,
+      "executionEntries": 0
+    },
+    {
+      "name": "Recorder_Fab",
+      "status": "active",
+      "reference": "references/component-dictionary/Recorder_Fab.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Calendar_TopBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Calendar_TopBar.md",
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "Calendar_NavigationBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Calendar_NavigationBar.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Weather_NavigationBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Weather_NavigationBar.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Settings_NavigationBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Settings_NavigationBar.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_NavigationBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_NavigationBar.md",
+      "dictionaryEntries": 4,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_DetailNotes",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_DetailNotes.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 1
+    },
+    {
+      "name": "Notes_DetailTask",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_DetailTask.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_AIWindow_Notes",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_AIWindow_Notes.md",
+      "dictionaryEntries": 6,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_RecordNotes",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_RecordNotes.md",
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_List",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_List.md",
+      "dictionaryEntries": 24,
+      "executionEntries": 6
+    },
+    {
+      "name": "Notes_List_NoteSetting",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_List_NoteSetting.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_TextFormatPanel",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_TextFormatPanel.md",
+      "dictionaryEntries": 2,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_Menu",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_Menu.md",
+      "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_TextInput",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_TextInput.md",
+      "dictionaryEntries": 3,
+      "executionEntries": 0
+    },
+    {
+      "name": "Notes_SelectableChip",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_SelectableChip.md",
+      "dictionaryEntries": 3,
+      "executionEntries": 1
+    },
+    {
+      "name": "Notes_BottomBar",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_BottomBar.md",
+      "dictionaryEntries": 10,
+      "executionEntries": 1
+    },
+    {
+      "name": "Notes_TaskWindow",
+      "status": "active",
+      "reference": "references/component-dictionary/Notes_TaskWindow.md",
+      "dictionaryEntries": 2,
       "executionEntries": 0
     }
   ]

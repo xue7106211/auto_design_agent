@@ -142,11 +142,14 @@ flowchart TD
 - `references/app-variant-map-指南针.md`
 - `references/app-variant-map-时钟.md`
 
-### 3. 组件族 reference 覆盖面不足
+### 3. 组件族 reference 覆盖面
 
-当前活跃的组件族 reference 主要是：
+当前已建立独立字典文档的组件族 reference（共 39 份，2026-05-21 同步）：
 
-- `references/component-dictionary/NavigationBar.md`
+- 通用组件：`NavigationBar` / `TopBar` / `BottomBar` / `Fab` / `Sidebar` / `SelectableChip` / `SearchBar` / `SearchReceiving` / `SegmentedControls` / `ToolBar` / `Divider` / `FloatingWindow` / `DrawerWindow` / `AlertDialog` / `ActionSheet` / `Menu` / `Scrollbar` / `NoticeBar` / `Keyboard` / `WheelPicker` / `TextInput`
+- 业务专属：`Notes_NavigationBar` / `Notes_DetailNotes` / `Notes_DetailTask` / `Notes_AIWindow_Notes` / `Notes_RecordNotes` / `Notes_List` / `Notes_List_NoteSetting` / `Notes_TextFormatPanel` / `Notes_Menu` / `Notes_TextInput` / `Notes_SelectableChip` / `Notes_BottomBar` / `Notes_TaskWindow` / `Recorder_Fab` / `Calendar_TopBar` / `Calendar_NavigationBar` / `Weather_NavigationBar` / `Settings_NavigationBar`
+
+其中仅 `NavigationBar.md` 经过完整 Figma 探查验证（`probed`），其余多数为 `csv2-listed` / `manual` 状态，执行层记录待逐步补充。
 
 ## use_figma 回写拆解
 

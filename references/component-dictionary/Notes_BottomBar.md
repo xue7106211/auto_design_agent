@@ -119,4 +119,4 @@ instance.setProperties({
 - Outline 与 NoteEditPanel 各 variant 的 `nodeId` / `componentKey` / `componentSetId` 待 探查
 - NoteEditPanel `_03` 场景 spec 与子节点结构待 探查
 
-> CSV1 / CSV2 同步日期：2026-05-19。
+> CSV1 / CSV2 同步日期：2026-05-21。
