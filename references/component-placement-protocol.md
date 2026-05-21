@@ -26,6 +26,17 @@
 
 ## 2. 标准落位序列（Canonical Sequence）
 
+### Pre-placement checklist（调用 placeStandardComponent 前强制确认）
+
+每次调用前，调用方必须已确认以下 4 项。任一项未确认 = 禁止调用：
+
+| # | 检查项 | 确认方式 | 违反后果 |
+|---|--------|---------|---------|
+| 1 | **`y` 值来源** | 从 `device-dimensions.md` 或 `app-variant-map §0.1` 直接 lookup 获得。**禁止 y=0 默认**（C 栏 Detail 即使 NavBar 不渲染也必须 y=62） | Phase 6 verifyChecklist fail |
+| 2 | **`h` 值来源** | `mainComponent.height`（自然高度）与 `device-dimensions.md` spec 比对后取值。**禁止沿用源稿高度** | reflow / 尺寸不合格 |
+| 3 | **源稿存在性** | source frame metadata 中该组件存在（Phase 1 已确认）。源稿无该组件 → 不配置（§2.1 密度守恒）| 多余组件 / 内容溢出 |
+| 4 | **set key 归属** | `belongsToSet.library` ∈ {`Xiaomi Hyper OS4 UI Kit`, `Xiaomi HyperOS 业务组件库`}。**非 v0.8** | 错误库版本落位 |
+
 ```js
 // 单个组件落位 = 以下 6 步，顺序不可调换、不可省略
 async function placeStandardComponent({

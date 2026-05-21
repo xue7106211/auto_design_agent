@@ -66,6 +66,22 @@ lastUpdated: 2026-05-07
 
 默认进入整页多端适配主链路。
 
+### Phase 0.1：APP + 画面识别确认（hard gate）
+
+> **作用**：防止仅凭 source frame metadata 误判 framework（如待办=NLC 被误判为 NL）。APP 名 + 画面场景是 `app-variant-map-{app}.md` lookup 的前提。
+
+**强制步骤**：
+
+1. **向 user 确认**：「本次适配的 APP 是什么？适配的是哪个画面 / 子场景？」
+   - 若 source frame 名称 / section 名称已明确（如含 APP 名 + 场景关键字）→ 向 user 复述确认即可，无需重新提问
+   - 若模糊（frame 名 = 通用名如 "列表页"）→ 必须 AskUserQuestion
+2. **确定 app-variant-map 文件**：`references/app-variant-map-{app}.md`
+   - 文件不存在 → 中止，报告缺口
+3. **确定子场景**：如 笔记/待办、默认/编辑 等
+4. **输出**（1 行）：`✓ Phase 0.1: app={app}, scene={子场景}, variant-map=app-variant-map-{app}.md`
+
+**通过条件**：user 确认 APP + 画面后才可进入 Phase 1。
+
 执行原则：
 
 - 优先读取整页源稿上下文，判断目标设备和布局类型
@@ -355,6 +371,42 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | `status` | 仅允许 `mapped` / `hidden` / `absent` / `fallback` / `blocked`；未记录视为未完成 |
 | 完成标准 | 命中**目标设备 / 方向 / screenMode 下的标准实例**；停留在源稿原始 `VariantId` / 旧设备 variant / 未校验 clone 视为未完成 |
 | layoutRole ↔ componentFamily 校验 | `layoutRole=L` + `componentFamily=Sidebar`，或 `layoutRole=C` + 底部导航 / 侧边栏族 → 判为语义冲突并中止 |
+
+### Phase 4.5：Phase 5 进入前强制验证 gate（hard gate，全部通过才可进入 Phase 5）
+
+> **作用**：2026-05-21 session 根因分析后追加。防止 stale key / 错误 set / 源稿不存在组件 / v0.8 库混入等问题进入 Phase 5 后才暴露。
+
+#### Gate A：key validation（库归属验证）
+
+componentTaskList 中所有 set key 必须确认归属于文件已订阅的权威库：
+
+```
+OS4_UI_KIT_LIB_KEY = 'lk-99b74bcae3830e7fa42bff92b9af247770c40d33650ac8e37d311dbcd02321a55beac93407846a401603f5a1125359b845a83ebd62c2c10b2e56f524f729b9d6'
+业务组件库_LIB_KEY = 'lk-5e5ef4ed4b44063baacfd6b3c0d26f1e054d3e79c42cd17c69cd3a63b96c95827462d9c7b516f941f3d8f83ed15a2ac273b99110e7fbb595c92eefaf58488b29'
+```
+
+验证方式：`search_design_system(query=setName, includeLibraryKeys=[上述两 key])` → 结果中 `componentKey` 与 §0.4 记录一致 → pass。不一致 → 阻断 + 用搜索结果更新 §0.4 + 重新 import。
+
+**特别禁止**：`Xiaomi HyperOS v0.8`（libraryKey `lk-bd807c2a...`）的任何组件。v0.8 与 OS4 UI Kit 存在大量同名 set，cross-library import 可能静默成功但落位旧版本组件。
+
+#### Gate B：source cross-check（源稿对照验证）
+
+componentTaskList 每条目必须通过以下 2 项检查：
+
+| # | 检查 | 通过条件 | 未通过处理 |
+|---|------|---------|----------|
+| 1 | **源稿存在性** | source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
+| 2 | **ComponentSet 出处** | 优先使用 `source instance.mainComponent.parent` 的 set；该 set 内含目标 variant → 直接用 | set 内无目标 variant → 才允许 search_design_system |
+
+#### Gate C：belongsToSet 强制列
+
+componentTaskList 每行必须含 `belongsToSet`（set name + set key + library name）字段。该字段由 Gate A + B 产出。空白行 = Phase 5 进入阻断。
+
+**输出**（向 user 显示）：
+
+```
+✓ Phase 4.5 gate: N 条目 key 验证通过 / M 条目源稿对照通过 / 0 条目来自 v0.8
+```
 
 ### Phase 5：读取布局 reference 并执行
 

@@ -30,6 +30,9 @@
 20. **inner componentProperties 必须与源稿同步**：源稿 instance 的内部 INSTANCE 子节点 `componentProperties`（如 ToolBar 按钮 `状态=禁用` / `数量=4个`、List item 编辑态、SearchBar 激活态等）反映源稿业务态。适配 frame 必须递归继承，**禁止** 仅 swap 顶层 variant 而 inner state 停留在 main default。Phase 1 dump `sourceInnerStateMap` → Phase 5 `placeStandardComponent({ sourceInst, inheritInnerState=true })` 自动继承 → Phase 6 verifyChecklist ⑯ 通过 `spec.componentChecks[i].sourceInstId` 自动比对差异。详见 `component-placement-protocol.md §2 内部状态继承` + §6.2 #25。
 21. **组件 import 时源稿实际 ComponentSet 优先**：Phase 4 组件 import 时，**必须先读取源稿 instance 的 `mainComponent.parent`（= 源稿实际使用的 ComponentSet）**，从该 set 中查找目标 variant。`search_design_system` 同名结果可能返回不同 set（同名异库），直接采用会导致错误组件落位。仅当源稿中不存在该组件时才走 `search_design_system` 路径。
 22. **源稿实际 variant 与 CSV / 映射表冲突时处理**：源稿 instance 的实际 variant 与 `app-variant-map` 映射表不一致时，**以源稿实际 variant 为准**执行适配，同时向用户报告差异并建议更新映射表。原因：源稿是设计师最新交付物，映射表可能滞后。（与 §3.11 互补：§3.11 处理 CSV vs .md 冲突；本条处理源稿实物 vs 映射表冲突）
+23. **禁止以「视觉无影响」为由跳过正确 variant 匹配**：组件的 device-specific variant（如 `杆子` 的 `设备=折叠屏/pad × 横竖屏=横屏/竖屏`）必须按目标设备 + 方向精确选择。即使当前 variant 视觉上透明 / 不可见 / 与目标 variant 外观一致，也**不允许**保留错误 variant。原因：①设计系统的 variant 携带语义信息（适用设备、方向等），后续自动化检查 / 主题切换 / 深色模式可能产生差异；②「视觉无影响」是当前状态的主观判断，不是持久保证；③映射表 / spec 规定的精确值是强制要求，无豁免条件。
+
+24. **HyperOS v0.8 库组件禁止使用（MUST）**：所有 import 必须来自文件已订阅的三个权威库（`Xiaomi HyperOS 业务组件库` / `HyperOS4-Design-Token-Lib` / `Xiaomi Hyper OS4 UI Kit: Figma UI Kit 4.0 AI 测试版`）。**`Xiaomi HyperOS v0.8`（libraryKey `lk-bd807c2a...`）绝对禁止**。v0.8 与 OS4 UI Kit 中存在同名 ComponentSet（如 `杆子` / `StatusBar` 等），`importComponentSetByKeyAsync` 可能跨库调用成功但实际 import 旧库版本。**强制验证流程**：Phase 5 落位完成后，对任一关键组件 instance 执行 `inst.mainComponent.remote === true` + Figma UI 右侧面板确认 library name 不含 "v0.8"。§0.4 记录的 key 如经 Figma UI 确认来自 v0.8 → 必须立即用 `search_design_system`（scope = OS4 UI Kit libraryKey）找到正确 key 并替换。
 
 ## §0.5 组件源文件架构（强制，Phase 4 / Phase 5 前置）
 
@@ -176,6 +179,36 @@
 
 **完成判据**：清单所有任务 status 已关闭。否则禁止汇报"适配完成"。
 
+### §3.1a variantId → ComponentSet 归属确认（Phase 4 强制）
+
+**WHEN**: `app-variant-map` 返回 `variantId`（如 `Fab_01` / `List_Task_04` / `Sidebar_Component_PAD_NLC_01` 等）后执行 import 之前
+
+**MUST**:
+
+1. **先查 `app-variant-map-{app}.md §0.4` 确定该 variantId 归属哪个 ComponentSet**（key 已记录）
+2. 以 set key 执行 `importComponentSetByKeyAsync(key)` → `set.children.find(c => c.name.includes(variantId))`
+3. **禁止**以 variantId 名称直接 `search_design_system` 然后盲取首个结果 —— 同名 / 近名组件可能分布在多个 set 中，语义不同
+
+**典型错误**：
+
+| variantId | 错误路径 | 正确路径 |
+|---|---|---|
+| `Fab_01` | `search_design_system('Fab')` → `Fab-Showcase`（内部 icon 子组件）| §0.4 `BottomBar` set (`414cabc8...`) → `children.find(/^variantId=Fab_01,/)` |
+| `List_Task_04` | `importComponentSetByKeyAsync(List_Notes key)` → not found | §0.4 或 `search_design_system('List_Task')` → 业务组件库独立 set |
+| `Sidebar_Component_PAD_NLC_01` | 新建 search → 多个同名结果 | §0.4 `BottomBar` set → 同一 set 内 variant |
+
+**核心原则**：映射表的 `variantId` 是 ComponentSet 内部的变体标识符，不是独立组件名。**必须先定位 set，再在 set 内查 variant**。set 归属以 §0.4 记录为首要权威；§0.4 未记录时通过源稿 instance 的 `mainComponent.parent` 确定。
+
+**componentTaskList 强制列 `belongsToSet`**：Phase 4 生成 componentTaskList 时，每行必须填写：
+
+| 字段 | 内容 | 来源 |
+|------|------|------|
+| `belongsToSet.name` | ComponentSet 名称 | §0.4 / source `mainComponent.parent.name` |
+| `belongsToSet.key` | ComponentSet key | §0.4 / source `mainComponent.parent.key` |
+| `belongsToSet.library` | 库名 | `search_design_system` 结果的 `libraryName` |
+
+该字段为空 = **Phase 5 进入阻断**（SKILL.md Phase 4.5 Gate C）。确保每个 variantId 的 set 归属在进入落位前已明确。
+
 ### §3.2 标准组件实例保护
 
 **WHEN**: 任何对标准结构组件（`NavigationBar` / `StatusBar` / `Sidebar` / `BottomBar` 等）的修改
@@ -298,17 +331,23 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 
 **症状**：源稿 StatusBar = 手机 variant，clone 到 Fold/Pad 后**不会自动切换**。必须显式 `swapComponent` + `resize`。
 
-**CSV 权威映射**（CSV1 系统组件 行 + CSV2 变体定义，2026-05-19 PM8 修订）:
+**CSV 权威映射**：
 
-权威库 = **Xiaomi Hyper OS4 UI Kit**（file `FBvQ3xM5C62MgIcA1JHWIs`，node `127160:4132` 「状态栏-StatusBar」）。**非 ComponentSet，由 3 个独立 COMPONENT 组成**:
+权威库 = **Xiaomi Hyper OS4 UI Kit AI 测试版**（file `FBvQ3xM5C62MgIcA1JHWIs`）。2026-05-21 起已归并为 **ComponentSet**（set key = `1047f2112a230a27d3888d27b34a5857815216e3`），内含 `StatusBar_01` + `StatusBar_03` 两个 variant（`_02` deprecated 已移除）。
 
-| CSV VariantId | Hyper OS4 component key | 自然尺寸 | 适用设备 |
+**⚠️ 禁止使用个别 component key 直接 import**（个别 key 随 library republish 会失效）。唯一安全路径：
+```
+const sbSet = await figma.importComponentSetByKeyAsync('1047f2112a230a27d3888d27b34a5857815216e3');
+const sb01 = sbSet.children.find(c => c.name.includes('01')); // Fold
+const sb03 = sbSet.children.find(c => c.name.includes('03')); // Pad
+```
+
+| CSV VariantId | 获取方式 | 自然尺寸 | 适用设备 |
 |---|---|---|---|
-| `StatusBar_01` | `51a9e97373386b29e94ec5f52bf7cd7d68aedb90` | 392×46 | **手机 + Fold（外+内）通用** |
-| `StatusBar_02` | `3f550237556e08bc9b4f2bd60b2651a5de29b834` | 888×38 | **当前未使用（deprecated）** |
-| `StatusBar_03` | `6c9d87a15183ab4a6320b23e2f22bd8dbe07ba7c` | 1422×38 | **Pad 专用** |
+| `StatusBar_01` | set import → `children.find(/01/)` | 392×46 | **手机 + Fold（外+内）通用** |
+| `StatusBar_03` | set import → `children.find(/03/)` | 1422×38→**强制34** | **Pad 专用** |
 
-**核心**: Fold 内屏/外屏 一律使用 `StatusBar_01`；Pad 一律使用 `StatusBar_03`；`StatusBar_02` 禁止使用。
+**核心**: Fold 内屏/外屏 一律使用 `StatusBar_01`；Pad 一律使用 `StatusBar_03`；`StatusBar_02` 已移除。
 
 | 设备 | Component | spec 高度 | 自然高度 | 备注 |
 |------|-----------|----------|---------|------|
@@ -317,13 +356,13 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 | Pad 横/竖 | `StatusBar_03` | **34** | **38** | swap 后强制 resize 34；**易 reflow 回 38** |
 
 **MUST**:
-1. swap target = Hyper OS4 的 canonical component（`StatusBar_01` 或 `_03`），禁止凭直觉猜测
-2. Fold 适配时使用 `StatusBar_01`（key `51a9e97...`）
-3. Pad 适配时使用 `StatusBar_03`（key `6c9d87a...`）
+1. **禁止 `importComponentByKeyAsync` 直接导入**。必须经 set key + `children.find()` 路径（个别 component key 随 library republish 失效，set key 稳定）
+2. Fold 适配时使用 `StatusBar_01`（set import 后 `children.find(/01/)`）
+3. Pad 适配时使用 `StatusBar_03`（set import 后 `children.find(/03/)`）
 4. swap 后立即 `resize(frameW, specH) → x=0, y=0`
-5. resize 后若 reflow 回自然 width，需先 `inst.children[0].layoutSizingHorizontal = 'FILL'` 再 resize
-6. **完成全部变更后二次校验**，发现 38 立即 `resize(_, 34)` 强制
-7. Phase 6 必检：`(width === frameW, height ∈ {46, 34})`
+5. **resize 后强制 inner child FILL**：`inst.children[0].layoutSizingHorizontal = 'FILL'`（组件 default 为 FILL，但已生成 instance 的 override 可能残留 FIXED。不论新旧 instance 均需显式设置）
+6. **完成全部变更后二次校验**：`inst.children[0].width === inst.width`，不一致则重复 step 5
+7. Phase 6 必检：`(width === frameW, height ∈ {46, 34}, children[0].width === inst.width)`
 
 **NEVER**:
 - 源稿 deprecated set（旧 key `599a7d4b...` 等）直接沿用（必须 swap 至 canonical）
@@ -387,6 +426,7 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | 5 | 视觉异常（卡片多余留白 / 内容错位）→ 先怀疑 component 库版本（参见 §3.10），后查 instance 写错 |
 | **6** | **Instance resize 后 `inst.children[0].width === inst.width` 自动校验**。不一致时立即 `inst.children[0].layoutSizingHorizontal = 'FILL'`; 仍不一致则尝试 `inst.children[0].layoutSizingVertical = 'FILL'`. 失败则报告「component limitation」妥协项 + 拆分到 design-team 专项 task (instance-level 不可解决). |
 | **7** | **Sidebar / Pad-TopBar 等含多层 auto-layout 组件需 3 级递归 FILL override**: `inst.children[0].layoutSizingVertical = 'FILL'` + `inst.children[0].children[0].layoutSizingVertical = 'FILL'` + `(.children[0].children[0]).children.find(c=>c.name==='内容区域'相似).layoutSizingVertical = 'FILL'`. 单一层 override 不足 (PM3 验证). |
+| **8** | **ToolBar / BottomBar_Showcase inner state 2nd pass 必须在 `placeStandardComponent` 函数体内执行**（protocol.md step 10），禁止依赖调用方 inline 补充。capsule `setProperties({数量:X})` 会 rebuild children（全新 ID），首次 walk 只传递首项，后续 `.组件状态变化` 等 deep-inner 节点 miss。修复 = 统一走 protocol.md 完整函数，禁止 simplified inline helper |
 
 ### §3.6.A 自动校验函数补强 (verifyChecklist 增项)
 
@@ -641,6 +681,18 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 
 **根因案例**: §0.4 的 `状态栏-StatusBar` key `599a7d4b...`（Hyper OS4 UI Kit ComponentSet）stale → `not found`。当时 search_design_system 显示活跃 set = `15e94d49...`（HyperOS v0.8）。**PM8 修订**: HyperOS v0.8 并非 file 订阅库。权威 = Xiaomi Hyper OS4 UI Kit 的 3 个独立 COMPONENT（StatusBar_01 `51a9e973...`、StatusBar_02 `3f550237...` deprecated、StatusBar_03 `6c9d87a1...`），file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`。「`15e94d49...` 可调用」仅说明 cross-library import 成功，并非 file 的 canonical 库。**教训**: 禁止仅凭 search_design_system 结果断定权威库 → 必须通过 `get_libraries` 的 `libraries_added_to_file` 直接确认。
 
+### §3.10.C Stale key 예방: import 실패 시 §0.4 즉시 업데이트 강제
+
+**WHEN**: `importComponentByKeyAsync(key)` 또는 `importComponentSetByKeyAsync(key)` 이 `not found` 에러 반환 시
+**MUST**:
+1. `search_design_system` 으로 해당 component/set 의 최신 key 탐색
+2. 최신 key 로 import 재시도 성공 시, **해당 session 내에서 즉시 `app-variant-map-{app}.md §0.4` 의 key 업데이트** (git commit 필수)
+3. 개별 component key (`StatusBar_01` 등) 가 독립 key 로 관리 불안정한 경우 → **ComponentSet key 로 통합 후 `children.find()` 패턴으로 전환** (set key 가 더 안정적)
+
+**근본 원인**: Figma library 가 update/republish 될 때 개별 component key 가 재생성될 수 있음. ComponentSet key 는 상대적으로 안정적이지만 역시 stale 가능. §0.4 는 **cache** 이지 permanent truth 가 아님 — stale 발견 즉시 갱신해야 다음 session 에서 반복 실패를 방지.
+
+**StatusBar 특수 케이스 (2026-05-21 확정)**: `StatusBar_ComponentSet` set key = `1047f2112a230a27d3888d27b34a5857815216e3` (Hyper OS4 UI Kit AI 测试版). 개별 variant 는 set import 후 `children.find(/01|03/)` 으로 접근. 독립 component key 는 더 이상 §0.4 에 기록하지 않음.
+
 ## §3.11 CSV vs map source-of-truth 冲突 (PM4/PM6 根因)
 
 **WHEN**: 用户提供 CSV1/CSV2 + `app-variant-map-{app}.md` 已更新版本同时存在
@@ -696,6 +748,34 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 **应用专用变更日志**（迁出，避免本节膨胀）：
 - 笔记 / 待办 → `app-variant-map-笔记.md §0.5`
 - 其它应用 → 各自 `app-variant-map-{app}.md`
+
+## §3.14 妥协声明前实证强制（2026-05-21 追加）
+
+**WHEN**: componentTaskList 某条目准备标记为 `fallback` / `blocked`，或声明「无法同步」「结构差异」等
+
+**MUST 提供实证**：
+
+1. 实际执行的代码片段（setProperties / swapComponent / importComponentSetByKeyAsync 等）
+2. 执行返回的**具体错误信息**（error message 或 undefined 结果）
+3. 针对该错误的二次修复尝试（如 fresh import §3.10.A）
+
+**以下表述不构成有效妥协理由**（直接判为规则违反）：
+
+| 无效表述 | 原因 |
+|---------|------|
+| 「结构差异导致无法同步」 | 未实际尝试 setProperties |
+| 「视觉无影响所以可以跳过」 | §0 #23 禁止 |
+| 「variant 间外观一致」 | 不替代精确 variant 匹配 |
+| 「同步不可能」 | 未提供错误证据 |
+
+**有效妥协理由（仅限以下 4 类）**：
+
+| 有效理由 | 需提供的证据 |
+|---------|------------|
+| `importComponentSetByKeyAsync` 或 `importComponentByKeyAsync` 抛错 | error message |
+| `setProperties` / `swapComponent` 抛错 | error message + 尝试代码 |
+| variant 不存在（fresh import 后 `set.children.find()` 仍 undefined）| fresh import 时间戳 + children 列表 |
+| 用户显式指示跳过 | 用户原话引用 |
 
 ## §4. 写入与降级策略
 
@@ -766,7 +846,20 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 | 2 | 记录上一步创建的 node ID |
 | 3 | 截图校验当前状态 |
 | 4 | 结构校验关键节点的尺寸 / 位置 |
-| 5 | 确认无误 → 进入下一步 |
+| 5 | **组件替换（`remove` + `appendChild`）后即时验证 parent.children z-order 与 spec 一致** |
+| 6 | 确认无误 → 进入下一步 |
+
+**§6.0 追加：组件替换后 z-order 即时确认**
+
+`remove()` + 新 `appendChild()` 替换组件时，同一 `use_figma` 调用内必须验证 `parent.children` 顺序：
+
+| parent | z-order 约束 |
+|--------|-------------|
+| L 栏 | ToolBar / BottomBar 必须最顶 z（List 之上）|
+| C 栏 | TextInput 必须最顶 z（Detail 之上）|
+| frame | 杆子必须最顶 z；Sidebar 在遮罩之上 |
+
+**根因**：2026-05-21 List_Task 替换后 `appendChild(newList)` 使 List 成为最后 child → ToolBar 被覆盖。替换操作本身不保持 z-order，必须在替换后显式 `parent.appendChild(topZChild)` 将需要置顶的节点重新提升。
 
 ### §6.0.1 修正优先级
 
