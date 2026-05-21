@@ -26,7 +26,7 @@ status: draft
 | # | 规则 | 详细 |
 |---|------|------|
 | 1 | **C 栏 TextInput bottom flush** | `y = mainH − TI.h`，**bottom 贴 frame 底**，与杆子 16dp 重叠（笔记 NoteEditPanel 源稿 convention） |
-| 2 | **Detail 高度延伸** | `Detail.height = mainH − 62`（延伸到 TI 下方，TI 通过 z-order + fade 自然 overlay）；不能算成 `mainH − 154` |
+| 2 | **Detail / DetailTask 位置与高度（Fold + Pad C 栏共通）** | **`y = 62, height = mainH − 62`**。即使 C 栏 NavigationBar = `_00`（不渲染），Detail 仍从 y=62 起始（保留 NavBar 预留区域 6+56=62dp）。笔记 NLC 有 TI 时 Detail 延伸到 TI 下方（TI 通过 z-order + fade overlay）；待办无 TI 时 Detail 直接延伸到 mainH 底部。**禁止** NavBar 不渲染时将 Detail 上提到 `y=0`（破坏统一栏内起始线） |
 | 3 | **C 栏 z-order** | `NavBar → Detail → TextInput`（TI 在上层 fade overlay 在 Detail 之上）；杆子在 frame 直接子级 |
 | 4 | **L 栏 顺序** | `NavBar(56) → SearchBar(56) → SelectableChip(52) → List → BottomBar(100, 底)`；**与源稿 Chip↔Search 顺序差异时以 spec 为准** |
 | 5 | **杆子（home indicator）** | `x=0, width=frameW` 风满；`fills=[]` 透明；frame 直接子级**最顶 z-order**（Sidebar 之上） |
@@ -153,25 +153,27 @@ status: draft
 >   - **frame 笔记**（外框层）→ `surface_low`（保持卡片浮起视觉一致）
 >   - **frame 待办 手机 / Fold 外屏**（List_Task_01 套卡）→ `surface_low`
 >   - **frame 待办 Fold 内屏 / Pad**（List_Task_03 无卡片）→ `surface`
-> - **历史教训（2026-05-18 / 2026-05-20）**：旧版按 framework 划分（NL=surface_low / NLC+LC=surface）→ Pad NLC L 栏列表卡片浮在白底失去对比。修订为 **容器内容形态判定**（card-presence rule）。原则上 framework 不再决定背景色。
+> - **强制规则**：每个 frame 的 `bindFill` 调用前，必须重新 trace 该 device 的 List variant → card-presence → token 决定链，禁止跨 device 复用上一 frame 的 token 选择。
 
 ### §0.4 关键组件 set keys（重要）
 
 | set | key | 备注 |
 |-----|-----|------|
-| `StatusBar_ComponentSet`（Hyper OS4 UI Kit AI 测试版） | set: `003ec04eb9e763c871c5590e22dca91b4420f140` | 含 `_01/_02/_03` 三 variant。2026-05-21 确认可用 |
-| `StatusBar_01`（手机+Fold） | `dadf3838908886b422b3a5030daea28b8d7972d2` | 自然 330×28，resize 至 392×46（手机）/ 888×46（Fold横）/ 628×46（Fold竖）|
-| `StatusBar_03`（Pad） | `57a5ea78d0c120b146e7bd0d33e3f57132f33351` | 自然 1366×20，resize 至 1422×34（Pad横）/ 949×34（Pad竖）。强制 H=34 |
+| `StatusBar_ComponentSet`（Hyper OS4 UI Kit AI 测试版） | set: **`1047f2112a230a27d3888d27b34a5857815216e3`** | 含 `_01/_02/_03` 三 variant。**2026-05-21 fresh import 确认可用**。旧 key `003ec04e...` / `dadf3838...` / `57a5ea78...` 均已 stale |
+| `StatusBar_01`（手机+Fold） | **通过 set import 后 `children.find(/01/)`** | 自然 392×46。resize 至 888×46（Fold横）/ 628×46（Fold竖）|
+| `StatusBar_03`（Pad） | **通过 set import 后 `children.find(/03/)`** | 自然 1422×38。resize 至 frameW×**34**（强制 H=34）|
 | `NavigationBar` | `a89cd38d06061fcbb5ff7e596b92f8f3cf3888de` | 含 `_00`~`_18` 系列。**`_Notes_*` 已分离到下方独立 set** |
 | `NavigationBar_ComponentSet_Notes` | `ac60af7e28e6491b3520ecaefd71fa7e03832c31` | 业务组件库；含 `_Notes_01`/`_Notes_02` |
 | `SearchBar_ComponentSet` | `2316a63eb824ab38f388c3127101e535b7668398` | LC 默认风满用 `_05`（不是 `_02`）|
 | `SelectableChip_ComponentSet_Notes` | `af1e1df353e8fb1fe8005b82fed310422f2eae4c` | |
 | `List_Notes` | `94f9b4085ba12b43511a95282fa84225241f6f9e` | |
+| `待办列表`（List_Task，业务组件库） | **`1107d1e9566fff3d96635c2485ed1d96607903b6`** | 源稿实际使用 set。含 `_01/_02/_03/_04`。**禁止**使用 `List_Task` set (`629a1367...`)（同名异 set，视觉不同）|
 | `Detail_Notes` | `961f0e237edea438d52e6d2ad9b4e38c99bd2c68` | |
 | `BottomBar_Showcase_Notes` | `303649c8435835bcbfb5e85e668a0b6562497cad` | |
 | `TextInput_ComponentSet_Notes` | `0dc20401cde070d654725146db336032d2f886a2` | **Fold 内 LC C 栏 默认 = `_08`**（非 `_01`）|
 | `BottomBar`（含 `Sidebar_Component_PAD_NLC_*`）| `414cabc8e633c33cc6441ff0f936f971dc9babd3` | Sidebar 在此 set 内；2026-05-15 卡片 y=0 h=788 |
-| `杆子` | `eaa1eedcfecafc098f1383119303223843baa3c5` | 含 手机/折叠屏/pad × 横/竖 × 浅/深 全 variant |
+| `Fab-Showcase`（OS4 UI Kit，独立 Fab 按钮） | set: **`67603f39593a06d446c43bd7767882c4b26e2f57`** | 56×56 standalone 按钮。`功能=新建`（待办 "+" 按钮）/ `功能=拨号` / `功能=搜索` 等。**⚠️ 与 BottomBar set 内 `Fab_01`（392×100 容器）完全不同 — 映射表 `Fab_01；彩色` 指的是本 set，不是 BottomBar 容器** |
+| `杆子`（SwipeIndicator_ComponentSet，OS4 UI Kit） | set: **`8356fb53480febeb853a6c391bcd2dc8f13198f2`** | `_05`=Fold内竖(628) / `_06`=Fold内横(888) / `_07`=Pad竖(949) / `_08`=Pad横(1422)。**旧 key `eaa1eedc...` = HyperOS v0.8，禁止使用** |
 
 ### §0.5 历史踩坑（笔记 / 待办 应用专用）
 
