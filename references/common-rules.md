@@ -34,6 +34,8 @@
 
 24. **HyperOS v0.8 库组件禁止使用（MUST）**：所有 import 必须来自文件已订阅的三个权威库（`Xiaomi HyperOS 业务组件库` / `HyperOS4-Design-Token-Lib` / `Xiaomi Hyper OS4 UI Kit: Figma UI Kit 4.0 AI 测试版`）。**`Xiaomi HyperOS v0.8`（libraryKey `lk-bd807c2a...`）绝对禁止**。v0.8 与 OS4 UI Kit 中存在同名 ComponentSet（如 `杆子` / `StatusBar` 等），`importComponentSetByKeyAsync` 可能跨库调用成功但实际 import 旧库版本。**强制验证流程**：Phase 5 落位完成后，对任一关键组件 instance 执行 `inst.mainComponent.remote === true` + Figma UI 右侧面板确认 library name 不含 "v0.8"。§0.4 记录的 key 如经 Figma UI 确认来自 v0.8 → 必须立即用 `search_design_system`（scope = OS4 UI Kit libraryKey）找到正确 key 并替换。
 
+25. **浮层 Overlay 行的容器映射禁止套用 C栏直接使用子场景**：`app-variant-map §浮层 Overlay`「抽屉窗口 / 浮窗 FloatingWindow」行定义的是**通用 Overlay 容器转换**（手机 DrawerWindow → 大屏 FloatingWindow）。当子场景（AI提问 / 录音 等）的 C栏内容直接占据 frame 而非浮层时，**禁止**将 FloatingWindow 作为容器 import — 按 CSV 该行 "容器" 列值决定承载方式（`竖屏背景` = frame fill，非组件容器）。
+
 ## §0.5 组件源文件架构（强制，Phase 4 / Phase 5 前置）
 
 ### §0.5.1 两个权威源文件
@@ -681,17 +683,17 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 
 **根因案例**: §0.4 的 `状态栏-StatusBar` key `599a7d4b...`（Hyper OS4 UI Kit ComponentSet）stale → `not found`。当时 search_design_system 显示活跃 set = `15e94d49...`（HyperOS v0.8）。**PM8 修订**: HyperOS v0.8 并非 file 订阅库。权威 = Xiaomi Hyper OS4 UI Kit 的 3 个独立 COMPONENT（StatusBar_01 `51a9e973...`、StatusBar_02 `3f550237...` deprecated、StatusBar_03 `6c9d87a1...`），file `FBvQ3xM5C62MgIcA1JHWIs` node `127160:4132`。「`15e94d49...` 可调用」仅说明 cross-library import 成功，并非 file 的 canonical 库。**教训**: 禁止仅凭 search_design_system 结果断定权威库 → 必须通过 `get_libraries` 的 `libraries_added_to_file` 直接确认。
 
-### §3.10.C Stale key 예방: import 실패 시 §0.4 즉시 업데이트 강제
+### §3.10.C Stale key 预防：import 失败时 §0.4 即时更新强制
 
-**WHEN**: `importComponentByKeyAsync(key)` 또는 `importComponentSetByKeyAsync(key)` 이 `not found` 에러 반환 시
+**WHEN**: `importComponentByKeyAsync(key)` 或 `importComponentSetByKeyAsync(key)` 返回 `not found` 错误时
 **MUST**:
-1. `search_design_system` 으로 해당 component/set 의 최신 key 탐색
-2. 최신 key 로 import 재시도 성공 시, **해당 session 내에서 즉시 `app-variant-map-{app}.md §0.4` 의 key 업데이트** (git commit 필수)
-3. 개별 component key (`StatusBar_01` 등) 가 독립 key 로 관리 불안정한 경우 → **ComponentSet key 로 통합 후 `children.find()` 패턴으로 전환** (set key 가 더 안정적)
+1. 通过 `search_design_system` 搜索该 component/set 的最新 key
+2. 最新 key import 重试成功时，**在当前 session 内立即更新 `app-variant-map-{app}.md §0.4` 的 key**（git commit 必须）
+3. 个别 component key（`StatusBar_01` 等）以独立 key 管理不稳定时 → **统合为 ComponentSet key 后转换为 `children.find()` 模式**（set key 更稳定）
 
-**근본 원인**: Figma library 가 update/republish 될 때 개별 component key 가 재생성될 수 있음. ComponentSet key 는 상대적으로 안정적이지만 역시 stale 가능. §0.4 는 **cache** 이지 permanent truth 가 아님 — stale 발견 즉시 갱신해야 다음 session 에서 반복 실패를 방지.
+**根本原因**：Figma library update/republish 时个别 component key 可能被重新生成。ComponentSet key 相对稳定但同样可能 stale。§0.4 是 **cache** 而非 permanent truth —— 发现 stale 时必须立即更新以防止下次 session 重复失败。
 
-**StatusBar 특수 케이스 (2026-05-21 확정)**: `StatusBar_ComponentSet` set key = `1047f2112a230a27d3888d27b34a5857815216e3` (Hyper OS4 UI Kit AI 测试版). 개별 variant 는 set import 후 `children.find(/01|03/)` 으로 접근. 독립 component key 는 더 이상 §0.4 에 기록하지 않음.
+**StatusBar 特殊案例（2026-05-21 确定）**：`StatusBar_ComponentSet` set key = `1047f2112a230a27d3888d27b34a5857815216e3`（Hyper OS4 UI Kit AI 测试版）。个别 variant 通过 set import 后 `children.find(/01|03/)` 访问。独立 component key 不再记录于 §0.4。
 
 ## §3.11 CSV vs map source-of-truth 冲突 (PM4/PM6 根因)
 
