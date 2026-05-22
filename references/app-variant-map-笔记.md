@@ -35,6 +35,70 @@ status: draft
 | 8 | **NL framework L 栏 顶部通则** | 笔记 / 待办 **宫格 NL framework**：N 收起时 N 栏自身消失 + **L 栏 width = frameW**（满幅吸收）。**⚠️ 禁止** device-dim 通用 NL 收起 split（`N=88 + L=1334/861`）。<br>**NL framework L 栏 NavBar 一律 `_00`（不渲染，默认 + 编辑均同）** — 顶部统一使用 `TopBar_X` 单独放置；TopBar 自身为 NavBar + SearchBar 合成变体（NavigationBar set 内「顶部导航」family）。<br>**NL framework N 栏 NavBar 也一律 `_00`（不渲染，默认 + 编辑、展开 + 收起 均同）** — Sidebar (`Sidebar_Component_PAD_NLC_01`) 内部 `NavigationAtoms`（56dp）已承担 N 栏标题栏角色，**禁止** 在 N 栏外部额外放置 `NavigationBar_ComponentSet_12 / _18` 等（旧版「N 栏：NavBar_12」表述已废弃）：<br>&nbsp;&nbsp;• **默认 展开** → `TopBar_03`（内含 NavBar_07 + SearchBar_02）<br>&nbsp;&nbsp;• **默认 收起** → `TopBar_07`（内含 NavBar_17 + SearchBar_02，**自带 N 恢复 icon**）<br>&nbsp;&nbsp;• **编辑 展开** → `TopBar_09`（内含 NavBar_18 + SearchBar_02）<br>&nbsp;&nbsp;• **编辑 收起** → `TopBar_08`（内含 NavBar_18 + SearchBar_02，**自带 N 恢复 icon**）<br>NL framework 中 L NavBar 不允许单独放置，TopBar_X 已吸收 NavBar 角色。NLC framework（笔记 / 待办之外的应用）才使用 88dp `Sidebar_Component_PAD_NLC_00`。详见「N 收起 规则」节 + common-rules §0 #19 |
 | 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。**List 默认 / NL** device-specific 变体（奇数序列）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_09` / `Fold内横 C 单栏=_11` / `Pad竖NL=_13` / `Pad竖NL收起=_15` / `Pad横NL=_17` / `Pad横NL收起=_19`。**编辑 NL** device-specific 变体（偶数序列）：`手机竖=_06` / `Fold外竖=_08` / `Fold内竖=_10` / `Fold内横=_12` / `Pad竖NL=_14` / `Pad竖NL收起=_16` / `Pad横NL=_18` / `Pad横NL收起=_20`。 |
 
+### §0.1-AI 特殊子场景 framework 规则（AI提问 / 录音 等 C栏直接使用子场景）
+
+> 以下子场景的 framework **按 CSV 控件总表该行 device 列 header 判定**，不从源 frame 外观推断。
+
+| 子场景 | 手机 | Fold内 | Pad |
+|--------|------|--------|-----|
+| AI提问（AI对话） | DrawerWindow（全屏） | C（通栏） | NC（N+C） |
+
+**强制约束**：
+
+1. **浮窗 FloatingWindow 行不适用**：「抽屉窗口 / 浮窗 FloatingWindow」映射行（§浮层 Overlay）定义的是通用 Overlay 容器转换；AI提问 C栏内容**直接落位于 C 栏 frame**，不套 FloatingWindow 容器。
+2. **DrawerWindow 仅限手机**：DrawerWindow_ComponentSet 是手机（392dp）专用容器。Fold / Pad 上 CSV "容器" 列值为「竖屏背景」时 → 用 frame fill（`背景色/surface_low`）替代，**禁止 resize DrawerWindow 到大屏尺寸**。
+3. **AIWindow_Options variant 必须 device-specific swap**：`_01`→手机 / `_03`→Fold内竖 / `_04`→Fold内横 / `_05`→Pad竖 / `_06`→Pad横。**禁止**将手机 variant 直接 resize 到目标设备宽度（内部结构会崩溃）。先 swap 到目标 variant，再按该 variant 自然宽度放置。
+4. **TextInput padding 同步规则**：AI提问场景中 TextInput_ComponentSet_Notes 以**栏满宽**（`x=0, w=栏W`）放置，**内部 paddingLeft / paddingRight** 与 AIWindow_Options 对应 variant 的有效内容 paddingLeft 一致（保持「气泡 ↔ 输入框」视觉左边缘对齐）。
+   - **规则公式**：`TextInput.x = 0`, `TextInput.w = 栏W`, `TextInput.paddingLeft = TextInput.paddingRight = X`
+   - **X 的测量方法**：AIWindow_Options instance 左边缘 → 内部首个胶囊（`TabMaterial-Showcase`）左边缘的水平距离。即：`X = bubble.absoluteX − aiWindow.absoluteX`（递归查找首个 name 含 `TabMaterial` 的节点）
+   - **当前参考值**（2026-05-22 实测，库更新后须重新验证）：
+
+     | variant | X (dp) | 来源层级 |
+     |---------|--------|---------|
+     | `_01`（手机） | 24 | firstChild `.标题栏` paddingLeft=24 |
+     | `_03`（Fold内竖） | 24 | firstChild `.标题栏` paddingLeft=24 |
+     | `_04`（Fold内横） | 124 | firstChild `.标题栏` paddingLeft=124 |
+     | `_05`（Pad竖） | 28 | topLevel paddingLeft=28 |
+     | `_06`（Pad横） | 56 | topLevel paddingLeft=56 |
+
+   - **禁止**：① 使用 device-dimensions 断点表 padding 替代本规则 ② 仅凭 AIWindow 顶层 `paddingLeft`（Fold 系 variant 全部为 0）判定 —— 必须按测量方法实测或查参考表 ③ 旧公式 `TextInput.x=X, w=栏W−2X`（已废弃，改为栏风满+内部 padding）
+5. **栏背景色**：AI提问 C 栏 frame fill = `背景色/surface_low`（与 AIWindow 灰色对话背景一致）。frame 外壳也同色（StatusBar 透明后底色一致）。
+6. **NavigationBar variant（CSV 权威）**：
+
+     | device | C栏 NavigationBar | N栏 NavigationBar |
+     |--------|-------------------|-------------------|
+     | 手机 | `_10` | — |
+     | Fold外竖 | `_13` | — |
+     | Fold内竖 C | `_13` | — |
+     | Fold内横 C | `_13` | — |
+     | Pad竖 NC 展开 | `_10` | `_00`（不渲染，Sidebar 内部 NavigationAtoms 代替） |
+     | Pad横 NC 展开 | `_10` | `_00` |
+     | Pad竖 NC 收起 | `_12` | `_00` |
+     | Pad横 NC 收起 | `_12` | `_00` |
+
+   - **N栏 NavigationBar 永远 `_00`**：Sidebar_Component_PAD_NLC_01/00 内部 NavigationAtoms（56dp）已承担标题栏角色，禁止在 N 栏外部另放 NavigationBar
+   - **禁止**：将 Fold C 通栏的 `_13` 套用到 Pad C栏（Pad C栏必须 `_10`/`_12`）
+9. **Sidebar variant（AI对话 NC 专用行）**：
+
+     | device | N栏 Sidebar |
+     |--------|-------------|
+     | Pad NC 展开 | `Sidebar_Component_PAD_NLC_01`（272dp） |
+     | Pad NC 收起 | `_00`（不渲染，**N栏自身消失 + C栏 width=frameW 满幅吸收**，同宫格NL收起逻辑） |
+     | 手机 / Fold | —（C 通栏，无 N 栏） |
+
+   - `_00` = 不渲染 / 不占位，与 `NavigationBar_00`、`BottomBar_00` 同理。NC收起时 N栏仅保留 88dp 空白背景列。
+7. **StatusBar variant**：手机 / Fold = `StatusBar_01`（h=46）；Pad = `StatusBar_03`（h=34）。AI提问场景 StatusBar **fills=[]（透明）**，底色由 frame fill 提供。
+8. **SwipeIndicator / 杆子 variant**：
+
+     | device | variant |
+     |--------|---------|
+     | 手机 | `SwipeIndicator_01` |
+     | Fold外竖 | `SwipeIndicator_03` |
+     | Fold内竖 | `SwipeIndicator_05` |
+     | Fold内横 | `SwipeIndicator_06` |
+     | Pad竖 | `SwipeIndicator_07`（杆子 Pad竖 variant） |
+     | Pad横 | `SwipeIndicator_08`（杆子 Pad横 variant） |
+
 ### §0.1a 各设备默认 layoutType（强制 lookup，禁止跨设备共用）
 
 > **本表是 Phase 2 `targetVariantPlan` 的 layoutType 决定权威**。每个适配 frame 的 layoutType 必须按本表 device 列查询，**不得**因「源稿塌缩为单一画面」而把所有 frame 统一为同一 layoutType。
@@ -243,14 +307,14 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 - N 栏直接消失
   - Pad 横屏：L / C 吸收 N 宽度（收起尺寸等同 LC 模式）
   - Pad 竖屏：N 本来以覆盖形式叠加于 LC 上，收起后 LC 回归原尺寸
-- N 恢复图标 위치 (framework 별 분기):
-  - **NLC framework / 默认**: L 栏 NavigationBar 최左 = `NavigationBar_ComponentSet_17`
-  - **NLC framework / 编辑**: L 栏 NavigationBar 최左 = `NavigationBar_ComponentSet_18`
+- N 恢复图标位置（按 framework 分支）：
+  - **NLC framework / 默认**：L 栏 NavigationBar 最左 = `NavigationBar_ComponentSet_17`
+  - **NLC framework / 编辑**：L 栏 NavigationBar 最左 = `NavigationBar_ComponentSet_18`
   - **NL framework（宫格默认）**：L 栏 NavBar 不渲染（`_00`），**N 栏 NavBar 也不渲染（`_00`）** —— Sidebar 内部 `NavigationAtoms`（56dp）已承担标题栏角色，外部无需再放 NavBar_12。N 恢复 icon = **`TopBar_07`**（search 变体自带）。无需另放 NavBar_17。
   - **NL framework（编辑）**：L 栏 NavBar 不渲染（`_00`），**N 栏 NavBar 也不渲染（`_00`）** —— 同默认 NL，由 Sidebar 内部 NavigationAtoms 承担。L 栏 顶部由 `TopBar_09`（展开）/ `TopBar_08`（收起）承担 NavBar 合成（含编辑变体 NavBar_18 与 N 恢复 icon）。**禁止** 在 N 栏额外放置 `NavigationBar_ComponentSet_18`（旧版表述已废弃）。
 - 侧边栏组件本体：
   - 展开态: `Sidebar_Component_PAD_NLC_01`
-  - 收起态: N 栏 자체 消失 (笔记 NL 宫格 specifically). 笔记 NLC framework 에서는 `Sidebar_Component_PAD_NLC_00` (空 容器 변체).
+  - 收起态：N 栏自体消失（笔记 NL 宫格特有）。笔记 NLC framework 中使用 `Sidebar_Component_PAD_NLC_00`（空容器变体）。
 
 本规则仅适用于笔记应用（`笔记` + `待办` 子场景）。电话、联系人、文件管理等其他应用仍沿用 `Sidebar_Component_PAD_NLC_02` 的 88dp 收起形态。
 
@@ -315,7 +379,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | 场景 | 手机竖 | Fold外竖 | Fold内竖/横 LC | Pad竖NLC | Pad竖NLC收起 | Pad竖NL | Pad竖NL收起 | Pad横NLC | Pad横NLC收起 | Pad横NL | Pad横NL收起 | Pad竖LC | Pad横LC |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|
 | NLC | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | L栏：NavigationBar_ComponentSet_06；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | N栏：NavigationBar_ComponentSet_12；L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | N栏：NavigationBar_ComponentSet_00；L栏：NavigationBar_ComponentSet_18；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — |
-| NL  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | C栏：NavigationBar_ComponentSet_06 | — | — | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（不渲染；TopBar_09 자체 NavBar 합성, §0 #8） | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（不渲染；TopBar_08 자체 NavBar 합성） | — | — | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（同上） | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（同上） | — | — |
+| NL  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | C栏：NavigationBar_ComponentSet_06 | — | — | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（不渲染；TopBar_09 自身 NavBar 合成, §0 #8） | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（不渲染；TopBar_08 自身 NavBar 合成） | — | — | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（同上） | N栏：NavigationBar_ComponentSet_00；**L栏：NavigationBar_ComponentSet_00**（同上） | — | — |
 | LC  | NavigationBar_ComponentSet_03 | NavigationBar_ComponentSet_06 | L栏：NavigationBar_ComponentSet_06；C栏：NavigationBar_ComponentSet_Notes_01 | — | — | — | — | — | — | — | — | L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 | L栏：NavigationBar_ComponentSet_09；C栏：NavigationBar_ComponentSet_Notes_01 |
 
 #### 标题栏 NavigationBar — 其他子场景（C 栏单屏）
@@ -344,7 +408,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | NL 编辑 | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | C栏：SearchBar_ComponentSet_05 | — | — | L栏：TopBar_09 | L栏：TopBar_08 | — | — | L栏：TopBar_09 | L栏：TopBar_08 | — | — |
 | LC  | SearchBar_ComponentSet_05 | SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 | — | — | — | — | — | — | — | — | L栏：SearchBar_ComponentSet_05 | L栏：SearchBar_ComponentSet_05 |
 
-> Pad NL 默认 收起 = `TopBar_07`（含 N 复원 icon）；Pad NL 编辑 收起 = **`TopBar_08`**（含 N 复원 + 编辑 NavBar_18）；Pad NL 编辑 展开 = **`TopBar_09`**（编辑 NavBar_18）。NL framework 시 L NavBar 절대 单独 不渲染，TopBar 자체가 NavBar 합성. CSV1「搜索栏 SearchBar / 编辑模式 Edit Mode / NL」row 권위.
+> Pad NL 默认 收起 = `TopBar_07`（含 N 复恢 icon）；Pad NL 编辑 收起 = **`TopBar_08`**（含 N 复恢 + 编辑 NavBar_18）；Pad NL 编辑 展开 = **`TopBar_09`**（编辑 NavBar_18）。NL framework 时 L NavBar 绝对不单独渲染，TopBar 自身 NavBar 合成. CSV1「搜索栏 SearchBar / 编辑模式 Edit Mode / NL」row 权威.
 
 #### 搜索页面 SearchPage（SearchBar + SearchReceiving 复合）
 
@@ -391,7 +455,7 @@ Pad NLC / NL / NC 框架在 **N 收起态** 下不使用 `Sidebar_Component_PAD_
 | NL  | List_Notes_06 | List_Notes_08 | **Fold内竖C：List_Notes_10 / Fold内横C：List_Notes_12** | — | — | L栏：List_Notes_14 | L栏：List_Notes_16 | — | — | L栏：List_Notes_18 | L栏：List_Notes_20 | — | — |
 | LC  | List_Notes_02 | List_Notes_02 | L栏：List_Notes_04 | — | — | — | — | — | — | — | — | L栏：List_Notes_04 | L栏：List_Notes_04 |
 
-> **Fold 内 NL→C 单栏 fallback (编辑)**：`Fold内竖 C 单栏：List_Notes_10` / `Fold内横 C 单栏：List_Notes_12` (CSV2 짝수 시퀀스 = 编辑 변체).
+> **Fold 内 NL→C 单栏 fallback (编辑)**：`Fold内竖 C 单栏：List_Notes_10` / `Fold内横 C 单栏：List_Notes_12` (CSV2 偶数序列 = 编辑变体).
 > List/NL **编辑** 行 device-specific 变体使用偶数序列（`_06/_08/_10/_12/_14/_16/_18/_20`），偶数索引 = 该 device 的编辑变体。
 
 #### 底部工具栏 ToolBar / BottomBar
@@ -647,13 +711,13 @@ Fold 内屏上该容器覆盖整屏，不按 NC / LC / C 分栏；Pad 上仍附�
 
 ## 栏背景色
 
-> **規則 (2026-05-20 修订)**: card-presence rule. 容器에 卡片 / 套卡 list / Sidebar 菜单 浮 时 = `背景色/surface_low` (灰底); 单一全幅 panel / 不带卡片 flat list = `背景色/surface` (白底). 笔记 / 待办 적용:
+> **規則 (2026-05-20 修订)**: card-presence rule. 容器中有卡片 / 套卡 list / Sidebar 菜单 浮起时 = `背景色/surface_low` (灰底); 单一全幅 panel / 不带卡片 flat list = `背景色/surface` (白底). 笔记 / 待办 适用:
 > - **L 栏 笔记** (List_Notes 卡片 stacked) → `surface_low`
 > - **L 栏 待办** (List_Task 不带卡片 flat list) → `surface`
-> - **N 栏** (외壳 안에 Sidebar 单一卡片 浮起, 即「N 栏 = 外壳 + 卡片」구조) → `surface_low`
-> - **C 栏 笔记 Detail** (단일 全幅 note panel) → `surface`
-> - **C 栏 待办 DetailTask** (단일 全幅 panel) → `surface`
-> - **C 栏 NL→C fallback 笔记** (list 카드 上提) → `surface_low`
+> - **N 栏** (外壳内 Sidebar 单一卡片 浮起, 即「N 栏 = 外壳 + 卡片」结构) → `surface_low`
+> - **C 栏 笔记 Detail** (单一 全幅 note panel) → `surface`
+> - **C 栏 待办 DetailTask** (单一 全幅 panel) → `surface`
+> - **C 栏 NL→C fallback 笔记** (list 卡片 上提) → `surface_low`
 > - **C 栏 NL→C fallback 待办** (list 不带卡片 上提) → `surface`
 > - **frame 笔记** → `surface_low` (卡片浮起视觉一致)
 > - **frame 待办** → `surface` (不带卡片, 白底统一)

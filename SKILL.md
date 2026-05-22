@@ -189,19 +189,19 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | 底部 Tab + 列表 + detail | **NLC** |
 | 底部 Tab + detail（无列表） | **NC** |
 | 列表 + detail（无底部 Tab） | **LC** |
-| **列表 + ToolBar（无 detail，无底部 Tab）** | **NL** ← list-only 핵심 분기 |
+| **列表 + ToolBar（无 detail，无底部 Tab）** | **NL** ← list-only 核心分支 |
 | 底部 Tab + 列表（无 detail） | **NL** |
 | 单一 detail 内容 | **C** |
 
-**list-only 강제 NL 규칙**（중요）：
+**list-only 强制 NL 规则**（重要）：
 
-- 源 frame 에 detail 페이지가 **존재하지 않으면** framework = **NL** 로 확정. **NLC / LC 로 우선 판정 금지**.
-- 「detail 없음 → C 栏 어떻게 채울까」류 질문은 **잘못된 질문**. NL 은 C 栏 자체가 없음.
-- NL 매핑 lookup 은 `app-variant-map-{app}.md` 의 **NL 行** 에서. NLC / LC 행에서 lookup 시 가짜 detail / 잘못된 list variant 발생 (例: `List_Notes_03` 대신 `_05` 가 정답).
-- Fold 내屏 NL → **C 单栏 fallback** (per `app-variant-map-{app}.md §0 #9`「Fold 内 NL→C 单栏 fallback 통칙」). list / 顶部모듈 / ToolBar 모두 C 单栏에 직접 적층.
-- Pad NL = N 栏 (Sidebar) + L 栏 (list 통합 단栏). C 栏 없음. 各栏 padding 은 device-dimensions「Pad NL 展开 / 收起」 spec 적용.
+- 源 frame 中 detail 页面**不存在时** framework = **NL** 确定。**禁止优先判定为 NLC / LC**。
+- 「detail 不存在 → C 栏怎么填充」类问题是**错误问题**。NL 本身没有 C 栏。
+- NL 映射 lookup 必须从 `app-variant-map-{app}.md` 的 **NL 行**查找。从 NLC / LC 行 lookup 会产生虚假 detail / 错误 list variant（例：正确答案是 `_05` 而非 `List_Notes_03`）。
+- Fold 内屏 NL → **C 单栏 fallback**（per `app-variant-map-{app}.md §0 #9`「Fold 内 NL→C 单栏 fallback 通则」）。list / 顶部模块 / ToolBar 全部直接堆叠在 C 单栏中。
+- Pad NL = N 栏（Sidebar）+ L 栏（list 统合单栏）。无 C 栏。各栏 padding 按 device-dimensions「Pad NL 展开 / 收起」spec 适用。
 
-> **AskUserQuestion 가이드라인**: framework 가 결정 트리상 모호할 때, **C 栏 처리 방법**부터 물으면 안 됨 (NLC 로 잠긴 framing). **framework 자체** (NL vs NLC vs LC vs NC vs C) 를 첫 질문으로 옵션 제시할 것.
+> **AskUserQuestion 指南**：framework 在决策树上模糊时，**不可从「C 栏处理方法」开始提问**（会锁定 NLC framing）。必须将 **framework 本身**（NL vs NLC vs LC vs NC vs C）作为首个问题的选项呈现。
 
 - 用户明确指定布局类型时，以用户指定为准
 
@@ -209,16 +209,16 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 本阶段必须形成 `targetVariantPlan`，至少明确以下四项是否需要生成 **+ 各 frame 的 framework**:
 
-| target | framework 결정 |
+| target | framework 决定 |
 |---|---|
 | `Fold内屏-横屏` | NLC 不可（仅 Pad）；其他 framework 按上方决策树。**list-only 时 = Fold内 NL→C 单栏 fallback** |
 | `Fold内屏-竖屏` | 同上 |
-| `Pad-横屏` | list-only 时 = **Pad NL** (Sidebar + L 단栏，无 C)；list+detail 时 = NLC |
+| `Pad-横屏` | list-only 时 = **Pad NL**（Sidebar + L 单栏，无 C）；list+detail 时 = NLC |
 | `Pad-竖屏` | 同上 |
 
 若用户没有缩小范围，上述四项默认都为必做项；后续写入与验证都必须以这份计划为准，不允许执行中途静默漏掉竖屏版本。
 
-**framework × device 매트릭스 일치성 검증**: 4 frame 의 framework 가 일치하지 않으면 (예: Fold = LC + Pad = NLC) 정상이지만, **모두 동일 source 라면 framework 자체는 일관** 해야 함 (list-only → 모두 NL fallback / list+detail → LC + NLC 페어). framework 불일치 발견 시 user 에게 의도 확인.
+**framework × device 矩阵一致性验证**：4 frame 的 framework 不一致时（例：Fold = LC + Pad = NLC）属正常，但**全部来自同一 source 时 framework 本身必须一致**（list-only → 全部 NL fallback / list+detail → LC + NLC 配对）。发现 framework 不一致时须向 user 确认意图。
 
 ### Phase 2 补充：targetVariantPlan 计数规则（钻取层级合并 / drilldown collapse）
 
@@ -264,6 +264,8 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
    - 用户若希望 Pad 也用 LC（如秘密笔记），必须 **显式偏离**并记录在妥协项
 
 > **本规则的根因**：2026-05-16 笔记多端适配任务中，AI 误把"2 源 frame × 4 设备 = 8 frame"作为默认计数，导致一半 frame 的 C 栏空缺。此规则将检测点固化在 Phase 2 计数阶段，并强制 AskUserQuestion 暴露计数结果，避免错误计数被用户的"完整执行"答复掩盖。
+
+6. **特殊子场景 framework 异设备分化检测**：AI提问 / 录音 / 设置 等子场景的 framework 可能**按 device 不同**（如 Fold=C, Pad=NC）。Phase 2 判定 framework 时必须读取 CSV 控件总表**该行**的每个 device 列 header，**禁止**仅从源 frame 外观推断单一 framework 后全设备共用。异设备 framework 时 `targetVariantPlan` 各 frame 的 layoutType 独立标注。参见 `app-variant-map-笔记.md §0.1-AI`。
 
 ### Phase 3：加载通用规则
 

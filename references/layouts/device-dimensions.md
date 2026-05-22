@@ -540,8 +540,23 @@ NLC 与 NC 框架均适用以下规则：
 | `DrawerWindow_ComponentSet_high_01` | 高档（819dp） |
 | `DrawerWindow_ComponentSet_mid_01` | 中档默认（508dp） |
 | `DrawerWindow_ComponentSet_low_01` | 低档收起（112dp） |
-| `DrawerHandle_Bar_10` | 滑动把手 |
+| `DrawerHandle_Bar_01` | 滑动把手 |
 | `DrawerWindow_BG_01` | 抽屉面板背景 |
+
+#### z-order 层级（由底至顶）
+
+抽屉内内容超出可视区域时，部分控件悬浮于内容之上，不随滚动移动：
+
+| 层级 | 元素 | 说明 |
+|------|------|------|
+| 1（底） | `DrawerWindow_BG_01` | 抽屉面板背景 |
+| 2 | 内容区（列表 / 宫格等） | 可滚动主体 |
+| 3 | `TextInput` | 悬浮于内容之上 |
+| 4（顶） | 控制杆 `SwipeIndicator`（按设备选择变体）、拖拽把手 `DrawerHandle_Bar_01`、`NavigationBar` | 最上层，始终悬浮 |
+
+- 控制杆 SwipeIndicator 位于 TextInput 之上。
+- 控制杆、拖拽把手、NavigationBar 三者同为最顶层，不被内容或 TextInput 遮挡。
+- 控制杆按各设备对应的 SwipeIndicator 变体使用。
 
 ### 弹窗 Dialog
 
