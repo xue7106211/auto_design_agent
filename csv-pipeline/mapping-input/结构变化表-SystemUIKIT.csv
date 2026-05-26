@@ -1,0 +1,6 @@
+﻿应用,,PHONE,,FOLD,,,,,,,,PAD,,,,,,,,,,,,,,,
+,,竖屏,横屏,外屏,,内屏 / 竖屏,,,内屏 / 横屏,,,竖屏,,,,,,,,横屏,,,,,,,
+,,,,竖屏,横屏,NC,LC,C,NC,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C
+系统控件 SystemUIKIT,键盘 Keyboard,Keyboard_phone_h_01,Keyboard_phone_l_01,Keyboard_fold_inside_h_01,Keyboard_phone_l_01,Keyboard_fold_outside_h_01,,,Keyboard_fold_outside_l_01,,,Keyboard_pad_h_01,,,,,,,,Keyboard_pad_l_01,,,,,,,
+,状态栏 StatusBar,StatusBar_01,,StatusBar_01,,StatusBar_01,,,StatusBar_01,,,StatusBar_03,,,,,,,,StatusBar_03,,,,,,,
+,控制杆 SwipeIndicator,SwipeIndicator_01,SwipeIndicator_02,SwipeIndicator_03,SwipeIndicator_04,SwipeIndicator_05,,,SwipeIndicator_06,,,SwipeIndicator_07,,,,,,,,SwipeIndicator_08,,,,,,,

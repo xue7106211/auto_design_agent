@@ -1,0 +1,743 @@
+app,scene,state,uiElement,device,screenMode,栏,variantId,notes
+Notes,NLC,默认,BottomBar,手机竖,,全栏,BottomBar_Showcase_00,
+Notes,NLC,默认,BottomBar,Fold外竖,,全栏,BottomBar_Showcase_00,
+Notes,NLC,默认,BottomBar,Fold内竖,LC,L栏,BottomBar_Showcase_00,
+Notes,NLC,默认,BottomBar,Fold内横,LC,L栏,BottomBar_Showcase_00,
+Notes,NLC,默认,Sidebar,Pad竖,NLC,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NLC,默认,Sidebar,Pad竖,NLC收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NLC,默认,Sidebar,Pad横,NLC,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NLC,默认,Sidebar,Pad横,NLC收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NL,默认,BottomBar,手机竖,,全栏,BottomBar_Showcase_00,
+Notes,NL,默认,BottomBar,Fold外竖,,全栏,BottomBar_Showcase_00,
+Notes,NL,默认,BottomBar,Fold内竖,C,全栏,BottomBar_Showcase_00,
+Notes,NL,默认,BottomBar,Fold内横,C,全栏,BottomBar_Showcase_00,
+Notes,NL,默认,Sidebar,Pad竖,NL,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NL,默认,Sidebar,Pad竖,NL收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NL,默认,Sidebar,Pad横,NL,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NL,默认,Sidebar,Pad横,NL收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NC,默认,BottomBar,手机竖,,全栏,BottomBar_Showcase_00,
+Notes,NC,默认,BottomBar,Fold外竖,,全栏,BottomBar_Showcase_00,
+Notes,NC,默认,BottomBar,Fold内竖,C,全栏,BottomBar_Showcase_00,
+Notes,NC,默认,BottomBar,Fold内横,C,全栏,BottomBar_Showcase_00,
+Notes,NC,默认,Sidebar,Pad竖,NC,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NC,默认,Sidebar,Pad竖,NC收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NC,默认,Sidebar,Pad横,NC,N栏,Sidebar_Component_PAD_NLC_01,
+Notes,NC,默认,Sidebar,Pad横,NC收起,N栏,Sidebar_Component_PAD_NLC_00,
+Notes,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,
+Notes,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,
+Notes,NLC,默认,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_04,
+Notes,NLC,默认,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_04,
+Notes,NLC,默认,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC,L栏,NavigationBar_ComponentSet_07,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC收起,L栏,NavigationBar_ComponentSet_17,
+Notes,NLC,默认,NavigationBar,Pad竖,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,Pad横,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,默认,NavigationBar,Pad横,NLC,L栏,NavigationBar_ComponentSet_07,
+Notes,NLC,默认,NavigationBar,Pad横,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,Pad横,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,默认,NavigationBar,Pad横,NLC收起,L栏,NavigationBar_ComponentSet_17,
+Notes,NLC,默认,NavigationBar,Pad横,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,N L
+Notes,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,N L
+Notes,C,默认,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_04,N L
+Notes,C,默认,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_04,N L
+Notes,NL,默认,NavigationBar,Pad竖,NL,N栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad竖,NL,L栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad竖,NL收起,N栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad竖,NL收起,L栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad横,NL,N栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad横,NL,L栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad横,NL收起,N栏,NavigationBar_ComponentSet_00,N L
+Notes,NL,默认,NavigationBar,Pad横,NL收起,L栏,NavigationBar_ComponentSet_00,N L
+Notes,NC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Pad竖,NC,N栏,NavigationBar_ComponentSet_12,
+Notes,NC,默认,NavigationBar,Pad竖,NC,L栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Pad竖,NC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NC,默认,NavigationBar,Pad竖,NC收起,L栏,NavigationBar_ComponentSet_Notes_03,
+Notes,NC,默认,NavigationBar,Pad横,NC,N栏,NavigationBar_ComponentSet_12,
+Notes,NC,默认,NavigationBar,Pad横,NC,L栏,NavigationBar_ComponentSet_11,
+Notes,NC,默认,NavigationBar,Pad横,NC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NC,默认,NavigationBar,Pad横,NC收起,L栏,NavigationBar_ComponentSet_Notes_03,
+Notes,LC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_02,
+Notes,LC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_05,
+Notes,LC,默认,NavigationBar,Fold内竖,LC,N栏,NavigationBar_ComponentSet_05,
+Notes,LC,默认,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,默认,NavigationBar,Fold内横,LC,N栏,NavigationBar_ComponentSet_05,
+Notes,LC,默认,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,默认,NavigationBar,Pad竖,LC,N栏,NavigationBar_ComponentSet_08,
+Notes,LC,默认,NavigationBar,Pad竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,默认,NavigationBar,Pad横,LC,N栏,NavigationBar_ComponentSet_08,
+Notes,LC,默认,NavigationBar,Pad横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,详情,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,C,详情,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,C,详情,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,详情,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,详情,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,详情,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_02,私密笔记宫格
+Notes,C,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_05,私密笔记宫格
+Notes,C,默认,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_05,私密笔记宫格
+Notes,C,默认,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_05,私密笔记宫格
+Notes,C,默认,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_08,私密笔记宫格
+Notes,C,默认,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_08,私密笔记宫格
+Notes,C,思维导图,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_Notes_03,
+Notes,C,思维导图,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_Notes_03,
+Notes,NLC,详情,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,NLC,详情,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_11,
+Notes,NLC,详情,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_04,
+Notes,NLC,详情,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,详情,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_04,
+Notes,NLC,详情,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC,L栏,NavigationBar_ComponentSet_07,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC收起,L栏,NavigationBar_ComponentSet_17,
+Notes,NLC,详情,NavigationBar,Pad竖,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,详情,NavigationBar,Pad横,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,详情,NavigationBar,Pad横,NLC,L栏,NavigationBar_ComponentSet_07,
+Notes,NLC,详情,NavigationBar,Pad横,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,详情,NavigationBar,Pad横,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,详情,NavigationBar,Pad横,NLC收起,L栏,NavigationBar_ComponentSet_17,
+Notes,NLC,详情,NavigationBar,Pad横,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_03,
+Notes,NLC,编辑模式,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_06,
+Notes,NLC,编辑模式,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_06,
+Notes,NLC,编辑模式,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_06,
+Notes,NLC,编辑模式,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC,L栏,NavigationBar_ComponentSet_09,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC收起,L栏,NavigationBar_ComponentSet_18,
+Notes,NLC,编辑模式,NavigationBar,Pad竖,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC,N栏,NavigationBar_ComponentSet_12,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC,L栏,NavigationBar_ComponentSet_09,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC收起,L栏,NavigationBar_ComponentSet_18,
+Notes,NLC,编辑模式,NavigationBar,Pad横,NLC收起,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,NL,编辑模式,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_03,
+Notes,NL,编辑模式,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_06,
+Notes,NL,编辑模式,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_06,
+Notes,NL,编辑模式,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_06,
+Notes,NL,编辑模式,NavigationBar,Pad竖,NL,N栏,NavigationBar_ComponentSet_12,
+Notes,NL,编辑模式,NavigationBar,Pad竖,NL,L栏,NavigationBar_ComponentSet_00,
+Notes,NL,编辑模式,NavigationBar,Pad竖,NL收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NL,编辑模式,NavigationBar,Pad竖,NL收起,L栏,NavigationBar_ComponentSet_00,
+Notes,NL,编辑模式,NavigationBar,Pad横,NL,N栏,NavigationBar_ComponentSet_12,
+Notes,NL,编辑模式,NavigationBar,Pad横,NL,L栏,NavigationBar_ComponentSet_00,
+Notes,NL,编辑模式,NavigationBar,Pad横,NL收起,N栏,NavigationBar_ComponentSet_00,
+Notes,NL,编辑模式,NavigationBar,Pad横,NL收起,L栏,NavigationBar_ComponentSet_00,
+Notes,LC,编辑模式,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_03,
+Notes,LC,编辑模式,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_06,
+Notes,LC,编辑模式,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_06,
+Notes,LC,编辑模式,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,编辑模式,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_06,
+Notes,LC,编辑模式,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,编辑模式,NavigationBar,Pad竖,LC,L栏,NavigationBar_ComponentSet_09,
+Notes,LC,编辑模式,NavigationBar,Pad竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,LC,编辑模式,NavigationBar,Pad横,LC,L栏,NavigationBar_ComponentSet_09,
+Notes,LC,编辑模式,NavigationBar,Pad横,LC,C栏,NavigationBar_ComponentSet_Notes_01,
+Notes,C,思维导图编辑,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图编辑,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图编辑,NavigationBar,Fold内竖,C,C栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图编辑,NavigationBar,Fold内横,C,C栏,NavigationBar_ComponentSet_Notes_02,
+Notes,C,思维导图编辑,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_Notes_03,
+Notes,C,思维导图编辑,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_Notes_03,
+Notes,LC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_02,私密笔记
+Notes,LC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_02,私密笔记
+Notes,LC,默认,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_05,私密笔记
+Notes,LC,默认,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_Notes_01,私密笔记
+Notes,LC,默认,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_05,私密笔记
+Notes,LC,默认,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_Notes_01,私密笔记
+Notes,LC,默认,NavigationBar,Pad竖,LC,L栏,NavigationBar_ComponentSet_08,私密笔记
+Notes,LC,默认,NavigationBar,Pad竖,LC,C栏,NavigationBar_ComponentSet_Notes_00,私密笔记
+Notes,LC,默认,NavigationBar,Pad横,LC,L栏,NavigationBar_ComponentSet_08,私密笔记
+Notes,LC,默认,NavigationBar,Pad横,LC,C栏,NavigationBar_ComponentSet_Notes_00,私密笔记
+Notes,NLC,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Fold内竖,LC,L栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Fold内横,LC,L栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Pad竖,NLC,L栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Pad竖,NLC收起,L栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Pad横,NLC,L栏,SearchBar_ComponentSet_05,
+Notes,NLC,默认,SearchBar,Pad横,NLC收起,L栏,SearchBar_ComponentSet_05,
+Notes,NL,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NL,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NL,默认,SearchBar,Fold内竖,C,全栏,SearchBar_ComponentSet_05,
+Notes,NL,默认,SearchBar,Fold内横,C,全栏,SearchBar_ComponentSet_05,
+Notes,NL,默认,SearchBar,Pad竖,NL,L栏,TopBar_03,
+Notes,NL,默认,SearchBar,Pad竖,NL收起,L栏,TopBar_07,
+Notes,NL,默认,SearchBar,Pad横,NL,L栏,TopBar_03,
+Notes,NL,默认,SearchBar,Pad横,NL收起,L栏,TopBar_07,
+Notes,LC,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_02,
+Notes,LC,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_02,
+Notes,LC,默认,SearchBar,Fold内竖,LC,L栏,SearchBar_ComponentSet_02,
+Notes,LC,默认,SearchBar,Fold内横,LC,L栏,SearchBar_ComponentSet_02,
+Notes,LC,默认,SearchBar,Pad竖,LC,L栏,SearchBar_ComponentSet_02,
+Notes,LC,默认,SearchBar,Pad横,LC,L栏,SearchBar_ComponentSet_02,
+Notes,NL,编辑模式,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NL,编辑模式,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_05,
+Notes,NL,编辑模式,SearchBar,Fold内竖,LC,全栏,SearchBar_ComponentSet_05,
+Notes,NL,编辑模式,SearchBar,Fold内横,LC,全栏,SearchBar_ComponentSet_05,
+Notes,NL,编辑模式,SearchBar,Pad竖,NL,L栏,TopBar_09,
+Notes,NL,编辑模式,SearchBar,Pad竖,NL收起,L栏,TopBar_08,
+Notes,NL,编辑模式,SearchBar,Pad横,NL,L栏,TopBar_09,
+Notes,NL,编辑模式,SearchBar,Pad横,NL收起,L栏,TopBar_08,
+Notes,NLC,默认,搜索页面,手机竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,手机竖,,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Fold外竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Fold外竖,,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Fold内竖,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Fold内竖,LC,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Fold内横,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Fold内横,LC,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Pad竖,NLC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Pad竖,NLC,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Pad竖,NLC收起,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Pad竖,NLC收起,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Pad横,NLC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Pad横,NLC,全栏,SearchReceiving_00,
+Notes,NLC,默认,搜索页面,Pad横,NLC收起,L栏,"SearchBar_ComponentSet_01,",
+Notes,NLC,默认,搜索页面,Pad横,NLC收起,全栏,SearchReceiving_00,
+Notes,NL,默认,搜索页面,手机竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,NL,默认,搜索页面,手机竖,,全栏,SearchReceiving_00,
+Notes,NL,默认,搜索页面,Fold外竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,NL,默认,搜索页面,Fold外竖,,全栏,SearchReceiving_00,
+Notes,NL,默认,搜索页面,Fold内竖,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NL,默认,搜索页面,Fold内竖,LC,全栏,SearchReceiving_00,
+Notes,NL,默认,搜索页面,Fold内横,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,NL,默认,搜索页面,Fold内横,LC,全栏,SearchReceiving_00,
+Notes,NL,默认,搜索页面,Pad竖,NL,C栏,"SearchBar_ComponentSet_04,",
+Notes,NL,默认,搜索页面,Pad竖,NL,全栏,SearchReceiving_01,
+Notes,NL,默认,搜索页面,Pad竖,NL收起,C栏,"SearchBar_ComponentSet_04,",
+Notes,NL,默认,搜索页面,Pad竖,NL收起,全栏,SearchReceiving_01,
+Notes,NL,默认,搜索页面,Pad横,NL,C栏,"SearchBar_ComponentSet_04,",
+Notes,NL,默认,搜索页面,Pad横,NL,全栏,SearchReceiving_01,
+Notes,NL,默认,搜索页面,Pad横,NL收起,C栏,"SearchBar_ComponentSet_04,",
+Notes,NL,默认,搜索页面,Pad横,NL收起,全栏,SearchReceiving_01,
+Notes,LC,默认,搜索页面,手机竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,手机竖,,全栏,SearchReceiving_00,
+Notes,LC,默认,搜索页面,Fold外竖,,全栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,Fold外竖,,全栏,SearchReceiving_00,
+Notes,LC,默认,搜索页面,Fold内竖,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,Fold内竖,LC,全栏,SearchReceiving_00,
+Notes,LC,默认,搜索页面,Fold内横,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,Fold内横,LC,全栏,SearchReceiving_00,
+Notes,LC,默认,搜索页面,Pad竖,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,Pad竖,LC,全栏,SearchReceiving_00,
+Notes,LC,默认,搜索页面,Pad横,LC,L栏,"SearchBar_ComponentSet_01,",
+Notes,LC,默认,搜索页面,Pad横,LC,全栏,SearchReceiving_00,
+Notes,NLC,默认,NoticeBar,手机竖,,全栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Fold外竖,,全栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Fold内竖,LC,L栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Fold内横,LC,L栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Pad竖,NLC,L栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Pad竖,NLC收起,L栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Pad横,NLC,L栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,NoticeBar,Pad横,NLC收起,L栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,手机竖,,全栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Fold外竖,,全栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Fold内竖,C,全栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Fold内横,C,全栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Pad竖,NL,L栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Pad竖,NL收起,L栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Pad横,NL,C栏,NoticeBar_ComponentSet_01,
+Notes,NL,默认,NoticeBar,Pad横,NL收起,C栏,NoticeBar_ComponentSet_01,
+Notes,NLC,默认,SelectableChip,手机竖,,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NLC,默认,SelectableChip,Fold外竖,,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NLC,默认,SelectableChip,Fold内竖,LC,L栏,SelectableChip_ComponentSet_Notes_02,
+Notes,NLC,默认,SelectableChip,Fold内横,LC,L栏,SelectableChip_ComponentSet_Notes_02,
+Notes,NLC,默认,SelectableChip,Pad竖,NLC,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NLC,默认,SelectableChip,Pad竖,NLC收起,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NLC,默认,SelectableChip,Pad横,NLC,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NLC,默认,SelectableChip,Pad横,NLC收起,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NL,默认,SelectableChip,手机竖,,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NL,默认,SelectableChip,Fold外竖,,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NL,默认,SelectableChip,Fold内竖,C,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NL,默认,SelectableChip,Fold内横,C,全栏,SelectableChip_ComponentSet_Notes_01,
+Notes,NL,默认,SelectableChip,Pad竖,NL,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NL,默认,SelectableChip,Pad竖,NL收起,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NL,默认,SelectableChip,Pad横,NL,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NL,默认,SelectableChip,Pad横,NL收起,L栏,SelectableChip_ComponentSet_Notes_00,
+Notes,NLC,默认,List,手机竖,,全栏,List_Notes_01,
+Notes,NLC,默认,List,Fold外竖,,全栏,List_Notes_01,
+Notes,NLC,默认,List,Fold内竖,LC,L栏,List_Notes_03,
+Notes,NLC,默认,List,Fold内横,LC,L栏,List_Notes_03,
+Notes,NLC,默认,List,Pad竖,NLC,L栏,List_Notes_03,
+Notes,NLC,默认,List,Pad竖,NLC收起,L栏,List_Notes_03,
+Notes,NLC,默认,List,Pad横,NLC,L栏,List_Notes_03,
+Notes,NLC,默认,List,Pad横,NLC收起,L栏,List_Notes_03,
+Notes,NL,默认,List,手机竖,,全栏,List_Notes_05,
+Notes,NL,默认,List,Fold外竖,,全栏,List_Notes_07,
+Notes,NL,默认,List,Fold内竖,C,全栏,List_Notes_09,
+Notes,NL,默认,List,Fold内横,C,全栏,List_Notes_11,
+Notes,NL,默认,List,Pad竖,NL,L栏,List_Notes_13,
+Notes,NL,默认,List,Pad竖,NL收起,L栏,List_Notes_15,
+Notes,NL,默认,List,Pad横,NL,L栏,List_Notes_17,
+Notes,NL,默认,List,Pad横,NL收起,L栏,List_Notes_19,
+Notes,LC,默认,List,手机竖,,全栏,List_Notes_01,
+Notes,LC,默认,List,Fold外竖,,全栏,List_Notes_01,
+Notes,LC,默认,List,Fold内竖,LC,L栏,List_Notes_03,
+Notes,LC,默认,List,Fold内横,LC,L栏,List_Notes_03,
+Notes,LC,默认,List,Pad竖,LC,L栏,List_Notes_03,
+Notes,LC,默认,List,Pad横,LC,L栏,List_Notes_03,
+Notes,NLC,编辑模式,List,手机竖,,全栏,List_Notes_02,
+Notes,NLC,编辑模式,List,Fold外竖,,全栏,List_Notes_02,
+Notes,NLC,编辑模式,List,Fold内竖,LC,L栏,List_Notes_04,
+Notes,NLC,编辑模式,List,Fold内横,LC,L栏,List_Notes_04,
+Notes,NLC,编辑模式,List,Pad竖,NLC,L栏,List_Notes_04,
+Notes,NLC,编辑模式,List,Pad竖,NLC收起,L栏,List_Notes_04,
+Notes,NLC,编辑模式,List,Pad横,NLC,L栏,List_Notes_04,
+Notes,NLC,编辑模式,List,Pad横,NLC收起,L栏,List_Notes_04,
+Notes,NL,编辑模式,List,手机竖,,全栏,List_Notes_06,
+Notes,NL,编辑模式,List,Fold外竖,,全栏,List_Notes_08,
+Notes,NL,编辑模式,List,Fold内竖,C,全栏,List_Notes_10,
+Notes,NL,编辑模式,List,Fold内横,C,全栏,List_Notes_12,
+Notes,NL,编辑模式,List,Pad竖,NL,L栏,List_Notes_14,
+Notes,NL,编辑模式,List,Pad竖,NL收起,L栏,List_Notes_16,
+Notes,NL,编辑模式,List,Pad横,NL,L栏,List_Notes_18,
+Notes,NL,编辑模式,List,Pad横,NL收起,L栏,List_Notes_20,
+Notes,LC,编辑模式,List,手机竖,,全栏,List_Notes_02,
+Notes,LC,编辑模式,List,Fold外竖,,全栏,List_Notes_02,
+Notes,LC,编辑模式,List,Fold内竖,LC,L栏,List_Notes_04,
+Notes,LC,编辑模式,List,Fold内横,LC,L栏,List_Notes_04,
+Notes,LC,编辑模式,List,Pad竖,LC,L栏,List_Notes_04,
+Notes,LC,编辑模式,List,Pad横,LC,L栏,List_Notes_04,
+Notes,NLC,默认,ToolBar,手机竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,NLC,默认,ToolBar,Fold外竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,NLC,默认,ToolBar,Fold内竖,LC,L栏,BottomBar_Showcase_Notes_02,
+Notes,NLC,默认,ToolBar,Fold内横,LC,L栏,BottomBar_Showcase_Notes_02,
+Notes,NLC,默认,ToolBar,Pad竖,NLC,L栏,BottomBar_Showcase_Notes_00,
+Notes,NLC,默认,ToolBar,Pad竖,NLC收起,L栏,BottomBar_Showcase_Notes_00,
+Notes,NLC,默认,ToolBar,Pad横,NLC,L栏,BottomBar_Showcase_Notes_00,
+Notes,NLC,默认,ToolBar,Pad横,NLC收起,L栏,BottomBar_Showcase_Notes_00,
+Notes,NL,默认,ToolBar,手机竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Fold外竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Fold内竖,C,L栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Fold内横,C,L栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Pad竖,NL,L栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Pad竖,NL收起,L栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Pad横,NL,L栏,BottomBar_Showcase_Notes_01,
+Notes,NL,默认,ToolBar,Pad横,NL收起,L栏,BottomBar_Showcase_Notes_01,
+Notes,LC,默认,ToolBar,手机竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,LC,默认,ToolBar,Fold外竖,,全栏,BottomBar_Showcase_Notes_01,
+Notes,LC,默认,ToolBar,Fold内竖,LC,L栏,BottomBar_Showcase_Notes_02,
+Notes,LC,默认,ToolBar,Fold内横,LC,L栏,BottomBar_Showcase_Notes_02,
+Notes,LC,默认,ToolBar,Pad竖,LC,全栏,BottomBar_Showcase_Notes_00,
+Notes,LC,默认,ToolBar,Pad横,LC,全栏,BottomBar_Showcase_Notes_00,
+Notes,C,Notes_Outline,ToolBar,手机竖,,全栏,BottomBar_Notes_Outline_01,
+Notes,C,Notes_Outline,ToolBar,Fold外竖,,全栏,BottomBar_Notes_Outline_01,
+Notes,C,Notes_Outline,ToolBar,Fold内竖,C,全栏,BottomBar_Notes_Outline_01,
+Notes,C,Notes_Outline,ToolBar,Fold内横,C,全栏,BottomBar_Notes_Outline_01,
+Notes,C,Notes_Outline,ToolBar,Pad竖,C,全栏,BottomBar_Notes_Outline_01,
+Notes,C,Notes_Outline,ToolBar,Pad横,C,全栏,BottomBar_Notes_Outline_01,
+Notes,NLC,NoteEditPanel,ToolBar,手机竖,,全栏,BottomBar_NoteEditPanel_01,
+Notes,NLC,NoteEditPanel,ToolBar,Fold外竖,,全栏,BottomBar_NoteEditPanel_01,
+Notes,NLC,NoteEditPanel,ToolBar,Fold内竖,LC,C栏,BottomBar_NoteEditPanel_01,
+Notes,NLC,NoteEditPanel,ToolBar,Fold内横,LC,C栏,BottomBar_NoteEditPanel_01,
+Notes,NLC,NoteEditPanel,ToolBar,Pad竖,NLC,C栏,BottomBar_NoteEditPanel_02,
+Notes,NLC,NoteEditPanel,ToolBar,Pad竖,NLC收起,C栏,BottomBar_NoteEditPanel_02,
+Notes,NLC,NoteEditPanel,ToolBar,Pad横,NLC,C栏,BottomBar_NoteEditPanel_02,
+Notes,NLC,NoteEditPanel,ToolBar,Pad横,NLC收起,C栏,BottomBar_NoteEditPanel_02,
+Notes,LC,NoteEditPanel,ToolBar,手机竖,,全栏,BottomBar_NoteEditPanel_01,
+Notes,LC,NoteEditPanel,ToolBar,Fold外竖,,全栏,BottomBar_NoteEditPanel_01,
+Notes,LC,NoteEditPanel,ToolBar,Fold内竖,LC,全栏,BottomBar_NoteEditPanel_01,
+Notes,LC,NoteEditPanel,ToolBar,Fold内横,LC,全栏,BottomBar_NoteEditPanel_01,
+Notes,LC,NoteEditPanel,ToolBar,Pad竖,LC,C栏,BottomBar_NoteEditPanel_02,
+Notes,LC,NoteEditPanel,ToolBar,Pad横,LC,C栏,BottomBar_NoteEditPanel_02,
+Notes,NLC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NLC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NLC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NLC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NLC,编辑模式,ToolBar,Pad竖,NLC,L栏,ToolBar_ComponentSet_01,
+Notes,NLC,编辑模式,ToolBar,Pad竖,NLC收起,L栏,ToolBar_ComponentSet_01,
+Notes,NLC,编辑模式,ToolBar,Pad横,NLC,L栏,ToolBar_ComponentSet_01,
+Notes,NLC,编辑模式,ToolBar,Pad横,NLC收起,L栏,ToolBar_ComponentSet_01,
+Notes,NL,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NL,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NL,编辑模式,ToolBar,Fold内竖,C,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NL,编辑模式,ToolBar,Fold内横,C,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,NL,编辑模式,ToolBar,Pad竖,NL,L栏,ToolBar_ComponentSet_02,
+Notes,NL,编辑模式,ToolBar,Pad竖,NL收起,L栏,ToolBar_ComponentSet_02,
+Notes,NL,编辑模式,ToolBar,Pad横,NL,L栏,ToolBar_ComponentSet_02,
+Notes,NL,编辑模式,ToolBar,Pad横,NL收起,L栏,ToolBar_ComponentSet_02,
+Notes,LC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,LC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,LC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,LC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,LC,编辑模式,ToolBar,Pad竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,LC,编辑模式,ToolBar,Pad横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal
+Notes,C,思维导图编辑,ToolBar,手机竖,,全栏,BottomBar_Notes_Outline_02,
+Notes,C,思维导图编辑,ToolBar,Fold外竖,,全栏,BottomBar_Notes_Outline_02,
+Notes,C,思维导图编辑,ToolBar,Fold内竖,C,全栏,BottomBar_Notes_Outline_02,
+Notes,C,思维导图编辑,ToolBar,Fold内横,C,全栏,BottomBar_Notes_Outline_02,
+Notes,C,思维导图编辑,ToolBar,Pad竖,C,全栏,BottomBar_Notes_Outline_02,
+Notes,C,思维导图编辑,ToolBar,Pad横,C,全栏,BottomBar_Notes_Outline_02,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_01,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_01,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_08,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_08,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_00,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_00,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_00,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_00,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_02,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_02,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_02,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_03,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_03,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_03,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_04,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_04,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_04,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_05,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_05,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_05,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_06,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_06,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_06,
+Notes,NLC,默认,Input,手机竖,,全栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Input,Fold外竖,,全栏,TextInput_ComponentSet_Notes_07,
+Notes,LC,默认,Input,Fold内竖,LC,C栏,TextInput_ComponentSet_Notes_07,
+Notes,LC,默认,Input,Fold内横,LC,C栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Input,Pad竖,NLC,C栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Input,Pad竖,NLC收起,C栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Input,Pad横,NLC,C栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Input,Pad横,NLC收起,C栏,TextInput_ComponentSet_Notes_07,
+Notes,NLC,默认,Scrollbar,手机竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Fold外竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Fold内竖,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Fold内竖,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Fold内横,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Fold内横,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC,N栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC,C栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC收起,N栏,不展示,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC收起,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad竖,NLC收起,C栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad横,NLC,N栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad横,NLC,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad横,NLC,C栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad横,NLC收起,N栏,不展示,
+Notes,NLC,默认,Scrollbar,Pad横,NLC收起,L栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,Scrollbar,Pad横,NLC收起,C栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,手机竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Fold外竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Fold内竖,C,全栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Fold内横,C,全栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad竖,NL,N栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad竖,NL,L栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad竖,NL收起,N栏,不展示,
+Notes,NL,默认,Scrollbar,Pad竖,NL收起,L栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad横,NL,N栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad横,NL,L栏,Scrollbar_ComponentSet_01,
+Notes,NL,默认,Scrollbar,Pad横,NL收起,N栏,不展示,
+Notes,NL,默认,Scrollbar,Pad横,NL收起,L栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,手机竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Fold外竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Fold内竖,C,全栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Fold内横,C,全栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad竖,NC,N栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad竖,NC,C栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad竖,NC收起,N栏,不展示,
+Notes,NC,默认,Scrollbar,Pad竖,NC收起,C栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad横,NC,N栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad横,NC,C栏,Scrollbar_ComponentSet_01,
+Notes,NC,默认,Scrollbar,Pad横,NC收起,N栏,不展示,
+Notes,NC,默认,Scrollbar,Pad横,NC收起,C栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,手机竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Fold外竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Fold内竖,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Fold内竖,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Fold内横,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Fold内横,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Pad竖,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Pad竖,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Pad横,LC,L栏,Scrollbar_ComponentSet_01,
+Notes,LC,默认,Scrollbar,Pad横,LC,C栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,手机竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,Fold外竖,,全栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,Fold内竖,C,全栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,Fold内横,C,全栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,Pad竖,C,全栏,Scrollbar_ComponentSet_01,
+Notes,C,默认,Scrollbar,Pad横,C,全栏,Scrollbar_ComponentSet_01,
+Notes,NLC,默认,TextFormatPanel,手机竖,,全栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Fold外竖,,全栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Fold内竖,LC,C栏,TextFormatPanel_02,
+Notes,NLC,默认,TextFormatPanel,Fold内横,LC,C栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Pad竖,NLC,C栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Pad竖,NLC收起,C栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Pad横,NLC,C栏,TextFormatPanel_01,
+Notes,NLC,默认,TextFormatPanel,Pad横,NLC收起,C栏,TextFormatPanel_01,
+Notes,NLC,默认,Overay,手机竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Fold外竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制 283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Fold内横,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Pad竖,NLC,N栏,Sidebar_Component_PAD_NLC_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Pad竖,NLC收起,全栏,不展示,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Pad横,NLC,N栏,Sidebar_Component_PAD_NLC_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,Pad横,NLC收起,全栏,不展示,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,手机竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,Fold外竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制 283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,Fold内横,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,Pad竖,NL,N栏,Sidebar_Component_PAD_NLC_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NL,默认,Overay,Pad竖,NL收起,全栏,不展示,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,手机竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Fold外竖,,全栏,Sidebar_Component_Fold_LC_01,"宽度定制 283; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Fold内横,NC,全栏,FloatingWindow_ComponentSet_01,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Pad竖,NC,N栏,Sidebar_Component_PAD_NLC_01,"文件夹列表; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Pad竖,NC收起,全栏,不展示,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Pad横,NL,N栏,Sidebar_Component_PAD_NLC_01,"文件夹列表; 文件夹管理窗口
+ManageFoldWindow"
+Notes,NC,默认,Overay,Pad横,NL收起,全栏,不展示,"文件夹管理窗口
+ManageFoldWindow"
+Notes,NLC,默认,Overay,手机竖,,全栏,DrawerWindow_ComponentSet_high_01,抽屉窗口 FloatingWindow
+Notes,NLC,默认,Overay,Fold外竖,,全栏,DrawerWindow_ComponentSet_high_01,抽屉窗口 FloatingWindow
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_01,抽屉窗口 FloatingWindow
+Notes,NC,默认,Overay,Fold内横,NC,全栏,FloatingWindow_ComponentSet_01,抽屉窗口 FloatingWindow
+Notes,NLC,默认,Overay,Pad竖,NLC,全栏,FloatingWindow_ComponentSet_01,抽屉窗口 FloatingWindow
+Notes,NLC,默认,Overay,Pad横,NLC,全栏,FloatingWindow_ComponentSet_01,抽屉窗口 FloatingWindow
+Notes,NLC,默认,Overay,手机竖,,全栏,SegmentedControls_ComponentSet_01,分段按钮 Segmented Controls
+Notes,NLC,默认,Overay,Fold外竖,,全栏,SegmentedControls_ComponentSet_01,分段按钮 Segmented Controls
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,SegmentedControls_ComponentSet_01,分段按钮 Segmented Controls
+Notes,NC,默认,Overay,Fold内横,NC,全栏,SegmentedControls_ComponentSet_01,分段按钮 Segmented Controls
+Notes,NLC,默认,Overay,Pad竖,NLC,全栏,SegmentedControls_ComponentSet_02,分段按钮 Segmented Controls
+Notes,NLC,默认,Overay,Pad横,NLC,全栏,SegmentedControls_ComponentSet_02,分段按钮 Segmented Controls
+Notes,NLC,默认,Overay,手机竖,,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NLC,默认,Overay,Fold外竖,,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NC,默认,Overay,Fold内横,NC,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NLC,默认,Overay,Pad竖,NLC,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NLC,默认,Overay,Pad横,NLC,全栏,AlertDialog_ComponentSet_01,弹窗 Dialog
+Notes,NLC,默认,Overay,手机竖,,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NLC,默认,Overay,Fold外竖,,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NC,默认,Overay,Fold内横,NC,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NLC,默认,Overay,Pad竖,NLC,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NLC,默认,Overay,Pad横,NLC,全栏,WheelPicker_ComponentSet_01,选择器 Picker
+Notes,NLC,默认,Overay,手机竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Fold外竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Fold内竖,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Fold内竖,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NLC,默认,Overay,Fold内横,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Fold内横,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NLC,默认,Overay,Pad竖,NLC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Pad竖,NLC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NLC,默认,Overay,Pad竖,NLC收起,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Pad竖,NLC收起,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NLC,默认,Overay,Pad横,NLC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Pad横,NLC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NLC,默认,Overay,Pad横,NLC收起,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,Pad横,NLC收起,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NL,默认,Overay,手机竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Fold外竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Fold内竖,C,C栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Fold内横,C,C栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Pad竖,NL,N栏,NavigationBar_ComponentSet_12,菜单 Menu
+Notes,NL,默认,Overay,Pad竖,NL,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Pad竖,NL收起,N栏,不展示,菜单 Menu
+Notes,NL,默认,Overay,Pad竖,NL收起,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Pad横,NL,N栏,NavigationBar_ComponentSet_12,菜单 Menu
+Notes,NL,默认,Overay,Pad横,NL,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NL,默认,Overay,Pad横,NL收起,N栏,不展示,菜单 Menu
+Notes,NL,默认,Overay,Pad横,NL收起,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,手机竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Fold外竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Fold内竖,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Fold内竖,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NC,默认,Overay,Fold内横,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Fold内横,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NC,默认,Overay,Pad竖,NC,N栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Pad竖,NC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NC,默认,Overay,Pad竖,NC收起,N栏,Menu_ComponentSet_00,菜单 Menu
+Notes,NC,默认,Overay,Pad竖,NC收起,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NC,默认,Overay,Pad横,NC,N栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NC,默认,Overay,Pad横,NC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,NC,默认,Overay,Pad横,NC收起,N栏,Menu_ComponentSet_00,菜单 Menu
+Notes,NC,默认,Overay,Pad横,NC收起,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,LC,默认,Overay,手机竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,LC,默认,Overay,Fold外竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,LC,默认,Overay,Fold内竖,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,LC,默认,Overay,Fold内竖,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,LC,默认,Overay,Fold内横,LC,L栏,Menu_ComponentSet_03,菜单 Menu
+Notes,LC,默认,Overay,Fold内横,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,LC,默认,Overay,Pad竖,LC,L栏,Menu_ComponentSet_00,菜单 Menu
+Notes,LC,默认,Overay,Pad竖,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,LC,默认,Overay,Pad横,LC,L栏,Menu_ComponentSet_00,菜单 Menu
+Notes,LC,默认,Overay,Pad横,LC,C栏,Menu_ComponentSet_01,菜单 Menu
+Notes,C,默认,Overay,手机竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,C,默认,Overay,Fold外竖,,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,C,默认,Overay,Fold内竖,C,全栏,Menu_ComponentSet_01,菜单 Menu
+Notes,C,默认,Overay,Fold内横,C,全栏,Menu_ComponentSet_01,菜单 Menu
+Notes,C,默认,Overay,Pad竖,C,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,C,默认,Overay,Pad横,C,全栏,Menu_ComponentSet_03,菜单 Menu
+Notes,NLC,默认,Overay,手机竖,,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NLC,默认,Overay,Fold外竖,,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NC,默认,Overay,Fold内竖,NC,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NC,默认,Overay,Fold内横,NC,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NLC,默认,Overay,Pad竖,NLC,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NLC,默认,Overay,Pad横,NLC,全栏,Actionsheet_ComponentSet_01,行动操作按钮 ActionSheet
+Notes,NLC,默认,DetailNotes,手机竖,,全栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Fold外竖,,全栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Fold内竖,LC,C栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Fold内横,LC,C栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Pad竖,NLC,C栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Pad竖,NLC收起,C栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Pad横,NLC,C栏,DetailNotes_01,
+Notes,NLC,默认,DetailNotes,Pad横,NLC收起,C栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,手机竖,,全栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Fold外竖,,全栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Fold内竖,C,全栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Fold内横,C,全栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Pad竖,NC,C栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Pad竖,NC收起,C栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Pad横,NC,C栏,DetailNotes_01,
+Notes,NC,默认,DetailNotes,Pad横,NC收起,C栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,手机竖,,全栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,Fold外竖,,全栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,Fold内竖,LC,C栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,Fold内横,LC,C栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,Pad竖,LC,C栏,DetailNotes_01,
+Notes,LC,默认,DetailNotes,Pad横,LC,C栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,手机竖,,全栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,Fold外竖,,全栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,Fold内竖,C,全栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,Fold内横,C,全栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,Pad竖,C,全栏,DetailNotes_01,
+Notes,C,默认,DetailNotes,Pad横,C,全栏,DetailNotes_01,
+Notes,NC,默认,AIWindow_Notes,手机竖,,全栏,Sidebar_Component_PAD_NLC_00,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,Fold外竖,,全栏,Sidebar_Component_PAD_NLC_00,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,Fold内竖,C,全栏,Sidebar_Component_PAD_NLC_00,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,Fold内横,C,全栏,Sidebar_Component_PAD_NLC_00,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,N栏,Sidebar_Component_PAD_NLC_01,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,N栏,Sidebar_Component_PAD_NLC_00,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar"
+Notes,NC,默认,AIWindow_Notes,手机竖,,全栏,NavigationBar_ComponentSet_10,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Fold外竖,,全栏,NavigationBar_ComponentSet_13,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Fold内竖,C,全栏,NavigationBar_ComponentSet_13,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Fold内横,C,全栏,NavigationBar_ComponentSet_13,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,N栏,NavigationBar_ComponentSet_00,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,C栏,NavigationBar_ComponentSet_10,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,N栏,NavigationBar_ComponentSet_00,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,C栏,NavigationBar_ComponentSet_12,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad横,NC,N栏,NavigationBar_ComponentSet_00,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad横,NC,C栏,NavigationBar_ComponentSet_10,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad横,NC收起,N栏,NavigationBar_ComponentSet_00,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,Pad横,NC收起,C栏,NavigationBar_ComponentSet_12,标题栏 NavigationBar
+Notes,NC,默认,AIWindow_Notes,手机竖,,全栏,AIWindow_Options_01,选项 Options
+Notes,NC,默认,AIWindow_Notes,Fold外竖,,全栏,AIWindow_Options_02,选项 Options
+Notes,NC,默认,AIWindow_Notes,Fold内竖,C,全栏,AIWindow_Options_03,选项 Options
+Notes,NC,默认,AIWindow_Notes,Fold内横,C,全栏,AIWindow_Options_04,选项 Options
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,C栏,AIWindow_Options_05,选项 Options
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,C栏,AIWindow_Options_05,选项 Options
+Notes,NC,默认,AIWindow_Notes,Pad横,NC,C栏,AIWindow_Options_06,选项 Options
+Notes,NC,默认,AIWindow_Notes,Pad横,NC收起,C栏,AIWindow_Options_06,选项 Options
+Notes,NC,默认,AIWindow_Notes,手机竖,,全栏,DrawerWindow_ComponentSet_high_01,容器
+Notes,NC,默认,AIWindow_Notes,Fold外竖,,全栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Fold内竖,C,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Fold内横,C,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Pad横,NC,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,Pad横,NC收起,C栏,竖屏背景,容器
+Notes,NC,默认,AIWindow_Notes,手机竖,,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Fold外竖,,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Fold内竖,C,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Fold内横,C,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Pad竖,NC收起,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Pad横,NC,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NC,默认,AIWindow_Notes,Pad横,NC收起,全栏,TextInput_ComponentSet_Notes_02,底部输入框 TextInput
+Notes,NLC,默认,RecordNotes,手机竖,,全栏,RecordNotes_01,
+Notes,NLC,默认,RecordNotes,Fold外竖,,全栏,RecordNotes_01,
+Notes,LC,默认,RecordNotes,Fold内竖,LC,全栏,RecordNotes_02,
+Notes,LC,默认,RecordNotes,Fold内横,LC,全栏,RecordNotes_02,
+Notes,NLC,默认,RecordNotes,Pad竖,NLC,全栏,RecordNotes_02,
+Notes,NLC,默认,RecordNotes,Pad竖,NLC收起,全栏,RecordNotes_02,
+Notes,NLC,默认,RecordNotes,Pad横,NLC,全栏,RecordNotes_02,
+Notes,NLC,默认,RecordNotes,Pad横,NLC收起,全栏,RecordNotes_02,
+Notes,NLC,默认,AppSettings,手机竖,,全栏,NavigationBar_ComponentSet_02,一级
+Notes,NLC,默认,AppSettings,Fold外竖,,全栏,NavigationBar_ComponentSet_02,一级
+Notes,NC,默认,AppSettings,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_01,一级
+Notes,NC,默认,AppSettings,Fold内横,NC,全栏,FloatingWindow_ComponentSet_01,一级
+Notes,NLC,默认,AppSettings,Pad竖,NLC,全栏,FloatingWindow_ComponentSet_01,一级
+Notes,NLC,默认,AppSettings,Pad横,NLC,全栏,FloatingWindow_ComponentSet_01,一级
+Notes,NLC,默认,AppSettings,手机竖,,全栏,NavigationBar_ComponentSet_02,二级
+Notes,NLC,默认,AppSettings,Fold外竖,,全栏,NavigationBar_ComponentSet_02,二级
+Notes,NC,默认,AppSettings,Fold内竖,NC,全栏,FloatingWindow_ComponentSet_02,二级
+Notes,NC,默认,AppSettings,Fold内横,NC,全栏,FloatingWindow_ComponentSet_02,二级
+Notes,NLC,默认,AppSettings,Pad竖,NLC,全栏,FloatingWindow_ComponentSet_02,二级
+Notes,NLC,默认,AppSettings,Pad横,NLC,全栏,FloatingWindow_ComponentSet_02,二级

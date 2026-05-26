@@ -1,0 +1,33 @@
+app,scene,state,uiElement,device,screenMode,栏,variantId,notes
+Messaging,NLC,默认,TopBar,手机竖,,全栏,_00,不渲染
+Messaging,NLC,默认,TopBar,Fold外竖,,全栏,_00,不渲染
+Messaging,LC,默认,TopBar,Fold内竖,LC,全栏,(framework_reuse),使用 LC栏 框架
+Messaging,LC,默认,TopBar,Fold内横,LC,全栏,(framework_reuse),使用 LC栏 框架
+Messaging,LC,默认,TopBar,Pad竖,LC,全栏,(framework_reuse),使用 LC栏 框架
+Messaging,LC,默认,TopBar,Pad横,LC,全栏,(framework_reuse),使用 LC栏 框架
+Messaging,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,
+Messaging,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,
+Messaging,LC,默认,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_04,
+Messaging,LC,默认,NavigationBar,Fold内竖,LC,C栏,1. 未选中L栏list：无标题,
+Messaging,LC,默认,NavigationBar,Fold内竖,LC,全栏,2. 选中L栏list：NavigationBar_ComponentSet_04（副标题）,
+Messaging,LC,默认,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_04,
+Messaging,LC,默认,NavigationBar,Fold内横,LC,C栏,1. 未选中L栏list：无标题,
+Messaging,LC,默认,NavigationBar,Fold内横,LC,全栏,2. 选中L栏list：NavigationBar_ComponentSet_04（副标题）,
+Messaging,LC,默认,NavigationBar,Pad竖,LC,L栏,NavigationBar_ComponentSet_01,
+Messaging,LC,默认,NavigationBar,Pad竖,LC,C栏,1. 未选中L栏list：无标题,
+Messaging,LC,默认,NavigationBar,Pad竖,LC,全栏,2. 选中L栏list：NavigationBar_ComponentSet_7（副标题）,
+Messaging,LC,默认,NavigationBar,Pad横,LC,L栏,NavigationBar_ComponentSet_01,
+Messaging,LC,默认,NavigationBar,Pad横,LC,C栏,1. 未选中L栏list：无标题,
+Messaging,LC,默认,NavigationBar,Pad横,LC,全栏,2. 选中L栏list：NavigationBar_ComponentSet_7（副标题）,
+Messaging,NLC,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_02,
+Messaging,NLC,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_02,
+Messaging,LC,默认,SearchBar,Fold内竖,LC,L栏,SearchBar_ComponentSet_02,
+Messaging,LC,默认,SearchBar,Fold内横,LC,L栏,SearchBar_ComponentSet_02,
+Messaging,LC,默认,SearchBar,Pad竖,LC,L栏,SearchBar_ComponentSet_02,
+Messaging,LC,默认,SearchBar,Pad横,LC,L栏,SearchBar_ComponentSet_02,
+Messaging,NLC,默认,Fab,手机竖,,全栏,Fab_01,彩色
+Messaging,NLC,默认,Fab,Fold外竖,,全栏,Fab_01,彩色
+Messaging,LC,默认,Fab,Fold内竖,LC,L栏,Fab_01,彩色
+Messaging,LC,默认,Fab,Fold内横,LC,L栏,Fab_01,彩色
+Messaging,LC,默认,Fab,Pad竖,LC,L栏,标题栏 新建图标,
+Messaging,LC,默认,Fab,Pad横,LC,L栏,标题栏 新建图标,

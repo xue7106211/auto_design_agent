@@ -1,0 +1,47 @@
+﻿应用,,PHONE,,FOLD,,,,,,,,PAD,,,,,,,,,,,,,,,
+,,竖屏,横屏,外屏,,内屏 / 竖屏,,,内屏 / 横屏,,,竖屏,,,,,,,,横屏,,,,,,,
+,,,,竖屏,横屏,NC,LC,C,NC,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C
+文件管理 File Manager,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar",BottomBar_Showcase_Fab_01,,BottomBar_Showcase_Fab_01,,"N栏：
+Sidebar_Component_NC_01",,TopBar_01,N栏：Sidebar_Component_NC_01,,TopBar_01,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_02",,,,TopBar_05,,,"N栏：
+Sidebar_Component_PAD_NLC_01","N栏：
+Sidebar_Component_PAD_NLC_02",,,,TopBar_05
+,标题栏 NavigationBar,NavigationBar_ComponentSet_01,,NavigationBar_ComponentSet_04,,"N栏：
+NavigationBar_ComponentSet_12
+
+C栏：
+NavigationBar_ComponentSet_04",,NavigationBar_ComponentSet_10,"N栏：
+NavigationBar_ComponentSet_12
+
+C栏：
+NavigationBar_ComponentSet_04",,NavigationBar_ComponentSet_10,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07","N栏：
+NavigationBar_ComponentSet_14
+
+L栏：
+NavigationBar_ComponentSet_07",,,,TopBar_05 标题栏,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07","N栏：
+NavigationBar_ComponentSet_14
+
+L栏：
+NavigationBar_ComponentSet_07",,,,NavigationBar_ComponentSet_10
+,搜索栏 SearchBar,Fab_01：白色,,Fab_01：白色,,"C栏：
+NavigationBar_ComponentSet_04 搜索图标",,TopBar_01 搜索图标,"C栏：
+NavigationBar_ComponentSet_04",,TopBar_01,,,"L栏：TopBar_03
+搜索栏","L栏：TopBar_03
+搜索栏",,,,TopBar_05 搜索栏,,,"L栏：TopBar_03
+搜索栏","l栏：TopBar_03
+搜索栏",,,,TopBar_05 搜索栏
+,搜索结果面板 SearchReceiving,,,,,,,,,,,,,"L栏：
+SearchReceiving_01","L栏：
+SearchReceiving_01",,,,SearchReceiving_01,,,"L栏：
+SearchReceiving_01","L栏：
+SearchReceiving_01",,,,SearchReceiving_01

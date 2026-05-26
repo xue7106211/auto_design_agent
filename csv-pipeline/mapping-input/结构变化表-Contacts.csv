@@ -1,0 +1,94 @@
+﻿应用,,PHONE,,FOLD,,,,,,,,PAD,,,,,,,,,,,,,,,
+,,竖屏,横屏,外屏,,内屏 / 竖屏,,,内屏 / 横屏,,,竖屏,,,,,,,,横屏,,,,,,,
+,,,,竖屏,横屏,NC,LC,C,NC,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C
+联系人 Contacts,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar",BottomBar_Showcase_Fab_01,,BottomBar_Showcase_Fab_01,,,"L栏：
+BottomBar_Showcase_02",,,"L栏：
+BottomBar_Showcase_02",,"N栏：
+Sidebar_Component_PAD_NLC_01","N栏：
+Sidebar_Component_PAD_NLC_02",,,,,,,"N栏：
+Sidebar_Component_PAD_NLC_01","N栏：
+Sidebar_Component_PAD_NLC_02",,,,,,
+,标题栏 NavigationBar,NavigationBar_ComponentSet_01,,NavigationBar_ComponentSet_04,,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_15",,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_15",,"N栏：
+Sidebar_Component_PAD_NLC_01 标题栏
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10","N栏：
+Sidebar_Component_PAD_NLC_02 标题栏
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10",,,,,,,"N栏：
+Sidebar_Component_PAD_NLC_01 标题栏
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10","N栏：
+Sidebar_Component_PAD_NLC_02 标题栏
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10",,,,,,
+,搜索栏 SearchBar,SearchBar_ComponentSet_02,,SearchBar_ComponentSet_02,,,"L栏：
+SearchBar_ComponentSet_02",,,"L栏：
+SearchBar_ComponentSet_02",,"L栏：
+SearchBar_ComponentSet_02","L栏：
+SearchBar_ComponentSet_02",,,,,,,"L栏：
+SearchBar_ComponentSet_02","L栏：
+SearchBar_ComponentSet_02",,,,,,
+,Fab,Fab_01：彩色,,Fab_01：彩色,,,"C栏：
+Fab_01：彩色",,,"C栏：
+Fab_01：彩色",,"L栏：
+标题栏 新建图标","L栏：
+标题栏 新建图标",,,,,,,"L栏：
+标题栏 新建图标","L栏：
+标题栏 新建图标",,,,,,
+联系人 Contacts / Pad 端 Pad,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar",,,,,,,,,,,,,,,,,LC栏,,,,,,,,LC栏,
+,标题栏 NavigationBar,,,,,,,,,,,,,,,,,"L栏：
+NavigationBar_ComponentSet_01
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10",,,,,,,,"L栏：
+NavigationBar_ComponentSet_01
+
+C栏：
+1. 未选中L栏list：无标题
+
+2. 选中L栏list：NavigationBar_ComponentSet_10",
+,搜索栏 SearchBar,,,,,,,,,,,,,,,,,"L栏：
+SearchBar_ComponentSet_02",,,,,,,,"L栏：
+SearchBar_ComponentSet_02",
