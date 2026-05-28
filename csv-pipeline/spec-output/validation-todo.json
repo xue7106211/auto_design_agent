@@ -1,0 +1,1955 @@
+{
+  "generatedAt": "2026-05-28T07:15:02.247Z",
+  "total": 100,
+  "pairs": [
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_01",
+      "source": [
+        "Notes_笔记_NC_AI对话_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_02",
+      "source": [
+        "Notes_笔记_NC_AI对话_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_03",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内竖_C"
+      ]
+    },
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_04",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C"
+      ]
+    },
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_05",
+      "source": [
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起"
+      ]
+    },
+    {
+      "setKey": "02750d51e2d44c754c98bdd6686b5772d53c6b59",
+      "variant": "AIWindow_Notes_06",
+      "source": [
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起"
+      ]
+    },
+    {
+      "setKey": "061782e07b895826c5b06f41c7459180aeb83045",
+      "variant": "BottomBar_Notes_Outline_01",
+      "source": [
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C"
+      ]
+    },
+    {
+      "setKey": "061782e07b895826c5b06f41c7459180aeb83045",
+      "variant": "BottomBar_Notes_Outline_02",
+      "source": [
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C"
+      ]
+    },
+    {
+      "setKey": "0dc20401cde070d654725146db336032d2f886a2",
+      "variant": "TextInput_ComponentSet_Notes_01",
+      "source": [
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "0dc20401cde070d654725146db336032d2f886a2",
+      "variant": "TextInput_ComponentSet_Notes_02",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NC_AI对话_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "0dc20401cde070d654725146db336032d2f886a2",
+      "variant": "TextInput_ComponentSet_Notes_08",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC"
+      ]
+    },
+    {
+      "setKey": "0f741e08f5541c86dfd684e38f4ca837b7ef9e0e",
+      "variant": "AlertDialog_NewTask_01",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+      "variant": "StatusBar_01",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold外竖_C",
+        "Notes_笔记_C_Notes_Outline_手机竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold外竖_C",
+        "Notes_笔记_C_思维导图_手机竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold外竖_C",
+        "Notes_笔记_C_思维导图编辑_手机竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NC_一级_Fold内横_NC",
+        "Notes_笔记_NC_一级_Fold内竖_NC",
+        "Notes_笔记_NC_二级_Fold内横_NC",
+        "Notes_笔记_NC_二级_Fold内竖_NC",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_一级_Fold外竖_C",
+        "Notes_笔记_NLC_一级_手机竖_C",
+        "Notes_笔记_NLC_二级_Fold外竖_C",
+        "Notes_笔记_NLC_二级_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+      "variant": "StatusBar_03",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C",
+        "Notes_笔记_C_思维导图_Pad横_C",
+        "Notes_笔记_C_思维导图_Pad竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_一级_Pad横_NLC并列",
+        "Notes_笔记_NLC_一级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_二级_Pad横_NLC并列",
+        "Notes_笔记_NLC_二级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "1107d1e9566fff3d96635c2485ed1d96607903b6",
+      "variant": "List_Task_03",
+      "source": [
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "1107d1e9566fff3d96635c2485ed1d96607903b6",
+      "variant": "List_Task_04",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "variant": "SearchBar_ComponentSet_01",
+      "source": [
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "variant": "SearchBar_ComponentSet_02",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_LC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "variant": "SearchBar_ComponentSet_05",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "303649c8435835bcbfb5e85e668a0b6562497cad",
+      "variant": "BottomBar_Showcase_Notes_01",
+      "source": [
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "303649c8435835bcbfb5e85e668a0b6562497cad",
+      "variant": "BottomBar_Showcase_Notes_02",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC"
+      ]
+    },
+    {
+      "setKey": "414cabc8e633c33cc6441ff0f936f971dc9babd3",
+      "variant": "Sidebar_Component_Fold_LC_01",
+      "source": [
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "414cabc8e633c33cc6441ff0f936f971dc9babd3",
+      "variant": "Sidebar_Component_PAD_NLC_01",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_02",
+      "source": [
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NLC_一级_Fold外竖_C",
+        "Notes_笔记_NLC_一级_手机竖_C",
+        "Notes_笔记_NLC_二级_Fold外竖_C",
+        "Notes_笔记_NLC_二级_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_03",
+      "source": [
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NL_编辑模式_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_04",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_05",
+      "source": [
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_默认_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_06",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_07",
+      "source": [
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_08",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_09",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_10",
+      "source": [
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_11",
+      "source": [
+        "Notes_笔记_C_Notes_Outline_Fold外竖_C",
+        "Notes_笔记_C_Notes_Outline_手机竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_12",
+      "source": [
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_13",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_17",
+      "source": [
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起"
+      ]
+    },
+    {
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "variant": "NavigationBar_ComponentSet_18",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起"
+      ]
+    },
+    {
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "variant": "Scrollbar_ComponentSet_01",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold外竖_C",
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C",
+        "Notes_笔记_C_Notes_Outline_手机竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold外竖_C",
+        "Notes_笔记_C_思维导图_Pad横_C",
+        "Notes_笔记_C_思维导图_Pad竖_C",
+        "Notes_笔记_C_思维导图_手机竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold外竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C",
+        "Notes_笔记_C_思维导图编辑_手机竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC收起",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "747f647ac2b482d686e0e758a9d9143c2b54f0b6",
+      "variant": "RecordNotes_01",
+      "source": [
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "747f647ac2b482d686e0e758a9d9143c2b54f0b6",
+      "variant": "RecordNotes_02",
+      "source": [
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "7792738f76cb9bac0413bd6fddf8f5aaa571d828",
+      "variant": "ToolBar_ComponentSet_01",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "7792738f76cb9bac0413bd6fddf8f5aaa571d828",
+      "variant": "ToolBar_ComponentSet_02",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起",
+        "Notes_笔记_NL_编辑模式_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_01",
+      "source": [
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_笔记_C_Notes_Outline_手机竖_C",
+        "Notes_笔记_C_思维导图_手机竖_C",
+        "Notes_笔记_C_思维导图编辑_手机竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_一级_手机竖_C",
+        "Notes_笔记_NLC_二级_手机竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_03",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold外竖_C",
+        "Notes_笔记_C_思维导图_Fold外竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold外竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_一级_Fold外竖_C",
+        "Notes_笔记_NLC_二级_Fold外竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_05",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_NC_一级_Fold内竖_NC",
+        "Notes_笔记_NC_二级_Fold内竖_NC"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_06",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_NC_一级_Fold内横_NC",
+        "Notes_笔记_NC_二级_Fold内横_NC"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_07",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C",
+        "Notes_笔记_C_思维导图_Pad竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_一级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_二级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+      "variant": "SwipeIndicator_08",
+      "source": [
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_思维导图_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_一级_Pad横_NLC并列",
+        "Notes_笔记_NLC_二级_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL收起"
+      ]
+    },
+    {
+      "setKey": "89115fca0d241fa621ddc07780421677c64b8aa5",
+      "variant": "Actionsheet_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_01",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_02",
+      "source": [
+        "Notes_笔记_LC_编辑模式_Fold外竖_C",
+        "Notes_笔记_LC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_03",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_04",
+      "source": [
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_05",
+      "source": [
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_06",
+      "source": [
+        "Notes_笔记_NL_编辑模式_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_07",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_08",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Fold外竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_09",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_10",
+      "source": [
+        "Notes_笔记_C_编辑模式_Fold内竖_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_11",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内横_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_12",
+      "source": [
+        "Notes_笔记_C_编辑模式_Fold内横_C"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_13",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_14",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_15",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_16",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_17",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_18",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad横_NL"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_19",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad横_NL收起"
+      ]
+    },
+    {
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "variant": "List_Notes_20",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起"
+      ]
+    },
+    {
+      "setKey": "961f0e237edea438d52e6d2ad9b4e38c99bd2c68",
+      "variant": "DetailNotes_01",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold外竖_C",
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C",
+        "Notes_笔记_C_Notes_Outline_手机竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold外竖_C",
+        "Notes_笔记_C_思维导图_Pad横_C",
+        "Notes_笔记_C_思维导图_Pad竖_C",
+        "Notes_笔记_C_思维导图_手机竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold外竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C",
+        "Notes_笔记_C_思维导图编辑_手机竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NC_AI对话_Fold外竖_C",
+        "Notes_笔记_NC_AI对话_Pad横_NC",
+        "Notes_笔记_NC_AI对话_Pad横_NC收起",
+        "Notes_笔记_NC_AI对话_Pad竖_NC",
+        "Notes_笔记_NC_AI对话_Pad竖_NC收起",
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC收起",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "9a390fc96915452840e6428294a7f5ad724ebf3d",
+      "variant": "NoticeBar_ComponentSet_01",
+      "source": [
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "a89cd38d06061fcbb5ff7e596b92f8f3cf3888de",
+      "variant": "TopBar_03",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "a89cd38d06061fcbb5ff7e596b92f8f3cf3888de",
+      "variant": "TopBar_07",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "a89cd38d06061fcbb5ff7e596b92f8f3cf3888de",
+      "variant": "TopBar_08",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad横_NL收起",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "a89cd38d06061fcbb5ff7e596b92f8f3cf3888de",
+      "variant": "TopBar_09",
+      "source": [
+        "Notes_笔记_NL_编辑模式_Pad横_NL",
+        "Notes_笔记_NL_编辑模式_Pad竖_NL"
+      ]
+    },
+    {
+      "setKey": "ac60af7e28e6491b3520ecaefd71fa7e03832c31",
+      "variant": "NavigationBar_ComponentSet_Notes_01",
+      "source": [
+        "Notes_笔记_C_Notes_Outline_Pad横_C",
+        "Notes_笔记_C_Notes_Outline_Pad竖_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Pad横_LC",
+        "Notes_笔记_LC_编辑模式_Pad竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "ac60af7e28e6491b3520ecaefd71fa7e03832c31",
+      "variant": "NavigationBar_ComponentSet_Notes_02",
+      "source": [
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold外竖_C",
+        "Notes_笔记_C_思维导图_手机竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold外竖_C",
+        "Notes_笔记_C_思维导图编辑_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "ac60af7e28e6491b3520ecaefd71fa7e03832c31",
+      "variant": "NavigationBar_ComponentSet_Notes_03",
+      "source": [
+        "Notes_笔记_C_思维导图_Pad横_C",
+        "Notes_笔记_C_思维导图_Pad竖_C",
+        "Notes_笔记_C_思维导图编辑_Pad横_C",
+        "Notes_笔记_C_思维导图编辑_Pad竖_C"
+      ]
+    },
+    {
+      "setKey": "af1e1df353e8fb1fe8005b82fed310422f2eae4c",
+      "variant": "SelectableChip_ComponentSet_Notes_01",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_笔记_C_AI对话_Fold内横_C",
+        "Notes_笔记_C_AI对话_Fold内竖_C",
+        "Notes_笔记_C_Notes_Outline_Fold内横_C",
+        "Notes_笔记_C_Notes_Outline_Fold内竖_C",
+        "Notes_笔记_C_思维导图_Fold内横_C",
+        "Notes_笔记_C_思维导图_Fold内竖_C",
+        "Notes_笔记_C_思维导图编辑_Fold内横_C",
+        "Notes_笔记_C_思维导图编辑_Fold内竖_C",
+        "Notes_笔记_C_编辑模式_Fold内横_C",
+        "Notes_笔记_C_编辑模式_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_录音_Fold外竖_C",
+        "Notes_笔记_NLC_录音_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_编辑模式_Fold外竖_C",
+        "Notes_笔记_NLC_编辑模式_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C",
+        "Notes_笔记_NL_编辑模式_Fold外竖_C",
+        "Notes_笔记_NL_编辑模式_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "af1e1df353e8fb1fe8005b82fed310422f2eae4c",
+      "variant": "SelectableChip_ComponentSet_Notes_02",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC"
+      ]
+    },
+    {
+      "setKey": "c1511ec17a7aa60755c6de25ccf7855695c36f9b",
+      "variant": "List_NoteSetting_01",
+      "source": [
+        "Notes_笔记_NC_一级_Fold内横_NC",
+        "Notes_笔记_NC_一级_Fold内竖_NC",
+        "Notes_笔记_NLC_一级_Pad横_NLC并列",
+        "Notes_笔记_NLC_一级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "c1cd1e4344bed74b3962415c9e38f538fa0701a6",
+      "variant": "TextFormatPanel_01",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_录音_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_编辑模式_Fold内横_LC",
+        "Notes_笔记_LC_详情_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_录音_Pad横_NLC并列",
+        "Notes_笔记_NLC_录音_Pad横_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC收起",
+        "Notes_笔记_NLC_录音_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_笔记_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_Fold外竖_C",
+        "Notes_笔记_NLC_详情_Pad横_NLC并列",
+        "Notes_笔记_NLC_详情_Pad横_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC收起",
+        "Notes_笔记_NLC_详情_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_详情_手机竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "c1cd1e4344bed74b3962415c9e38f538fa0701a6",
+      "variant": "TextFormatPanel_02",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_录音_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_编辑模式_Fold内竖_LC",
+        "Notes_笔记_LC_详情_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC"
+      ]
+    },
+    {
+      "setKey": "c85ec854ab52d7ef978d85e8be02e48c9012120a",
+      "variant": "WheelPicker_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "cfb8919278f9ebae27962fdffe5f6f294dcf814e",
+      "variant": "DetailTask_01",
+      "source": [
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+        "Notes_待办_NLC_编辑模式_Pad横_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC收起",
+        "Notes_待办_NLC_编辑模式_Pad竖_NLC覆盖",
+        "Notes_待办_NLC_默认_Pad横_NLC并列",
+        "Notes_待办_NLC_默认_Pad横_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC收起",
+        "Notes_待办_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "d4c7b5f80ce5bf5f80156169fbd2b83f18f14b02",
+      "variant": "Menu_ComponentSet_00",
+      "source": [
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC收起"
+      ]
+    },
+    {
+      "setKey": "d4c7b5f80ce5bf5f80156169fbd2b83f18f14b02",
+      "variant": "Menu_ComponentSet_01",
+      "source": [
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Pad横_LC",
+        "Notes_笔记_LC_默认_Pad竖_LC",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad横_NC收起",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC收起",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "d4c7b5f80ce5bf5f80156169fbd2b83f18f14b02",
+      "variant": "Menu_ComponentSet_03",
+      "source": [
+        "Notes_笔记_C_默认_Fold内横_C",
+        "Notes_笔记_C_默认_Fold内竖_C",
+        "Notes_笔记_C_默认_Fold外竖_C",
+        "Notes_笔记_C_默认_Pad横_C",
+        "Notes_笔记_C_默认_Pad竖_C",
+        "Notes_笔记_C_默认_手机竖_C",
+        "Notes_笔记_LC_默认_Fold内横_LC",
+        "Notes_笔记_LC_默认_Fold内竖_LC",
+        "Notes_笔记_LC_默认_Fold外竖_C",
+        "Notes_笔记_LC_默认_手机竖_C",
+        "Notes_笔记_NC_默认_Fold外竖_C",
+        "Notes_笔记_NC_默认_Pad横_NC",
+        "Notes_笔记_NC_默认_Pad竖_NC",
+        "Notes_笔记_NC_默认_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad横_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC收起",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C",
+        "Notes_笔记_NL_默认_Fold外竖_C",
+        "Notes_笔记_NL_默认_Pad横_NL",
+        "Notes_笔记_NL_默认_Pad横_NL收起",
+        "Notes_笔记_NL_默认_Pad竖_NL",
+        "Notes_笔记_NL_默认_Pad竖_NL收起",
+        "Notes_笔记_NL_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "d586e39fcd850cc3e2f364d877725d4fab64d42d",
+      "variant": "FloatingWindow_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NC_一级_Fold内横_NC",
+        "Notes_笔记_NC_一级_Fold内竖_NC",
+        "Notes_笔记_NLC_一级_Pad横_NLC并列",
+        "Notes_笔记_NLC_一级_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "d586e39fcd850cc3e2f364d877725d4fab64d42d",
+      "variant": "FloatingWindow_ComponentSet_02",
+      "source": [
+        "Notes_笔记_NC_二级_Fold内横_NC",
+        "Notes_笔记_NC_二级_Fold内竖_NC",
+        "Notes_笔记_NLC_二级_Pad横_NLC并列",
+        "Notes_笔记_NLC_二级_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "d672497845fe63477d2164dc2bad4242023941f3",
+      "variant": "SearchReceiving_00",
+      "source": [
+        "Notes_笔记_LC_搜索激活_Fold内横_LC",
+        "Notes_笔记_LC_搜索激活_Fold内竖_LC",
+        "Notes_笔记_LC_搜索激活_Fold外竖_C",
+        "Notes_笔记_LC_搜索激活_Pad横_LC",
+        "Notes_笔记_LC_搜索激活_Pad竖_LC",
+        "Notes_笔记_LC_搜索激活_手机竖_C",
+        "Notes_笔记_NLC_搜索激活_Fold外竖_C",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC并列",
+        "Notes_笔记_NLC_搜索激活_Pad横_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC收起",
+        "Notes_笔记_NLC_搜索激活_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_搜索激活_手机竖_C",
+        "Notes_笔记_NL_搜索激活_Fold外竖_C",
+        "Notes_笔记_NL_搜索激活_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "d672497845fe63477d2164dc2bad4242023941f3",
+      "variant": "SearchReceiving_01",
+      "source": [
+        "Notes_笔记_NL_搜索激活_Pad横_NL",
+        "Notes_笔记_NL_搜索激活_Pad横_NL收起",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL",
+        "Notes_笔记_NL_搜索激活_Pad竖_NL收起"
+      ]
+    },
+    {
+      "setKey": "d9aebc0d0ec6cd4ecc5f737d3488f259fcf0bb93",
+      "variant": "AlertDialog_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "d9ccd733092affaf4595ab81e5901c6491f6ef97",
+      "variant": "SegmentedControls_ComponentSet_01",
+      "source": [
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "d9ccd733092affaf4595ab81e5901c6491f6ef97",
+      "variant": "SegmentedControls_ComponentSet_02",
+      "source": [
+        "Notes_笔记_NLC_默认_Pad横_NLC并列",
+        "Notes_笔记_NLC_默认_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "da488362097beec1e818511d60bc476ed059c908",
+      "variant": "BottomBar_NoteEditPanel_01",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Fold内横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold内竖_LC",
+        "Notes_笔记_LC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_LC_NoteEditPanel_手机竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_Fold外竖_C",
+        "Notes_笔记_NLC_NoteEditPanel_手机竖_C"
+      ]
+    },
+    {
+      "setKey": "da488362097beec1e818511d60bc476ed059c908",
+      "variant": "BottomBar_NoteEditPanel_02",
+      "source": [
+        "Notes_笔记_LC_NoteEditPanel_Pad横_LC",
+        "Notes_笔记_LC_NoteEditPanel_Pad竖_LC",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC并列",
+        "Notes_笔记_NLC_NoteEditPanel_Pad横_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC收起",
+        "Notes_笔记_NLC_NoteEditPanel_Pad竖_NLC覆盖"
+      ]
+    },
+    {
+      "setKey": "f971e9923e8569bd753d786e8f80d382f4d53ab7",
+      "variant": "Fab_01",
+      "source": [
+        "Notes_待办_C_编辑模式_Fold外竖_C",
+        "Notes_待办_C_编辑模式_手机竖_C",
+        "Notes_待办_C_默认_Fold外竖_C",
+        "Notes_待办_C_默认_手机竖_C",
+        "Notes_待办_LC_编辑模式_Fold内横_LC",
+        "Notes_待办_LC_编辑模式_Fold内竖_LC",
+        "Notes_待办_LC_默认_Fold内横_LC",
+        "Notes_待办_LC_默认_Fold内竖_LC"
+      ]
+    },
+    {
+      "setKey": "fbc1d9d54d740c6d64fbfd0846794200219e34bc",
+      "variant": "DrawerWindow_ComponentSet_high_01",
+      "source": [
+        "Notes_笔记_NC_AI对话_手机竖_C",
+        "Notes_笔记_NLC_默认_Fold外竖_C",
+        "Notes_笔记_NLC_默认_手机竖_C"
+      ]
+    }
+  ]
+}
