@@ -31,6 +31,33 @@ lastUpdated: 2026-05-07
 > - common-rules §2 内容来源边界（密度守恒 / 业务内容 vs 结构组件 / 宽 frame 行为）
 > - common-rules §0 #11~#17（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式 / Phase 2 塌缩 / 用户拒绝精确范围 / **遮罩+z-order 禁止推测**）
 
+### Phase 0.0a：csv-pipeline 新鲜度检查（auto-extract gate）
+
+> **作用**（2026-05-25 新增，仅在 workflow-reform 进行期间活性）：随着 `csv-pipeline/` 映射流水线引入，若设计师上游 CSV (`csv-pipeline/mapping-input/*.csv`) 比最近一次抽取 (`csv-pipeline/mapping-output/.last-extract`) 更新，则自动重新抽取后再继续。
+
+**判定逻辑**：
+
+```
+sentinel = csv-pipeline/mapping-output/.last-extract (mtime)
+sources  = csv-pipeline/mapping-input/*.csv (各自 mtime)
+
+if any(source.mtime > sentinel.mtime):
+    run: cd csv-pipeline && npm run extract
+    report: ✓ Phase 0.0a: mapping-output 已重新抽取（检测到 source 变更）
+else:
+    skip: ✓ Phase 0.0a: mapping-output 新鲜（无需重新抽取）
+```
+
+**等价命令**：`npm run status` 一行可做同样判定（输出含"建议重新抽取"提示）。
+
+**例外**：
+- 当 `csv-pipeline/` 自身（脚本修改等）为显式 task 时，跳过自动抽取（由用户直接掌控）
+- 当 user 正在 `csv-pipeline/mapping-input/` 内编辑时，先向 user 确认再继续
+
+**有效期限**：workflow-reform 全部 Stage 完成后移除本 Phase 0.0a（csv-pipeline 转入稳定运营阶段，无需独立触发）。
+
+---
+
 ### Phase 0.0：权威源 inventory gate（soft gate, .md-only 为 default）
 
 > **作用**（2026-05-18 修订）：默认信任 `references/app-variant-map-{app}.md`，**不再每次 session 强制 user 提供 CSV**。CSV 仅在 .md 编辑 / 新增 mapping 条目时显式触发。
@@ -158,7 +185,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 >   - LC / NC → `references/layouts/lc-nc-layout.md`
 >   - C → `references/layouts/c-layout.md`
 > - 应用专用 layout 例外（如 笔记 N 收起规则 / Pad 竖 NLC 覆盖 z-order）→ `references/app-variant-map-{app}.md §0`
-> - 默认必出 4 版本（Fold 横 / Fold 竖 / Pad 横 / Pad 竖），用户明确缩小范围才减
+> - 默认必出 4 版本（Fold内横 / Fold内竖 / Pad横 / Pad竖），用户明确缩小范围才减
 
 根据用户需求和源设计稿特征，确定：
 
@@ -211,8 +238,8 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 | target | framework 决定 |
 |---|---|
-| `Fold内屏-横屏` | NLC 不可（仅 Pad）；其他 framework 按上方决策树。**list-only 时 = Fold内 NL→C 单栏 fallback** |
-| `Fold内屏-竖屏` | 同上 |
+| `Fold内横` | NLC 不可（仅 Pad）；其他 framework 按上方决策树。**list-only 时 = Fold内 NL→C 单栏 fallback** |
+| `Fold内竖` | 同上 |
 | `Pad-横屏` | list-only 时 = **Pad NL**（Sidebar + L 单栏，无 C）；list+detail 时 = NLC |
 | `Pad-竖屏` | 同上 |
 
@@ -260,12 +287,12 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 5. 通过 `AskUserQuestion` 与用户确认 scope 时，**必须先汇报计数结果 + 塌缩判定 + 各 frame 的 layoutType**，再询问执行规模
    - ❌ 错误问法："8 frame 一次性 vs 分批"（计数错了用户也无从纠正）
    - ❌ 错误问法："塌缩为 LC（4 frame）vs 各自独立"（把所有 device 统一为 LC，忽略 Pad 默认 NLC）
-   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系 → 4 个适配 frame：Fold 横/竖 = LC，Pad 横/竖 = NLC（按 app-variant-map §0.1a 默认）。是否正确？"
+   - ✅ 正确问法："`笔记首页` + `笔记详情页` 是 list/detail 钻取关系 → 4 个适配 frame：Fold内横/Fold内竖 = LC，Pad横/Pad竖 = NLC（按 app-variant-map §0.1a 默认）。是否正确？"
    - 用户若希望 Pad 也用 LC（如秘密笔记），必须 **显式偏离**并记录在妥协项
 
 > **本规则的根因**：2026-05-16 笔记多端适配任务中，AI 误把"2 源 frame × 4 设备 = 8 frame"作为默认计数，导致一半 frame 的 C 栏空缺。此规则将检测点固化在 Phase 2 计数阶段，并强制 AskUserQuestion 暴露计数结果，避免错误计数被用户的"完整执行"答复掩盖。
 
-6. **特殊子场景 framework 异设备分化检测**：AI提问 / 录音 / 设置 等子场景的 framework 可能**按 device 不同**（如 Fold=C, Pad=NC）。Phase 2 判定 framework 时必须读取 CSV 控件总表**该行**的每个 device 列 header，**禁止**仅从源 frame 外观推断单一 framework 后全设备共用。异设备 framework 时 `targetVariantPlan` 各 frame 的 layoutType 独立标注。参见 `app-variant-map-笔记.md §0.1-AI`。
+6. **特殊子场景 framework 异设备分化检测**：AI提问 / 录音 / 设置 等子场景的 framework 可能**按 device 不同**（如 Fold=C, Pad=NC）。Phase 2 判定 framework 时必须读取 CSV `结构变化表-{App}.csv` **该行**的每个 device 列 header，**禁止**仅从源 frame 外观推断单一 framework 后全设备共用。异设备 framework 时 `targetVariantPlan` 各 frame 的 layoutType 独立标注。参见 `app-variant-map-笔记.md §0.1-AI`。
 
 ### Phase 3：加载通用规则
 
@@ -393,12 +420,18 @@ OS4_UI_KIT_LIB_KEY = 'lk-99b74bcae3830e7fa42bff92b9af247770c40d33650ac8e37d311db
 
 #### Gate B：source cross-check（源稿对照验证）
 
-componentTaskList 每条目必须通过以下 2 项检查：
+componentTaskList 每条目必须通过以下 **3 项双向**检查（**双向 = 源稿 → 适配 + CSV → 适配 同时执行**，缺一不可）：
 
-| # | 检查 | 通过条件 | 未通过处理 |
-|---|------|---------|----------|
-| 1 | **源稿存在性** | source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
-| 2 | **ComponentSet 出处** | 优先使用 `source instance.mainComponent.parent` 的 set；该 set 内含目标 variant → 直接用 | set 内无目标 variant → 才允许 search_design_system |
+| # | 检查方向 | 检查 | 通过条件 | 未通过处理 |
+|---|------|------|---------|----------|
+| 1 | 源稿 → 适配 | **源稿存在性**（防 spurious 추가）| source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
+| 2 | **CSV → 适配**（防 phone-context 误传递）| **CSV 映射表行存在性**：`app-{App}-mapping.csv` 의 `(子场景, device, layoutType, lane, resolvedUiElement)` 행이 存在해야 함 | 行 absent → **삭제** (例: 编辑모드 行에 TextInput 부재 → C 栏 TextInput 그리지 않음). **「源 phone frame 有 X」 ≠ 「目标 device 编辑모드 有 X」** — 源稿 phone DrawerWindow / AI对话 등의 phone-only context 부속 컴포넌트는 device-별 子场景 변환에 자동 transfer 금지 |
+| 3 | ComponentSet 出处 | 优先使用 `source instance.mainComponent.parent` 의 set; 该 set 内含目标 variant → 직접 사용 | set 내 목표 variant 없음 → search_design_system. **단 顶层 variant 値은 §0 #22 따라 CSV 映射表 우선 (源稿 variant ≠ 自动 권위)** |
+
+> **양방향 검사의 의미** (2026-05-28 笔记 编辑모드 Pad 적응 시 회고로 추가)：
+> - 일방향 (源稿 → 적용) 만 검사 시 「源 frame 有 X → 默认 적용」 误判 발생 (例: 笔记详情页 phone DrawerWindow 의 TextInput 이 编辑모드 Pad C 栏에 부적절 自动 추가됨)
+> - 일방향 (CSV → 적용) 만 검사 시 「CSV 行 있음 → 默认 적용」 误判 발생 (例: 源稿无 NoticeBar 인데 CSV 行 있다고 추가)
+> - 양방향 모두 통과해야 적용. 한쪽 절대 absent → 削除 / 양쪽 일치 → 적용 / **CSV 만 absent + 源稿 有** → CSV update 필요한지 user confirm.
 
 #### Gate C：belongsToSet 强制列
 
@@ -462,7 +495,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | 3 | reference ↔ 源稿直觉冲突 → 以 reference 为准；无法判断时中止汇报缺口 | — |
 | 4 | 栏宽约束必须贯穿到栏内第一层语义容器（不只 viewport / 外层骨架）| 不允许保留旧固定宽度后靠 `clipsContent` 裁切 |
 | 5 | 栏级容器优先 Auto Layout + `Fill Container`；不能把 clone 固定宽度直接视为完成 | — |
-| 6 | 文件内已有的整页结果只能作”比对样例”，不能直接当输出（除非用户明确复用确认）| common-rules §1.3 |
+| 6 | 文件内已有的整页结果只能作"比对样例"，禁止直接 clone (无例外) | common-rules §1.1 |
 | 7 | “复用顶部模块 / 底部模块”不可执行成”直接保留源稿当前变体”；基础组件必须先独立映射 | common-rules §3.1 |
 | 8 | clone 是 fallback 路径，**不是默认路径**（命中目标实例失败时才 clone）| common-rules §4.2 |
 | 9 | “当前 page 未找到” ≠ “组件库不存在”；进入 `fallback` / `blocked` 前必须执行 `search_design_system` + 导入校验 | — |
@@ -475,7 +508,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | 1 | 整页适配 frame 默认放源稿旁边，不可远处随意落 |
 | 2 | 源稿在 section 中 → 目标 frame 优先写回同一 section |
 | 3 | 多设备 / 多方向版本：稳定顺序 + 可读间距，便于左→右对照 |
-| 4 | 默认顺序 `Fold横屏 → Fold竖屏 → Pad横屏 → Pad竖屏` |
+| 4 | 默认顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖` |
 | 5 | 不可只创建首个横屏版本就停；`targetVariantPlan` 未生成项必须继续 |
 | 6 | 偏离默认落位 → 仅在用户明确要求或空间不足时允许，且输出说明 |
 
@@ -506,7 +539,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | 栏间分割线 fill | `分割线色/outline` | `96f2cf4d1ce0d56cff2f8e98da6a5e16bd59983e` | `{r:0,g:0,b:0}` | 0.1 |
 | Pad 竖 NLC 覆盖 遮罩 fill | `遮罩色/mask` | `0ed62540049dd3839b40b63d40f82492c4bac664` | `{r:0,g:0,b:0}` | **0.2** |
 
-**调用示例**（笔记应用 Fold 横 LC frame fill）：
+**调用示例**（笔记应用 Fold内横 LC frame fill）：
 ```javascript
 // Phase 4 已完成：const TOKEN_CACHE = await buildTokenCache();
 const frame = figma.createFrame();
@@ -526,74 +559,25 @@ await placeStandardComponent({
 ### 落位 layout spec 模板（与上节代码模板搭配使用）
 
 > 上节是「**怎么调用函数**」，本节是「**spec 应该填什么值**」。
+>
+> 📌 **单一权威源**：栏内 stack 顺序 / frame 直接子节点 z-order 5 种布局 / 编辑模式扩展模板 / 杆子通用规则 → **`protocol.md §3`**（栏 frame z-order + 编辑模式扩展 + 栏内组件 stack 顺序 + C 栏 stack 笔记应用 三表完整定义）。SKILL 不重复，避免两文件不同步。
 
-**栏内 stack 顺序（spec 通例，源稿冲突时以本表为准）**：
-
-| 栏 | 顺序 |
-|---|------|
-| L 栏 | `NavBar(y=6, h=56) → SearchBar(y=62, h=44/56) → Chip → List → BottomBar(y=mainH-100, h=100)` |
-| C 栏（笔记应用）| `NavBar_Notes(y=6, h=56) → Detail(y=62, h=mainH-62)` + `TextInput(y=mainH-92, h=92, bottom flush)` |
-
-C 栏 z-order：必须 `Detail → TextInput`（TextInput 在上层 fade overlay）。
-
-**frame 直接子节点 z-order**：
-
-| 布局 | z-order（从底到顶） |
-|---|---|
-| LC（Fold 内屏） | `main` → `状态栏` → `分割线` → `杆子`（最顶 / 透明 / 风满） |
-| NLC 并列（Pad 横） | `main`（含 L/C） → `状态栏` → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
-| NLC 覆盖（Pad 竖）| `main` → `状态栏` → `遮罩-N覆盖`(状态栏之上, 含状态栏 dim) → `分割线` → `Sidebar`(z-2) → `杆子`(z-1, 风满, 透明) |
-| LC + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑`(C 列, 状态栏之上) → `分割线` → `L 栏` → `杆子` |
-| NLC 覆盖 + L 编辑 | `main(C only)` → `状态栏` → `遮罩-编辑`(C 列) → `分割线` → `L 栏` → `遮罩-N覆盖`(全幅) → `Sidebar` → `杆子` |
-
-**杆子（home indicator）通用规则**：所有 Pad / Fold 模式下统一 —— `x=0, width=frameW, fills=[]`（透明背景），z-order 最顶。
+**Phase 5 调用前必查**：
+- `protocol.md §3` 表 1 — 普通 frame z-order（LC / NLC 并列 / NLC 覆盖）
+- `protocol.md §3` 表 2 — 编辑模式扩展（LC + L 编辑 / NLC + L 编辑 等）
+- `protocol.md §3` 表 3 — 栏内组件 stack 顺序（NavBar 6 → SearchBar 62 → Chip → List → BottomBar mainH-100）
+- `protocol.md §3` 表 4 — C 栏 stack（笔记应用 NavBar_Notes / Detail / TextInput bottom flush）
+- `protocol.md §3`「杆子通用规则」—— 所有 Pad/Fold 模式 `x=0, width=frameW, fills=[]`，z-order 最顶
 
 ### 字体降级规则
 
-> 📌 **单一权威源**：完整降级表 + 强制执行顺序 + `fixFonts` 函数本体 + `degradationMap` 结构示例 + 文本属性修改场景，全部在 **`references/font-degradation.md`**。本节只列签名 + 强制顺序 + 笔记业务降级表索引。Phase 5 启动前必须已读 font-degradation.md（Phase 3 已要求）。
-
-**降级映射表（笔记 / HyperOS 业务）**：
-
-| 不可用字体 | 降级目标 family | style 映射 |
-|-----------|----------------|------------|
-| MiSans VF | MiSans | Medium → Medium，其余 → Regular |
-| HyperOS Symbols VF | MiSans | Medium → Medium，其余 → Regular |
-
-> 不在此表中的字体 → `listAvailableFontsAsync()` 查同 family 可用变体；没有 → 降级到 `{family:'MiSans', style:'Regular'}` 并在输出中记录。
-
-**涉及不可用字体的实例，强制执行顺序**（详见 font-degradation.md）：
-
-```
-clone → setProperties(target variant) → detachInstance → fixFonts → appendChild
-```
-
-| 约束 | 说明 |
-|------|------|
-| variant 切换（`setProperties`）必须在 `detachInstance` 之前 | detach 后无法切换 variant |
-| `fixFonts` 必须在 `appendChild` 之前 | 否则 appendChild 触发字体加载报错 |
-| detach 后节点不再是 instance | 已知代价，输出中标记为妥协项 |
-
-**`fixFonts` 函数签名（本体见 font-degradation.md）**：
-
-```javascript
-await fixFonts(node, degradationMap);
-```
-
-`degradationMap` 结构（笔记业务）：
-```javascript
-{
-  'MiSans VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' },
-  'HyperOS Symbols VF': { family: 'MiSans', styleMap: { 'Medium': 'Medium' }, defaultStyle: 'Regular' }
-}
-```
-
-**文本属性修改场景（非 appendChild）**：先加载降级后字体再改属性：
-
-```javascript
-await figma.loadFontAsync({ family: 'MiSans', style: 'Regular' });
-await figma.loadFontAsync({ family: 'MiSans', style: 'Medium' });
-// 然后才能修改 fontSize / characters 等
-```
+> 📌 **单一权威源** = **`references/font-degradation.md`** （Phase 3 必读，已加载到工作记忆）。
+>
+> 该文件含：① 降级映射表（MiSans VF / HyperOS Symbols VF → MiSans） ② 强制执行顺序 `clone → setProperties → detachInstance → fixFonts → appendChild` + 顺序约束 ③ `fixFonts` 函数本体 + `degradationMap` 结构示例 ④ 文本属性修改场景 (`loadFontAsync` 先行)。
+>
+> Phase 5 字体不可用实例处理 = 直接调用 `await fixFonts(node, degradationMap)`。函数签名 / degradationMap 字面值 / 顺序约束在两文件不重复声明，避免不同步。
+>
+> **业务范围**：本表覆盖笔记 / HyperOS 业务全部不可用字体。表外字体降级 fallback = `{family:'MiSans', style:'Regular'}`（详见 font-degradation.md 末段）。
 
 ### Phase 6：验证
 
@@ -662,45 +646,17 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 | `componentChecks[i].sourceInstId` | Phase 1 `sourceInnerStateMap` 配套（源稿同位置 instance ID）| ✅（涉及业务态组件如 ToolBar / List 编辑态等必填，触发 verifyChecklist ⑯ 内部状态同步检查）|
 | ~~`mask` / `editMask` / `NCoverMask`~~ | **已废弃** —— `scenarioFlags` 派生 | — |
 
-**verifyChecklist 内部 13 项检查（与 protocol.md §6 一一对应）**：
+**verifyChecklist 内部 16 项检查 (函数本体 = `csv-pipeline/runtime/verify.ts`, 项目 ↔ §6.2 # 映射 = `protocol.md §6`)**：
 
-| 项 | 检查内容 | trigger |
-|---|---|---|
-| ① | StatusBar：宽度 / 高度 / `y=0`（Pad 自然 38 → 必须强制 34）| 通用 |
-| ② | `frame.cornerRadius === spec.cornerRadius` | 通用 |
-| ③ | `frame.fills[0].boundVariables.color` 已绑定 token | 通用 |
-| ④ | 栏宽 与 `spec.cols` 一致 | 通用 |
-| ⑤ | 杆子 风满 + `fills=[]` 透明 + 最顶 z-order | 通用 |
-| ⑥ | Sidebar 高度（`spec.sidebar` 时）| Pad NLC |
-| ⑦ | `componentChecks` reflow 自检（width / height / x / y 偏差 < 0.5dp）| 通用 |
-| ⑧ | 遮罩-N覆盖 存在 + 绑定 `遮罩色/mask` token | `flags.NCovering` |
-| ⑨ | 栏间分割线 fill 绑定 `分割线色/outline` token | LC / NLC |
-| **⑩** | **遮罩-编辑 (Cw × frameH) + L 栏 frame 直接子级 promote** (§3.7a) | **`flags.LEditMode`** |
-| **⑪** | **多 mask z-order 完全一致 (§3.7b)** | **`flags.LEditMode + NCovering`** |
-| **⑫** | **遮罩-编辑 不存在** (§3.7a 末) | **`flags.CEditMode` only** |
-| **⑬** | **scenarioFlags 一致性** (§6.2 #23) | flags 缺失 + spec 含 mask 字段时报错 |
+> 16 项明细 (StatusBar / cornerRadius / frame fill / 栏宽 / 杆子 / Sidebar / componentChecks reflow / N覆盖遮罩 / 分割线 / 编辑遮罩 / 多 mask z / C 编辑无 mask / scenarioFlags 一致性 / ToolBar 胶囊 / Pad N 栏 z / inner 同步) → 不在 SKILL 重复, 直接看 `protocol.md §6`「检查项映射」表 + verify.ts 实现。trigger 条件按 `scenarioFlags` 字段, 详见同表。
 
 ### 验收 自动 vs 手动 分类（独立维度，与 §6.2 互补）
 
 > 📌 **权威源**：完整 24 项检查清单在 **`common-rules.md §6.2`**。本表是**互补维度** —— 把 24 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
 
-**A. verifyChecklist 自动覆盖（13 项 ↔ protocol.md §6 内的 ①~⑬）**：
+**A. verifyChecklist 自动覆盖（13 项 ↔ protocol.md §6 内的 ①~⑬, ⑭~⑯ 扩展）**：
 
-| `verifyChecklist` 项 | §6.2 # | 说明 |
-|---|---|---|
-| ① StatusBar 高 / 宽 / y=0 | §6.2 #4-6 | Pad 强制 34（自然 38）|
-| ② cornerRadius | §6.2 #3 | Fold 50 / Pad 34 |
-| ③ frame fill token | §6.2 #17 | 绑定 `背景色/surface` |
-| ④ 栏宽 | §6.2 #7 | 与 device-dimensions 一致 |
-| ⑤ 杆子 风满 + 透明 + 最顶 z | §6.2 #11 | 全模式 |
-| ⑥ Sidebar 高度 | §6.2 #9 | Pad NLC 仅 |
-| ⑦ componentChecks reflow | §6.2 #8 | 列出的所有标准组件 |
-| ⑧ 遮罩-N覆盖 + token | §6.2 #10 | `flags.NCovering` |
-| ⑨ 栏间分割线 token | §6.2 #12 | LC / NLC 仅 |
-| **⑩ 遮罩-编辑 (§3.7a)** | **§6.2 #21** | **`flags.LEditMode`** |
-| **⑪ 多 mask z-order (§3.7b)** | **§6.2 #22** | **`flags.LEditMode + NCovering`** |
-| **⑫ C 编辑无 mask** | **§6.2 #24** | **`flags.CEditMode` only** |
-| **⑬ scenarioFlags 一致性** | **§6.2 #23** | **flags 缺失 + spec mask 矛盾时** |
+→ `protocol.md §6` 「检查项映射」表（① StatusBar / ② cornerRadius / ③ frame fill / ④ 栏宽 / ⑤ 杆子 / ⑥ Sidebar / ⑦ componentChecks reflow / ⑧ N覆盖 / ⑨ 分割线 / ⑩ 编辑遮罩 / ⑪ 多 mask z / ⑫ C 编辑无 mask / ⑬ scenarioFlags 一致 / ⑭ ToolBar 胶囊 / ⑮ Pad N 栏 z / ⑯ inner 同步）。SKILL 不重复，避免两文件不同步。
 
 **B. 必须手动校验（剩余 11 项，verifyChecklist 不覆盖）**：
 
@@ -762,7 +718,7 @@ Q3: frame.children = [main, 状态栏, 遮罩-编辑, 分割线, L 栏, 遮罩-N
 最终向用户汇报：
 
 1. 目标设备和布局类型的判断结果
-2. 实际生成的设备 × 方向版本列表（如 `Fold横屏 / Fold竖屏 / Pad横屏 / Pad竖屏`）
+2. 实际生成的设备 × 方向版本列表（如 `Fold内横 / Fold内竖 / Pad横 / Pad竖`）
 3. 适配完成状态（成功 / 部分成功）
 4. 验证结果摘要
 5. 如有妥协项（如图片占位、字体降级、组件记录待复探，或经用户确认后省略某些方向版本），明确列出
