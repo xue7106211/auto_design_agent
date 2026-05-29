@@ -124,7 +124,7 @@ else:
 > - 全 Phase 通用前置：**进入 Phase 1 前必须先 `figma-use` skill 加载完成**（首次 `use_figma` 出现于本 Phase 第 4 步字体预检）
 > - 字体预检脚本（本节 inline）必须运行；产出 `fontDegradationMap` 是 Phase 5 必要前置
 > - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV / metadata 异常时立即停止）
-> - 「字体降级规则」节（本文档 Phase 5 后）—— `fontDegradationMap` 结构示例与降级表
+> - `references/font-degradation.md` —— `fontDegradationMap` 结构示例与降级表（本文档 Phase 5 后「字体降级规则」节为 pointer）
 
 获取手机端源设计稿的完整信息：
 
@@ -443,7 +443,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 >
 > **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 가장 빈번한 failure root cause）.
 >
-> **任何组件 swap / resize / 落位** 必须调用 `placeStandardComponent({...})`（함수 본체 = `csv-pipeline/runtime/placement.ts`, 시그니처 + 호출 순서 = 본 문서 「표준 落位 코드 모듈」 节）, 禁止 inline 临时序列.
+> **任何组件 swap / resize / 落位** 必须调用 `placeStandardComponent({...})`（函数本体 = `csv-pipeline/runtime/placement.ts`, 签名 + 调用顺序 = 本文档 「标准落位代码模板」节）, 禁止 inline 临时序列.
 
 根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
@@ -464,7 +464,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 - 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
 - 布局类型为 C → 读取 `references/layouts/c-layout.md`
 
-**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules §1.1 / §3.1 / §4.2` 와 같음, 그쪽 우선.
+**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留, 详 `common-rules §4.2`). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules §1.1 / §3.1 / §4.1` 와 같음, 그쪽 우선.
 
 **目标稿放置 약속**: 源稿 옆 동일 section, 顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖`, 偏离 → 사용자 명시 시 만 허용 + 사유 출력. `targetVariantPlan` 미생성 항 = 미完了 (첫 frame 만 만들고 中止 금지).
 
@@ -479,8 +479,8 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | Phase 4 完成 | `await buildTokenCache()` | protocol.md §4 | 一次性缓存所有库 token → 全局 `TOKEN_CACHE` |
 | Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[], sourceInst?, inheritInnerState=true })` | **protocol.md §2** | swap → FIXED → resize → x/y → **inner state 继承** → 自检 7 步。**`sourceInst` 必传**（来自 Phase 1 `sourceInnerStateMap`），否则 inner 业务态（如 ToolBar 按钮 `状态=禁用` / `数量=4个`）停留在 main default，与源稿不一致 |
 | Phase 5 fill 写入 each node | `await bindFill(node, tokenName, fallbackRGB, opacity=1)` | protocol.md §4 | token lookup + setBoundVariableForPaint，无则 RGB fallback |
-| Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | 本文档「字体降级规则」节（笔记业务专用，未抽到 protocol） | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
-| Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec)` | **protocol.md §6** | 9 项自动检测，`errors.length > 0` 必须修复 |
+| Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | `references/font-degradation.md` | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
+| Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec, scenarioFlags)` | **`csv-pipeline/runtime/verify.ts`** (映射表 = protocol.md §6) | 16 项自动检测（含 ⑭~⑯ 扩展），`errors.length > 0` 必须修复 |
 
 **禁止顺序倒置**：
 - `bindFill` 必须在 `placeStandardComponent` 之后（节点已落位才能写 fill）
@@ -516,7 +516,7 @@ await placeStandardComponent({
 
 > 上节是「**怎么调用函数**」，本节是「**spec 应该填什么值**」。
 >
-> 📌 **单一权威源**：栏内 stack 顺序 / frame 直接子节点 z-order 5 种布局 / 编辑模式扩展模板 / 杆子通用规则 → **`protocol.md §3`**（栏 frame z-order + 编辑模式扩展 + 栏内组件 stack 顺序 + C 栏 stack 笔记应用 三表完整定义）。SKILL 不重复，避免两文件不同步。
+> 📌 **单一权威源**：栏内 stack 顺序 / frame 直接子节点 z-order 5 种布局 / 编辑模式扩展模板 / 杆子通用规则 → **`protocol.md §3`**（栏 frame z-order + 编辑模式扩展 + 栏内组件 stack 顺序 + C 栏 stack 笔记应用 四表完整定义）。SKILL 不重复，避免两文件不同步。
 
 **Phase 5 调用前必查**：
 - `protocol.md §3` 表 1 — 普通 frame z-order（LC / NLC 并列 / NLC 覆盖）
@@ -613,7 +613,7 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 
 **调用流程**：
 
-1. 每完成一个 frame → 立即 `await verifyChecklist(frame, spec)`（A 部分自动）
+1. 每完成一个 frame → 立即 `await verifyChecklist(frame, spec, scenarioFlags)`（A 部分自动；scenarioFlags 必传，缺失则 §6.2 #23 报错）
 2. `errors.length > 0` → 修复（按 common-rules §6.0.1 优先级：尺寸 → 位置 → 文本）
 3. `errors === 0` + B 部分手动项全部通过 → 进入下一 frame
 4. 4 frame 全部完成后 → 总验证（B 部分必查）
