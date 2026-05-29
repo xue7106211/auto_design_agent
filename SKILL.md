@@ -296,21 +296,15 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 ### Phase 3：加载通用规则
 
-> **🔁 RE-CHECK（Phase 3 必读 = 单纯加载）**：本 Phase 唯一动作是加载下表 3 个文件。任何文件未完整读取严禁进入 Phase 4。
+**强制读取 3 文件全文** (단순 로드 단계, 미读 시 Phase 4/5 진입 금지):
 
-**强制读取以下三个文件全文（不可只读目录或片段）**：
+1. `references/common-rules.md` — 通用原则 / 内容边界 / §3.x 实例陷阱 / §6.2 验证清单 / §7 금지항 (§3.6 reflow 陷阱 = 18+ 历史 错误 핵심)
+2. `references/component-placement-protocol.md` — `placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 4 함수 시그니처 + 호출순서 (함수 본체 = `csv-pipeline/runtime/placement.ts` + `verify.ts`)
+3. `references/font-degradation.md` — `fixFonts` 함수 본체 + 降级 / 강제 순서 / degradationMap
 
-| # | 文件 | 角色 | 必读理由 |
-|---|------|------|---------|
-| 1 | `references/common-rules.md` | 通用原则 / 内容边界 / 检索规则 / §3.x 实例陷阱 / §6.2 验证清单 / §7 禁止项 | Phase 0~6 横跨；§3.6 reflow 陷阱是过去 18+ 错误的核心 |
-| 2 | `references/component-placement-protocol.md` | **`placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 四个函数本体** | **唯一权威源**。Phase 5 落位 / Phase 6 验证 都直接调用这些函数。SKILL.md 本文档只列签名 + 示例，函数体在此 |
-| 3 | `references/font-degradation.md` | **`fixFonts` 函数本体** + 降级 / 强制顺序 / degradationMap 结构示例 | **唯一权威源**。Phase 5 字体不可用实例处理直接调用 `fixFonts`；本节签名 + 业务降级表在 SKILL.md 内 |
+应用 전용 규칙 = `app-variant-map-{app}.md` (Phase 4 로드).
 
-> ⚠️ **未完整读取上述 3 文件严禁进入 Phase 4 / Phase 5**。Phase 5 写入代码会调用 `placeStandardComponent({...})` / `bindFill(...)` / `verifyChecklist(...)` / `fixFonts(...)`；这些函数仅在对应 reference 内有完整实现。未读 → 调用失败 / 误用必发生。
->
-> 应用专属规则另在 `app-variant-map-{app}.md`（Phase 4 读取）。
-
-> 关键决定（2026-05-15）：`resetOverrides` **默认 OFF**。仅当 swap 后必须清旧 override 时才显式 `true`。reset 会清掉 width override 触发 instance hug content reflow，是过去最频繁的失败根因。
+> **关键决定**: `resetOverrides` 默认 **OFF** (reset → width override 清, hug content reflow → 过去 가장 빈번한 fail root cause).
 
 ### Phase 4：生成页面级组件任务 + Token 缓存
 
@@ -445,27 +439,11 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 
 ### Phase 5：读取布局 reference 并执行
 
-> **🔁 RE-CHECK（落位前必读，每次进入 Phase 5 重新加载到工作记忆）**：
+> **🔁 RE-CHECK（落位前必读）**：每次进入 Phase 5 必须重读 `common-rules.md §3.3 ~ §3.10` 全文（§3.6 reflow 陷阱 + §3.7~§3.7b 遮罩 z-order + §3.7a-NL「NL framework + LEditMode 一律 mask 不渲染」 + §3.8 분할선 + §3.9 Sidebar 阴影 + §3.10 库 updatedAt 비교）+ `device-dimensions.md`「工具栏规格」(ToolBar 胶囊 width spec, verifyChecklist ⑭ 자동 검사).
 >
-> | § | 内容 |
-> |---|------|
-> | §3.3 | 实例克隆 / variant 切换后必须显式 resize（不会自动） |
-> | §3.4 | swap 后 override 残留清理（与 §3.6 关系：本节 OPT-IN，§3.6 默认 OFF）|
-> | §3.4a | padding 合算 / 特殊 vs 内容容器分类 |
-> | §3.5 | StatusBar 跨设备 variant 强制高度（pad 自然 38 → 强制 34）|
-> | §3.6 | 自带 auto-layout 实例 reflow 陷阱 / 强制 6 步序列（最高频失败根因） |
-> | §3.7 | NLC 覆盖 遮罩 + z-order（**2026-05-18 修订**：遮罩-N覆盖 在状态栏 **之上**，状态栏被 dim 是正答；旧版「保证可读」rationale 已弃用）|
-> | **§3.7a** | **L 编辑模式遮罩 `遮罩-编辑`（Cw × frameH，仅 C 列）+ L 栏从 main 提升至 frame 直接子级（scenarioFlags.LEditMode trigger；遮罩-编辑 在状态栏之上）** |
-> | **§3.7b** | **多 mask z-order（编辑遮罩 + N 覆盖遮罩 同时存在时）；以 reference frame children dump 比对为准，但 reference 与 §3.7/§3.7a 修订冲突时按修订为准（旧 V2 reference 状态栏 z-order 错位 case）** |
-> | §3.8 | 栏间分割线（独立 RECTANGLE，frame 直接子级，全帧高度）|
-> | §3.9 | Sidebar 阴影裁切防止（Pad 横 N + main `clipsContent = false`）|
-> | §3.10 | 视觉异常时优先怀疑 component 库版本（`search_design_system` 比对 `updatedAt`）|
-> | device-dim 「工具栏规格」line 628~711 | ToolBar / BottomBar_Showcase 系 instance 外壳风满 + inner 胶囊（工具个数举例 / TabMaterial-Showcase）独立 width spec：栏 W ≤ 440 → 风满（栏W − 48），栏 W > 440 → 定宽 344 居中（两侧 fill padding）。`app-variant-map-{app}.md §0.2 「A 类一律风满」` 仅针对 instance 外壳，不可递归套到 inner 胶囊。verifyChecklist ⑭ 自动检查 |
-> | common-rules §3.7a-NL | NL framework + LEditMode 时 **一律 mask 不渲染**（所有 device、所有子形态：Fold NL→C fallback / Pad NL 展开 / Pad NL 收起）。L 栏不 promote。z-order 沿用一般 NL 通则 |
+> **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 가장 빈번한 failure root cause）.
 >
-> **关键决定**：`resetOverrides` 默认 **OFF**。reset 清空 width override → instance hug content reflow，是过去最频繁失败根因。
->
-> **任何组件 swap / resize / 落位** 必须调用 `protocol.md §2` 的 `placeStandardComponent({...})`（本节列签名 + 调用顺序，函数本体在 protocol.md §2），禁止 inline 临时序列。
+> **任何组件 swap / resize / 落位** 必须调用 `placeStandardComponent({...})`（함수 본체 = `csv-pipeline/runtime/placement.ts`, 시그니처 + 호출 순서 = 본 문서 「표준 落位 코드 모듈」 节）, 禁止 inline 临时序列.
 
 根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
@@ -486,31 +464,9 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 - 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
 - 布局类型为 C → 读取 `references/layouts/c-layout.md`
 
-**强制约束**：
+**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules §1.1 / §3.1 / §4.2` 와 같음, 그쪽 우선.
 
-| # | 规则 | 详见 |
-|---|------|------|
-| 1 | 未读取对应布局 reference 前禁止 Figma 写入 | layouts/{nlc,lc-nc,c}-layout.md |
-| 2 | 布局 reference 的栏宽 / 栏位职责 / 验收项优先级**高于模型推断** | — |
-| 3 | reference ↔ 源稿直觉冲突 → 以 reference 为准；无法判断时中止汇报缺口 | — |
-| 4 | 栏宽约束必须贯穿到栏内第一层语义容器（不只 viewport / 外层骨架）| 不允许保留旧固定宽度后靠 `clipsContent` 裁切 |
-| 5 | 栏级容器优先 Auto Layout + `Fill Container`；不能把 clone 固定宽度直接视为完成 | — |
-| 6 | 文件内已有的整页结果只能作"比对样例"，禁止直接 clone (无例外) | common-rules §1.1 |
-| 7 | “复用顶部模块 / 底部模块”不可执行成”直接保留源稿当前变体”；基础组件必须先独立映射 | common-rules §3.1 |
-| 8 | clone 是 fallback 路径，**不是默认路径**（命中目标实例失败时才 clone）| common-rules §4.2 |
-| 9 | “当前 page 未找到” ≠ “组件库不存在”；进入 `fallback` / `blocked` 前必须执行 `search_design_system` + 导入校验 | — |
-| 10 | `app-variant-map` 返回 `variant` 且未 `hidden`/`absent` 的组件**必须落地**；只允许标 `fallback` / `blocked` 但保留语义位置 | — |
-
-**目标稿放置约束**：
-
-| # | 规则 |
-|---|------|
-| 1 | 整页适配 frame 默认放源稿旁边，不可远处随意落 |
-| 2 | 源稿在 section 中 → 目标 frame 优先写回同一 section |
-| 3 | 多设备 / 多方向版本：稳定顺序 + 可读间距，便于左→右对照 |
-| 4 | 默认顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖` |
-| 5 | 不可只创建首个横屏版本就停；`targetVariantPlan` 未生成项必须继续 |
-| 6 | 偏离默认落位 → 仅在用户明确要求或空间不足时允许，且输出说明 |
+**目标稿放置 약속**: 源稿 옆 동일 section, 顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖`, 偏离 → 사용자 명시 시 만 허용 + 사유 출력. `targetVariantPlan` 미생성 항 = 미完了 (첫 frame 만 만들고 中止 금지).
 
 ### 标准落位代码模板（必用，禁止 inline 临时序列）
 
@@ -579,30 +535,11 @@ await placeStandardComponent({
 >
 > **业务范围**：本表覆盖笔记 / HyperOS 业务全部不可用字体。表外字体降级 fallback = `{family:'MiSans', style:'Regular'}`（详见 font-degradation.md 末段）。
 
-### Phase 6：验证
+### Phase 6：验证 + 自动验证 함수
 
-> **🔁 RE-CHECK（验证前必读）**：
-> - common-rules §6.2（20 项强制清单）
-> - common-rules §6.3（每 frame 写入完成后的强制截图）
-> - app-variant-map-{app}.md 「§C 应用专项验证」（如有）
-> - **必须调用 `protocol.md §6` 的 `verifyChecklist(frame, spec)` 函数**（本节列签名 + spec 模板，函数本体在 protocol.md §6）。错误项 > 0 不得汇报"适配完成"
+> **🔁 RE-CHECK** (验证前 필독): `common-rules §6.2` (24 项 강제 清单) + `§6.3` (frame 完成 후 强制 截图) + `app-variant-map-{app}.md §C` (앱 전용 验证, 있을 시). 함수 본체 = `csv-pipeline/runtime/verify.ts`.
 
-布局执行完成后，先按对应布局 reference 的验收标准验证；如存在独立验证 reference，再做最终校验。
-
-### 自动验证函数（必调用，每 frame 写入完成后立即跑）
-
-> 📌 **单一权威源**：`verifyChecklist` 函数本体定义在 **`references/component-placement-protocol.md §6`**。本节只列签名 + spec 模板 + 调用方式 + 9 项检查清单。Phase 6 启动前必须已读 protocol.md（Phase 3 已要求）。
-
-**函数签名 + 调用模式**：
-
-```javascript
-// verifyChecklist 定义于 protocol.md §6；返回 errors[]，长度 > 0 即未通过
-const errors = await verifyChecklist(frame, spec);
-if (errors.length > 0) {
-  // 修复后重新跑，禁止 silently 通过
-  return { status: 'failed', errors };
-}
-```
+매 frame 落位 完成 후 즉시 `await verifyChecklist(frame, spec, scenarioFlags)` 호출. errors.length > 0 → 修复 → 重 verify (循环 max 3, 仍 fail → 사용자 报告 + 中止). silently 通过 금지.
 
 **spec 模板（Pad 竖 NLC 覆盖 + L 编辑模式 示例）**：
 
