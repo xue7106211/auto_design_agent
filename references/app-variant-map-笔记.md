@@ -222,9 +222,7 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 ### §0.3 必用 token 引用
 
-> **2026-05-31 迁移**: token 名 / libraryKey / fallbackRGB / defaultOpacity 의 raw data 는 [`csv-pipeline/data/tokens.json`](../csv-pipeline/data/tokens.json) 단일 권위 source 로 이주. Phase 4 `buildTokenCache(names)` 가 본 file 의 `tokens` dict 를 read. AI 매번 본 §0.3 의 5 행 표 read 不要.
->
-> 본 §0.3 의 잔존 부분 = **笔记 / 待办 specific 적용 룰** (background token 선택 결정 트리 + device × screenMode fill 矩阵). raw token data 가 아닌 **결정 logic** 만 본문 유지.
+> **Raw token data**（name / libraryKey / fallbackRGB / defaultOpacity）= [`csv-pipeline/data/tokens.json`](../csv-pipeline/data/tokens.json) 单一权威。Phase 4 `buildTokenCache(names)` 직접 read. 본 §0.3 = 笔记 / 待办 specific 적용 logic 만.
 
 > **背景 token 选择规则（核心 + 普遍）**：
 > - **判定标准 = 该容器内的列表组件是否带卡片，不是 app 名 / framework / 设备**：
@@ -297,15 +295,7 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 ### §0.4 关键组件 set keys（pointer）
 
-> **2026-05-31 迁移**：本 §0.4 的 set keys 表已**完全迁移到 [`csv-pipeline/data/setkeys.json`](../csv-pipeline/data/setkeys.json) 单一权威**。
->
-> - `families` dict — 모든 set 의 setName / setKey / library / status / probeNote
-> - `authoritativeLibraryKeys` — `search_design_system` `includeLibraryKeys` scope 강제 source
-> - `_known_stale_or_wrong_keys` — 과거 잘못 기록된 key + 회피 방법 (List_Task wrongKey / NavigationBar pre-2026-05-27 / StatusBar pre-2026-05-21 / 杆子 v0.8)
->
-> Phase 4.5 Gate A / Gate C / Phase 5 import 시 **반드시 setkeys.json 를 read 하여 setKey lookup**. 본 §0.4 본문은 더 이상 set keys 의 권위 source 아님.
->
-> **변경 시**: setkeys.json 수정 → git commit (本 .md 보강 不要). cross-ref 18+개의 既存 「§0.4」 표기는 모두 「`setkeys.json`」 으로 의미 解釋.
+> **권위 source** = [`csv-pipeline/data/setkeys.json`](../csv-pipeline/data/setkeys.json) 단일 권위 (families / authoritativeLibraryKeys / `_known_stale_or_wrong_keys` 포함). Phase 4.5 Gate A / Gate C / Phase 5 import 시 setkeys.json 직접 read. 변경 시 setkeys.json 수정 + git commit (본 .md 보강 不要). 既存 cross-ref 18+개의 「§0.4」 표기 = 의미상 「setkeys.json」.
 
 ### §0.5 历史踩坑（笔记 / 待办 应用专用）
 
