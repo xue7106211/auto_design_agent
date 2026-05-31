@@ -111,9 +111,9 @@ function main(): void {
     totalRows += rows.length;
   }
   console.log('');
-  console.log(`전체 ${Object.keys(groups).length}개 파일, ${totalRows}행 분리됨`);
+  console.log(`Total: ${Object.keys(groups).length} files, ${totalRows} rows split`);
   if (unclassifiedCount > 0) {
-    console.warn(`⚠ ${unclassifiedCount}개 행이 분류되지 않음 (위 경고 참조)`);
+    console.warn(`⚠ ${unclassifiedCount} rows unclassified (see warnings above)`);
   }
 }
 

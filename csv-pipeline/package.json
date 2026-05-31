@@ -6,6 +6,13 @@
   "scripts": {
     "extract": "tsx scripts/extract-mapping.ts",
     "spec": "tsx scripts/csv-to-spec.ts",
+    "spec:check": "tsx scripts/spec-check.ts",
+    "spec:freeze": "rm -rf spec-output/__ref__ && cp -r spec-output/spec spec-output/__ref__ && echo '✓ ref frozen'",
+    "render": "tsx scripts/render-spec.ts",
+    "probe-setkeys": "tsx scripts/probe-setkeys.ts",
+    "validate-keys": "tsx scripts/validate-keys.ts",
+    "validate-keys:online": "tsx scripts/validate-keys-online.ts",
+    "spec:guarded": "npm run spec && npm run validate-keys && npm run validate-keys:online",
     "status": "tsx scripts/show-status.ts",
     "install-hook": "bash scripts/install-hook.sh"
   },

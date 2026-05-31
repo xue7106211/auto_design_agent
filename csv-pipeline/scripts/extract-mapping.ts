@@ -23,6 +23,8 @@ import * as path from 'node:path';
 const ROOT = process.cwd();
 const SRC_DIR = path.join(ROOT, 'mapping-input');
 // Per-team mapping files: 结构变化表-{App}.csv (e.g., 结构变化表-Notes.csv)
+// NOTE: 笔记 + 待办 are both sub-scenes of the same app 'Notes' (PAD Sidebar tab).
+//   Do not emit as separate apps — distinguish via subScene column.
 const SRC_PATTERN = /^结构变化表-([A-Za-z0-9_]+)\.csv$/;
 const SRC_VARIANTS = path.join(ROOT, 'mapping-input', '控件变体清单.csv');
 const LEGACY_CSV = path.join(ROOT, 'legacy', 'app-mapping-stage1a.csv');
@@ -67,11 +69,11 @@ const COLUMN_MAP: (ColSpec | null)[] = [
 // Decision §1: app naming = EN-only + CamelCase
 // ─────────────────────────────────────────────────────────────────────────────
 // Known app registry (Decision §1) — CN name → canonical EN app name
-const APP_REGISTRY: { cn: string; en: string }[] = [
+const APP_REGISTRY: { cn: string; en: string; subScene?: string; aliases?: string[] }[] = [
   { cn: '系统控件', en: 'SystemUIKIT' },
   { cn: '文件管理', en: 'FileManager' },
-  { cn: '笔记', en: 'Notes' },
-  { cn: '待办', en: 'Tasks' },
+  { cn: '笔记', en: 'Notes', subScene: '笔记' },
+  { cn: '待办', en: 'Notes', subScene: '待办', aliases: ['Tasks'] },  // 待办 = sub-scene of Notes app (Pad Sidebar tab)
   { cn: '录音', en: 'Recorder' },
   { cn: '计算器', en: 'Calculator' },
   { cn: '日历', en: 'Calendar' },
@@ -88,7 +90,7 @@ const APP_REGISTRY: { cn: string; en: string }[] = [
   { cn: '手机管家', en: 'Security' },
 ];
 
-function normalizeAppName(raw: string): { app: string; subState: string } {
+function normalizeAppName(raw: string): { app: string; subScene: string; subState: string } {
   // Match by registry: find which known CN or EN app name appears in the string.
   const trimmed = raw.trim().replace(/[\r\n]+/g, ' ');
   let matched: typeof APP_REGISTRY[0] | undefined;
@@ -99,21 +101,22 @@ function normalizeAppName(raw: string): { app: string; subState: string } {
     }
   }
   if (!matched) {
-    // Unknown app — fallback to trailing English
     const fallback = trimmed.match(/[A-Z][A-Za-z0-9 ]*$/);
     const app = fallback ? fallback[0].trim().split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') : trimmed.replace(/\s+/g, '');
-    return { app, subState: '' };
+    return { app, subScene: '', subState: '' };
   }
-  // Strip the app's CN and EN names from the string; remainder is sub-state
   let remainder = trimmed
     .replace(new RegExp(matched.cn, 'g'), '')
-    .replace(new RegExp(`\\b${matched.en}\\b`, 'gi'), '')
+    .replace(new RegExp(`\\b${matched.en}\\b`, 'gi'), '');
+  for (const alias of matched.aliases ?? []) {
+    remainder = remainder.replace(new RegExp(`\\b${alias}\\b`, 'gi'), '');
+  }
+  remainder = remainder
     .replace(/\s*\/\s*/g, ' / ')
     .replace(/^\s*\/\s*|\s*\/\s*$/g, '')
     .trim();
-  // Collapse multiple slashes
   remainder = remainder.split(/\s*\/\s*/).map(s => s.trim()).filter(Boolean).join(' / ');
-  return { app: matched.en, subState: remainder };
+  return { app: matched.en, subScene: matched.subScene ?? '', subState: remainder };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -133,6 +136,7 @@ const SCENE_KEYWORDS = new Set(['NLC', 'NL', 'NC', 'LC', 'C']);
 const STATE_KEYWORDS: Record<string, string> = {
   '编辑模式': '编辑模式',
   'Edit Mode': '编辑模式',
+  '详情全屏': '默认',  // visual paradigm annotation (detail page full-screen mode) — not a state change (state='默认')
   '详情': '详情',
   'NoteDetail': '详情',
   'DetailNotes': '详情',
@@ -146,6 +150,11 @@ const STATE_KEYWORDS: Record<string, string> = {
   '文字格式': '文字格式',
   'Notes_Outline': 'Notes_Outline',
   'NoteEditPanel': 'NoteEditPanel',
+  // P10: AppSettings page hierarchy. 一级=top-level page, 二级=sub-page (drill-down).
+  //   Acts as state-level discriminator: same (subScene, scene) but different variantIds
+  //   per level (e.g. FloatingWindow_01 vs _02). Without this they leaked into notes.
+  '一级': '一级',
+  '二级': '二级',
 };
 
 interface UiElementParse {
@@ -186,11 +195,13 @@ function parseUiElement(rawCol1: string): UiElementParse {
     result.uiElement = extractEnglishName(firstTok);
   }
 
-  // Remaining tokens → match scene or state
+  // Remaining tokens → match scene or state.
+  // SCENE match is whitespace-normalized: 'N L' / 'N C' / 'N L C' map to 'NL'/'NC'/'NLC'.
   for (let i = 1; i < tokens.length; i++) {
     const tok = tokens[i].trim();
-    if (SCENE_KEYWORDS.has(tok)) {
-      result.sceneCondition = tok;
+    const tokNoWs = tok.replace(/\s+/g, '');
+    if (SCENE_KEYWORDS.has(tokNoWs)) {
+      result.sceneCondition = tokNoWs;
     } else {
       // Try state keyword match (longest prefix wins)
       let matched = '';
@@ -229,7 +240,7 @@ interface CellEntry {
   notes: string;
 }
 
-const NON_RENDER_KEYWORDS = ['不显示', '不存在', '不渲染', '无导航栏', '隐藏', '不存在'];
+const NON_RENDER_KEYWORDS = ['不显示', '不存在', '不渲染', '不展示', '无导航栏', '隐藏'];
 const PLACEHOLDER_KEYWORDS = ['via search', '查询', 'TBD'];
 
 function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[] } {
@@ -285,8 +296,9 @@ function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[
       continue;
     }
 
-    // Variant clean: strip trailing colons, descriptions
-    const cleanedFirst = firstLine.replace(/[：:]\s*$/, '').trim();
+    // Variant clean: strip trailing colons, commas, descriptions
+    //   (CSV cells occasionally have trailing comma on a variantId due to authoring; strip.)
+    const cleanedFirst = firstLine.replace(/[：:,]\s*$/, '').trim();
 
     // Detect "variantId 描述" patterns
     //   "Fab_01：彩色"            → variantId=Fab_01,                    notes=彩色   (clean)
@@ -320,10 +332,13 @@ function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[
       continue;
     }
 
-    // Placeholder
+    // Placeholder — P12 fix: do not let placeholder text leak into variantId.
+    //   Replace with '(placeholder)' marker; original raw kept in notes for Phase 4.5 lookup.
     if (PLACEHOLDER_KEYWORDS.some(k => variantId.includes(k))) {
-      noteParts.push('需 Phase 4.5 search');
+      noteParts.push(`需 Phase 4.5 search; raw="${variantId}"`);
       warnings.push(`placeholder in cell: "${variantId}"`);
+      entries.push({ lane: currentLane, variantId: '(placeholder)', notes: noteParts.join('; ') });
+      continue;
     }
 
     if (restLines.length > 0) {
@@ -338,8 +353,11 @@ function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[
 
     void cleanExtraction; // marker variable, may be useful for future tuning
 
-    if (!variantId) continue;
-    entries.push({ lane: currentLane, variantId, notes: noteParts.join('; ') });
+    // P11 fix: trim and guard whitespace-only variantId / lane (empty rows must not emit)
+    const finalVariantId = variantId.trim();
+    const finalLane = (currentLane ?? '').trim();
+    if (!finalVariantId || !finalLane) continue;
+    entries.push({ lane: finalLane, variantId: finalVariantId, notes: noteParts.join('; ') });
   }
 
   return { entries, warnings };
@@ -410,6 +428,7 @@ function inferUiElement(variantId: string, candidates: string[]): { ui: string; 
 // ─────────────────────────────────────────────────────────────────────────────
 interface OutRow {
   app: string;
+  subScene: string;  // Notes 内 sub-scene: 笔记 / 待办 / '' (other apps)
   scene: string;
   state: string;
   uiElement: string;
@@ -418,6 +437,10 @@ interface OutRow {
   lane: string;
   variantId: string;
   notes: string;
+  // framework = sceneCondition (col 1 의 `/ NLC|NL|LC|NC|C` 마커). Fold내 drilldown 분리용.
+  // 笔记 standard framework=NLC 의 Fold내 LC drilldown 행 vs LC framework 직접 행을 구분하여
+  // csv-to-spec 가 우선순위 적용 가능. col 1 에 framework 마커 없으면 ''.
+  framework: string;
   // metadata for diagnostics
   _sourceRow: number;
 }
@@ -478,6 +501,7 @@ function processRecords(
   const fileBase = path.basename(fileLabel);
 
   let currentApp = '';
+  let currentSubScene = '';
   let currentSubState = '';
   let stickyElemParse: UiElementParse | null = null;
   // Skip 3 header rows (rows 0, 1, 2). Data begins at row 3 (index 3, line 4).
@@ -494,6 +518,7 @@ function processRecords(
     if (col0) {
       const parsed = normalizeAppName(col0);
       currentApp = parsed.app;
+      currentSubScene = parsed.subScene;
       currentSubState = parsed.subState;
       stickyElemParse = null; // new app section resets sticky element
     }
@@ -507,7 +532,16 @@ function processRecords(
     let elemParse: UiElementParse;
     if (col1.trim()) {
       elemParse = parseUiElement(col1);
-      stickyElemParse = elemParse;
+      // P3 fix: sticky carries only uiElement / multiCandidates. sceneCondition / state /
+      //   rawNotes reset per row. Otherwise prev row's sceneCondition='NLC' leaks into the
+      //   next empty-col1 row, corrupting the scene of unrelated columns.
+      stickyElemParse = {
+        uiElement: elemParse.uiElement,
+        multiCandidates: elemParse.multiCandidates,
+        state: '默认',
+        sceneCondition: '',
+        rawNotes: [],
+      };
     } else if (stickyElemParse) {
       elemParse = stickyElemParse;
     } else {
@@ -536,16 +570,58 @@ function processRecords(
           ui = '(unknown)';
         }
 
-        // Apply sceneCondition: if uiElement parse said "only for scene X" but current screenMode is X variant or device generic
-        // For now, sceneCondition is preserved in scene field if set; otherwise "default" meaning rule applies broadly.
-        const scene = elemParse.sceneCondition || inferSceneFromScreenMode(spec.screenMode, spec.device);
+        // P2 fix: skip row when sceneCondition conflicts with col-screenMode.
+        //   col1 path explicit '/ NLC' means this row applies only to NLC framework. If the
+        //   column's screenMode base (e.g. 'NL' from 'NL' or 'NL' from 'NL收起') differs from
+        //   sceneCondition, the column's data is unrelated to this row — do not emit.
+        //   For single-screen devices (col-screenMode empty), sceneCondition wins (NL→C fallback etc.).
+        //   P8 fix: Fold内 NL→C fallback (§0.1 #9). When col-screenMode='C' (Fold内 single-screen
+        //   column) and sceneCondition∈{NL,NC,LC}, the column IS this scene rendered as C single
+        //   canvas — emit under sceneCondition (getLayoutSpec line 89-93 maps Fold内 + screenMode='C'
+        //   to single C framework). Without this exception NL/NC/LC data on Fold内 was silently lost.
+        // PM-2026-05-27 fix: Fold内 device 의 모든 framework drilldown 허용.
+        //   CSV row 22 `/ NLC` 의 col 7 (Fold内竖 LC) cell `_04` 는 NLC framework 가 Fold内 에서
+        //   LC layout 으로 drilldown 한 결과 — 笔记 standard default 의 정답 (per app-variant-map-笔记.md).
+        //   기존 P2/P8 logic 은 isFoldFallback (colScene='C' AND sceneCondition∈{NL,NC,LC}) 만 허용해
+        //   NLC→{NC,LC} drilldown 을 차단했음. 결과: 笔记 LC L 栏 NavBar 가 row 101 LC 의 _05 (private 笔记 framework)
+        //   으로 잘못 매핑. fix: Fold内 device 일 때 모든 sceneCondition×colScene 조합 emit 허용.
+        if (elemParse.sceneCondition && spec.screenMode) {
+          const colScene = spec.screenMode.replace(/收起$/, '');
+          const isFoldInternal = spec.device === 'Fold内竖' || spec.device === 'Fold内横';
+          const isFoldFallback = colScene === 'C' &&
+            (elemParse.sceneCondition === 'NL' ||
+             elemParse.sceneCondition === 'NC' ||
+             elemParse.sceneCondition === 'LC');
+          if (colScene !== elemParse.sceneCondition && !isFoldFallback && !isFoldInternal) continue;
+        }
+        let scene = elemParse.sceneCondition && (spec.device === 'Fold内竖' || spec.device === 'Fold内横') && spec.screenMode
+          ? spec.screenMode.replace(/收起$/, '')   // Fold内 drilldown: scene = colScene (실제 layout)
+          : elemParse.sceneCondition || inferSceneFromScreenMode(spec.screenMode, spec.device, currentSubScene);
+        // P13 normalize: 待办 phone/Fold外 has no NLC/NL/LC framework — force scene='C'.
+        //   CSV /NLC annotations on 待办 rows reflect Pad/Fold内 paradigm and must be remapped
+        //   for single-screen devices, otherwise sparse 待办_NLC_*手机* specs leak.
+        if (currentSubScene === '待办' && !spec.screenMode) {
+          scene = 'C';
+        }
 
         const noteCombined = [ent.notes, ...elemParse.rawNotes].filter(Boolean).join('; ');
 
-        // State priority: col 1 explicit > app subState > 默认
-        const finalState = elemParse.state !== '默认' ? elemParse.state : (currentSubState || '默认');
+        // State priority: col 1 explicit > app subState > sub-scene element promotion > 默认
+        // #2 Sub-state frame split: full-screen sub-scene uiElements get promoted to a state
+        //   so each gets its own enumerated frame (parallel to Notes_Outline / 思维导图 paradigm
+        //   which already work via explicit /sub-state CSV tags).
+        const SUB_SCENE_TO_STATE: Record<string, string> = {
+          RecordNotes: '录音',
+          AIWindow_Notes: 'AI对话',
+          '搜索页面': '搜索激活',
+        };
+        const promotedState = SUB_SCENE_TO_STATE[ui];
+        const finalState = elemParse.state !== '默认'
+          ? elemParse.state
+          : (currentSubState || promotedState || '默认');
         rows.push({
           app: currentApp,
+          subScene: currentSubScene,
           scene,
           state: finalState,
           uiElement: ui,
@@ -554,6 +630,7 @@ function processRecords(
           lane: ent.lane,
           variantId: ent.variantId,
           notes: noteCombined,
+          framework: elemParse.sceneCondition,
           _sourceRow: r + 1,
         });
         stats.emittedRows++;
@@ -562,10 +639,14 @@ function processRecords(
   }
 }
 
-function inferSceneFromScreenMode(sm: string, device: string): string {
+function inferSceneFromScreenMode(sm: string, device: string, subScene: string): string {
+  void device;
   // For Pad/Fold内 with screenMode value, scene equals screenMode base
   if (!sm) {
-    // Phone / Fold外: scene defaults to NLC (the "natural" scene framework)
+    // Phone / Fold外: single-screen. Scene depends on subScene paradigm.
+    //   笔记 (Notes main): NLC framework reused on phone/Fold外 (§0.1a 笔记 special).
+    //   待办 (Tasks): single-screen C — Tasks has no list/detail split on phone/Fold外 (P13).
+    if (subScene === '待办') return 'C';
     return 'NLC';
   }
   // Strip 收起 suffix: NLC收起 → NLC
@@ -759,8 +840,8 @@ function writeMappings(rows: OutRow[]): { defaults: number; appCounts: Record<st
   const appCounts: Record<string, number> = {};
   for (const [app, items] of Object.entries(byApp)) {
     const csv = stringify([
-      ['app', 'scene', 'state', 'uiElement', 'device', 'screenMode', '栏', 'variantId', 'notes'],
-      ...items.map(r => [r.app, r.scene, r.state, r.uiElement, r.device, r.screenMode, r.lane, r.variantId, r.notes]),
+      ['app', 'subScene', 'scene', 'state', 'uiElement', 'device', 'screenMode', '栏', 'variantId', 'notes', 'framework'],
+      ...items.map(r => [r.app, r.subScene, r.scene, r.state, r.uiElement, r.device, r.screenMode, r.lane, r.variantId, r.notes, r.framework]),
     ]);
     fs.writeFileSync(path.join(OUT_DIR, `app-${app}-mapping.csv`), csv);
     appCounts[app] = items.length;
