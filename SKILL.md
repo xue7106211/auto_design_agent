@@ -104,8 +104,14 @@ else:
    - 若模糊（frame 名 = 通用名如 "列表页"）→ 必须 AskUserQuestion
 2. **确定 app-variant-map 文件**：`references/app-variant-map-{app}.md`
    - 文件不存在 → 中止，报告缺口
+   - **sub-scene 例外**：`待办` (Tasks) 是 笔记 app 内 子场景（非独立 app）→ 使用 `app-variant-map-笔记.md` + `app-Notes-mapping.csv`. 源 frame 名为 `待办_*` 时仍按 `app = 笔记` 处理
 3. **确定子场景**：如 笔记/待办、默认/编辑 等
-4. **输出**（1 行）：`✓ Phase 0.1: app={app}, scene={子场景}, variant-map=app-variant-map-{app}.md`
+4. **强制读取 `csv-pipeline/mapping-input/结构变化表-{App}.csv` 任务 scope 全部相关行**（uiElement × device 矩阵）：
+   - app + scene 确定后 **第一步**就读 CSV，**Phase 1 metadata / 字体预检 之前**
+   - 仅靠 mapping-output CSV 不够 — input CSV 的多行合并单元格 / 备注列 / 子场景标记承载映射意图（如 待办「手机 inline list+detail，Fold/Pad 分 L/C」从 line 800 「待办详情 DetailTask / NLC」行 + 手机列空白 + Fold/Pad 列 `C栏:DetailTask_01` 才能读出）
+   - 输出（向 user 1 行）：`✓ Phase 0.1 CSV: 结构变化表-{App}.csv line {N}-{M} 已读, 待办全 uiElement × device 映射已内化`
+   - 读取后才能进入 Phase 1
+5. **输出**（1 行）：`✓ Phase 0.1: app={app}, scene={子场景}, variant-map=app-variant-map-{app}.md`
 
 **通过条件**：user 确认 APP + 画面后才可进入 Phase 1。
 
@@ -171,6 +177,17 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | `screenshot` | 当前页面视觉快照 | 视觉基线截图已生成 |
 | `fontDegradationMap` | 不可用字体 → fallback 映射（全部可用则为空） | 不可用字体已记录降级映射 |
 | `sourceInnerStateMap` | 源稿每个组件实例 → 内部 INSTANCE 子节点的 `componentProperties` 快照（递归收集 状态 / 数量 / 材质 / 编辑态 / 文本 / instance-swap 等业务态）| 源 frame 全部组件 inner state 已 dump，作为 Phase 5 `placeStandardComponent({ sourceInst })` 与 Phase 6 verifyChecklist ⑯ 的同步源 |
+| `sourceVisibleInventory` | 源 frame 全部 `visible=true` instance 의 분류 dump (Phase 1 step 5, 2026-05-31 추가) | **3 분류 必수**: ① `[bar]` (StatusBar / NavBar / BottomBar / TabBar / SwipeIndicator 等), ② `[main-content]` (List / Detail / Sidebar / SearchBar / Chip / TextInput 等 frame body), ③ `[overlay]` (Sidebar_Notes / FloatingWindow / DrawerWindow / Modal / ActionSheet / Menu / Picker / Dialog 등 active state overlay layer). 모든 `[overlay]` entry 는 Phase 4 componentTaskList 必수 포함, 모든 target frame 에 propagate (overlay 가 단일 device 에만 적용된다는 explicit 사용자 지시 없는 한). [overlay] active state 는 source 가 그 화면에서 overlay 가 띄워진 상태를 보여주는 신호 = 사용자 의도. **누락 default 금지** |
+
+**Phase 1 step 5 强制 user 출력** (sourceVisibleInventory dump 직후 1행 보고):
+
+```
+✓ Phase 1 source state: [overlay] 보유 (e.g. Sidebar_Notes_01 attached form). 全 target frame propagate 적용 예정.
+   또는
+✓ Phase 1 source state: [overlay] 없음. main-content + bars only.
+```
+
+[overlay] 가 발견되면 user 가 「본 task 에서 overlay 제외」 명시 안 한 한 **모든 target frame 에 적용**. user 는 본 1행 출력 보고 즉시 정정 가능. 누락 시 Phase 5 후반에 발견 → 모든 frame 수정 비용 발생 (대표 사례: 2026-05-31 笔记 Sidebar_Notes / Notes_FloatingWindow 누락 → 7 frame 全 수정).
 
 此外，`sourceDesignContext` 中还必须明确：关键组件和变体已识别、页面功能区域已划分（导航区、列表区、内容区、操作区等）。
 
@@ -420,6 +437,7 @@ componentTaskList 每条目必须通过以下 **3 项双向**检查（**双向 =
 |---|------|------|---------|----------|
 | 1 | 源稿 → 适配 | **源稿存在性**（防 spurious 추가）| source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
 | 2 | **CSV → 适配**（防 phone-context 误传递）| **CSV 映射表行存在性**：`app-{App}-mapping.csv` 의 `(子场景, device, layoutType, lane, resolvedUiElement)` 행이 存在해야 함 | 行 absent → **삭제** (例: 编辑모드 行에 TextInput 부재 → C 栏 TextInput 그리지 않음). **「源 phone frame 有 X」 ≠ 「目标 device 编辑모드 有 X」** — 源稿 phone DrawerWindow / AI对话 등의 phone-only context 부속 컴포넌트는 device-별 子场景 변환에 자동 transfer 금지 |
+| 2a | **state-column matrix activity check**（state 维度活性检查，2026-05-29 追加）| input CSV `结构变化表-{App}.csv` 每个 uiElement 行，**当前 state 行的 target device 列 cell 为空 → 该组件不适配**。仅看「默认模式行」就把 SearchBar / NavBar 默认等补入 = 违规。每个 uiElement × (state, device) cell 必须显式 lookup | cell 为空仍添加 → 删除。例：待办 编辑未选 → input CSV `line 747 SearchBar` 行的「编辑模式」列本身缺失 → 编辑未选 4 frame 全部不放 SearchBar。仅 lookup 默认 NLC 行 (line 761) 会导致 SearchBar 误加入（本规则缺失时实际发生过）|
 | 3 | ComponentSet 出处 | 优先使用 `source instance.mainComponent.parent` 의 set; 该 set 内含目标 variant → 직접 사용 | set 내 목표 variant 없음 → search_design_system. **단 顶层 variant 値은 §0 #22 따라 CSV 映射表 우선 (源稿 variant ≠ 自动 권위)** |
 
 > **양방향 검사의 의미** (2026-05-28 笔记 编辑모드 Pad 적응 시 회고로 추가)：
@@ -444,6 +462,38 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 > **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 가장 빈번한 failure root cause）.
 >
 > **任何组件 swap / resize / 落位** 必须调用 `placeStandardComponent({...})`（函数本体 = `csv-pipeline/runtime/placement.ts`, 签名 + 调用顺序 = 本文档 「标准落位代码模板」节）, 禁止 inline 临时序列.
+
+#### Phase 5 prior frames consistency check (hard gate, 2026-05-31 추가)
+
+> **作用**: 既存 frame 이 적용된 상태에서 새 frame 추가 시 (예: 처음 4 frame 후 user 가 收起态 / Fold外 추가 요청) **既存 frame 의 component list 와의 일치성 자동 보장**. 새 frame 만의 main content 만 작성 → `[overlay]` / 공통 component 누락 防止.
+
+**触发**: Phase 5 에서 신규 frame N 작성 진입 시 (frame N=1 제외, frame N≥2 모두 적용).
+
+**强制 step (frame 落位 전 必수 출력 1 행)**:
+
+```
+✓ Phase 5 frame {N} prior consistency: prior {N-1} frames 의 [overlay] = [Sidebar_Notes / Notes_FloatingWindow / ...] 
+  → 본 frame 적용 예정: [Notes_FloatingWindow_01 (Pad device 매핑 per §0.1 #11)] / [Sidebar_Notes_01 (Fold device 매핑 per §0.1 #10)] / [없음 — 사유: ...]
+```
+
+**판정 룰**:
+
+| prior frame component | 새 frame 적용 | device 매핑 |
+|---|---|---|
+| `[overlay]` Sidebar_Notes (Fold attached form) | Fold device → 适用; Pad device → §0.1 #11 룰 따라 `Notes_FloatingWindow_01` 으로 변환 | mapping CSV `Overay 行` 으로 device 별 lookup |
+| `[overlay]` Notes_FloatingWindow (Pad 浮窗) | Pad device → 适用; Fold device → §0.1 #10 룰 따라 `Sidebar_Notes_01` 로 변환 | 同上 |
+| `[bar]` StatusBar / SwipeIndicator | 全 device 适用, variant device 별 lookup | SystemUIKIT-mapping.csv |
+| `[main-content]` List / Detail / NavBar 등 | 全 device 适用, variant + size 가 device 별 | app-mapping CSV |
+| `[overlay]` 가 prior frame 에 없는데 새 frame 만 새로 추가 | user explicit 명시 必수 (default 추가 금지) | — |
+
+**누락 자동 검사 (gate fail 처리)**:
+- prior frame 全 ∋ X (overlay class) 이고 새 frame 에 X mapping 존재 → 적용 不 → **gate fail, 정정 후 재진입**
+- prior frame 全 ∌ X 이고 새 frame 에 X 추가 → user explicit 명시 必수 (없을 시 fail)
+
+**대표 회고 (2026-05-31 笔记 task)**:
+- 1차 누락: 첫 4 frame 작성 시 source `[overlay]` Sidebar_Notes 全 누락 → user 지적 후 추가
+- 2차 누락: frame 5,6,7 추가 시 frame 6,7 (Pad NLC收起) `Notes_FloatingWindow` 또 누락 → user 지적 후 추가
+- 본 룰 도입 후 expected: prior frame 3,4 가 浮窗 보유 → 자동 propagate, 누락 不可
 
 根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
@@ -477,7 +527,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | 阶段 | 函数（签名）| 函数本体定义 | 作用 |
 |------|------------|-------------|------|
 | Phase 4 完成 | `await buildTokenCache()` | protocol.md §4 | 一次性缓存所有库 token → 全局 `TOKEN_CACHE` |
-| Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[], sourceInst?, inheritInnerState=true })` | **protocol.md §2** | swap → FIXED → resize → x/y → **inner state 继承** → 自检 7 步。**`sourceInst` 必传**（来自 Phase 1 `sourceInnerStateMap`），否则 inner 业务态（如 ToolBar 按钮 `状态=禁用` / `数量=4个`）停留在 main default，与源稿不一致 |
+| Phase 5 落位 each component | `await placeStandardComponent({ inst, targetVariant, parent, x, y, w, h, parentZ?, resetOverrides=false, loadFontFamilies=[], sourceInst?, inheritInnerState=true })` | **protocol.md §2** | swap → FIXED → resize → x/y → **inner state 继承** → 自检 7 步。**`sourceInst` 必传**（来自 Phase 1 `sourceInnerStateMap`），否则 inner 业务态（如 ToolBar 按钮 `状态=禁用` / `数量=1个`）停留在 main default，与源稿不一致。**禁止 shortcut path** = 直接使用 `createInstance() + resize() + x/y` 序列 → inner state 未继承自动 fail（例：2026-05-29 待办 编辑未选 ToolBar 落位为 default `数量=5个 / 状态=常态` → 源稿 `数量=1个 / 状态=禁用` 不一致）。verifyChecklist ⑯ 自动检查 = `sourceInst.componentProperties` ≡ placed `inst.componentProperties`（recursive inner） |
 | Phase 5 fill 写入 each node | `await bindFill(node, tokenName, fallbackRGB, opacity=1)` | protocol.md §4 | token lookup + setBoundVariableForPaint，无则 RGB fallback |
 | Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | `references/font-degradation.md` | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
 | Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec, scenarioFlags)` | **`csv-pipeline/runtime/verify.ts`** (映射表 = protocol.md §6) | 16 项自动检测（含 ⑭~⑯ 扩展），`errors.length > 0` 必须修复 |
