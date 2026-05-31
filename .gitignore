@@ -6,6 +6,7 @@ Desktop.ini
 # Editor/IDE
 .idea/
 .vscode/
+.claude/
 *.swp
 *.swo
 *~
@@ -35,3 +36,6 @@ temp/
 # Python cache
 __pycache__/
 *.pyc
+
+# csv-pipeline local state
+csv-pipeline/probe-todo.md
