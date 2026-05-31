@@ -1,0 +1,5 @@
+family,device,setKey,library,widthExpr,heightExpr,posXExpr,posYExpr,headerH,modal,contentPaddingTop,contentPaddingLR,bottomCornerMatchFW,innerVariant,innerSetKey,innerLibrary,notes
+FloatingWindow_ComponentSet_01,Fold内横,d586e39fcd850cc3e2f364d877725d4fab64d42d,OS4 UI Kit,546,frameH*0.8,(frameW-w)/2,(frameH-h)/2,56,true,12,0,true,List_NoteSetting_01,c1511ec17a7aa60755c6de25ccf7855695c36f9b,业务组件库,笔记 AppSettings 一级 Fold内横
+FloatingWindow_ComponentSet_01,Fold内竖,d586e39fcd850cc3e2f364d877725d4fab64d42d,OS4 UI Kit,546,636,(frameW-w)/2,(frameH-h)/2,56,true,12,0,true,List_NoteSetting_01,c1511ec17a7aa60755c6de25ccf7855695c36f9b,业务组件库,笔记 AppSettings 一级 Fold内竖
+FloatingWindow_ComponentSet_01,Pad横,d586e39fcd850cc3e2f364d877725d4fab64d42d,OS4 UI Kit,546,frameH*0.8,(frameW-w)/2,(frameH-h)/2,56,true,12,0,true,List_NoteSetting_01,c1511ec17a7aa60755c6de25ccf7855695c36f9b,业务组件库,笔记 AppSettings 一级 Pad横
+FloatingWindow_ComponentSet_01,Pad竖,d586e39fcd850cc3e2f364d877725d4fab64d42d,OS4 UI Kit,546,636,(frameW-w)/2,(frameH-h)/2,56,true,12,0,true,List_NoteSetting_01,c1511ec17a7aa60755c6de25ccf7855695c36f9b,业务组件库,笔记 AppSettings 一级 Pad竖

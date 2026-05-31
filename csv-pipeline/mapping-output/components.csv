@@ -80,6 +80,7 @@ Sidebar,Sidebar_Notes_01,业务_笔记,OS4 UI Kit,,,,,,定宽312
 ToolBar,ToolBar_ComponentSet_00,默认,OS4 UI Kit,,,,,,
 ToolBar,ToolBar_ComponentSet_01,默认,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽 344； / 小于440的铺满，左右padding 24
 ToolBar,ToolBar_ComponentSet_02,默认,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽 344； / 小于440的铺满，左右padding 24
+WheelPicker,WheelPicker_ComponentSet_00,选择器_无,OS4 UI Kit,,,,,,
 WheelPicker,WheelPicker_ComponentSet_01,日期_时分,OS4 UI Kit,,,,,,定宽 368 / 最小左右 padding 12 / 底部距离： / 有控制杆 → 距控制杆顶沿 12dp / 无控制杆 → 距屏幕底部 12dp / Pad：上下剧中
 Scrollbar,Scrollbar_ComponentSet_01,默认,OS4 UI Kit,,0,,,,右 0
 Divider,Divider_ComponentSet_01,分割线,OS4 UI Kit,28,28,,,,左28，右28
@@ -114,8 +115,8 @@ Notes_AIWindow_Notes,AIWindow_Options_03,笔记_AI笔记,业务组件库,24,24,,
 Notes_AIWindow_Notes,AIWindow_Options_04,笔记_AI笔记,业务组件库,124,124,,,,上40，左124，右124；左上对齐
 Notes_AIWindow_Notes,AIWindow_Options_05,笔记_AI笔记,业务组件库,28,28,,,,上40，左28，右28；左上对齐
 Notes_AIWindow_Notes,AIWindow_Options_06,笔记_AI笔记,业务组件库,56,56,,,,上40，左56，右56；左上对齐
-Notes_RecordNotes,RecordNotes_01,笔记_录音,业务组件库,,,,,,
-Notes_RecordNotes,RecordNotes_02,笔记_录音,业务组件库,,,,,,
+Notes_RecordNotes,Record_Notes_01,笔记_录音,业务组件库,,,,,,
+Notes_RecordNotes,Record_Notes_02,笔记_录音,业务组件库,,,,,,
 Notes_List_NoteSetting,List_NoteSetting_01,笔记_设置,业务组件库,,,,,,
 Notes_TextFormatPanel,TextFormatPanel_01,笔记_文字格式弹窗 TextFormatPanel,业务组件库,12,12,,,,最小值 ：左12，右12
 Notes_TextFormatPanel,TextFormatPanel_02,,业务组件库,12,12,,,,最小值 ：左12，右12
@@ -162,6 +163,8 @@ Notes_BottomBar,BottomBar_NoteEditPanel_00,笔记_工具栏,业务组件库,,,,,
 Notes_BottomBar,BottomBar_NoteEditPanel_01,笔记_工具栏,业务组件库,,,,,,内部工具条定宽 320
 Notes_BottomBar,BottomBar_NoteEditPanel_02,笔记_工具栏,业务组件库,,,,,,
 Notes_BottomBar,BottomBar_NoteEditPanel_03,笔记_工具栏,业务组件库,,,,,,
+Notes_FloatingWindow,Notes_FloatingWindow_00,笔记_文件夹_浮窗,业务组件库,,,,,,
+Notes_FloatingWindow,Notes_FloatingWindow_01,笔记_文件夹_浮窗,业务组件库,,,,,,
 Notes_DetailTask,DetailTask_00,待办_待办详情_无,业务组件库,,,,,,
 Notes_DetailTask,DetailTask_01,待办_待办详情,业务组件库,,,,,,
 Notes_List,List_Task_01,待办_列表_套卡,业务组件库,12,12,,,,左12，右12

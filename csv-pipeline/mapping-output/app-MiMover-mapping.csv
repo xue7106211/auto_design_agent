@@ -1,13 +1,13 @@
-app,scene,state,uiElement,device,screenMode,栏,variantId,notes
-MiMover,NLC,Mi Mover,TopBar,手机竖,,全栏,_00,不渲染
-MiMover,NLC,Mi Mover,TopBar,Fold外竖,,全栏,_00,不渲染
-MiMover,C,Mi Mover,TopBar,Fold内竖,C,全栏,_00,不渲染
-MiMover,C,Mi Mover,TopBar,Fold内横,C,全栏,_00,不渲染
-MiMover,C,Mi Mover,TopBar,Pad竖,C,全栏,_00,不渲染
-MiMover,C,Mi Mover,TopBar,Pad横,C,全栏,_00,不渲染
-MiMover,NLC,Mi Mover,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,
-MiMover,NLC,Mi Mover,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,
-MiMover,C,Mi Mover,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_04,
-MiMover,C,Mi Mover,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_04,
-MiMover,C,Mi Mover,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_10,
-MiMover,C,Mi Mover,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_10,
+app,subScene,scene,state,uiElement,device,screenMode,栏,variantId,notes,framework
+MiMover,,NLC,Mi Mover,TopBar,手机竖,,全栏,_00,不渲染,
+MiMover,,NLC,Mi Mover,TopBar,Fold外竖,,全栏,_00,不渲染,
+MiMover,,C,Mi Mover,TopBar,Fold内竖,C,全栏,_00,不渲染,
+MiMover,,C,Mi Mover,TopBar,Fold内横,C,全栏,_00,不渲染,
+MiMover,,C,Mi Mover,TopBar,Pad竖,C,全栏,_00,不渲染,
+MiMover,,C,Mi Mover,TopBar,Pad横,C,全栏,_00,不渲染,
+MiMover,,NLC,Mi Mover,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,,
+MiMover,,NLC,Mi Mover,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,,
+MiMover,,C,Mi Mover,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_04,,
+MiMover,,C,Mi Mover,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_04,,
+MiMover,,C,Mi Mover,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_10,,
+MiMover,,C,Mi Mover,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_10,,

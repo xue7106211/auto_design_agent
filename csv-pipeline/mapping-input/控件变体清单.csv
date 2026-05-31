@@ -99,7 +99,8 @@ Fab：右24",,YES,,,,,,,,,,,,,,,
 小于440的铺满，左右padding 24",,YES,,,,,,,,,,,,,,,
 ,默认,ToolBar,ToolBar_ComponentSet_02,"屏幕宽度：大于440的定宽 344；
 小于440的铺满，左右padding 24",,,,,,,,,,,,,,,,,
-选择器 Picker ,日期_时分,WheelPicker,WheelPicker_ComponentSet_01,"定宽 368
+选择器 Picker ,选择器_无,WheelPicker,WheelPicker_ComponentSet_00,,,,,,,,,,,,,,,,,,
+,日期_时分,WheelPicker,WheelPicker_ComponentSet_01,"定宽 368
 
 最小左右 padding 12
 底部距离：
@@ -157,8 +158,8 @@ NoticeBar",信息提示,NoticeBar,NoticeBar_ComponentSet_01,左12，右12,,,,,,,
 ,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_04,上40，左124，右124；左上对齐,,YES,,,,,,,,,,,,,,,
 ,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_05,上40，左28，右28；左上对齐,,YES,,,,,,,,,,,,,,,
 ,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_06,上40，左56，右56；左上对齐,,YES,,,,,,,,,,,,,,,
-,笔记_录音,Notes_RecordNotes,RecordNotes_01,,,YES,,,,,,,,,,,,,,,
-,笔记_录音,Notes_RecordNotes,RecordNotes_02,,,YES,,,,,,,,,,,,,,,
+,笔记_录音,Notes_RecordNotes,Record_Notes_01,,,YES,,,,,,,,,,,,,,,
+,笔记_录音,Notes_RecordNotes,Record_Notes_02,,,YES,,,,,,,,,,,,,,,
 ,笔记_设置,Notes_List_NoteSetting,List_NoteSetting_01,,,YES,,,,,,,,,,,,,,,
 ,笔记_文字格式弹窗 TextFormatPanel,Notes_TextFormatPanel,TextFormatPanel_01,最小值 ：左12，右12,,YES,,,,,,,,,,,,,,,
 ,,Notes_TextFormatPanel,TextFormatPanel_02,最小值 ：左12，右12,,YES,,,,,,,,,,,,,,,
@@ -217,6 +218,8 @@ Q18竖屏：左24，右24
 ,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_01,内部工具条定宽 320,,YES,,,,,,,,,,,,,,,
 ,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_02,,,YES,,,,,,,,,,,,,,,
 ,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_03,,,YES,,,,,,,,,,,,,,,
+,笔记_文件夹_浮窗,Notes_FloatingWindow,Notes_FloatingWindow_00,,,,,,,,,,,,,,,,,,
+,笔记_文件夹_浮窗,Notes_FloatingWindow,Notes_FloatingWindow_01,,,,,,,,,,,,,,,,,,
 ,待办_待办详情_无,Notes_DetailTask,DetailTask_00,,,,,,,,,,,,,,,,,,
 ,待办_待办详情,Notes_DetailTask,DetailTask_01,,,YES,,,,,,,,,,,,,,,
 ,待办_列表_套卡,Notes_List,List_Task_01,左12，右12,,YES,,,,,,,,,,,,,,,

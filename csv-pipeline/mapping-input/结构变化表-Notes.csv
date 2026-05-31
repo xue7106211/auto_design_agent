@@ -98,19 +98,19 @@ NavigationBar_ComponentSet_00
 
 L栏：
 NavigationBar_ComponentSet_Notes_03",,
-,标题栏 NavigationBar / LC,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_05,,,"N栏：
+,标题栏 NavigationBar / LC,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_05,,,"L栏：
 NavigationBar_ComponentSet_05
 
 C栏：
-NavigationBar_ComponentSet_Notes_01",,,"N栏：
+NavigationBar_ComponentSet_Notes_01",,,"L栏：
 NavigationBar_ComponentSet_05
 
 C栏：
-NavigationBar_ComponentSet_Notes_01",,,,,,,,"N栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
 NavigationBar_ComponentSet_08
 
 C栏：
-NavigationBar_ComponentSet_Notes_01",,,,,,,,"N栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
 NavigationBar_ComponentSet_08
 
 C栏：
@@ -523,17 +523,7 @@ TextFormatPanel_01","C栏：
 TextFormatPanel_01",,,,,,,"C栏：
 TextFormatPanel_01","C栏：
 TextFormatPanel_01",,,,,,
-,"浮层 Overay / 文件夹管理窗口
-ManageFoldWindow / NLC",Sidebar_Component_Fold_LC_01 : 宽度定制283,,Sidebar_Component_Fold_LC_01 : 宽度定制 283,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,"N栏：
-Sidebar_Component_PAD_NLC_01",不展示,,,,,,,"N栏：
-Sidebar_Component_PAD_NLC_01",不展示,,,,,,
-,"浮层 Overay / 文件夹管理窗口
-ManageFoldWindow / NL",Sidebar_Component_Fold_LC_01 : 宽度定制283,,Sidebar_Component_Fold_LC_01 : 宽度定制 283,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,,,"N栏：
-Sidebar_Component_PAD_NLC_01",不展示,,,,,,,,,,,,
-,"浮层 Overay / 文件夹管理窗口
-ManageFoldWindow / NC",Sidebar_Component_Fold_LC_01 : 宽度定制283,,Sidebar_Component_Fold_LC_01 : 宽度定制 283,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,,,,,"N栏：
-Sidebar_Component_PAD_NLC_01 文件夹列表",不展示,,,,,"N栏：
-Sidebar_Component_PAD_NLC_01 文件夹列表",不展示,,,,
+,浮层 Overay / 管理文件夹 / Sidebar_Notes / NLC,Sidebar_Notes_01,,Sidebar_Notes_01,,,Sidebar_Notes_01,,,Sidebar_Notes_01,,Notes_FloatingWindow_01,,,,,,,,Notes_FloatingWindow_01,,,,,,,
 ,浮层 Overay / 抽屉窗口 FloatingWindow,DrawerWindow_ComponentSet_high_01,,DrawerWindow_ComponentSet_high_01,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,,,,,,FloatingWindow_ComponentSet_01,,,,,,,
 ,浮层 Overay / 分段按钮 Segmented Controls,SegmentedControls_ComponentSet_01,,SegmentedControls_ComponentSet_01,,SegmentedControls_ComponentSet_01,,,SegmentedControls_ComponentSet_01,,,SegmentedControls_ComponentSet_02,,,,,,,,SegmentedControls_ComponentSet_02,,,,,,,
 ,浮层 Overay / 弹窗 Dialog,AlertDialog_ComponentSet_01,,AlertDialog_ComponentSet_01,,AlertDialog_ComponentSet_01,,,AlertDialog_ComponentSet_01,,,AlertDialog_ComponentSet_01,,,,,,,,AlertDialog_ComponentSet_01,,,,,,,

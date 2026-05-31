@@ -1,19 +1,18 @@
 # extract-mapping report
 
-Generated: 2026-05-26T06:35:16.245Z
+Generated: 2026-05-31T14:04:31.105Z
 
 ## Statistics
 
-- Source data rows: 146
+- Source data rows: 144
 - Skipped empty rows: 0
-- Emitted output rows: 1253
+- Emitted output rows: 1237
 - SystemUIKIT-mapping.csv entries (SystemUIKIT): 22
-- components.csv entries: 178
+- components.csv entries: 181
 
 ### Per-app counts
 
-- Notes: 708
-- Tasks: 115
+- Notes: 807
 - Phone: 96
 - Contacts: 58
 - FileManager: 48
@@ -32,10 +31,10 @@ Generated: 2026-05-26T06:35:16.245Z
 
 ## Diff vs app-mapping-stage1a.csv (legacy)
 
-- legacy keys: 932
-- matched: 785
-- new-only (legacy 缺失或新捕获): 246
-- legacy-only (新抽取中不存在): 147
+- legacy keys: 886
+- matched: 709
+- new-only (legacy 缺失或新捕获): 264
+- legacy-only (新抽取中不存在): 177
 
 ### New-only examples (first 20)
 - Calculator|TopBar|手机竖||全栏|TopBar_01
