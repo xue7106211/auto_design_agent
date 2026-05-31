@@ -27,9 +27,9 @@ lastUpdated: 2026-05-07
 ### Phase 0：进入生产主链路
 
 > **🔁 RE-CHECK（Phase 0 必读）**：
-> - common-rules §1 检索与复用边界（当前 page 隔离 / 整页复用条件 / 标准实例必探查）
-> - common-rules §2 内容来源边界（密度守恒 / 业务内容 vs 结构组件 / 宽 frame 行为）
-> - common-rules §0 #11~#17（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式 / Phase 2 塌缩 / 用户拒绝精确范围 / **遮罩+z-order 禁止推测**）
+> - `common-rules-principles.md §1` 检索与复用边界（当前 page 隔离 / 整页复用条件 / 标准实例必探查）
+> - `common-rules-principles.md §2` 内容来源边界（密度守恒 / 业务内容 vs 结构组件 / 宽 frame 行为）
+> - `common-rules-principles.md §0 #11~#17`（落位协议 / token 绑定 / 数据不猜测 / 栏前缀格式 / Phase 2 塌缩 / 用户拒绝精确范围 / **遮罩+z-order 禁止推测**）
 
 ### Phase 0.0a：csv-pipeline 新鲜度检查（auto-extract gate）
 
@@ -67,7 +67,7 @@ else:
 | # | 检查项 | 通过条件 |
 |---|---|---|
 | 1 | `app-variant-map-{app}.md` 存在且任务路径有覆盖 | git-tracked 文件直接 read，无需 user 确认 |
-| 2 | 既存映射表条目 `(／／／)` / `待补` / `需要Check` 标记 | 任务路径上命中 → 必须 user confirm 后才能继续，**禁止推测**（common-rules §0 #13）|
+| 2 | 既存映射表条目 `(／／／)` / `待补` / `需要Check` 标记 | 任务路径上命中 → 必须 user confirm 后才能继续，**禁止推测**（`common-rules-principles.md §0 #13`）|
 
 **CSV 强制要求（仅以下场景，AI 主动索取）**：
 
@@ -129,7 +129,7 @@ else:
 > **🔁 RE-CHECK（Phase 1 必读）**：
 > - 全 Phase 通用前置：**进入 Phase 1 前必须先 `figma-use` skill 加载完成**（首次 `use_figma` 出现于本 Phase 第 4 步字体预检）
 > - 字体预检脚本（本节 inline）必须运行；产出 `fontDegradationMap` 是 Phase 5 必要前置
-> - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV / metadata 异常时立即停止）
+> - `common-rules-principles.md §0 #13` 数据不确定时报告，禁止猜测（CSV / metadata 异常时立即停止）
 > - `references/font-degradation.md` —— `fontDegradationMap` 结构示例与降级表（本文档 Phase 5 后「字体降级规则」节为 pointer）
 
 获取手机端源设计稿的完整信息：
@@ -313,11 +313,15 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 ### Phase 3：加载通用规则
 
-**强制读取 3 文件全文** (단순 로드 단계, 미读 시 Phase 4/5 진입 금지):
+**强制读取 7 文件全文** (단순 로드 단계, 미读 시 Phase 4/5 진입 금지):
 
-1. `references/common-rules.md` — 通用原则 / 内容边界 / §3.x 实例陷阱 / §6.2 验证清单 / §7 금지항 (§3.6 reflow 陷阱 = 18+ 历史 错误 핵심)
-2. `references/component-placement-protocol.md` — `placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 4 함수 시그니처 + 호출순서 (함수 본체 = `csv-pipeline/runtime/placement.ts` + `verify.ts`)
-3. `references/font-degradation.md` — `fixFonts` 함수 본체 + 降级 / 강제 순서 / degradationMap
+1. `references/common-rules-principles.md` — §0 (28원칙) + §1/§2 经界 + §3.11/§3.13/§3.14/§3.15 메타 룰
+2. `references/common-rules-instance.md` — §3.1~§3.6 실例 闭环 + §3.10/§3.12 + §4 写入 우선순위 (§3.6 reflow 陷阱 = 18+ 历史 错误 핵심)
+3. `references/common-rules-mask-zorder.md` — §3.7~§3.7b 遮罩 z-order + §3.8 분할선 + §3.9 pointer
+4. `references/common-rules-verify.md` — §5 落位 + §6 检查清单 25 항
+5. `references/common-rules-prohibit.md` — §7 禁止 索引
+6. `references/component-placement-protocol.md` — `placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 4 함수 시그니처 + 호출순서 (함수 본체 = `csv-pipeline/runtime/placement.ts` + `verify.ts`)
+7. `references/font-degradation.md` — `fixFonts` 함수 본체 + 降级 / 강제 순서 / degradationMap
 
 应用 전용 규칙 = `app-variant-map-{app}.md` (Phase 4 로드).
 
@@ -326,8 +330,8 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 ### Phase 4：生成页面级组件任务 + Token 缓存
 
 > **🔁 RE-CHECK（Phase 4 进入时必读）**：
-> - common-rules §3.1 基础组件清单（必入清单的最少 9 个 family）
-> - common-rules §0 #13 数据不确定时报告，禁止猜测（CSV "需要Check" / "待补" 必须用户确认）
+> - `common-rules-instance.md §3.1` 基础组件清单（必入清单的最少 9 个 family）
+> - `common-rules-principles.md §0 #13` 数据不确定时报告，禁止猜测（CSV "需要Check" / "待补" 必须用户确认）
 > - app-variant-map-{app}.md §0 应用规则要点 + §0.6 历史踩坑
 
 **强制 7 步**（顺序固定，缺一不可）：
@@ -344,7 +348,7 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 > ⚠️ **Step 7 = Phase 5/6 的 single source of truth**：后续 mask 决定 / spec auto-derive / verifyChecklist 自动检查 全部引用 `scenarioFlags`。本 step 缺失即 Phase 5 进入阻断。
 >
-> ⚠️ flag 导出规则仅来自各 app `app-variant-map-{app}.md §0` 的「scenarioFlags 导出信号表」。表缺失或信号无匹配 → 必须 user confirm，**禁止推测** entries（common-rules §0 #13, #17）。
+> ⚠️ flag 导出规则仅来自各 app `app-variant-map-{app}.md §0` 的「scenarioFlags 导出信号表」。表缺失或信号无匹配 → 必须 user confirm，**禁止推测** entries（`common-rules-principles.md §0 #13, #17`）。
 
 > ⚠️ 第 6 步是 Phase 5 `bindFill(...)` 的前置依赖。若漏掉 → Phase 5 fill 写入会全部 fallback RGB，token 绑定失败。Phase 6 `verifyChecklist` ② 必报错。
 
@@ -457,7 +461,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 
 ### Phase 5：读取布局 reference 并执行
 
-> **🔁 RE-CHECK（落位前必读）**：每次进入 Phase 5 必须重读 `common-rules.md §3.3 ~ §3.10` 全文（§3.6 reflow 陷阱 + §3.7~§3.7b 遮罩 z-order + §3.7a-NL「NL framework + LEditMode 一律 mask 不渲染」 + §3.8 분할선 + §3.9 Sidebar 阴影 + §3.10 库 updatedAt 비교）+ `device-dimensions.md`「工具栏规格」(ToolBar 胶囊 width spec, verifyChecklist ⑭ 자동 검사).
+> **🔁 RE-CHECK（落位前必读）**：每次进入 Phase 5 必须重读 `common-rules-instance.md` 全문 (§3.6 reflow 陷阱 + §3.10 库 updatedAt 비교) + `common-rules-mask-zorder.md` 全文 (§3.7~§3.7b 遮罩 z-order + §3.7a-NL「NL framework + LEditMode 一律 mask 不渲染」 + §3.8 분할선 + §3.9 Sidebar 阴影) + `device-dimensions.md`「工具栏规格」(ToolBar 胶囊 width spec, verifyChecklist ⑭ 자동 검사).
 >
 > **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 가장 빈번한 failure root cause）.
 >
@@ -514,7 +518,7 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 - 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
 - 布局类型为 C → 读取 `references/layouts/c-layout.md`
 
-**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留, 详 `common-rules §4.2`). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules §1.1 / §3.1 / §4.1` 와 같음, 그쪽 우선.
+**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留, 详 `common-rules-instance.md §4.2`). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules-principles.md §1.1` + `common-rules-instance.md §3.1 / §4.1` 와 같음, 그쪽 우선.
 
 **目标稿放置 약속**: 源稿 옆 동일 section, 顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖`, 偏离 → 사용자 명시 시 만 허용 + 사유 출력. `targetVariantPlan` 미생성 항 = 미完了 (첫 frame 만 만들고 中止 금지).
 
@@ -587,7 +591,7 @@ await placeStandardComponent({
 
 ### Phase 6：验证 + 自动验证 함수
 
-> **🔁 RE-CHECK** (验证前 필독): `common-rules §6.2` (24 项 강제 清单) + `§6.3` (frame 完成 후 强制 截图) + `app-variant-map-{app}.md §C` (앱 전용 验证, 있을 시). 함수 본체 = `csv-pipeline/runtime/verify.ts`.
+> **🔁 RE-CHECK** (验证前 필독): `common-rules-verify.md §6.2` (25 항 강제 清单) + `§6.3` (frame 完成 후 强制 截图) + `common-rules-prohibit.md §7` (禁止 항 索引) + `app-variant-map-{app}.md §C` (앱 전용 验证, 있을 시). 함수 본체 = `csv-pipeline/runtime/verify.ts`.
 
 매 frame 落位 完成 후 즉시 `await verifyChecklist(frame, spec, scenarioFlags)` 호출. errors.length > 0 → 修复 → 重 verify (循环 max 3, 仍 fail → 사용자 报告 + 中止). silently 通过 금지.
 
@@ -639,7 +643,7 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 
 ### 验收 自动 vs 手动 分类（独立维度，与 §6.2 互补）
 
-> 📌 **权威源**：完整 24 项检查清单在 **`common-rules.md §6.2`**。本表是**互补维度** —— 把 24 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
+> 📌 **权威源**：完整 25 项检查清单在 **`common-rules-verify.md §6.2`**。本表是**互补维度** —— 把 25 项按 "verifyChecklist 自动覆盖" vs "需手动校验" 分类，便于 AI 区分调用策略。
 
 **A. verifyChecklist 自动覆盖（13 项 ↔ protocol.md §6 内的 ①~⑬, ⑭~⑯ 扩展）**：
 
@@ -664,7 +668,7 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 **调用流程**：
 
 1. 每完成一个 frame → 立即 `await verifyChecklist(frame, spec, scenarioFlags)`（A 部分自动；scenarioFlags 必传，缺失则 §6.2 #23 报错）
-2. `errors.length > 0` → 修复（按 common-rules §6.0.1 优先级：尺寸 → 位置 → 文本）
+2. `errors.length > 0` → 修复（按 `common-rules-verify.md §6.0` 优先级：尺寸 → 位置 → 文本）
 3. `errors === 0` + B 部分手动项全部通过 → 进入下一 frame
 4. 4 frame 全部完成后 → 总验证（B 部分必查）
 
@@ -679,7 +683,7 @@ const errors = await verifyChecklist(frame, spec, scenarioFlags);
 | Q | 问题 | 通过标准 |
 |---|---|---|
 | Q1 | 该 source frame 的 interaction state 是什么？（trigger 标识）| 一句话 + scenarioFlags JSON 实际值，如 `LEditMode=true (源 frame "列表选择-已选" 命中 §0.1b 信号)` |
-| Q2 | `common-rules §3.7 / §3.7a / §3.7b` 哪些节被本次 trigger 激活？| 列出激活节 + 对应 mask 名称（如 `§3.7a → 遮罩-编辑(C 列)`，`§3.7 不激活`）|
+| Q2 | `common-rules-mask-zorder.md §3.7 / §3.7a / §3.7b` 哪些节被本次 trigger 激活？| 列出激活节 + 对应 mask 名称（如 `§3.7a → 遮罩-编辑(C 列)`，`§3.7 不激活`）|
 | Q3 | 这些 mask / z-order 在最终 Figma frame 中的实际位置？| 每 mask 报 frame.children index + 节点名（如 `frame.children[1]: 遮罩-编辑`）；scenarioFlags 任一 flag=true 但对应 mask 缺席 → fail |
 
 **通过条件**：

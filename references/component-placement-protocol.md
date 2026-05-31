@@ -95,7 +95,7 @@ async function placeStandardComponent({
 
 ### 编辑模式（L 栏 触发遮罩）扩展模板
 
-**触发**：`app-variant-map-{app}.md`「遮罩规则」声明 L 栏编辑触发遮罩（笔记 / 待办：L 栏编辑 → 仅 C 栏覆盖遮罩）。详见 `common-rules.md §3.7a`。
+**触发**：`app-variant-map-{app}.md`「遮罩规则」声明 L 栏编辑触发遮罩（笔记 / 待办：L 栏编辑 → 仅 C 栏覆盖遮罩）。详见 `common-rules-mask-zorder.md §3.7a`。
 
 **结构变更**（与上表区别）：
 - `main` 内只保留 C 栏，**L 栏（含 N 栏 Sidebar 如有）必须从 main 内部 promote 到 frame 直接子级**。原因：遮罩在 frame 直接子级，main 内部子节点无法在 frame z-order 中超越遮罩。
@@ -151,7 +151,7 @@ async function bindFill(node, tokenName, fallbackRGB, opacity?) → Promise<bool
 
 async function bindStrokePaint(tokenName, fallbackRGB, opacity?) → Promise<Paint>
 //   创建 stroke paint 对象 (caller 自己赋值给 node.strokes)
-//   common-rules §3.8: 栏间分割线 = C 栏 strokeLeftWeight=1 + strokes 绑定
+//   common-rules-mask-zorder.md §3.8: 栏间分割线 = C 栏 strokeLeftWeight=1 + strokes 绑定
 ```
 
 **强制规则**: 禁止在 fills 里直接写 RGB SOLID. 必须经 `bindFill(...)` 调用, 至少留 token 绑定尝试 + 失败告警.
@@ -206,7 +206,7 @@ async function verifyChecklist(frame, spec, scenarioFlags?) → Promise<string[]
 
 **错误清单 > 0 时禁止汇报「适配完成」. 修复 → 重 verify (循环最多 3 次, 仍 fail → 中止 + 用户报告)**.
 
-**检查项映射** (`common-rules.md §6.2`)：
+**检查项映射** (`common-rules-verify.md §6.2`)：
 
 | 函数项 | §6.2 # | 说明 |
 |---|---|---|
@@ -232,7 +232,7 @@ async function verifyChecklist(frame, spec, scenarioFlags?) → Promise<string[]
 | 文件 | 角色 |
 |---|---|
 | `SKILL.md` | 主入口，调用本协议 |
-| `references/common-rules.md` | 通用原则（检索边界 / 内容边界 / z-order 模式 / 落位放置）|
+| `references/common-rules-{principles,instance,mask-zorder,verify,prohibit}.md` | 通用规则 5 파일 (검색边界 / 实例 闭环 / mask z-order / 验证 25 항 / 禁止 索引). 호환 hub: `common-rules.md` |
 | `references/layouts/{nlc,lc-nc,c}-layout.md` | 各布局骨架与栏宽 |
 | `references/layouts/device-dimensions.md` | 设备规格、断点 padding、对齐方式 |
 | **本文件 `component-placement-protocol.md`** | **任何组件落位的标准序列 + 验证函数 + token 协议** |
