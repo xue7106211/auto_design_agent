@@ -27,6 +27,15 @@
 - 背后渲染遮罩（mask 0.2 opacity）
 - z-order：mask 之上，杆子之下
 
+### 键盘联动
+
+弹窗内含输入控件且键盘可见时，弹窗底部相对键盘顶沿 **12dp**：
+
+- 手机 / 折叠屏内外屏：弹窗底 ↔ 键盘顶 **12dp**（覆盖默认底部对齐通则）
+- Pad：默认上下居中；居中时与键盘相交则向上推移直至弹窗底 ↔ 键盘顶 = **12dp**，不相交则保持居中
+
+> 仅 `AlertDialog_ComponentSet_01` 适用。详见 `references/layouts/device-dimensions.md`「弹窗 Dialog / 键盘联动」。
+
 ## 缺口
 
 - `nodeId` / `componentKey` / `componentSetId` 待补
