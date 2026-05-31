@@ -38,7 +38,7 @@
 
 27. **浮层 Overlay 行的容器映射禁止套用 C栏直接使用子场景**：`app-variant-map §浮层 Overlay`「抽屉窗口 / 浮窗 FloatingWindow」行定义的是**通用 Overlay 容器转换**（手机 DrawerWindow → 大屏 FloatingWindow）。当子场景（AI提问 / 录音 等）的 C栏内容直接占据 frame 而非浮层时，**禁止**将 FloatingWindow 作为容器 import — 按 CSV 该行 "容器" 列值决定承载方式（`竖屏背景` = frame fill，非组件容器）。
 
-28. **规则添加前 self-check (核心)**: special mapping / fix recipe 발견 시 자동 룰화 금지. **「이 pattern 이 다른 app 에서도 反復될 가능성 있나?」 1 줄 self-check** 必선:<br>① No → CSV cell direct + (필요 시) `notes` 列 footnote, 룰 文 不要<br>② Yes 但 1 app 内 multi-device cascade → `app-variant-map-{app}.md §0.1 #N`<br>③ Yes 且 multi-app 共通 → `common-rules §3.X`<br>④ runtime 함수 가능 → `placement.ts` / `verify.ts` (룰 文 1줄 pointer 만)<br>详见 §3.15「规则添加决策标准」 + §3.15.2 룰 添加 前 强制 4 점 review. 위반 시 룰 폭증 → context cost / drift / 1회성 fix 의 룰 文 残留 위험.
+28. **规则添加前 self-check (核心)**: 发现 special mapping / fix recipe 时禁止自动规则化. **「该 pattern 在其他 app 中是否可能反复出现？」 1 行 self-check** 必先. 决策树 (CSV direct / app §0.1 #N / common §3.X / runtime 函数) + 4 点 strong review = **§3.15 本文单一权威**. 违反则规则爆增 → context cost / drift / 一次性 fix 规则文残留.
 
 ## §0.4 共通枚举定义（单一权威）
 
@@ -606,54 +606,37 @@ C.strokeAlign = 'INSIDE';
 
 > **2026-05-26 迁出**: 该规则迁至 [`component-dictionary/sidebar.md` 「阴影裁切防止」节](component-dictionary/sidebar.md) 单一来源. 配置位置 / clipsContent 设置 / Phase 6 校验 全部参见该文件.
 
-## §3.10 组件库时间戳校验
+## §3.10 组件库时间戳校验 + fresh-import 强制 + Set key stale 检测
 
-**WHEN**: clone 文件内已落地的旧 instance 之前 / 视觉异常调查时
+**WHEN**: 以下 3 种情况 — (a) clone 文件内旧 instance 落地前 / 视觉异常调查, (b) `set.children.find(/TargetVariant/)` 结果 `undefined`, (c) `importComponentSetByKeyAsync(key)` 抛出 `not found`.
 
-**MUST**:
-1. `search_design_system` 用名称搜索，比对 `updatedAt` 时间戳
-2. 设计系统有更新版本 → **`importComponentSetByKeyAsync` 导入并替换**，**不要**继续 clone 旧结构
-3. 替换流程：`importComponentSetByKeyAsync(key) → 找目标 variant → 旧 instance.swapComponent(新 variant) → §3.6 强制序列`
-4. 视觉异常优先怀疑 component 库版本不一致，**后**查 instance 写错
+**核心原则**: §0.4 / `setkeys.json` 的 key 是 **cache** 而非 permanent truth. variant 缺失 / not found 发生时 **禁止立即判定「未落地」** — 必须 fresh import.
 
-### §3.10.A 「variant 未落地」 判定前 fresh-import 强制
-
-**WHEN**: variant lookup `set.children.find(c => /TargetVariantName/.test(c.name))` 结果 `undefined` 时
-**NEVER**: 立即得出「未落地 / 需 fallback」结论
 **MUST 顺序**:
 
-1. `search_design_system` 重新搜索 set 名 → 检查 `updatedAt`
-2. 比当前 session import 时刻更新 → **重新调用 `importComponentSetByKeyAsync(key)`** (废弃旧 import 对象)
-3. fresh set.children 中重新查找 target variant
-4. 仍缺失 → 才能判定「未落地」+ 仅 spec
+1. **`search_design_system`** 重新搜索 set 名 → 比对 `updatedAt` (取最大 timestamp 的 componentKey)
+2. **`importComponentSetByKeyAsync(key)`** 重新调用 (废弃旧 import 对象) → fresh set.children 内重新查找 target variant
+3. **替换流程**: `importComponentSetByKeyAsync(key) → set.children.find(/variant/) → 旧 instance.swapComponent(new variant) → §3.6 强制序列`
+4. 仍缺失 / 仍 not found → 才能判定「未落地」或上报 user
+5. 视觉异常优先怀疑 component 库版本不一致, **后**查 instance 写错
 
-**根因案例**: TopBar_07 首次搜索时 NavigationBar set 内仅见 TopBar_00~_06 → 判定「未落地」→ 使用 TopBar_03 fallback. 后经用户指出, fresh import 重试 → 找到 TopBar_07 (set 在 task 进行中已更新, key=`b95b5b9e2f3d6a1306a0cbd14975164463528cf6`). NavigationBar set updatedAt = 2026-05-19 07:35Z, 之前 import 缓存 stale.
-
-**自动检查推荐**: 发现 variant 缺失时强制执行如下:
+**自动检查推荐** (variant 缺失时):
 ```js
-// 规避 stale cache
 const freshSet = await figma.importComponentSetByKeyAsync(setKey);
 const freshTarget = freshSet.children.find(c => predicate(c.name));
-if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
+if (freshTarget) return freshTarget;  // 废弃旧搜索结果, 用 fresh
 // 真实缺失 → 上报
 ```
 
-### §3.10.B Set key stale 检测 + §0.4 即时更新 (PM2 / 2026-05-21)
-
-**WHEN**: `importComponentSetByKeyAsync(key)` 或 `importComponentByKeyAsync(key)` 抛出 `not found` 错误时
-
-**NEVER**: 信任 §0.4 的 key 为永久权威. §0.4 是 **cache** 而非 permanent truth.
-
-**MUST**:
-1. `search_design_system` 重新搜索 set 名, 同名 set 中取最大 `updatedAt` 的 `componentKey`
-2. 用该 key 重试 `importComponentSetByKeyAsync`
-3. 成功后 **当前 session 内立即更新 `app-variant-map-{app}.md §0.4` 的 key + git commit** + §0.5 变更日志增项
-4. 同名 set 在多个库存在时, 通过 `get_libraries` 的 `libraries_added_to_file` 直接确认权威库 — 禁止单凭 `search_design_system` 结果判定
-5. 个别 component key（`StatusBar_01` 等）独立管理不稳定时 → **统合为 ComponentSet key 后转换为 `children.find()` 模式**（set key 更稳定）
+**Key 更新后 Action (MUST)**:
+- 当前 session 内立即更新 `app-variant-map-{app}.md §0.4` (或 `csv-pipeline/data/setkeys.json`) 的 key + git commit
+- §0.5 变更日志增项
+- 同名 set 在多个库存在时 → 通过 `get_libraries` 的 `libraries_added_to_file` 直接确认权威库 (禁止单凭 search 判定)
+- 个别 component key (`StatusBar_01` 等) 独立管理不稳定时 → 统合为 ComponentSet key + 转换为 `children.find()` 模式 (set key 更稳定)
 
 **根因案例**:
-- **PM2**: `状态栏-StatusBar` key `599a7d4b...` stale → `not found`. 当时 search 活跃 set = `15e94d49...` (HyperOS v0.8). **PM8 修订**: v0.8 非订阅库. 权威 = Xiaomi Hyper OS4 UI Kit ComponentSet `1047f2112a230a27d3888d27b34a5857815216e3`. cross-library import 成功 ≠ canonical 库.
-- **2026-05-21 StatusBar 决定**: 个别 variant key 不再记录于 §0.4. set import 后 `children.find(/01|03/)` 访问.
+- **PM2 (2026-05-21 StatusBar)**: `状态栏-StatusBar` key `599a7d4b...` stale → not found. 当时 search 活跃 set = `15e94d49...` (HyperOS v0.8). **PM8 修订**: v0.8 非订阅库. 权威 = Xiaomi Hyper OS4 UI Kit ComponentSet `1047f2112a230a27d3888d27b34a5857815216e3`. cross-library import 成功 ≠ canonical 库. 决定: 个别 variant key 不再记录于 §0.4, set import 后 `children.find(/01|03/)` 访问.
+- **TopBar_07 fresh-import 案例**: 首次搜索时 NavigationBar set 内仅见 TopBar_00~_06 → 判定「未落地」→ 使用 TopBar_03 fallback. 后经用户指出, fresh import 重试 → 找到 TopBar_07 (key=`b95b5b9e2f3d6a1306a0cbd14975164463528cf6`). NavigationBar set updatedAt = 2026-05-19 07:35Z, 旧 import 缓存 stale.
 
 ## §3.11 CSV vs map source-of-truth 冲突 (PM4/PM6 根因)
 
@@ -693,44 +676,36 @@ if (freshTarget) return freshTarget; // 废弃旧搜索结果, 用 fresh
 
 **根因案例**: Pad-TopBar_01 `componentPropertyDefinitions = {}`. 内部 SearchBar `layoutSizingHorizontal='HUG'` + variant `_02` 自然 176×44. AI 尝试 resize 至 264 → 被忽略. 保持自然 176 + 报告「component limitation: SearchBar 264 default 未应用. 库需在 `Pad-TopBar` 增加 `搜索框宽度` 变体 property」妥协项.
 
-## §3.13 CSV column 表示歧义处理 (PM4 NL→C fallback 案例)
+## §3.13 CSV column 表示 / Fold内 framework drilldown (PM4 / PM-2026-05-27)
 
-**WHEN**: CSV1 column header 为单一 `Fold內LC`, 但 NL framework 中存在 NL→C fallback 内容上提
+**WHEN**:
+- (a) CSV column header = 单一 `Fold內LC`, 但 NL framework 内存在 NL→C fallback 内容上提
+- (b) extract-mapping CSV col 1 含有 `/ NLC` 等 sceneCondition 标记, Fold内竖 / Fold内横 column (NC/LC/C) 有数据
+
 **NEVER**:
 - 单一列内 silently 合并两个分支值
 - 自行修改「L 栏:」/「C 栏:」 prefix
+- 应用旧 P2 filter (`colScene !== sceneCondition` 时 skip) — 废弃, drilldown 数据被屏蔽
 
 **MUST**:
-1. 严格遵循 CSV1 NL row Fold內 列值 (含 prefix)
-2. 单一列内 device 间存在不同值 (Fold內竖 vs 横) 时**用 footnote 显式分离**: `**Fold内竖C：X / Fold内横C：Y**` 格式
-3. 「L 栏:」/「C 栏:」 prefix 冲突时 **CSV1 表示优先** (不做语义分析)
+1. 严格遵循 CSV NL row Fold內 列值 (含 prefix). 列内 device 间存在不同值 (Fold內竖 vs 横) 时**用 footnote 显式分离**: `**Fold内竖C：X / Fold内横C：Y**`. prefix 冲突时 CSV 表示优先 (不做语义分析).
+2. Fold内 device 时 extract-mapping 须 emit 所有 sceneCondition × colScene 组合. row 的 `framework` 列 = 原始 sceneCondition, `scene` 列 = colScene.
+3. csv-to-spec lookup 时 (app, subScene, device, scene, lane, uiElement) key 一致也可能存在 framework 不同的多个候选. 优先级: app default framework (app-variant-map 标注) → 其余顺序由设计师评估.
 
-**根因案例**: PM4 ToolBar/NL row Fold內竖LC 列 = CSV1 「L栏:_02」, 但 framework 上系 NL→C fallback, 「C 栏」语义更准. AI silently 改为「C栏:_02」. PM5 校验时与 CSV1 表示 mismatch → 又改回「L栏:_01」. 最终 CSV1 「L栏:」 prefix 保持不变才是正解 (NL→C fallback 时 L 内容 promote 的语义保留).
-
-## §3.13a Fold内 device framework drilldown (CSV col 1 sceneCondition 解释)
-
-**WHEN**: extract-mapping CSV col 1 含有 `/ NLC` 等 sceneCondition 标记，且 Fold内竖 / Fold内横 column (NC/LC/C) 有数据时。
-
-**解释**:
-Fold内 device 是 NLC framework 进行 drilldown 的位置。CSV col 1 的 sceneCondition (`/ NLC`) 仅表示该 row 的 standard framework；Fold内 column cell 的实际数据为 colScene (NC/LC/C) layout 的 drilldown 结果。
+**drilldown 案例表**:
 
 | sceneCondition | colScene | 含义 |
 |---|---|---|
 | NLC | LC | NLC framework drilldown 至 Fold内 LC |
 | NLC | NC | NLC framework drilldown 至 Fold内 NC |
 | NLC | C  | NLC framework drilldown 至 Fold内 单面 C |
-| LC  | C  | LC framework 的 NL→C fallback（旧 P8 fix）|
+| LC  | C  | LC framework 的 NL→C fallback (旧 PM4 案例) |
 
-**MUST**:
-1. Fold内 device 时，extract-mapping 须 emit 所有 sceneCondition × colScene 组合。输出 row 的 `framework` 列记录原始 sceneCondition，`scene` 列记录 colScene。
-2. csv-to-spec lookup 时，(app, subScene, device, scene, lane, uiElement) key 即使一致，也可能存在 framework 不同的多个候选。优先级: app default framework（在 app-variant-map 中标注）→ 其余顺序由设计师评估。
-3. 旧 P2 filter（`colScene !== sceneCondition` 时 skip）已废弃。Fold内 device 必须接收 drilldown 数据。
+**根因案例**:
+- PM4 (NL→C fallback): ToolBar/NL row Fold內竖LC 列 = CSV 「L栏:_02」, framework 上系 NL→C fallback. AI silently 改为「C栏:_02」. PM5 校验 mismatch → 又改回「L栏:_01」. 最终 CSV 「L栏:」 prefix 保持不变才是正解 (NL→C fallback 时 L 内容 promote 语义保留).
+- PM-2026-05-27 (extract-mapping.ts:582-595 fix): 笔记 standard=NLC. CSV row 22 `/ NLC` col 7 (Fold内竖 LC) cell `_04` = NLC drilldown 至 Fold内 LC, 笔记 default 的正解. 旧 P2 filter 屏蔽该数据 → row 101 LC 的 `_05` (私密笔记) 被错误映射的 bug.
 
-**依据**: extract-mapping.ts:582-595（PM-2026-05-27 fix）。笔记 standard framework=NLC。CSV row 22 `/ NLC` 的 col 7（Fold内竖 LC）cell `_04` 即 NLC drilldown 至 Fold内 LC 的数据 — 笔记 default 的正解。旧 P2 filter 屏蔽该数据，导致 row 101 LC 的 _05（private 笔记）被错误映射的 bug。
-
-**应用专用变更日志**（迁出，避免本节膨胀）：
-- 笔记 / 待办 → `app-variant-map-笔记.md §0.5`
-- 其它应用 → 各自 `app-variant-map-{app}.md`
+**应用专用变更日志** (迁出, 避免本节膨胀): 笔记 / 待办 → `app-variant-map-笔记.md §0.5`. 其它 → 各 `app-variant-map-{app}.md`.
 
 ## §3.14 妥协声明前实证强制（2026-05-21 追加）
 
@@ -740,7 +715,7 @@ Fold内 device 是 NLC framework 进行 drilldown 的位置。CSV col 1 的 scen
 
 1. 实际执行的代码片段（setProperties / swapComponent / importComponentSetByKeyAsync 等）
 2. 执行返回的**具体错误信息**（error message 或 undefined 结果）
-3. 针对该错误的二次修复尝试（如 fresh import §3.10.A）
+3. 针对该错误的二次修复尝试（如 fresh import §3.10）
 
 **以下表述不构成有效妥协理由**（直接判为规则违反）：
 

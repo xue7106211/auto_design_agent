@@ -31,7 +31,7 @@ status: draft
 | 待办 (Tasks) | **NLC** | 与笔记同一 framework，仅使用 List_Task variant |
 | 私密笔记 | **LC** | Pad LC（无 N）/ Fold内 LC / 手机·Fold外 LC→C。§0.1a 的「Pad LC 例外」即此情形 |
 
-**Fold内 device 的全部 framework**：NLC standard 在 Fold内 drilldown 至 LC / NC / C。CSV `结构变化表-Notes.csv` row 的 col 1 sceneCondition (`/ NLC`) 仅表示 standard framework，Fold内 column cell 的实际数据为 colScene drilldown 结果。详细解释规则见 [common-rules §3.13a](common-rules.md#§3.13a-fold内-device-framework-drilldown-csv-col-1-scenecondition-解释)。
+**Fold内 device 的全部 framework**：NLC standard 在 Fold内 drilldown 至 LC / NC / C。CSV `结构变化表-Notes.csv` row 的 col 1 sceneCondition (`/ NLC`) 仅表示 standard framework，Fold内 column cell 的实际数据为 colScene drilldown 结果。详细解释规则见 [common-rules §3.13](common-rules.md)。
 
 **Mapping Source of Truth**:
 
