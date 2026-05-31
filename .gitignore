@@ -39,3 +39,9 @@ __pycache__/
 
 # csv-pipeline local state
 csv-pipeline/probe-todo.md
+
+# csv-pipeline spec output (reproducible from `npm run spec`)
+csv-pipeline/spec-output/spec/
+csv-pipeline/spec-output/__ref__/
+csv-pipeline/spec-output/validation-report.json
+csv-pipeline/spec-output/validation-todo.json
