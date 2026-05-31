@@ -126,6 +126,33 @@
 | 标题栏高度（NavigationBar） | 中标题 56dp / 中标题（多行） 56dp |
 | 备注 | 外屏通常沿用手机端布局，视具体场景决定是否需要适配 |
 
+### Fold 外屏 非对称 cornerRadius — csv-to-spec object form 映射
+
+> Fold 外屏因折叠 hinge 在一侧导致左右非对称。其他 device 用 scalar `cornerRadius: 34/50` 即可，Fold 外屏必须使用 4-corner object form。
+
+| device | csv-to-spec object form | 物理含义 |
+|--------|--------------------------|-----------|
+| `Fold外竖` | `{ topLeft: 10, topRight: 56, bottomLeft: 10, bottomRight: 56 }` | 右侧（hinge 反向）56，左侧 10 |
+| `Fold外横` | `{ topLeft: 56, topRight: 56, bottomLeft: 10, bottomRight: 10 }` | 横屏旋转时 物理 「右侧」= 上、「左侧」= 下 → 上 56 / 下 10 |
+
+**csv-to-spec.ts:41-52** 中 `DEVICE_SPECS` 定义为单一权威。spec consumer（render-spec.ts / use_figma 调用方）需用 type guard 分支：
+
+```typescript
+if (typeof spec.frame.cornerRadius === 'number') {
+  frame.cornerRadius = spec.frame.cornerRadius;
+} else {
+  frame.topLeftRadius     = spec.frame.cornerRadius.topLeft;
+  frame.topRightRadius    = spec.frame.cornerRadius.topRight;
+  frame.bottomLeftRadius  = spec.frame.cornerRadius.bottomLeft;
+  frame.bottomRightRadius = spec.frame.cornerRadius.bottomRight;
+}
+```
+
+**MUST**:
+1. 修改 4-corner 映射时须同时更新本表 + `csv-to-spec.ts:41-52` 中的 `DEVICE_SPECS`
+2. spec consumer 始终使用 type guard 分支（`typeof === 'number'`）— 禁止假设 scalar 编写代码
+3. 若 Fold 外屏以外其他 device 出现非对称，须在本表追加 + 保留 scalar fallback
+
 ## Pad — 横屏（M80Pad 基准）
 
 | 参数 | 值 |
@@ -286,12 +313,15 @@ Fold 和 Pad 的所有栏内容从状态栏下方开始排列，各栏内容与�
 
 ### 形态选择
 
-| 触发栏 / 画面条件 | 形态 |
-|-----------------|------|
-| Pad C 栏，pad 宽 > 900dp | 搜索框（内嵌顶部导航右上） + 下方承接面板（Dropdown） |
-| Pad C 栏，pad 宽 ≤ 900dp | 搜索 icon（右上） + 激活后栏内拉通面板 |
-| Pad N / L 栏 | 新页面承接（与 Phone 样式一致） |
-| Phone / Fold 外屏 | 新页面承接 |
+| 触发栏 / 画面条件 | 形态 | 承接 component |
+|-----------------|------|----------------|
+| Pad C 栏，pad 宽 > 900dp | 搜索框（内嵌顶部导航右上） + 下方承接面板（Dropdown） | **`SearchReceiving_ComponentSet`** (`_00`/`_01`) — Dropdown form |
+| Pad C 栏，pad 宽 ≤ 900dp | 搜索 icon（右上） + 激活后栏内拉通面板 | `SearchReceiving_ComponentSet` 拉通形 |
+| **Pad N / L 栏 active** | **新页面承接 (与 Phone 样式一致)** | **`SearchHistory_Receiving_ComponentSet`** (`_01`) — Phone 樣式 panel form. **C 栏의 SearchReceiving_00 와 다름** ─ N/L 栏 适用 시 Dropdown spec (gap 6dp / 圆角 24 / padding 16) 위치만 빌리고, 内容은 SearchHistory_Receiving variant 자체. dim 없음 (overlay panel only). y = SearchBar.bottom + 6 |
+| Phone / Fold 外屏 | 新页面承接 (full-screen) | `SearchHistory_ComponentSet` (`_01`/`_02`) inline form (panel 아닌 list) |
+| Fold 内 L 栏 active | 新页面承接 (Phone 样式) | `SearchHistory_ComponentSet` (`_02`) inline (栏 폭 reflow) — Pad 와 달리 별도 panel form 不要, SearchBar `_01` 아래 直接 stack |
+
+> **MUST (2026-05-31 정식 채택)**: Pad N/L 栏 search active 时 `SearchReceiving_00` (C 栏 전용 Dropdown) 错误 적용 금지. **必하 `SearchHistory_Receiving_01`** 사용 — 위치는 Pad 承接面板 spec 그대로 빌리되 component 자체는 N/L 栏 専用. 회고: 2026-05-31 笔记搜索+详情 task 에서 4 frame 모두 SearchReceiving_00 잘못 적용 → user 지적 후 SearchHistory_Receiving_01 으로 정정.
 
 ### Pad 搜索框（宽 > 900dp）
 
@@ -579,6 +609,20 @@ NLC 与 NC 框架均适用以下规则：
 
 - 结构：弹窗容器 + 标题栏（小标题；左 `×` 关闭 / 右 `✓` 确认，可选）+ 内容区
 - 内容边距：左右 **12dp**
+- 遮罩：弹窗下方渲染遮罩层（`遮罩色/mask` `#000000` 20%，与本文档「遮罩定义」一致），z-order = mask 之上、控制杆之下
+
+#### 键盘联动（仅 `AlertDialog_ComponentSet_01`）
+
+弹窗内含 `TextInput` 等输入控件且键盘可见时，弹窗底部相对键盘顶沿 **12dp**：
+
+| 设备 / 屏态 | 键盘可见时纵向位置 |
+|-----------|------------------|
+| 手机（竖 / 横 / 上下分屏） | 弹窗底 ↔ 键盘顶 **12dp**（覆盖「底部对齐浮层通则」） |
+| 折叠屏外屏（竖 / 横） | 弹窗底 ↔ 键盘顶 **12dp** |
+| 折叠屏内屏（竖 / 横） | 弹窗底 ↔ 键盘顶 **12dp** |
+| Pad（竖 / 横） | 默认 **上下居中**；当居中时弹窗与键盘相交，弹窗向上推移直至弹窗底 ↔ 键盘顶 = **12dp**（不相交则保持居中） |
+
+> 适用范围限定 `AlertDialog_ComponentSet_01`。`NewTaskWindow_01/02` 等其他弹窗变体不适用本分支，按各自规则处理。
 
 | variant | 用途 |
 |---------|------|

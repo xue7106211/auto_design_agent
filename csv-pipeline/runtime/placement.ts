@@ -150,18 +150,45 @@ async function placeStandardComponent(args) {
     try { walk(inst, sourceInst); } catch {}
   }
 
-  // 7. children[0] FILL — 仅 single wrapper 应用 (multi-child component 保护)
+  // 7. children[0] FILL — single wrapper 또는 SearchBar 系 multi-child 时 적용
   //    protocol.md step 7b (2026-05-28 chip-like 保护追加):
   //    children.length === 1 时才自动 FILL. multi-child 信任 component intended
   //    layout (children[0] FIXED + children[1+] FILL, 如 SelectableChip 的 folder
   //    icon 84dp FIXED + 自适应内容 FILL).
   //    例外: ToolBar / BottomBar_Showcase 的 inner 胶囊由 §0.2 spec 单独处理 (step 9).
+  //    2026-05-31 SearchBar 例外: SearchBar_ComponentSet active variant (_01 等) 의
+  //    inner = [InputBackground (FILL 必要), CloseButton (FIXED right-aligned)]
+  //    2-child structure. instance 폭 < 自然 392 时 inner 들이 reflow 안 되어
+  //    CloseButton 잘림. SearchBar 系는 multi-child 라도 first child FILL 강제.
+  //    auto-layout 이 우측 stretch 处理 → CloseButton 위치 자동 추적.
+  //    회고: 2026-05-31 笔记搜索+详情 task 에서 Fold/Pad L 의 SearchBar_01 reflow 시
+  //    InputBackground hug + CloseButton x=336 (자연 폭 기준) → 폴드 L 폭 353/282
+  //    에서 close X 잘림 → user 「폭 문제」 지적. multi-child 보호룰의 over-correction.
+  const isSearchBar = /SearchBar/.test(inst.name || '')
+    || /SearchBar/.test((inst.mainComponent && inst.mainComponent.parent && inst.mainComponent.parent.name) || '');
+  const childMatch = inst.children && (inst.children.length === 1 || isSearchBar);
   if (opts.fillFirstChild !== false
-      && inst.children && inst.children.length === 1
+      && childMatch
       && !/ToolBar|BottomBar_Showcase/.test(inst.name || '')) {
     const c0 = inst.children[0];
     if (c0 && Math.abs(c0.width - inst.width) > 0.5) {
       try { c0.layoutSizingHorizontal = 'FILL'; } catch {}
+    }
+  }
+
+  // 7c. Sidebar_Notes attached form 보호 (2026-05-31 추가)
+  //     master 가 H=Fill 로 정의되어 있지만 createInstance() default = FIXED.
+  //     non-autolayout 부모에서는 위 step 5 inst.resize(w, h) 가 이미 mainH 적용함.
+  //     단 inner 「近手菜单组件」 (children[0]) 만 FILL 로 유지하고
+  //     그 children (新版标题栏 / 文件夹列表 / 分割线) 는 자연 HUG 유지.
+  //     ※ Sidebar_Component_PAD_NLC 系 (BoardMaterialSection) 의 3-级 递归 FILL 룰과
+  //       구조가 다르므로 절대 적용하지 말 것 — 「新版标题栏」 H=56 자연이 늘어나면
+  //       icon 위치 망가짐.
+  if (/Sidebar_Notes/.test(inst.name || '') && inst.children && inst.children.length === 1) {
+    const c0 = inst.children[0]; // 近手菜单组件
+    if (c0) {
+      try { c0.layoutSizingVertical = 'FILL'; } catch {}
+      // 깊이 1 inner (新版标题栏 등) 는 master 의 자연 HUG 유지 — 강제로 FIXED/HUG 설정 안 함.
     }
   }
 

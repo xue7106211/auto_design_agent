@@ -39,6 +39,7 @@
 //   ⑭  -      ToolBar 胶囊 width
 //   ⑮  -      Pad N 栏 z-order (NavBar 在 Sidebar 之上)
 //   ⑯  -      inner componentProperties 与源稿同步
+//   ⑰  §3.9   Pad横 NLC 并列 Sidebar promote (frame 직접子级 last z, 阴影 가시)
 
 async function verifyChecklist(frame, spec, scenarioFlags) {
   const errors = [];
@@ -102,6 +103,31 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
     const sd = frame.children.find(c => c.name && /Sidebar/.test(c.name));
     if (sd && Math.abs(sd.height - spec.sidebar.h) > 1) {
       errors.push(`Sidebar.height ${sd.height} != ${spec.sidebar.h} (reflow?)`);
+    }
+  }
+
+  // ⑥b Sidebar_Notes attached form: H = mainH 풀히트, y = statusBarH (2026-05-31 추가)
+  //     app-variant-map-笔记.md §0.5 「Sidebar_Notes attached form」 룰 적용 검증.
+  //     trigger: spec.sidebarMainH === true.
+  //     master 가 H=Fill 정의이지만 createInstance default FIXED → 명시 호출 필요.
+  //     verifyChecklist 가 자동 검출.
+  if (spec.sidebarMainH) {
+    const sd = frame.children.find(c => c.name && /Sidebar_Notes/.test(c.name));
+    if (sd) {
+      const expectH = spec.frameH - spec.statusBarH;
+      if (Math.abs(sd.height - expectH) > 1) {
+        errors.push(`Sidebar_Notes.h ${sd.height} != mainH ${expectH} (frameH ${spec.frameH} - statusBarH ${spec.statusBarH}); §0.5 attached form 풀히트 누락`);
+      }
+      if (sd.y !== spec.statusBarH) {
+        errors.push(`Sidebar_Notes.y ${sd.y} != statusBarH ${spec.statusBarH}`);
+      }
+      // 「新版标题栏」 (children[0].children[0]) H=56 자연 검증 (FILL 잘못 적용 detect)
+      if (sd.children?.[0]?.children?.[0]) {
+        const titleBar = sd.children[0].children[0];
+        if (/标题栏|新版标题栏/.test(titleBar.name || '') && titleBar.height > 100) {
+          errors.push(`Sidebar_Notes.「新版标题栏」 h=${titleBar.height} (자연 56 초과); 3-level FILL 잘못 적용 의심`);
+        }
+      }
     }
   }
 
@@ -251,6 +277,31 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       const sIdx = nCol.children.findIndex(c => /Sidebar|BottomBar/i.test(c.name || ''));
       if (navIdx >= 0 && sIdx >= 0 && navIdx < sIdx) {
         errors.push(`N 栏 z-order: NavBar (idx ${navIdx}) below Sidebar (idx ${sIdx}) — must be ABOVE`);
+      }
+    }
+  }
+
+  // ⑰ Pad横 NLC 并列 时 Sidebar 必须 frame 直接子级 (§3.9 阴影 가시)
+  //    trigger: spec.framework === 'NLC并列' && spec.device === 'Pad横' (또는 explicit spec.sidebarPromote === true)
+  //    common-rules §3.9 「N 栏 Sidebar 阴影 z-order」 강제 — Sidebar 가 main 内 N 栏 child 로 깊이 들어가면
+  //    L/C surface fill 이 Sidebar 阴影 위에 그려짐 → 阴影 가려짐. frame 直接子级 last z 必要.
+  //    회고: 2026-05-31 笔记搜索+详情 task 에서 Pad横 NLC并列 첫 build 시 Sidebar in main.N (깊이 2) →
+  //    阴影 invisible → user 「N의 Z 위치 문제」 지적 → frame.appendChild(sd) promote 후 정상화.
+  //    runtime guard 化 → §3.9 룰 read 누락해도 verifyChecklist errors > 0 보고.
+  if ((spec.framework === 'NLC并列' && spec.device === 'Pad横') || spec.sidebarPromote === true) {
+    const sd = frame.findOne(c => /Sidebar/.test(c.name || ''));
+    if (sd) {
+      const directChild = frame.children.indexOf(sd);
+      if (directChild < 0) {
+        errors.push(`§3.9 violation: Sidebar must be frame 직접子级 (current: nested in '${sd.parent?.name || 'unknown'}'). 阴影 가려짐 위험. frame.appendChild(sd) promote 必要.`);
+      } else {
+        // Sidebar must be near top z (below 杆子 only)
+        const zCount = frame.children.length;
+        const swIdx = frame.children.findIndex(c => /SwipeIndicator/.test(c.name || ''));
+        const expectIdx = swIdx >= 0 ? swIdx - 1 : zCount - 1;
+        if (directChild < expectIdx) {
+          errors.push(`§3.9 violation: Sidebar z-idx ${directChild} too low (expected ${expectIdx}, just below 杆子). 阴影 가려짐 위험.`);
+        }
       }
     }
   }

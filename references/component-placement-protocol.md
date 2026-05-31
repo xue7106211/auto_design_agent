@@ -77,7 +77,7 @@ async function placeStandardComponent({
 **关键决定**:
 - `resetOverrides` 默认 OFF — 关键决定 (§3.4 / §3.6 与之统一). reset 会清空 width 等数值 override 触发 hug content reflow, 是落位失败最常见根因. 仅当目标 variant 与源 variant 内部结构差异巨大需要清掉旧 override 时才 `true`.
 - `inheritInnerState` 默认 ON — 源稿 inner componentProperties 反映业务态 (如 ToolBar 按钮 `状态=禁用`), 适配 frame 必须同步. 禁止仅 swap 顶层 variant 而忽略 inner state. 源 instance 必须通过 `sourceInst` 传入.
-- `fillFirstChild` 默认 ON — 但 `inst.children.length === 1` 时才应用 (chip-like multi-child component children[0] 可能 intentional FIXED, 强制 FILL 会破坏 intended layout, 2026-05-28 笔记/待办 LC 适配 4-5 次反复发生后加入).
+- `fillFirstChild` 默认 ON — `inst.children.length === 1` 时 또는 **SearchBar 系 instance** 时 자동 적용. SearchBar active variant (`_01` 等) inner = `[InputBackground (FILL 必要), CloseButton (FIXED right-aligned)]` 2-child 구조이므로 multi-child 보호 룰 (chip-like) 의 예외. instance 폭 < 자연 392 时 inner reflow 안 되어 CloseButton 잘림 防止 (2026-05-31 笔记搜索 task 에서 폴드 L 폭 353/282 时 close X 잘림 발견, runtime 자동화 채택). 그 외 chip-like (SelectableChip 의 folder icon FIXED + 内容 FILL) 인 multi-child 는 保护 유지.
 
 **变更规则**: placement.ts 为 single source. 修改函数本体只在 .ts commit, 本 .md signature / 规则同步更新即可.
 

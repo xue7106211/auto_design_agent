@@ -34,9 +34,11 @@
 
 24. **HyperOS v0.8 库组件禁止使用（MUST）**：所有 import 必须来自 §0.5.1 列出的三个权威 **fileKey** 之一（`mrvMGwkbZ7qZML7iOfQsvI` 业务组件库 / `FBvQ3xM5C62MgIcA1JHWIs` OS4 UI Kit / `5gZYD8i6JqBvsaS7yvnO9c` Token-Lib），即 — 权威基准是 **fileKey**，非 library 显示名。OS4 UI Kit 的源 file 名包含 "Figma UI Kit 4.0 AI 测试版" 字符串，但 fileKey `FBvQ3xM5C62MgIcA1JHWIs` 即权威 OS4 源（§0.5.1 的单一来源）。该 file 发布 lib 的 libraryKey 形式为 `lk-99b74bcae...`（即检索结果中遇到此 libraryKey 不属于规避对象，而是权威本身）。**`Xiaomi HyperOS v0.8`（libraryKey `lk-bd807c2a...`）绝对禁止** — v0.8 与 OS4 UI Kit 中存在同名 ComponentSet（如 `杆子` / `StatusBar` 等），`importComponentSetByKeyAsync` 可能跨库调用成功但实际 import 旧库版本。**强制验证流程**：Phase 5 落位完成后，对任一关键组件 instance 执行 `inst.mainComponent.remote === true` + Figma UI 右侧面板确认 library 的 source fileKey 是 §0.5.1 三 fileKey 之一（尤其不是 v0.8 `lk-bd807c2a...`）。§0.4 / `csv-pipeline/data/setkeys.json` 记录的 key 如经 Figma UI 确认来自 v0.8 → 必须立即用 `search_design_system` 找到正确 key 并替换。**强制 scope (MUST)**：调用 `mcp__plugin_figma_figma__search_design_system` 时 **必须** 在 `includeLibraryKeys` 参数中传入 `csv-pipeline/data/setkeys.json` 的 `authoritativeLibraryKeys` 值。仅靠 unsubscribe 无法屏蔽 community/test/legacy lib 结果 — `includeLibraryKeys` scope 是唯一保障。权威 key 列表以 `setkeys.json` 的 `authoritativeLibraryKeys` 为单一来源。
 
-26. **禁止 frame fill, 各 栏 自身负责 fill (核心)**：multi-栏 适配 frame (LC / NLC / NLC覆盖 / NL / NC) 的外层 frame 必须 **fills=[] (透明)**。颜色责任由**各栏 (`L 栏` / `C 栏` / `N 栏`) 自身**承担。各栏 **frame full-height (`y=0, h=frameH`)** 拉满，使其自身颜色覆盖到 status bar 区域。status bar instance 同样 fills=[] (透明)，让各栏颜色自然透到 status bar 区域。**原因**：frame fill 单一色无法满足 LC/NLC 等左右不同色的场景在 status bar 区域的分支表达 (例：笔记 NLC 默认 L=surface_low / C=surface 时，status bar 区域也应 L 侧灰 / C 侧白 分支)。各栏 fill + frame 透明 模式在所有 device × interaction state 下一致工作。**禁止**：① frame 自身设单一 fill ② 栏 height = mainH (frameH − statusBarH) 而由 frame fill 填充 status bar 区域。(2026-05-28 笔记 LEdit 适配时 frame fill 错设 `surface_low` 经用户指出 → 改为 各栏 fill + frame 透明 模式定型该规则)。
+26. **禁止 frame fill, 各 栏 自身负责 fill (核心)**：multi-栏 适配 frame (LC / NLC / NLC覆盖 / NL / NC) 的外层 frame 必须 **fills=[] (透明)**。颜色责任由**各栏 (`L 栏` / `C 栏` / `N 栏`) 自身**承担。各栏 **frame full-height (`y=0, h=frameH`)** 拉满，使其自身颜色覆盖到 status bar 区域。status bar instance 同样 fills=[] (透明)，让各栏颜色自然透到 status bar 区域。**原因**：frame fill 单一色无法满足 LC/NLC 等左右不同色的场景在 status bar 区域的分支表达 (例: 手机/Fold外 的 LC/NLC 套卡 layout 出现 L=surface_low / C=surface 分支时, status bar 区域也需 L 侧灰 / C 侧白 分支表达). 注: 单色 (Pad/Fold内 全 surface 或 手机 全 surface_low) 时也适用本通则 = 各栏自身 fill + frame 透明. device 各自 default 色決定 → `csv-pipeline/data/tokens.json` selectionRules.step1_deviceDefault, 卡片 list override → step2_cardOverride.各栏 fill + frame 透明 模式在所有 device × interaction state 下一致工作。**禁止**：① frame 自身设单一 fill ② 栏 height = mainH (frameH − statusBarH) 而由 frame fill 填充 status bar 区域。(2026-05-28 笔记 LEdit 适配时 frame fill 错设 `surface_low` 经用户指出 → 改为 各栏 fill + frame 透明 模式定型该规则)。
 
 27. **浮层 Overlay 行的容器映射禁止套用 C栏直接使用子场景**：`app-variant-map §浮层 Overlay`「抽屉窗口 / 浮窗 FloatingWindow」行定义的是**通用 Overlay 容器转换**（手机 DrawerWindow → 大屏 FloatingWindow）。当子场景（AI提问 / 录音 等）的 C栏内容直接占据 frame 而非浮层时，**禁止**将 FloatingWindow 作为容器 import — 按 CSV 该行 "容器" 列值决定承载方式（`竖屏背景` = frame fill，非组件容器）。
+
+28. **规则添加前 self-check (核心)**: special mapping / fix recipe 발견 시 자동 룰화 금지. **「이 pattern 이 다른 app 에서도 反復될 가능성 있나?」 1 줄 self-check** 必선:<br>① No → CSV cell direct + (필요 시) `notes` 列 footnote, 룰 文 不要<br>② Yes 但 1 app 内 multi-device cascade → `app-variant-map-{app}.md §0.1 #N`<br>③ Yes 且 multi-app 共通 → `common-rules §3.X`<br>④ runtime 함수 가능 → `placement.ts` / `verify.ts` (룰 文 1줄 pointer 만)<br>详见 §3.15「规则添加决策标准」 + §3.15.2 룰 添加 前 强制 4 점 review. 위반 시 룰 폭증 → context cost / drift / 1회성 fix 의 룰 文 残留 위험.
 
 ## §0.4 共通枚举定义（单一权威）
 
@@ -386,6 +388,8 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | **6** | **Instance resize 后 `inst.children[0].width === inst.width` 自动校验**。不一致时立即 `inst.children[0].layoutSizingHorizontal = 'FILL'`; 仍不一致则尝试 `inst.children[0].layoutSizingVertical = 'FILL'`. 失败则报告「component limitation」妥协项 + 拆分到 design-team 专项 task (instance-level 不可解决). |
 | **7** | **Sidebar / Pad-TopBar 等含多层 auto-layout 组件需 3 级递归 FILL override**: `inst.children[0].layoutSizingVertical = 'FILL'` + `inst.children[0].children[0].layoutSizingVertical = 'FILL'` + `(.children[0].children[0]).children.find(c=>c.name==='内容区域'相似).layoutSizingVertical = 'FILL'`. 单一层 override 不足 (PM3 验证). |
 | **8** | **ToolBar / BottomBar_Showcase inner state 2nd pass 必须在 `placeStandardComponent` 函数体内执行**（protocol.md step 10），禁止依赖调用方 inline 补充。capsule `setProperties({数量:X})` 会 rebuild children（全新 ID），首次 walk 只传递首项，后续 `.组件状态变化` 等 deep-inner 节点 miss。修复 = 统一走 protocol.md 完整函数，禁止 simplified inline helper |
+| **9** | **master `layoutSizingV='Fill'` ↔ instance default `'FIXED'` 격차 통칙**（2026-05-31 정식 채택, MUST）: master component 가 `layoutSizingHorizontal/Vertical = 'Fill'` 로 정의되어 있어도 figma `createInstance()` 는 default `'FIXED'` 로 시작 — master Fill default 가 자동 전파되지 않음. 따라서 `inst.resize(targetW, targetH)` 또는 `inst.layoutSizingVertical = 'FILL'` (auto-layout slot 부모) 를 **반드시 명시 호출**. master 만 수정해서는 instance 자동 풀히트 보장 안 됨. 본 통칙은 모든 app 에 적용; app-specific 사례는 각 `app-variant-map-{app}.md` 에 룰로 명시 (예: 笔记 의 `Sidebar_Notes` attached form → `app-variant-map-笔记.md §0.1 #10`). **검증 시 master 만 보고 「Fill 정의됐으니 instance 도 Fill 일 것」 추론 절대 금지** — 반드시 actual instance 의 `layoutSizingVertical` property 직접 dump 후 확인. 회고: 2026-05-31 笔记 ManageFoldWindow 적응 시 user 가 master 를 H=Fill 수정했지만 fresh createInstance 가 여전히 FIXED 로 나와 manual resize 가 정식 룰임을 확정. |
+| **9a** | **cross-file master cascade FIXED chain + ABSOLUTE constraints 통칙**（2026-05-31 추가）: master 의 inner ABSOLUTE auto-layout child (배경 / blur layer 等) 의 `constraints` 는 **instance level override 不可** (figma 제약: "This property cannot be overridden in an instance"). 따라서 cross-file (业务组件库 → 사용 file) instance 가 master 의 자연 H 보다 큰 size 로 resize 必要 시:<br>① master file 측에서 ABSOLUTE child `constraints = { horizontal: 'STRETCH', vertical: 'STRETCH' }` + AUTO child sizingV='FILL' 을 cascade 적용<br>② **library publish 必要** — master 변경은 publish 후에야 사용 file instance 가 picking up<br>③ publish 후 사용 file 에서 fresh import + createInstance + resize 시 자동 cascade<br>④ publish 전 사용 file 임시 fallback = master 자연 H 로 resize + 居中 (instance level override 不可 layer 가 stuck 되어 视觉 빈 공간 발생). 회고: 2026-05-31 `Notes_FloatingWindow_01` Pad横 H=759 적용 시 inner `FloatingWindow-ComponentSet` (ABSOLUTE) 636 stuck → 하단 123dp 빈 공간. master cascade FILL + publish 후 759 cascade 정상 동작 확인. |
 
 ### §3.6.A 自动校验函数补强 (verifyChecklist 增项)
 
@@ -756,6 +760,55 @@ Fold内 device 是 NLC framework 进行 drilldown 的位置。CSV col 1 的 scen
 | variant 不存在（fresh import 后 `set.children.find()` 仍 undefined）| fresh import 时间戳 + children 列表 |
 | 用户显式指示跳过 | 用户原话引用 |
 
+## §3.15 规则添加决策标准（2026-05-31 追加）
+
+**WHEN**: 适配过程中遇到「common 不到的 special mapping / cascade pattern / fix recipe」, 准备增加规则文档时.
+
+**核心 self-check (1 行)**: **「이 pattern 이 다른 app 에도 反復될 가능성 있나?」**
+
+**No → 룰 文 不要**, 다음 위치에 「数据」 만 기록:
+- mapping 自体 → `结构变化表-{App}.csv` cell + (필요 시) `notes` 列 footnote
+- 1회성 device 별 spec 偏差 → CSV cell direct
+- 1회성 variant 选择 (예: 秘密笔记 Pad LC) → CSV cell + 1 줄 footnote
+
+**Yes → 룰화**, 다음 결정 트리:
+
+| 룰 性质 | 위치 |
+|---|---|
+| **단 1 app 内 multi-device cascade pattern** (예: 笔记 `Sidebar_Notes attached form`, `Notes_FloatingWindow cascade FILL`) | `app-variant-map-{app}.md §0.1 #N` 정식 룰 |
+| **multi-app 共有 cascade / fix recipe** (예: A 类 风满, instance reflow 6 step, mask z-order) | **本文档 (`common-rules.md`)** §3.X |
+| **runtime 实행 가능 algorithm** (예: inner state walk, capsule 后处理, sidebar attached FILL) | **`runtime/placement.ts` / `verify.ts`** — 함수 본체로, 自动 적용 |
+| **token 列表 / set key / library key** | `app-variant-map-{app}.md §0.4` 表 |
+
+### §3.15.1 룰 文 vs CSV direct 判別 例
+
+| case | 처리 | 이유 |
+|------|------|------|
+| 笔记 LC L NavBar device 별 `_04/_07/_08` 매핑 | **CSV direct** | 기계적 device × variant 매핑. CSV row 가 자체로 self-explanatory |
+| 笔记 Sidebar_Notes attached form (Fold 全 device 풀히트 + inner FILL only children[0]) | **§0.1 #10 룰** | 4 device cascade + inner FILL boundary 가 룰 文 없으면 매번 误적용 |
+| 私密笔记 Pad 도 LC (其他 笔记 子场景 = NLC) | **CSV cell direct** | 1회성 偏离, 룰 不要 |
+| 浮窗 H = `screenH × 80%` (Pad横 device-dim spec) | **device-dim 1 표 + CSV** | device-dim 自体가 single source, app 별 적용은 CSV 만 |
+| `instance.children[0].layoutSizingV='FILL'` cascade auto-apply | **`placement.ts` step 7c** | 모든 app 공유 runtime 行为 |
+| ToolBar 胶囊 栏W>440 → 定宽 344 居中 | **`placement.ts` step 9** | 모든 app 공유 runtime 行为 |
+
+### §3.15.2 룰 添加 前 强制 review
+
+**MUST**: 룰 추가 commit 前에 다음 4 점 自答:
+
+1. **이 pattern 이 다른 app 에서 (다른 子場景 / device) 反復 발생할 증거가 있나?** No → CSV direct.
+2. **runtime 함수 본체로 解決 가능한가?** Yes → `placement.ts` / `verify.ts` 추가, 룰 文 不要 (또는 1줄 pointer 만).
+3. **既存 §0.X / §3.X 룰의 sub-case 인가?** Yes → 既存 룰 본문 修正, 새 §N 추가 不要.
+4. **룰 文 본문 길이 ≤ 5 줄로 압축 가능한가?** No → over-engineering 의심. CSV / runtime 으로 二分 검토.
+
+**NEVER**:
+- 1회성 fix 를 「장기 룰」 名义로 §0.1 #N / §3.X 추가
+- 既存 룰의 sub-case 인데 新 §N 別途 추가 (drift 위험)
+- runtime 函数로 解決 가능한 것을 룰 文 으로 작성 (매번 read 강제 → context cost)
+
+### §3.15.3 既存 룰 review
+
+새 task 完了 후, 추가한 룰이 §3.15.2 의 4점 통과 여부 retrospective. 통과 못 하면 **CSV / runtime 으로 移籍 + 룰 文 削除** (또는 pointer 만 남기기).
+
 ## §4. 写入优先级与失败处理
 
 ### §4.1 组件 import 优先级
@@ -947,3 +1000,5 @@ Fold内 device 是 NLC framework 进行 drilldown 的位置。CSV col 1 的 scen
 | 25 | `scenarioFlags` JSON 缺失下汇报"适配完成"（Phase 4 step 7 未执行）| §6.2 #23 / SKILL Phase 4 step 7 |
 | 26 | 实例失败时绕道 「fallback / clone」 后汇报"适配完成"（未通过 §3.14 实证）| §3.14 / §4.1 |
 | 27 | scenarioFlags 信号未在 `app-variant-map-{app}.md §0.1b 导出信号表` 列出时凭直觉填 flag 值 | §0 #13 / app-variant-map-template §0.X |
+| 28 | 1회성 special case 를 §0.1 #N / §3.X 룰로 추가 (self-check 「다른 app 에서도 反復?」 통과 못 했는데) | §0 #28 / §3.15 |
+| 29 | runtime 函수로 解決 가능한 fix recipe 를 룰 文 본문에 매번 read 강제로 포함 | §3.15.2 #2 |
