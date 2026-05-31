@@ -72,10 +72,10 @@ status: draft
 ```md
 | device | default layoutType | 子模式 / 说明 |
 |---|---|---|
-| Phone / Fold外屏 | C | — |
-| Fold内屏 横/竖 | LC | — |
-| Pad 横屏 | NLC（并列）| — |
-| Pad 竖屏 | NLC（覆盖）| 含 `遮罩-N覆盖` |
+| 手机竖 / 手机横 / Fold外竖 / Fold外横 | C | — |
+| Fold内竖 / Fold内横 | LC | — |
+| Pad横 | NLC（并列）| — |
+| Pad竖 | NLC（覆盖）| 含 `遮罩-N覆盖` |
 ```
 
 ### §0.X scenarioFlags 导出信号表（**含 trigger 应用必填**）
@@ -204,11 +204,16 @@ status: draft
 
 | 值 | 含义 |
 | --- | --- |
-| `Phone` | 手机 |
-| `Fold外屏` | 折叠屏外屏 |
-| `Fold内屏` | 折叠屏内屏 |
-| `Pad竖屏` | 平板竖屏 |
-| `Pad横屏` | 平板横屏 |
+| `手机竖` | 手机 竖屏 |
+| `手机横` | 手机 横屏 |
+| `Fold外竖` | 折叠屏 外屏 竖屏 |
+| `Fold外横` | 折叠屏 外屏 横屏 |
+| `Fold内竖` | 折叠屏 内屏 竖屏 |
+| `Fold内横` | 折叠屏 内屏 横屏 |
+| `Pad竖` | 平板竖屏 |
+| `Pad横` | 平板横屏 |
+
+> 旧版 5-device 约定（`Phone` / `Fold外屏` / `Fold内屏` / `Pad竖` / `Pad横`）已废弃。csv-pipeline（Stage 1A）抽取数据已采用上方 8-device 约定。prose 中如需指代「不分方向的小屏 Fold」可写「Fold外（横+竖）」等组合表述。
 ```
 
 ### `screenMode`
@@ -327,13 +332,13 @@ status: draft
 错误示例：
 
 ```md
-| `AI输入框` | `Pad横屏` | `C` | `variant` | `输入框1` | 临时命名 |
+| `AI输入框` | `Pad横` | `C` | `variant` | `输入框1` | 临时命名 |
 ```
 
 推荐改法：
 
 ```md
-| `AI输入框` | `Pad横屏` | `C` | `undefined` |  | 待补真实 variantId |
+| `AI输入框` | `Pad横` | `C` | `undefined` |  | 待补真实 variantId |
 ```
 
 ### `notes` 使用规则
@@ -359,12 +364,12 @@ status: draft
 
 | uiElement | device | screenMode | resultType | variantId | notes |
 | --- | --- | --- | --- | --- | --- |
-| `标题栏_一级` | `Phone` | `L` | `variant` | `NavigationBar_ComponentSet_01` |  |
-| `标题栏_一级` | `Fold内屏` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏承载 |
-| `标题栏_一级` | `Pad横屏` | `NC` | `variant` | `NavigationBar_ComponentSet_07` | N栏承载 |
-| `状态栏` | `Fold内屏` | `LC` | `variant` | `StatusBar_Fold_01` |  |
-| `底部导航` | `Pad横屏` | `NLC` | `hidden` |  | 保留语义但不显示 |
-| `AI输入框` | `Pad横屏` | `C` | `undefined` |  | 待补真实 variantId |
+| `标题栏_一级` | `手机竖` | `L` | `variant` | `NavigationBar_ComponentSet_01` |  |
+| `标题栏_一级` | `Fold内竖` | `LC` | `variant` | `NavigationBar_ComponentSet_04` | L栏承载 |
+| `标题栏_一级` | `Pad横` | `NC` | `variant` | `NavigationBar_ComponentSet_07` | N栏承载 |
+| `状态栏` | `Fold内竖` | `LC` | `variant` | `StatusBar_Fold_01` |  |
+| `底部导航` | `Pad横` | `NLC` | `hidden` |  | 保留语义但不显示 |
+| `AI输入框` | `Pad横` | `C` | `undefined` |  | 待补真实 variantId |
 ```
 
 ## 5. 当前覆盖缺口
@@ -376,9 +381,9 @@ status: draft
 ```md
 ## 当前覆盖缺口
 
-- `标题栏_编辑` 在 `Fold内屏 + LC` 下尚未建档
+- `标题栏_编辑` 在 `Fold内竖 + LC` 下尚未建档
 - `AI输入框` 的真实 `variantId` 待补
-- `Pad竖屏 + NLC` 的标签栏映射待补
+- `Pad竖 + NLC` 的标签栏映射待补
 ```
 
 要求：

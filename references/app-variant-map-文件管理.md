@@ -9,7 +9,7 @@ status: draft
 
 > 本文档由 `figma-component-dictionary.md` 的 Step 1 按需加载。
 >
-> **CSV1 / CSV2 同步日期：2026-05-18**（cell-level 校验完成；`Sidebar_Component_NC_01` 仍待 dictionary 端定夺，详见 plan 中 핵심 불일치 #1）。
+> **CSV1 / CSV2 同步日期：2026-05-18**（cell-level 校验完成；`Sidebar_Component_NC_01` 仍待 dictionary 端定夺，详见 plan 中 核心不一致 #1）。
 
 # 文件管理 App Variant Map
 
