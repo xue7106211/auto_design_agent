@@ -500,13 +500,11 @@ for (const chk of spec.componentChecks) {
 
 ### §3.7a-NL NL framework + LEditMode 处理
 
-**WHEN**: framework = NL（list-only，无 detail 列），且 `flags.LEditMode = true`。
+**WHEN**: framework = NL (list-only, 无 detail 列), `flags.LEditMode = true`. NL 无 C 列 → 无「编辑遮罩」概念.
 
-**规则**：**所有 device / 所有子形态 一律 mask 不渲染**。NL framework 没有「编辑遮罩」概念。L 栏不 promote，z-order 沿用一般 NL 通则（`main → 状态栏 → 栏间分割线（如有）→ 杆子`）。
+**规则**: 所有 device / 子形态 一律 mask 不渲染, L 栏不 promote, z-order 沿用 NL 通则 (`main → 状态栏 → 栏间分割线 → 杆子`). §3.7a 的 mask + L promote 机制仅适用于含 C 列 framework (LC / NLC / NLC 覆盖).
 
-§3.7a 的 「mask = C 列形态」 + 「L 栏 promote」 机制仅适用于 LC / NLC / NLC 覆盖 framework（含 C 列）。NL 因结构无 C 列，不存在「编辑遮罩」适用条件。
-
-**verifyChecklist 兼容**：`spec.framework = 'NL'` 时 ⑩~⑫ 全部跳过；不要传 `spec.editMask` 等字段。
+**verifyChecklist 兼容**: `spec.framework = 'NL'` 时 ⑩~⑫ 全部 skip, 勿传 `spec.editMask` 等.
 
 ### §3.7a-NLC并列 NLC并列 framework + LEditMode → Sidebar 也 promote
 
@@ -737,52 +735,29 @@ if (freshTarget) return freshTarget;  // 废弃旧搜索结果, 用 fresh
 
 ## §3.15 规则添加决策标准（2026-05-31 追加）
 
-**WHEN**: 适配过程中遇到「common 不到的 special mapping / cascade pattern / fix recipe」, 准备增加规则文档时.
+**WHEN**: 适配过程에서「common 不到의 special mapping / cascade pattern / fix recipe」 등장 시, 룰 文 추가 commit 前 必须 통과.
 
-**核心 self-check (1 行)**: **「이 pattern 이 다른 app 에도 反復될 가능성 있나?」**
+**核心 self-check (1 행)**: **「이 pattern 이 다른 app 에도 反復될 가능성 있나?」** — No → 룰 文 不要, 「데이터」만 기록 (CSV cell + footnote).
 
-**No → 룰 文 不要**, 다음 위치에 「数据」 만 기록:
-- mapping 自体 → `结构变化表-{App}.csv` cell + (필요 시) `notes` 列 footnote
-- 1회성 device 별 spec 偏差 → CSV cell direct
-- 1회성 variant 选择 (예: 秘密笔记 Pad LC) → CSV cell + 1 줄 footnote
+**4점 review (MUST 自答, NEVER 1점이라도 fail 시 추가)**:
 
-**Yes → 룰화**, 다음 결정 트리:
+1. **다른 app 에서 (다른 子場景 / device) 反復 발생 증거가 있나?** No → CSV direct (mapping → `结构变化表-{App}.csv` cell, 1회성 spec 偏差 → CSV cell, 1회성 variant 选择 → CSV + 1줄 footnote).
+2. **runtime 함수 본체로 解決 가능한가?** Yes → `runtime/placement.ts` / `verify.ts` 추가, 룰 文 不要 (또는 1줄 pointer 만).
+3. **既存 §0.X / §3.X 룰의 sub-case 인가?** Yes → 既存 룰 본문 修正, 새 §N 추가 不要 (drift 위험).
+4. **룰 文 본문 ≤ 5 줄 압축 가능한가?** No → over-engineering. CSV / runtime 으로 二分.
+
+**Yes 통과 시 위치 결정 트리**:
 
 | 룰 性质 | 위치 |
 |---|---|
-| **단 1 app 内 multi-device cascade pattern** (예: 笔记 `Sidebar_Notes attached form`, `Notes_FloatingWindow cascade FILL`) | `app-variant-map-{app}.md §0.1 #N` 정식 룰 |
-| **multi-app 共有 cascade / fix recipe** (예: A 类 风满, instance reflow 6 step, mask z-order) | **本文档 (`common-rules.md`)** §3.X |
-| **runtime 实행 가능 algorithm** (예: inner state walk, capsule 后处理, sidebar attached FILL) | **`runtime/placement.ts` / `verify.ts`** — 함수 본체로, 自动 적용 |
-| **token 列表 / set key / library key** | `app-variant-map-{app}.md §0.4` 表 |
+| 단 1 app 内 multi-device cascade (예: `Sidebar_Notes attached form`) | `app-variant-map-{app}.md §0.1 #N` |
+| multi-app 共有 cascade / fix recipe (예: A 类 风满, instance reflow 6 step) | 本文档 §3.X |
+| runtime 实행 가능 algorithm (예: inner state walk, capsule 后처리) | `runtime/placement.ts` / `verify.ts` 함수 본체 |
+| token / set key / library key 列表 | `app-variant-map-{app}.md §0.4` 表 |
 
-### §3.15.1 룰 文 vs CSV direct 判別 例
+**判別 例**: 笔记 LC L NavBar device 별 `_04/_07/_08` → **CSV direct** (기계적 device × variant). 笔记 Sidebar_Notes attached form (Fold 全 device 풀히트 + inner FILL only children[0]) → **§0.1 #10 룰** (4 device cascade + boundary 必要). 私密笔记 Pad 도 LC → **CSV cell** (1회성 偏离). `instance.children[0].layoutSizingV='FILL'` cascade auto-apply → **`placement.ts` step 7c** (runtime 行为).
 
-| case | 처리 | 이유 |
-|------|------|------|
-| 笔记 LC L NavBar device 별 `_04/_07/_08` 매핑 | **CSV direct** | 기계적 device × variant 매핑. CSV row 가 자체로 self-explanatory |
-| 笔记 Sidebar_Notes attached form (Fold 全 device 풀히트 + inner FILL only children[0]) | **§0.1 #10 룰** | 4 device cascade + inner FILL boundary 가 룰 文 없으면 매번 误적용 |
-| 私密笔记 Pad 도 LC (其他 笔记 子场景 = NLC) | **CSV cell direct** | 1회성 偏离, 룰 不要 |
-| 浮窗 H = `screenH × 80%` (Pad横 device-dim spec) | **device-dim 1 표 + CSV** | device-dim 自体가 single source, app 별 적용은 CSV 만 |
-| `instance.children[0].layoutSizingV='FILL'` cascade auto-apply | **`placement.ts` step 7c** | 모든 app 공유 runtime 行为 |
-| ToolBar 胶囊 栏W>440 → 定宽 344 居中 | **`placement.ts` step 9** | 모든 app 공유 runtime 行为 |
-
-### §3.15.2 룰 添加 前 强制 review
-
-**MUST**: 룰 추가 commit 前에 다음 4 점 自答:
-
-1. **이 pattern 이 다른 app 에서 (다른 子場景 / device) 反復 발생할 증거가 있나?** No → CSV direct.
-2. **runtime 함수 본체로 解決 가능한가?** Yes → `placement.ts` / `verify.ts` 추가, 룰 文 不要 (또는 1줄 pointer 만).
-3. **既存 §0.X / §3.X 룰의 sub-case 인가?** Yes → 既存 룰 본문 修正, 새 §N 추가 不要.
-4. **룰 文 본문 길이 ≤ 5 줄로 압축 가능한가?** No → over-engineering 의심. CSV / runtime 으로 二分 검토.
-
-**NEVER**:
-- 1회성 fix 를 「장기 룰」 名义로 §0.1 #N / §3.X 추가
-- 既存 룰의 sub-case 인데 新 §N 別途 추가 (drift 위험)
-- runtime 函数로 解決 가능한 것을 룰 文 으로 작성 (매번 read 강제 → context cost)
-
-### §3.15.3 既存 룰 review
-
-새 task 完了 후, 추가한 룰이 §3.15.2 의 4점 통과 여부 retrospective. 통과 못 하면 **CSV / runtime 으로 移籍 + 룰 文 削除** (또는 pointer 만 남기기).
+**既存 룰 retrospective**: 새 task 完了 후, 추가한 룰이 4점 통과 여부 재검. 통과 못 하면 CSV / runtime 으로 移籍 + 룰 文 削除 (또는 pointer 만).
 
 ## §4. 写入优先级与失败处理
 
@@ -959,7 +934,6 @@ if (freshTarget) return freshTarget;  // 废弃旧搜索结果, 用 fresh
 | 15 | 省略 Pad 竖 NLC 覆盖模式的 `遮罩-N覆盖` 矩形 | §3.7 |
 | 15b | 把 `状态栏` 提升到 `遮罩-N覆盖` / `遮罩-编辑` 之上 | §3.7 / §3.7a / §3.7b |
 | 16 | NLC 模式 N\|L 边界添加分割线 | §3.8 |
-| ~~17~~ | ~~用 C 栏 `strokeLeftWeight` 实现栏间分割线~~ → **2026-05-28 废弃** (复原 user 原定义, 见 §3.8) | §3.8 |
 | 18 | Pad 横 NLC 时 N 栏 / 主内容区 `clipsContent = true` | §3.9 |
 
 ### §7.4 验证级
@@ -976,4 +950,4 @@ if (freshTarget) return freshTarget;  // 废弃旧搜索结果, 用 fresh
 | 26 | 实例失败时绕道 「fallback / clone」 后汇报"适配完成"（未通过 §3.14 实证）| §3.14 / §4.1 |
 | 27 | scenarioFlags 信号未在 `app-variant-map-{app}.md §0.1b 导出信号表` 列出时凭直觉填 flag 值 | §0 #13 / app-variant-map-template §0.X |
 | 28 | 1회성 special case 를 §0.1 #N / §3.X 룰로 추가 (self-check 「다른 app 에서도 反復?」 통과 못 했는데) | §0 #28 / §3.15 |
-| 29 | runtime 函수로 解決 가능한 fix recipe 를 룰 文 본문에 매번 read 강제로 포함 | §3.15.2 #2 |
+| 29 | runtime 函수로 解決 가능한 fix recipe 를 룰 文 본문에 매번 read 강제로 포함 | §3.15 #2 |
