@@ -279,19 +279,19 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 | device | screenMode | frame | N 栏 | L 栏 | C 栏 |
 |--------|-----------|------|------|------|------|
-| Pad竖 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad竖 | NLC | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Pad竖 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
-| Pad竖 | NL | `surface_low` | `surface_low` | `surface_low` | — |
-| Pad竖 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
-| Pad竖 | NC | `surface_low` | `surface_low` | — | `surface` |
+| Pad竖 | NL | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes flat) | — |
+| Pad竖 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes flat) | — |
+| Pad竖 | NC | `surface_low` | `surface` (跟随 C) | — | `surface` |
 | Pad竖 | NC收起 | `surface_low` | 不存在 (N 消失) | — | `surface` |
 | Pad竖 | LC | `surface_low` | 不存在 | `surface` (笔记 List_Notes_03 flat) | `surface` |
 | Pad竖 | C | `surface_low` | 不存在 | 不存在 | `surface_low` |
-| Pad横 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad横 | NLC | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Pad横 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
-| Pad横 | NL | `surface_low` | `surface_low` | `surface_low` | — |
-| Pad横 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
-| Pad横 | NC | `surface_low` | `surface_low` | — | `surface` |
+| Pad横 | NL | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes flat) | — |
+| Pad横 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes flat) | — |
+| Pad横 | NC | `surface_low` | `surface` (跟随 C) | — | `surface` |
 | Pad横 | NC收起 | `surface_low` | 不存在 (N 消失) | — | `surface` |
 | Pad横 | LC | 不存在 | 不存在 | 不存在 | — |
 | Pad横 | C | 不存在 | 不存在 | 不存在 | `surface_low` |
