@@ -169,6 +169,29 @@ async function placeStandardComponent(args) {
   inst.x = x; inst.y = y;
 
   // 6. inner state 继承 (sourceInst 存在时)
+  //
+  //    walk 的 property 分类 (2026-06-01 修订):
+  //    - Functional state (状态 / 数量 / 交互态): 必须 carry over
+  //      (例: ToolBar 按钮 状态=禁用 / 数量=1个, List item 编辑态)
+  //    - Visual-context property (使用场景 / 深色模式 / 材质 / 主题 等): source
+  //      override 多为 phone-context 附属, multi-device 适配时 master default
+  //      才是答案. 从 inherit 中排除 → master default 优先.
+  //
+  //    回顾: 2026-06-01 笔记 多端适配 task. source phone `BottomBar_Showcase_Notes_02`
+  //    的 inner `Overlay-Showcase.使用场景 = "灰色背景"` instance-level override.
+  //    master default = "白色背景". 旧 walk 把 "灰色背景" 也 carry over → Fold 内
+  //    LC 适配 frame 变灰. user 指出「源选择错误, 白色背景才是答案」.
+  //    根因: source phone view 的 visual context (灰色背景) 是 phone-context 附属,
+  //    multi-device 适配时 master default 才是答案. Carry over 行为 over-aggressive.
+  //
+  //    Excluded property 名 (regex 匹配):
+  //      - 使用场景 / 场景 (例: Overlay-Showcase 灰色背景 / 白色背景)
+  //      - 深色模式 / 模式 (light / dark 一律)
+  //      - 材质 / 材质分类 (visual surface variant)
+  //      - 主题 / 颜色 / 配色
+  //    Functional property (carry over) 例: 状态 / 数量 / 编辑 / active / selected /
+  //    disabled / variantid / Property 1 / name 等保持 carry.
+  const VISUAL_CONTEXT_PROP_REGEX = /(使用场景|^场景$|深色模式|^模式$|^材质$|材质分类|^主题$|^颜色$|^配色$)/;
   if (sourceInst && opts.inheritInnerState !== false) {
     const walk = (a, b) => {
       if (!a || !b || !('children' in a) || !('children' in b)) return;
@@ -183,7 +206,10 @@ async function placeStandardComponent(args) {
             if (props) {
               const p2 = {};
               for (const [k, v] of Object.entries(props)) {
-                if (['VARIANT', 'BOOLEAN'].includes(v.type)) p2[k] = v.value;
+                if (!['VARIANT', 'BOOLEAN'].includes(v.type)) continue;
+                // Skip visual-context properties — keep master default
+                if (VISUAL_CONTEXT_PROP_REGEX.test(k)) continue;
+                p2[k] = v.value;
               }
               if (Object.keys(p2).length > 0) {
                 try { t.setProperties(p2); } catch {}
