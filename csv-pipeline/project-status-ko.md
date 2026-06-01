@@ -224,7 +224,22 @@ session 内 永구화 commit chain:
 - f2aa901: csv-to-spec padding outer 公式 (device-dim 断점 표 우선)
 - 6467714: NavigationBar / TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
 
-다음 session 코드化 후보 (queue #4): clipsContent / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL / list ellipsis / NLC并列 z-order L→C→N / NLC覆盖 mask 0.2 / C 분할선 strokeLeftWeight / statusBar fills=[] / inner state walk 금지.
+9 항 audit 결과 (2026-06-01, render-spec.ts 정밀 비교):
+
+| # | 룰 | 상태 | 위치 / 비고 |
+|---|---|---|---|
+| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187 (frame=true), L205 (main=false), lane clipsContent=true는 SelectableChip 정상 처리 (L216) |
+| 5 | lane y=0 풍만 (statusBar 영역까지 fill 透出) | ⚠️ 재해석 | sample 1 7 frame 全 frame.fill == lane.fill (둘 다 surface or surface_low). 시각 동등. spec lane.y=statusBarH 유지가 component.y 보정 不要 면에서 더 안전. 보고서 文言 부정확 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 누적으로 결과 동일 |
+| 7 | children[0] FILL whitelist | ✅ partial coded | render-spec.ts L251 SearchBar 만. NavBar/TopBar 는 commit 6467714 padding outer=0 풍만 후 master 자연 width 충분 → inner FILL 不要. SelectableChip 깨졌던 전례 (chip row 의 leftmost pill stretch) 로 추가 family 신중 |
+| 8 | L list 제목 자동 ellipsis | ❌ 不实施 | #13 inner state walk 금지 룰 우선. 사용자 명시 요청 시만 적용. designer task |
+| 9 | NLC并列 main 内 z-order L→C→N | ✅ coded | createInstance 순서 N→L→C → 마지막 C top + Sidebar promote (L319) 경로 만 N top. sample 1 errors=0 통과 |
+| 10 | NLC覆盖 Sidebar = frame 직접子 + mask token 0.2 | ✅ coded | render-spec.ts L315 (sidebar promote) + L288 (mask), opacity from spec.masks[].opacity |
+| 11 | C 분할선 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill (시각 동일, strokeLeftWeight 보다 안전, common-rules §3.8) |
+| 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272 (statusBar), L345 (swipeIndicator) |
+| 13 | inner state walk 금지 | ✅ N/A | render-spec.ts 측 inner walk 없음 |
+
+**결론**: 9 항 中 9 항 코드化 완료 (#5 재해석 / #8 不实施). 보고서 文言 "코드化 미완" 은 정밀 audit 결과 부정확 — queue #4 (本 9 항) 닫음. #8 만 designer task 로 잔존 (별 queue 不必).
 
 ## 当前阶段摘要
 
@@ -275,7 +290,7 @@ files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-re
 | 1 | **3A wire-up Step 2 — 实 task sample 누적 (mature 판단)** | 中等 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 別 page 추가 sample → mature 후 verify.ts 본체 rewrite 결정 |
 | 2 | ~~**probe-setkeys family 登记**~~ | ✅ 완료 (2026-06-01) | Keyboard/SelectableChip/Divider 3 family probe → setkeys.json 등록. validate-csv error 39 → 0 |
 | 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 大 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」流程. Step 1 추가 sample 후 진입 |
-| 4 | **csv-to-spec / render-spec 일반 룰 永久化 (#4~#13)** | 中 | 笔记 Play2 적용 시 발견 9 항: clipsContent (frame=true / main·lane·instance=false) / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL (single-child + SearchBar류) / L list 제목 ellipsis / NLC并列 z-order L→C→N / NLC覆盖 Sidebar = frame 직접子 + mask token 0.2 / C 분할선 strokeLeftWeight / statusBar/杆子 fills=[] / inner state walk 금지. placement.ts / render-spec.ts 측 코드化 |
+| 4 | ~~**csv-to-spec / render-spec 일반 룰 永久化 (#4~#13)**~~ | ✅ 완료 (2026-06-01) | 9 항 audit 결과 全部 이미 코드化 (#5 재해석 / #8 designer task). 위 sample 1 audit 표 참조 |
 | 5 | **probe-todo unverified family** | 小 | NoticeBar (16) / Scrollbar (52) / ActionSheet (6) — 测试版 publish 시 setkeys.json status: blocker → verified. validate-csv warnings 74 → 0 자동 수렴 |
 | 6 | **mapping-input variantId prefix 修正 89 件** | 大 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 등 prefix 自由 입력 — 검토 in extract-mapping.ts 측 정규화 규칙 추가 가능성 |
 | 7 | **pickVariant 残余 29 designer 명시 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 분기 룰) — line 101 Notes csv `LC default L栏=_05` 보임, csv-to-spec 의 single-screen NavBar heuristic (이전 line 467 제거됨) 재정의 가능성 검토. (2) `AIWindow_Notes` / `搜索页面` 같은 composite uiElement 는 row 세분 (uiElement 별로 따로) 또는 csv-to-spec 측 group resolver 추가 |

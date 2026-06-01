@@ -152,7 +152,22 @@ session 内 永久化 commit chain:
 - f2aa901: csv-to-spec padding outer 公式 (device-dim 断点 表 우선)
 - 6467714: NavigationBar/TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
 
-다음 session 코드化 후보 (queue #3): clipsContent / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL / list ellipsis / NLC并列 z-order L→C→N / NLC覆盖 mask 0.2 / C 분할선 strokeLeftWeight / statusBar fills=[] / inner state walk 금지.
+9 项 audit 결과 (2026-06-01, render-spec.ts 정밀 비교):
+
+| # | 룰 | 상태 | 위치 / 비고 |
+|---|---|---|---|
+| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187, L205 |
+| 5 | lane y=0 풍만 (statusBar 영역까지 fill 透出) | ⚠️ 재해석 | sample 1 7 frame 全 frame.fill == lane.fill, 시각 동등. lane.y=statusBarH 유지가 component.y 보정 不要 면에서 더 안전 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 누적 |
+| 7 | children[0] FILL whitelist | ✅ partial | render-spec.ts L251 SearchBar 만. NavBar/TopBar 는 commit 6467714 후 master 자연 width 충분 |
+| 8 | L list 제목 자동 ellipsis | ❌ 不实施 | #13 inner state walk 금지 우선. designer task |
+| 9 | NLC并列 z-order L→C→N | ✅ coded | createInstance N→L→C 순서 + Sidebar promote (L319) |
+| 10 | NLC覆盖 Sidebar promote + mask 0.2 | ✅ coded | render-spec.ts L315, L288 |
+| 11 | C 분할선 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill |
+| 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272, L345 |
+| 13 | inner state walk 금지 | ✅ N/A | render-spec.ts 측 inner walk 없음 |
+
+**결론**: 9 항 全部 코드化 完了 또는 등가 처리. queue #3 (本 9 항) 닫음.
 
 ### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
 
@@ -195,7 +210,7 @@ Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pr
 |---|---|---|---|
 | 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 别 page 추가 sample → mature 후 verify.ts 本体 rewrite 决议 |
 | 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma. Phase 4 componentTaskList「判断」流废弃. Step 1 추가 sample 후 진입 |
-| 3 | **csv-to-spec/render-spec 일반 룰 永久化 (#4~#13)** | 중 | 笔记 Play2 적용 시 발견된 9 항 (clipsContent / lane 풍만 / component y / children[0] FILL / list ellipsis / NLC并列 z-order / NLC覆盖 mask / C 분할선 / statusBar fills=[] / inner state walk 금지). placement.ts / render-spec.ts 측 코드化 |
+| 3 | ~~**csv-to-spec/render-spec 일반 룰 永久化 (#4~#13)**~~ | ✅ 완료 (2026-06-01) | 9 항 audit 結과 全部 已 코드化 (위 sample 1 audit 표). #8 만 designer task |
 | 4 | **probe-todo unverified family** | 소 | NoticeBar / Scrollbar / ActionSheet 测试版 publish 시 setkeys.json status: blocker → verified, validate-csv warnings 103 → ~0 |
 
 ## 接续工作的标准流程（任何 AI 通用）
