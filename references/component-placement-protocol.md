@@ -195,7 +195,7 @@ async function verifyChecklist(frame, spec, scenarioFlags?) → Promise<string[]
 **spec 字段**:
 - `frameW`, `frameH`, `cornerRadius` (number 或 4-corner object), `statusBarH` — frame 基本规格
 - `frameTransparent: true` 或 `frameFillToken: '...'` — frame fill 检查模式 (二选一)
-- `cols: { 'L 栏': 282, 'C 栏': 346 }` — 栏宽 expected
+- `cols: { 'L栏': 282, 'C栏': 346 }` — 栏宽 expected (key 무공백, common-rules §0 #14)
 - `sidebar: { h: 1388 }` — Pad NLC sidebar 高度
 - `mask: true` — 遮罩-N覆盖 期待存在 (或由 scenarioFlags.NCovering trigger)
 - `framework: 'NL'` — NL framework 时 ⑩~⑫ 跳过 (NL 一律 mask 不渲染)

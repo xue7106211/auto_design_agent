@@ -165,7 +165,7 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
 
   // ⑨ 分割线 (2026-05-28 修订: C栏 strokeLeftWeight=1 + strokes 绑定)
   if (main) {
-    const Ccol = main.children.find(c => c.name === 'C 栏');
+    const Ccol = main.children.find(c => c.name === 'C栏' || c.name === 'C 栏');
     if (Ccol && Ccol.strokeLeftWeight === 1) {
       if (!Ccol.strokes || !Ccol.strokes[0] || !Ccol.strokes[0].boundVariables || !Ccol.strokes[0].boundVariables.color) {
         errors.push(`C 栏 strokes not bound to '分割线色/outline' token`);
@@ -191,8 +191,8 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       const sbIdx = frame.children.findIndex(c => c.name && c.name.includes('状态栏'));
       const emIdx = frame.children.indexOf(editMask);
       if (sbIdx >= 0 && emIdx <= sbIdx) errors.push(`遮罩-编辑 must be ABOVE 状态栏 (sbIdx=${sbIdx} emIdx=${emIdx}, §3.7a)`);
-      const L = frame.children.find(c => c.name === 'L 栏');
-      if (!L) errors.push(`L 栏 not promoted to frame direct child (§3.7a requires promote)`);
+      const L = frame.children.find(c => c.name === 'L栏' || c.name === 'L 栏');
+      if (!L) errors.push(`L栏 not promoted to frame direct child (§3.7a requires promote)`);
     }
   }
 
@@ -208,14 +208,14 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
 
   // ⑪ 多 mask z-order (§3.7b)
   if (flags.LEditMode && flags.NCovering && spec.framework !== 'NL') {
-    const expected = ['main', '状态栏', '遮罩-编辑', '栏间分割线', 'L 栏', '遮罩-N覆盖', 'Sidebar', '杆子'];
+    const expected = ['main', '状态栏', '遮罩-编辑', '栏间分割线', 'L栏', '遮罩-N覆盖', 'Sidebar', '杆子'];
     const actual = frame.children.map(c => {
       const n = c.name || '';
       if (n === 'main') return 'main';
       if (n.includes('遮罩-编辑')) return '遮罩-编辑';
       if (n.includes('状态栏') || /StatusBar/.test(n)) return '状态栏';
-      if (n.includes('栏间分割线')) return '栏间分割线';
-      if (n === 'L 栏') return 'L 栏';
+      if (n.includes('栏间分割线') || /^分割线$/.test(n)) return '栏间分割线';
+      if (n === 'L栏' || n === 'L 栏') return 'L栏';
       if (n.includes('遮罩-N覆盖')) return '遮罩-N覆盖';
       if (n.includes('Sidebar')) return 'Sidebar';
       if (n.startsWith('杆子') || /SwipeIndicator/.test(n)) return '杆子';
@@ -271,7 +271,7 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
 
   // ⑮ Pad N 栏 z-order (NavBar 在 Sidebar 之上)
   if (main) {
-    const nCol = main.children && main.children.find(c => c.name === 'N 栏');
+    const nCol = main.children && main.children.find(c => c.name === 'N栏' || c.name === 'N 栏');
     if (nCol && nCol.children) {
       const navIdx = nCol.children.findIndex(c => /NavigationBar/i.test(c.name || '') && !/Sidebar/i.test(c.name || ''));
       const sIdx = nCol.children.findIndex(c => /Sidebar|BottomBar/i.test(c.name || ''));

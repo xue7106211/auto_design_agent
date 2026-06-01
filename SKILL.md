@@ -536,6 +536,8 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | `references/font-degradation.md` | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
 | Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec, scenarioFlags)` | **`csv-pipeline/runtime/verify.ts`** (映射表 = protocol.md §6) | 16 项自动检测（含 ⑭~⑯ 扩展），`errors.length > 0` 必须修复 |
 
+> **spec-adapter.ts (optional helper, 2026-06-01 추가)**: csv-pipeline 의 spec.json (nested shape, e.g. `spec.frame.w` / `spec.layout.lanes.L.w`) 을 verify.ts 가 read 하는 flat shape (`spec.frameW` / `spec.cols['L栏']`) 로 변환하는 helper. 실 task 가 spec.json 기반이라면 `await Read('csv-pipeline/runtime/spec-adapter.ts')` 후 `verifySpec = specToVerifyShape(SPEC, frame)` 호출 1 회로 변환 자동화. 손으로 채우는 spec 템플릿 사용 시 본 helper 不要. **Phase 5 wire-up 의 mandatory 화는 Step 3 (별도 session, 실 figma 1 frame end-to-end 검증 후) 결정** — 자세한 사항은 `Improvement_doc/3A-wire-up-plan.md`.
+
 **禁止顺序倒置**：
 - `bindFill` 必须在 `placeStandardComponent` 之后（节点已落位才能写 fill）
 - `fixFonts` 仅用于不可用字体实例，且 `appendChild` 之前必须完成
@@ -611,7 +613,7 @@ const spec = {
   frameW: 949, frameH: 1422,
   cornerRadius: 34,
   statusBarH: 34,                    // pad 强制 34（自然 38）
-  cols: { 'L 栏': 428, 'C 栏': 521 },
+  cols: { 'L栏': 428, 'C栏': 521 },  // 무공백 (common-rules §0 #14, render-spec 산출물 일치)
   sidebar: { h: 1388 },              // 仅 Pad NLC 时设
   divider: true,                     // LC / NLC 模式 true，NC / C 通栏 false
   componentChecks: [                 // 任何需要 reflow 自检的组件
