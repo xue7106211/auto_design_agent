@@ -10,9 +10,10 @@
 **Stage 2B / 3A 产出完成. 剩余 = 3A wire-up (参考 Improvement_doc/3A-wire-up-plan.md)**
 
 摘要:
-- **Stage 1A / 1B / 2A / 2B / 3A 核心产出** = ✅ 完成 (参考下方 "已完成工作")
+- **Stage 1A / 1B / 2A / 2B / 3A 核心产出 + 3B** = ✅ 完成 (参考下方 "已完成工作")
 - **Stage 2C (SKILL 精简)** = ❌ 废弃 (2026-06-01, ROI 较低决策 — user 直接指示)
-- **Stage 3A wire-up** = ⬜ 进行中 (csv-to-spec / render-spec 产出已完成, SKILL Phase 5 与 spec.json 的 wire-up 未完成)
+- **Stage 3A wire-up** = 🟡 进行 中 (Step 2 sample 1 errors=0 检증 完, 추가 sample 累積 후 verify.ts rewrite 결정. SKILL Phase 5 spec consume 未完)
+- **Stage 3B baseline** = ✅ 完了 (errors=0 / warnings=103 외부 dependency)
 
 ## 已完成工作
 
@@ -203,6 +204,28 @@
 - ✅ 单一权威 = `references/app-variant-map-{app}.md §0.4`
 - ✅ csv-to-spec 转换时 join
 
+### Stage 3A Step 2 sample 1 — [TEST] 笔记多端适配_HardMapping Play2 (✅ 2026-06-01)
+
+7 target frame end-to-end 검증 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
+
+| # | Frame | ID | Spec.json | 크기 | errors |
+|---|---|---|---|---|---|
+| 1 | Fold内횡-LC-笔记 | 3018:74555 | Notes_笔记_LC_默认_Fold内横_LC | 888×628 | 0 |
+| 2 | Fold内竖-LC-笔记 | 3018:74556 | Notes_笔记_LC_默认_Fold内竖_LC | 628×888 | 0 |
+| 3 | Pad横-NLC并列-笔记 | 3018:74557 | Notes_笔记_NLC_默认_Pad横_NLC并列 | 1422×949 | 0 |
+| 4 | Pad竖-NLC覆盖-笔记 | 3018:74558 | Notes_笔记_NLC_默认_Pad竖_NLC覆盖 | 949×1422 | 0 |
+| 5 | Fold外竖-C-笔记 | 3046:75979 | Notes_笔记_LC_默认_Fold外竖_C | 435×637 | 0 |
+| 6 | Pad竖-NLC收起-笔记 | 3046:75980 | Notes_笔记_NLC_默认_Pad竖_NLC收起 | 949×1422 | 0 |
+| 7 | Pad横-NLC收起-笔记 | 3046:75981 | Notes_笔记_NLC_默认_Pad横_NLC收起 | 1422×949 | 0 |
+
+session 内 永구화 commit chain:
+- d065ee7: probe Keyboard / SelectableChip / Divider 3 family → 0 errors
+- 64767ea: validator/runtime sync (PICKVARIANT_RULES → false-positive 14 件 제거)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断점 표 우선)
+- 6467714: NavigationBar / TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
+
+다음 session 코드化 후보 (queue #4): clipsContent / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL / list ellipsis / NLC并列 z-order L→C→N / NLC覆盖 mask 0.2 / C 분할선 strokeLeftWeight / statusBar fills=[] / inner state walk 금지.
+
 ## 当前阶段摘要
 
 **Stage 1A / 1B / 2A / 2B / 3A 产出** 完成. 剩余 = **Stage 3A wire-up** + 1C/1D (小型指南文档).
@@ -215,8 +238,8 @@ Stage 1D: ✅ 完成 (2026-06-01) — references/naming-conventions.md §2 (Sect
 Stage 2A: ✅ 完成 (2026-06-01) — tokens.json + setkeys.json 单一权威分离, app-variant-map §0.3/§0.4 redirect
 Stage 2B: ✅ 完成 (2026-06-01) — common-rules 5 文件拆分 + hub redirect (commits 549b929/f0952dc/366c2a6)
 Stage 2C: ❌ 废弃 (2026-06-01) — SKILL 精简 ROI 较低 (user 直接决策)
-Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. **Step 3 (SKILL Phase 5 spec consume) 未完成**
-Stage 3B: 🟡 部分完成 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 捕获完成**. spec-to-checklist 由 spec-adapter.ts 的 specToVerifyShape 吸收 → 不需要单独产出. 检测 issue 修正按 ownership 分离 (无法自动修正)
+Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 검증 完了. **Step 3 (SKILL Phase 5 spec consume) 未完成**
+Stage 3B: ✅ 완료 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 캡처 완료** (errors=0 / warnings=103). spec-to-checklist 由 spec-adapter.ts 의 specToVerifyShape 흡수 → 단독 산출 불필요. 残余 warnings = 외부 dependency (designer 测试版 publish 대기)
 ```
 
 ### Stage 3B baseline (2026-06-01 갱신, errors 129 → 0, warnings 117 → 103)
@@ -249,11 +272,13 @@ files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-re
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **3A wire-up Step 2 剩余 — 实 task 1 frame 端到端验证** | 中等 | 在下一个 笔记/待办 适配 task 期间调用 spec-adapter helper → 确认 verifyChecklist errors=0. mature 后再决定 verify.ts 主体直接 rewrite |
-| 2 | ~~**probe-setkeys family 登记**~~ | ✅ 完成 (2026-06-01) | Keyboard/SelectableChip/Divider 3 family probe → setkeys.json 등록. validate-csv error 39 → 0 |
-| 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 대 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」 流程. Step 2 验证后再进入 |
-| 4 | **mapping-input variantId prefix 修正 89 件** | 대 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 等 prefix 自由输入 — 检讨在 extract-mapping.ts 侧追加规范化规则的可能性 |
-| 5 | **pickVariant 残余 29 designer 명시 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 분기 룰) — line 101 Notes csv `LC default L栏=_05` 보임, csv-to-spec 의 single-screen NavBar heuristic (예전 line 467 제거됨) 재정의 가능성 검토. (2) `AIWindow_Notes` / `搜索页面` 같은 composite uiElement 는 row 세분 (uiElement 별로 따로) 또는 csv-to-spec 측 group resolver 추가 |
+| 1 | **3A wire-up Step 2 — 实 task sample 누적 (mature 판단)** | 中等 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 別 page 추가 sample → mature 후 verify.ts 본체 rewrite 결정 |
+| 2 | ~~**probe-setkeys family 登记**~~ | ✅ 완료 (2026-06-01) | Keyboard/SelectableChip/Divider 3 family probe → setkeys.json 등록. validate-csv error 39 → 0 |
+| 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 大 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」流程. Step 1 추가 sample 후 진입 |
+| 4 | **csv-to-spec / render-spec 일반 룰 永久化 (#4~#13)** | 中 | 笔记 Play2 적용 시 발견 9 항: clipsContent (frame=true / main·lane·instance=false) / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL (single-child + SearchBar류) / L list 제목 ellipsis / NLC并列 z-order L→C→N / NLC覆盖 Sidebar = frame 직접子 + mask token 0.2 / C 분할선 strokeLeftWeight / statusBar/杆子 fills=[] / inner state walk 금지. placement.ts / render-spec.ts 측 코드化 |
+| 5 | **probe-todo unverified family** | 小 | NoticeBar (16) / Scrollbar (52) / ActionSheet (6) — 测试版 publish 시 setkeys.json status: blocker → verified. validate-csv warnings 74 → 0 자동 수렴 |
+| 6 | **mapping-input variantId prefix 修正 89 件** | 大 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 등 prefix 自由 입력 — 검토 in extract-mapping.ts 측 정규화 규칙 추가 가능성 |
+| 7 | **pickVariant 残余 29 designer 명시 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 분기 룰) — line 101 Notes csv `LC default L栏=_05` 보임, csv-to-spec 의 single-screen NavBar heuristic (이전 line 467 제거됨) 재정의 가능성 검토. (2) `AIWindow_Notes` / `搜索页面` 같은 composite uiElement 는 row 세분 (uiElement 별로 따로) 또는 csv-to-spec 측 group resolver 추가 |
 
 ## 工作衔接的标准流程 (任何 AI 都相同)
 

@@ -134,6 +134,37 @@
 - ✅ 单一权威 = `references/app-variant-map-{app}.md §0.4`
 - ✅ csv-to-spec 时 join
 
+### Stage 3A Step 2 sample 1 — [TEST] 笔记多端适配_HardMapping Play2 (✅ 2026-06-01)
+
+7 target frame end-to-end 验证 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
+
+- Fold内横-LC-笔记 (3018:74555, 888×628) — errors=0
+- Fold内竖-LC-笔记 (3018:74556, 628×888) — errors=0
+- Pad横-NLC并列-笔记 (3018:74557, 1422×949) — errors=0
+- Pad竖-NLC覆盖-笔记 (3018:74558, 949×1422) — errors=0
+- Fold外竖-C-笔记 (3046:75979, 435×637) — errors=0
+- Pad竖-NLC收起-笔记 (3046:75980, 949×1422) — errors=0
+- Pad横-NLC收起-笔记 (3046:75981, 1422×949) — errors=0
+
+session 内 永久化 commit chain:
+- d065ee7: probe Keyboard/SelectableChip/Divider 3 family → 0 errors
+- 64767ea: validator/runtime sync (PICKVARIANT_RULES → false-positive 14 件 제거)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点 表 우선)
+- 6467714: NavigationBar/TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
+
+다음 session 코드化 후보 (queue #3): clipsContent / lane y=0 풍만 / component y=statusBarH+spec.y / children[0] FILL / list ellipsis / NLC并列 z-order L→C→N / NLC覆盖 mask 0.2 / C 분할선 strokeLeftWeight / statusBar fills=[] / inner state walk 금지.
+
+### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
+
+`npm run validate-csv` baseline:
+- filesScanned: 17, rowsScanned: 1237
+- **errors: 0**
+- **warnings: 103** (全部 app-Notes-mapping.csv)
+  - `family-not-verified` × 74: NoticeBar(16) / Scrollbar(52) / ActionSheet(6) — setkeys.json status='blocker', 测试版 publish 대기 (외부 dependency)
+  - `pickVariant-fallback` × 29 — 의도된 variant fallback (정상)
+
+action 미필요 — 외부 dependency 解除 시 자동 0 으로 수렴.
+
 ## 当前阶段总览
 
 **Stage 1A 全部完成** — extract 流水线进入稳定运营阶段。
@@ -146,8 +177,8 @@ Stage 1D: ✅ 完成（2026-06-01）— references/naming-conventions.md §2 (Se
 Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威分离，app-variant-map §0.3/§0.4 redirect
 Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
 Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
-Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。**Step 3 (SKILL Phase 5 spec consume) 未完**
-Stage 3B: 🟡 部分完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入完成. spec-to-checklist 等价由 spec-adapter.ts 的 specToVerifyShape 吸收 → 单独产出不需. 实运行验证待下次 task
+Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 验证完成. **Step 3 (SKILL Phase 5 spec consume) 未完**
+Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入. baseline 捕获: errors=0 / warnings=103 (全部 app-Notes-mapping.csv 内 family-not-verified 74 + pickVariant-fallback 29; blocker 3 family = NoticeBar/Scrollbar/ActionSheet 测试版 publish 대기, 외부 dependency)
 ```
 
 ### Stage 3A 剩余（wire-up gap）
@@ -162,9 +193,10 @@ Stage 3B: 🟡 部分完成（2026-06-01）— validate-csv.ts 编写 + npm scri
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **3A wire-up Step 2 剩余 — 真实 task 1 frame end-to-end 验证** | 中 | 下次 笔记/待办 适配 task 时调用 spec-adapter helper → verifyChecklist errors=0 确认。mature 后再决议 verify.ts 本体直接 rewrite |
-| 2 | **3B 剩余 — validate-csv 实运行 + baseline 捕获** | 小 | `npm run validate-csv` 实运行 → 当前 mapping-output 基准 error/warning 数。检出 issue 时另 commit 修正 |
-| 3 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃。Step 2 验证后进入 |
+| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 别 page 추가 sample → mature 후 verify.ts 本体 rewrite 决议 |
+| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma. Phase 4 componentTaskList「判断」流废弃. Step 1 추가 sample 후 진입 |
+| 3 | **csv-to-spec/render-spec 일반 룰 永久化 (#4~#13)** | 중 | 笔记 Play2 적용 시 발견된 9 항 (clipsContent / lane 풍만 / component y / children[0] FILL / list ellipsis / NLC并列 z-order / NLC覆盖 mask / C 분할선 / statusBar fills=[] / inner state walk 금지). placement.ts / render-spec.ts 측 코드化 |
+| 4 | **probe-todo unverified family** | 소 | NoticeBar / Scrollbar / ActionSheet 测试版 publish 시 setkeys.json status: blocker → verified, validate-csv warnings 103 → ~0 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 
