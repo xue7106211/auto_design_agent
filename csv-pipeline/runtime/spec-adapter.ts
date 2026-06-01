@@ -114,14 +114,22 @@ function specToVerifyShape(spec, frame) {
     }
   }
 
+  // §0 #26 (核心): multi-栏 적응 frame 의 frame.fills=[] 透明 (各栏 자체 fill).
+  // spec.json 의 frame.fill 은 spec output reference 값일 뿐 — runtime frame 자체
+  // 에 fill 적용 不要. lanes 가 N/L/C 中 2 이상 존재 = multi-栏 → frameTransparent.
+  // 단일 lane (C 单栏) 또는 lanes 부재 → frame fill = spec.frame.fill token 적용.
+  // 회고: 2026-06-01 spec-adapter Step 2 첫 검증 시 笔记 LC frame (lanes L+C) 에서
+  // verifyChecklist 가 'frame.fill not bound' 오류 출력 → §0 #26 위반.
+  const laneCount = ['N','L','C'].filter(k => lanes[k]).length;
+  const frameTransparent = laneCount >= 2;
   const flat = {
     frameW: spec.frame?.w,
     frameH: spec.frame?.h,
     cornerRadius: spec.frame?.cornerRadius,
     statusBarH: spec.statusBar?.h,
     cols,
-    frameFillToken,
-    frameTransparent: false,
+    frameFillToken: frameTransparent ? undefined : frameFillToken,
+    frameTransparent,
     framework,
     componentChecks,
   };
@@ -136,22 +144,58 @@ function specToVerifyShape(spec, frame) {
 // -----------------------------------------------------------------------------
 // 2. findInstanceInFrame — best-effort component → frame node lookup
 //
-//   Strategy: lane parent 이름 ('L栏') 로 lane frame 찾고, 그 안에서 variant 이름
-//   prefix 매칭. variant exact name 은 figma 가 instance 에 다르게 표기 (예:
-//   'NavigationBar_ComponentSet_07' → 'NavigationBar_ComponentSet_07' or
-//   'Property 1=NavigationBar_ComponentSet_07'). prefix 매칭 으로 충분.
+//   Strategy: lane parent 이름 ('L栏') 로 lane frame 찾고, 그 안에서 instance 매칭.
+//
+//   매칭 우선순위 (figma 의 instance.name 패턴 다양성 대응):
+//   1) instance.componentProperties[*].value 가 variant 와 정확 일치 (most reliable —
+//      variant property 값에 直接 박힘)
+//   2) instance.mainComponent.name 이 variant 또는 'name=variant' 형식과 일치
+//   3) instance.name === variant
+//   4) instance.name.includes(variant)
+//   5) lane 내 동일 element family (NavigationBar / SearchBar 등) 의 唯一 instance
+//      → fallback (variant 정보 부재 시)
+//
+//   회고: 2026-06-01 spec-adapter Step 2 첫 검증 시 figma instance.name = shortName
+//   (예: 'NavigationBar') 만 들어가서 includes('NavigationBar_ComponentSet_04') fail
+//   → 8/8 componentChecks MISSING. 매칭 룰 강화.
 // -----------------------------------------------------------------------------
 function findInstanceInFrame(frame, comp) {
   const laneName = comp.lane; // 'L栏' / 'C栏' / 'N栏' / '全栏'
   const variant = comp.variant;
-  // single-screen / promoted Sidebar — frame 직접 children
   const candidates = [];
+
+  // family prefix from variant name — e.g. 'NavigationBar_ComponentSet_04' → 'NavigationBar'
+  const familyPrefix = variant.split('_')[0];
+
+  const matches = (inst) => {
+    if (!inst || inst.type !== 'INSTANCE') return 0;
+    // (1) componentProperties value 매칭 (most reliable)
+    if (inst.componentProperties) {
+      for (const v of Object.values(inst.componentProperties)) {
+        if (v && v.value === variant) return 5;
+      }
+    }
+    // (2) mainComponent.name 매칭
+    if (inst.mainComponent) {
+      const mc = inst.mainComponent.name || '';
+      if (mc === variant) return 4;
+      if (mc.endsWith('=' + variant)) return 4; // 'name=NavigationBar_ComponentSet_04'
+      if (mc.includes(variant)) return 3;
+    }
+    // (3) instance.name === variant
+    if (inst.name === variant) return 3;
+    // (4) instance.name includes
+    if (inst.name && inst.name.includes(variant)) return 2;
+    // (5) family fallback — name starts with familyPrefix
+    if (inst.name && (inst.name === familyPrefix || inst.name.startsWith(familyPrefix + '_') || inst.name === familyPrefix + '_ComponentSet')) return 1;
+    return 0;
+  };
+
   const pushFromParent = (parent) => {
     if (!parent || !parent.children) return;
     for (const c of parent.children) {
-      if (c.type === 'INSTANCE' && (c.name === variant || c.name.includes(variant))) {
-        candidates.push(c);
-      }
+      const score = matches(c);
+      if (score > 0) candidates.push({ c, score });
     }
   };
   // 1) main 内 lane
@@ -162,5 +206,9 @@ function findInstanceInFrame(frame, comp) {
   }
   // 2) frame 직접 (promoted lane / Sidebar / overlays)
   pushFromParent(frame);
-  return candidates[0] ?? null;
+
+  if (candidates.length === 0) return null;
+  // best score, then first occurrence
+  candidates.sort((a, b) => b.score - a.score);
+  return candidates[0].c ?? null;
 }
