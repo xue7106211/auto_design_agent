@@ -216,8 +216,24 @@ Stage 2A: ✅ 완료 (2026-06-01) — tokens.json + setkeys.json 단일 권위 �
 Stage 2B: ✅ 완료 (2026-06-01) — common-rules 5 파일 분할 + hub redirect (commits 549b929/f0952dc/366c2a6)
 Stage 2C: ❌ 폐기 (2026-06-01) — SKILL 슬림화 ROI 낮음 (user 직접 결정)
 Stage 3A: 🟡 부분 완료 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. **Step 3 (SKILL Phase 5 spec consume) 미완**
-Stage 3B: 🟡 부분 완료 (2026-06-01) — validate-csv.ts 작성 + npm script + pre-commit hook 등록. spec-to-checklist 는 spec-adapter.ts 의 specToVerifyShape 가 흡수 → 별도 산출 不要. 실 실행 검증은 다음 task 시
+Stage 3B: 🟡 부분 완료 (2026-06-01) — validate-csv.ts 작성 + npm script + pre-commit hook 등록 + **baseline 캡쳐 완료**. spec-to-checklist 는 spec-adapter.ts 의 specToVerifyShape 가 흡수 → 별도 산출 不要. 검출 issue 정정은 ownership 분리 (자동 정정 不可)
 ```
+
+### Stage 3B baseline (2026-06-01 캡쳐, `npm run validate-csv` 결과)
+
+```
+files=17  rows=1237  errors=129  warnings=117  report: spec-output/validate-csv-report.json
+```
+
+| code | level | 件数 | 主 file | 정정 ownership |
+|---|---|---|---|---|
+| `variantId-unresolved` | error | 89 | Phone/Contacts/Messaging 등 cross-app | 디자이너 (mapping-input prefix 누락 — `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 등 자유 입력) |
+| `family-missing-in-setkeys` | error | 26 | components.csv | probe-setkeys 별 task (Figma 접근, 본 session 不可) |
+| `lane-framework-compat` | error | 14 | Notes (L61~L572) | **결정 보류** — `framework='NC'` × `lane='L栏'` 모순 케이스. Notes.md reference 와 cross-check 후 정정 방향 결정 (csv 입력 오타 vs framework 컬럼 잘못 stamping) |
+| `family-not-verified` | warning | 74 | Notes (`NoticeBar` blocker) | 디자이너 (`控件变体清单.csv` status verify) |
+| `pickVariant-fallback` | warning | 43 | Notes | 디자이너 (variantId fuzzy match — 입력 정정 ownership) |
+
+**다음 action**: `lane-framework-compat` 14 건만 단독 정정 가능 (Notes 적응 task 도중 spec.json 매트릭스와 cross-check 로 framework 컬럼 정합성 회복). 나머지 4 종 = mapping-input ownership 또는 별 도구 task.
 
 ### Stage 3A 잔여 (wire-up gap)
 
@@ -232,8 +248,10 @@ Stage 3B: 🟡 부분 완료 (2026-06-01) — validate-csv.ts 작성 + npm scrip
 | # | 작업 | 추정 규모 | 비고 |
 |---|---|---|---|
 | 1 | **3A wire-up Step 2 잔여 — 실 task 1 frame end-to-end 검증** | 중간 | 다음 笔记/待办 적응 task 동안 spec-adapter helper 호출 → verifyChecklist errors=0 확인. mature 후 verify.ts 본체 직접 rewrite 결정 |
-| 2 | **3B 잔여 — validate-csv 실 실행 검증 + 누적 baseline** | 작음 | `npm run validate-csv` 실 실행 → 현재 mapping-output 기준 baseline error/warning 수치 캡쳐. 검출되는 issue 면 별 commit 으로 정정. 본 session 은 node 환경 망가져 검증 不可 |
+| 2 | **3B baseline lane-framework-compat 14건 정정** | 작음 | Notes.md reference + spec.json 매트릭스 cross-check → app-Notes-mapping.csv 의 framework 컬럼 잘못 stamping 부분 정정 (extract-mapping.ts 추론 룰 보강 필요할 수도). validate-csv error 14 → 0 목표 |
 | 3 | **3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. Step 2 검증 후 진입 |
+| 4 | **probe-setkeys 26 family 등록** | 중간 | components.csv 의 `family-missing-in-setkeys` 26 건. Figma 접근 별 task. validate-csv error 26 → 0 |
+| 5 | **mapping-input variantId prefix 정정 89건** | 큼 | 디자이너 ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 등 prefix 자유 입력 — extract-mapping.ts 측 정규화 룰 추가 가능성 검토 |
 
 ## 작업 이어가는 표준 절차 (어떤 AI든 동일)
 
