@@ -1,13 +1,15 @@
 # 项目进展状态
 
 > **本文档是进度的单一权威。** 开始工作前先读，结束工作后更新。
-> 最后更新：2026-05-25
+> 最后更新：2026-06-01
 >
 > ⚠️ **有效期限**：本文档**仅在 workflow-reform 工作进行期间**有效。所有 Stage（1A/1B/1C/2/3）完成后，移至 `csv-pipeline/archive/project-status-final.md`，进入稳定运营阶段。reform 结束后未来的 AI 不需要 routine 阅读本文档。
 
+> 📌 **韩文版（`project-status-ko.md`）为权威**。本中文版为同步翻译版，结构同步即可，详细 narrative 参看韩文版。
+
 ## 当前阶段
 
-**workflow-reform-plan 三阶段改革中 — Stage 1A Phase 1 完成**
+**Stage 2B / 3A 产出完成，剩余 = 3A wire-up（详 `../../Improvement_doc/3A-wire-up-plan.md`）**
 
 ## 已完成工作
 
@@ -137,28 +139,34 @@
 **Stage 1A 全部完成** — extract 流水线进入稳定运营阶段。
 
 ```
-Stage 1A: ✅ 完成（本会话累计）
-Stage 1B: ⬜ 未启动 — 控件变体清单 CSV2 增强（NaturalW/H 等 metadata 补强）
-Stage 1C: ⬜ 未启动 — Figma source frame 命名规范
-Stage 1D: ⬜ 未启动 — Section 命名规范
-Stage 2A: ⬜ 未启动 — app-variant-map 拆分（.md / .csv / -keys.md / -tokens.md）
-Stage 2B: ⬜ 未启动 — common-rules 分层（principles/instance/mask-zorder/verify/prohibit）
-Stage 2C: ⬜ 未启动 — SKILL.md 瘦身（770 行 → ~300 行）
-Stage 3A: ⬜ 未启动 — CSV → Frame Spec JSON 自动生成
-Stage 3B: ⬜ 未启动 — csv-to-spec.ts / validate-csv.ts / spec-to-checklist.ts
+Stage 1A: ✅ 完成
+Stage 1B: ✅ 完成 — components.csv LibraryName + InternalPad rename
+Stage 1C: ⬜ 未启动 — Figma source frame 命名规范（小型指南）
+Stage 1D: ⬜ 未启动 — Section 命名规范（小型指南）
+Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威分离，app-variant-map §0.3/§0.4 redirect
+Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
+Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
+Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON 产出完成，**wire-up 未完**
+Stage 3B: ⬜ 未启动 — validate-csv.ts / spec-to-checklist.ts
 ```
+
+### Stage 3A 剩余（wire-up gap）
+
+详细：`../../Improvement_doc/3A-wire-up-plan.md`。3 个核心 mismatch：
+
+1. **runtime verify.ts schema mismatch** — verify.ts 读 flat shape (`spec.frameW / spec.cols / spec.cornerRadius`)，而 csv-to-spec 产出的 spec.json 是 nested (`spec.frame.w / spec.layout.lanes / spec.frame.cornerRadius`)。AI 每个 frame 手动转换。
+2. **SKILL Phase 5 不 consume spec.json** — Phase 4 componentTaskList 仍基于 .md lookup。152 spec JSON 已产出但实际未进入工作流。
+3. **render-spec.ts 的 use_figma JS output 用法 SKILL 未 prescribe** — Phase 5 把 render-spec 产出的 JS 喂给 use_figma 的流程未在任何地方明示。
 
 ## 下一步任务队列（按优先级）
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **Stage 1B — components.csv metadata 增强** | 中 | 现 components.csv 仅含 paddings。补 NaturalW/H、DeviceScope、Category（A 类/B 类）。利用 CSV2 source（`控件变体清单.csv`）的附加信息 |
-| 2 | **Stage 2A — app-variant-map 拆分** | 中 | 现 1 文件 → `-mapping.csv`/`-keys.md`/`-tokens.md` 4 文件化。先以 笔记 reference 试点 |
-| 3 | **Stage 2C — SKILL.md 瘦身** | 大 | 770 行 → 300 行。函数签名、字体降级、规则重述、Token 列表 → 各 reference 转移 |
-| 4 | **Stage 3A — csv-to-spec.ts（Frame Spec JSON 生成器）** | 大 | mapping-output + §0.4 + device-dimensions.md → spec JSON。将 Phase 5 判定前置到 spec 阶段 |
-| 5 | **Stage 1C — Figma source frame 命名规范** | 小 | `{App}_{Scene}_{State}_{SourceDevice}` 命名指南文档化 |
-| 6 | **Stage 2B — common-rules 分层** | 中 | 987 行 flat → principles/instance/mask-zorder/verify/prohibit |
-| 7 | **Stage 1D — Section 命名规范** | 小 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 1 | **Stage 3A wire-up Step 2 — verify.ts schema 整合** | 中 | verify.ts 改为直接接受 spec.json shape（nested）。spec.json 成为 runtime 单一权威。需用真实 task 1 frame end-to-end 验证 |
+| 2 | **Stage 3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃 |
+| 3 | **Stage 1C — Figma source frame 命名规范** | 小 | `{App}_{Scene}_{State}_{SourceDevice}` 指南 |
+| 4 | **Stage 1D — Section 命名规范** | 小 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 5 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 中 | 3A wire-up 后用真实 task 验证工具 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 

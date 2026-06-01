@@ -1,13 +1,18 @@
 # 프로젝트 진행 상황
 
 > **이 문서가 진행 상황의 단일 권위입니다.** 작업 시작 전 읽고, 작업 종료 시 갱신하세요.
-> 마지막 갱신: 2026-05-25
+> 마지막 갱신: 2026-06-01
 >
 > ⚠️ **유통 기한 있음**: 이 문서는 **workflow-reform 작업 진행 중**에만 유효. 모든 Stage(1A/1B/1C/2/3) 완료 후에는 `csv-pipeline/archive/project-status-final.md`로 이동하고 안정 운영 단계로 전환. 미래 AI는 reform 종료 후 이 문서를 routinely 읽지 않아도 됨.
 
 ## 현재 단계
 
-**workflow-reform-plan 3-Stage 개혁 중 — Stage 1A Phase 1 완료**
+**Stage 2B / 3A 산출 완료. 잔여 = 3A wire-up (Improvement_doc/3A-wire-up-plan.md 참조)**
+
+요약:
+- **Stage 1A / 1B / 2A / 2B / 3A 코어 산출** = ✅ 완료 (아래 "완료된 작업" 참조)
+- **Stage 2C (SKILL 슬림화)** = ❌ 폐기 (2026-06-01, ROI 낮음 결정 — user 직접 지시)
+- **Stage 3A wire-up** = ⬜ 진행 중 (csv-to-spec / render-spec 산출은 끝, SKILL Phase 5 와 spec.json 의 wire-up 미완)
 
 ## 완료된 작업
 
@@ -200,30 +205,37 @@
 
 ## 현재 단계 요약
 
-**Stage 1A 완전 완료** — extract 파이프라인 안정 운영 단계.
+**Stage 1A / 1B / 2A / 2B / 3A 산출** 완료. 잔여 = **Stage 3A wire-up** + 1C/1D (작은 가이드 문서).
 
 ```
-Stage 1A: ✅ 완료 (이 세션 누적)
-Stage 1B: ✅ 완료 (단순화 — LibraryName 추가 + InternalPad rename. 나머지 metadata는 Stage 3A에서 코드 lookup)
-Stage 2A: ❌ 무효화 (2026-05-26, SKILL.md가 reference 통째 로드 → 분리 가치 없음. Stage 2C 선행 필요)
-Stage 1C: ⬜ 미시작 — Figma source frame 네이밍 규범
-Stage 1D: ⬜ 미시작 — Section 네이밍 규범
-Stage 2A: ⬜ 미시작 — app-variant-map 분리 (.md / .csv / -keys.md / -tokens.md)
-Stage 2B: ⬜ 미시작 — common-rules 계층화 (principles/instance/mask-zorder/verify/prohibit)
-Stage 2C: ⬜ 미시작 — SKILL.md 슬림화 (770행 → ~300행)
-Stage 3A: ⬜ 미시작 — CSV → Frame Spec JSON 자동 생성
-Stage 3B: ⬜ 미시작 — csv-to-spec.ts / validate-csv.ts / spec-to-checklist.ts
+Stage 1A: ✅ 완료 — extract 파이프라인 안정 운영 단계
+Stage 1B: ✅ 완료 — components.csv LibraryName + InternalPad rename
+Stage 1C: ⬜ 미시작 — Figma source frame 네이밍 규범 (작은 가이드 doc)
+Stage 1D: ⬜ 미시작 — Section 네이밍 규범 (작은 가이드 doc)
+Stage 2A: ✅ 완료 (2026-06-01) — tokens.json + setkeys.json 단일 권위 분리, app-variant-map §0.3/§0.4 redirect
+Stage 2B: ✅ 완료 (2026-06-01) — common-rules 5 파일 분할 + hub redirect (commits 549b929/f0952dc/366c2a6)
+Stage 2C: ❌ 폐기 (2026-06-01) — SKILL 슬림화 ROI 낮음 (user 직접 결정)
+Stage 3A: 🟡 부분 완료 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON 산출 완료, **wire-up 미완**
+Stage 3B: ⬜ 미시작 — validate-csv.ts / spec-to-checklist.ts
 ```
+
+### Stage 3A 잔여 (wire-up gap)
+
+상세: `../../Improvement_doc/3A-wire-up-plan.md`. 핵심 mismatch 3개:
+
+1. **runtime verify.ts schema mismatch** — verify.ts 가 flat shape (`spec.frameW / spec.cols / spec.cornerRadius`) read, 그러나 csv-to-spec 산출 spec.json 은 nested (`spec.frame.w / spec.layout.lanes / spec.frame.cornerRadius`). AI 가 매 frame 마다 손으로 변환 중.
+2. **SKILL Phase 5 가 spec.json 을 consume 안 함** — Phase 4 컴포넌트 task list 가 .md lookup 기반. 152 spec JSON 산출되어 있지만 실 사용 미진입.
+3. **render-spec.ts 의 use_figma JS output 사용법 SKILL 에 prescribe 안 됨** — Phase 5 가 render-spec 산출 JS 를 use_figma 에 넘기는 흐름이 어디에도 명시 안 됨.
 
 ## 다음 작업 큐 (우선순위순)
 
 | # | 작업 | 추정 규모 | 비고 |
 |---|---|---|---|
-| 1 | **Stage 2C — SKILL.md 슬림화** | 큼 | 770행 → 300행. 함수 시그니처, 폰트 디그레이드, 규칙 재서술, Token 목록 → 각자 reference로 이동. **이게 끝나야 Stage 2A 재검토 가치가 생김** |
-| 2 | **Stage 3A — csv-to-spec.ts (Frame Spec JSON 생성기)** | 큼 | mapping-output + 笔记.md §0.4 + device-dimensions.md → spec JSON. §0.4 본문 인라인이라 파서가 직접 추출. Category/HasInternalPad/DeviceScope family lookup도 여기서 처리 |
-| 4 | **Stage 1C — Figma source frame 네이밍 규범** | 작음 | `{App}_{Scene}_{State}_{SourceDevice}` 네이밍 가이드 문서화 |
-| 5 | **Stage 2B — common-rules 계층화** | 중간 | 987행 flat → principles/instance/mask-zorder/verify/prohibit. §3.4a A/B 분류 체계 재검토 (3분법 또는 코드 lookup으로 이전) |
-| 6 | **Stage 1D — Section 네이밍 규범** | 작음 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 1 | **Stage 3A wire-up Step 2 — verify.ts schema 정합** | 중간 | verify.ts 를 spec.json shape (nested) 그대로 받게 rewrite. spec.json 이 runtime 의 단일 권위 source. 실 task 1 frame 끝까지 검증 필요. |
+| 2 | **Stage 3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. |
+| 3 | **Stage 1C — Figma source frame 네이밍 규범** | 작음 | `{App}_{Scene}_{State}_{SourceDevice}` 가이드 문서화 |
+| 4 | **Stage 1D — Section 네이밍 규범** | 작음 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 5 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 중간 | 3A wire-up 후 실 task 검증 도구 |
 
 ## 작업 이어가는 표준 절차 (어떤 AI든 동일)
 
