@@ -1,6 +1,6 @@
 # extract-mapping report
 
-Generated: 2026-05-31T14:04:31.105Z
+Generated: 2026-06-01T09:01:02.472Z
 
 ## Statistics
 
@@ -32,9 +32,9 @@ Generated: 2026-05-31T14:04:31.105Z
 ## Diff vs app-mapping-stage1a.csv (legacy)
 
 - legacy keys: 886
-- matched: 709
-- new-only (legacy 缺失或新捕获): 264
-- legacy-only (新抽取中不存在): 177
+- matched: 701
+- new-only (legacy 缺失或新捕获): 272
+- legacy-only (新抽取中不存在): 185
 
 ### New-only examples (first 20)
 - Calculator|TopBar|手机竖||全栏|TopBar_01
@@ -80,5 +80,17 @@ Generated: 2026-05-31T14:04:31.105Z
 - Notes|BottomBar|Pad横|NLC|N栏|Sidebar_Component_PAD_NLC_01
 - Notes|BottomBar|Pad横|NLC收起|N栏|Sidebar_Component_PAD_NLC_00
 
-## Warnings (0)
+## Warnings (12)
 
+- row 9: 结构变化表-Notes.csv col 16: lane='L栏' invalid in NC framework, auto-corrected to 'C栏'
+- row 9: 结构变化表-Notes.csv col 17: lane='L栏' invalid in NC framework, auto-corrected to 'C栏'
+- row 9: 结构变化表-Notes.csv col 24: lane='L栏' invalid in NC framework, auto-corrected to 'C栏'
+- row 9: 结构变化表-Notes.csv col 25: lane='L栏' invalid in NC framework, auto-corrected to 'C栏'
+- row 25: 结构变化表-Notes.csv col 14: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 25: 结构变化表-Notes.csv col 15: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 25: 结构变化表-Notes.csv col 22: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 25: 结构变化表-Notes.csv col 23: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 28: 结构变化表-Notes.csv col 22: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 28: 结构变化表-Notes.csv col 23: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'
+- row 38: 结构变化表-Notes.csv col 8: lane='L栏' collapsed to '全栏' under C framework (Fold内 single-canvas)
+- row 38: 结构变化表-Notes.csv col 11: lane='L栏' collapsed to '全栏' under C framework (Fold内 single-canvas)

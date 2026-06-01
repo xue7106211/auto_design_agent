@@ -1,23 +1,23 @@
 app,subScene,scene,state,uiElement,device,screenMode,栏,variantId,notes,framework
-Settings,,NLC,默认,TopBar,手机竖,,全栏,_00,不渲染,
-Settings,,NLC,默认,TopBar,Fold外竖,,全栏,_00,不渲染,
-Settings,,LC,默认,TopBar,Fold内竖,LC,全栏,(framework_reuse),使用 LC栏 框架,
-Settings,,LC,默认,TopBar,Fold内横,LC,全栏,(framework_reuse),使用 LC栏 框架,
-Settings,,LC,默认,TopBar,Pad竖,LC,全栏,(framework_reuse),使用 LC栏 框架,
-Settings,,LC,默认,TopBar,Pad横,LC,全栏,(framework_reuse),使用 LC栏 框架,
-Settings,,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,,
-Settings,,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,,
-Settings,,LC,默认,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_04,,
-Settings,,LC,默认,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_04,,
-Settings,,LC,默认,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_04,,
-Settings,,LC,默认,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_04,,
-Settings,,LC,默认,NavigationBar,Pad竖,LC,L栏,NavigationBar_ComponentSet_01,,
-Settings,,LC,默认,NavigationBar,Pad竖,LC,C栏,NavigationBar_ComponentSet_07,,
-Settings,,LC,默认,NavigationBar,Pad横,LC,L栏,NavigationBar_ComponentSet_01,,
-Settings,,LC,默认,NavigationBar,Pad横,LC,C栏,NavigationBar_ComponentSet_07,,
-Settings,,NLC,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_02,,
-Settings,,NLC,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_02,,
-Settings,,LC,默认,SearchBar,Fold内竖,LC,L栏,SearchBar_ComponentSet_02,,
-Settings,,LC,默认,SearchBar,Fold内横,LC,L栏,SearchBar_ComponentSet_02,,
-Settings,,LC,默认,SearchBar,Pad竖,LC,L栏,SearchBar_ComponentSet_02,,
-Settings,,LC,默认,SearchBar,Pad横,LC,L栏,SearchBar_ComponentSet_02,,
+Settings,,NLC,默认,TopBar,手机竖,,全栏,_00,不渲染,NLC
+Settings,,NLC,默认,TopBar,Fold外竖,,全栏,_00,不渲染,NLC
+Settings,,LC,默认,TopBar,Fold内竖,LC,全栏,(framework_reuse),使用 LC栏 框架,LC
+Settings,,LC,默认,TopBar,Fold内横,LC,全栏,(framework_reuse),使用 LC栏 框架,LC
+Settings,,LC,默认,TopBar,Pad竖,LC,全栏,(framework_reuse),使用 LC栏 框架,LC
+Settings,,LC,默认,TopBar,Pad横,LC,全栏,(framework_reuse),使用 LC栏 框架,LC
+Settings,,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_01,,NLC
+Settings,,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_04,,NLC
+Settings,,LC,默认,NavigationBar,Fold内竖,LC,L栏,NavigationBar_ComponentSet_04,,LC
+Settings,,LC,默认,NavigationBar,Fold内竖,LC,C栏,NavigationBar_ComponentSet_04,,LC
+Settings,,LC,默认,NavigationBar,Fold内横,LC,L栏,NavigationBar_ComponentSet_04,,LC
+Settings,,LC,默认,NavigationBar,Fold内横,LC,C栏,NavigationBar_ComponentSet_04,,LC
+Settings,,LC,默认,NavigationBar,Pad竖,LC,L栏,NavigationBar_ComponentSet_01,,LC
+Settings,,LC,默认,NavigationBar,Pad竖,LC,C栏,NavigationBar_ComponentSet_07,,LC
+Settings,,LC,默认,NavigationBar,Pad横,LC,L栏,NavigationBar_ComponentSet_01,,LC
+Settings,,LC,默认,NavigationBar,Pad横,LC,C栏,NavigationBar_ComponentSet_07,,LC
+Settings,,NLC,默认,SearchBar,手机竖,,全栏,SearchBar_ComponentSet_02,,NLC
+Settings,,NLC,默认,SearchBar,Fold外竖,,全栏,SearchBar_ComponentSet_02,,NLC
+Settings,,LC,默认,SearchBar,Fold内竖,LC,L栏,SearchBar_ComponentSet_02,,LC
+Settings,,LC,默认,SearchBar,Fold内横,LC,L栏,SearchBar_ComponentSet_02,,LC
+Settings,,LC,默认,SearchBar,Pad竖,LC,L栏,SearchBar_ComponentSet_02,,LC
+Settings,,LC,默认,SearchBar,Pad横,LC,L栏,SearchBar_ComponentSet_02,,LC
