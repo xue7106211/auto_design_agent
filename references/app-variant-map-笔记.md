@@ -229,9 +229,15 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 >   - 容器上有卡片 / 套卡 list / Sidebar 菜单 / 浮起 floating 内容 → 容器 fill = **`背景色/surface_low`**（灰底，让卡片浮起）
 >   - 容器是单一全幅 panel / **不带卡片的 flat list**（如 `List_Task_03`）→ 容器 fill = **`背景色/surface`**（白底）
 >   - 卡片自身永远 `背景色/surface`（白），由组件自带 binding 提供
->   - ⚠️ **同一 app 内不同子场景 / 不同设备可能不同**：笔记 `List_Notes` = 全设备带卡片 → `surface_low`；待办 `List_Task_01`（手机/Fold外）= 套卡 → `surface_low`；待办 `List_Task_03`（Fold内/Pad）= flat list 无卡片 → `surface`。**禁止按 app 名或 framework 统一判定，必须按实际 variant 的卡片样式决定**。
+>   - ⚠️ **同一 app 内不同子场景 / 不同设备 / 不同 variant 可能不同**：判定按变种 instance 的实际结构（卡片 stacked vs flat list + divider），**禁止以 app 名 / framework 一律下定**。具体分支：
+>     - **笔记 `List_Notes_01`**（手机 / Fold外）= 卡片 gap-stacked（item 사이 12dp gap, cornerRadius=20）→ `surface_low`
+>     - **笔记 `List_Notes_03 / _04`**（Fold内 / Pad，default + 编辑모드）= flat list + internal `套卡列表/分割线` instance → `surface`
+>     - **待办 `List_Task_01`**（手机 / Fold外）= 套卡 → `surface_low`
+>     - **待办 `List_Task_03`**（Fold内 / Pad）= flat list 无卡片 → `surface`
+>     - 변종 별 분기 회고: 2026-06-01 笔记多端적응 시 「笔记 List_Notes 全设备带卡片」 stale claim 으로 4 frame L 栏 fill 잘못 적용 → 본 분기 도입.
 > - **笔记 / 待办 各栏归属（具体应用）**：
->   - **L 栏 笔记**（List_Notes 卡片 stacked，全 framework：NL / NLC / LC）→ `surface_low`
+>   - **L 栏 笔记 手机 / Fold 外屏**（`List_Notes_01` 卡片 gap-stacked）→ `surface_low`
+>   - **L 栏 笔记 Fold 内屏 / Pad**（`List_Notes_03` / `_04` flat list + internal divider）→ `surface`
 >   - **L 栏 待办 手机 / Fold 外屏**（`List_Task_01` 套卡样式）→ `surface_low`
 >   - **L 栏 待办 Fold 内屏 / Pad**（`List_Task_03` flat list 无卡片）→ `surface`
 >   - **N 栏（Sidebar）→ 跟随 LC 背景色**（与相邻 L 栏一致；L 不存在时跟随 C）。Sidebar 卡片浮起效果由组件内部 260dp 卡片 + 12dp 透明 gap 提供；N 栏外壳与 L 视觉连续，不再独立维持 `surface_low` 灰底。具体取值取决于该 frame 的 L 栏 List variant 卡片性（默认 `_05` 卡片 → `surface_low`；编辑 `_04` flat → `surface`）|
@@ -261,11 +267,11 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 | device | screenMode | frame | N 栏 | L 栏 | C 栏 |
 |--------|-----------|------|------|------|------|
 | Fold内竖 | NC | `surface_low` | `surface_low` | 不存在 | `surface` |
-| Fold内竖 | LC | `surface_low` | 不存在 | `surface_low` | `surface` (笔记 Detail) |
+| Fold内竖 | LC | `surface_low` | 不存在 | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Fold内竖 | NL→C fallback | `surface_low` | 不存在 | 不存在 | `surface_low` (list 上提) |
 | Fold内竖 | C | `surface_low` | 不存在 | 不存在 | `surface` (Detail full bleed) |
 | Fold内横 | NC | `surface_low` | `surface_low` | 不存在 | `surface` |
-| Fold内横 | LC | `surface_low` | 不存在 | `surface_low` | `surface` (笔记 Detail) |
+| Fold内横 | LC | `surface_low` | 不存在 | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Fold内横 | NL→C fallback | `surface_low` | 不存在 | 不存在 | `surface_low` (list 上提) |
 | Fold内横 | C | `surface_low` | 不存在 | 不存在 | `surface` (Detail full bleed) |
 
@@ -273,16 +279,16 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 | device | screenMode | frame | N 栏 | L 栏 | C 栏 |
 |--------|-----------|------|------|------|------|
-| Pad竖 | NLC | `surface_low` | `surface_low` | `surface_low` | `surface` (笔记 Detail) |
-| Pad竖 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | `surface` |
+| Pad竖 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad竖 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
 | Pad竖 | NL | `surface_low` | `surface_low` | `surface_low` | — |
 | Pad竖 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
 | Pad竖 | NC | `surface_low` | `surface_low` | — | `surface` |
 | Pad竖 | NC收起 | `surface_low` | 不存在 (N 消失) | — | `surface` |
-| Pad竖 | LC | `surface_low` | 不存在 | `surface_low` | `surface` |
+| Pad竖 | LC | `surface_low` | 不存在 | `surface` (笔记 List_Notes_03 flat) | `surface` |
 | Pad竖 | C | `surface_low` | 不存在 | 不存在 | `surface_low` |
-| Pad横 | NLC | `surface_low` | `surface_low` | `surface_low` | `surface` (笔记 Detail) |
-| Pad横 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | `surface` |
+| Pad横 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad横 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
 | Pad横 | NL | `surface_low` | `surface_low` | `surface_low` | — |
 | Pad横 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
 | Pad横 | NC | `surface_low` | `surface_low` | — | `surface` |
@@ -290,7 +296,19 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 | Pad横 | LC | 不存在 | 不存在 | 不存在 | — |
 | Pad横 | C | 不存在 | 不存在 | 不存在 | `surface_low` |
 
-> **待办** 与上表中笔记不同的部分：L 栏 待办（`List_Task` flat list，不带卡片）→ `surface`；frame 待办 → `surface`（Fold内 / Pad）、`surface_low`（手机 / Fold外，`List_Task_01` 套卡形态）。
+> **변종 별 분기 (笔记 + 待办 동형 구조, 2026-06-01 정정)**:
+>
+> - **笔记 L 栏**:
+>   - 手机 / Fold外 (`List_Notes_01` 卡片 stacked) → `surface_low` (灰底)
+>   - Fold内 / Pad (`List_Notes_03 / _04` flat list) → `surface` (white)
+> - **待办 L 栏**:
+>   - 手机 / Fold外 (`List_Task_01` 套卡) → `surface_low`
+>   - Fold内 / Pad (`List_Task_03` flat) → `surface`
+> - **frame 외각**:
+>   - 笔记 全 device → `surface_low` (외각 灰底로 卡片浮起 일관성, list 내부 카드성과 무관)
+>   - 待办 → `surface` (Fold内 / Pad), `surface_low` (手机 / Fold外, 套卡)
+>
+> **Pad NL Sub-rows** (List_Notes_13 / _15 / _17 / _19 = flat, per §0.1 #9 NL→C fallback variant): 上表 Pad竖/Pad横 NL 行의 L 栏 셀도 `surface` 가 정답이나 본 수정에서는 상기 NLC 행만 update — Pad NL 변종 검증은 후속.
 
 
 ### §0.4 关键组件 set keys（pointer）

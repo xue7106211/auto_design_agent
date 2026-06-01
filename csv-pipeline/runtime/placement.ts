@@ -13,6 +13,7 @@
 // 导出函数 (use_figma 上下文 globals):
 //   - buildTokenCache(names) → Promise<Record<string, Variable>>
 //   - bindFill(node, tokenName, fallbackRGB, opacity?) → Promise<boolean>
+//   - probeListCardness(inst) → 'card' | 'flat' | null  (List variant card-presence 自动 probe)
 //   - bindStrokePaint(tokenName, fallbackRGB, opacity?) → Promise<Paint>
 //   - placeStandardComponent({ inst, parent, x, y, w, h, sourceInst?, opts?, targetVariant? }) → Promise<string>
 //
@@ -60,6 +61,52 @@ async function bindFill(node, tokenName, fallbackRGB, opacity) {
   }
   node.fills = [paint];
   return !!meta;
+}
+
+// -----------------------------------------------------------------------------
+// 2b. probeListCardness — List_*_NN variant 의 卡片 stacked vs flat list 자동 probe.
+//
+//     用途: 容器 fill 결정 시 (caller / layout reference 内) 호출하여 stale §0.X
+//     매트릭스를 단일 권위 source 로 신뢰하지 않고 실제 instance 구조 기반 자동 판정.
+//     반환: 'card' | 'flat' | null (판정 불가, caller 가 매트릭스 fall back).
+//
+//     판정 룰:
+//     - flat 신호: item 사이 child 에 「套卡列表」 또는 「分割线」 instance + height < 5
+//                  (e.g. List_Notes_03 / List_Task_03 = item — divider — item — divider ...)
+//     - card 신호: 첫 item cornerRadius=20 + fills 있음 + item 사이 gap > 5dp
+//                  (e.g. List_Notes_01 / List_Task_01 = gap-stacked rounded cards)
+//
+//     회고: 2026-06-01 笔记 多端 적응 task 에서 §0.3 매트릭스의 「笔记 List_Notes
+//     全设备带卡片」 stale claim 으로 4 frame L 栏 fill (surface_low) 잘못 적용.
+//     실제 List_Notes_03 = flat list. 본 helper 도입으로 caller 가 매트릭스
+//     lookup 결과를 instance 구조로 cross-check 가능 → stale 매트릭스 재발 방지.
+//
+//     호출 예 (layout reference / caller 사이트):
+//       const cardness = probeListCardness(listInst);
+//       const tokenName = (cardness === 'flat')
+//         ? '背景色/surface'        // flat → device default 维持
+//         : '背景色/surface_low';   // card → 卡片浮起
+//       await bindFill(Lcol, tokenName, fallback);
+// -----------------------------------------------------------------------------
+function probeListCardness(inst) {
+  if (!inst) return null;
+  const instName = inst.name || '';
+  const setName = (inst.mainComponent && inst.mainComponent.parent && inst.mainComponent.parent.name) || '';
+  if (!/^List_/.test(instName) && !/^List_/.test(setName)) return null;
+  const ch = inst.children || [];
+  if (ch.length < 2) return null;
+  // flat 신호: child 中 「套卡列表」 또는 「分割线」 instance 존재 + height < 5
+  const hasDividerBetween = ch.some(c => /套卡列表|分割线/.test(c.name || '') && (c.height || 0) < 5);
+  if (hasDividerBetween) return 'flat';
+  // card 신호: 첫 item cornerRadius=20 + fills 비어있지 않음 + item 사이 gap > 5
+  const item0 = ch[0], item1 = ch[1];
+  if (item0 && item1
+      && item0.cornerRadius === 20
+      && Array.isArray(item0.fills) && item0.fills.length > 0
+      && (item1.y - (item0.y + item0.height)) > 5) {
+    return 'card';
+  }
+  return null;
 }
 
 // -----------------------------------------------------------------------------
@@ -214,6 +261,46 @@ async function placeStandardComponent(args) {
       const overlay = inst.children && inst.children.find(c => /Overlay/.test(c.name || ''));
       if (overlay) {
         try { overlay.primaryAxisAlignItems = 'CENTER'; } catch {}
+      }
+    }
+
+    // 9b. 胶囊 inner 4 버튼 폭 자동 분배 (2026-06-01 추가)
+    //     master `.组件状态变化` = `minWidth=66, FIXED 92dp, layoutGrow=0`. capsule 폭이
+    //     源 phone 폭 (= 344) 보다 줄어들면 inner 버튼 좌우 튀어나감.
+    //     회고: 2026-06-01 笔记 编辑 task 의 Fold內横/竖 (capsule 305/234) 에서 4 버튼이
+    //     좌측 -16~-52 으로 튀어나옴. 외각 capsule 폭 룰만 자동화 했고 inner reflow 부재.
+    //     두 갈래 fix:
+    //       (a) capsule 内 사용 가능 폭 ≥ N×minWidth (= 264 for 4 buttons) →
+    //           layoutGrow=1 + FILL + itemSpacing=0 으로 자동 균등 분배
+    //           (Fold內横 305 / Pad 380 적용).
+    //       (b) capsule 폭 < N×minWidth → minWidth instance level 변경 不可 (figma 거부).
+    //           paddingL=R=0 + itemSpacing 음수 (源 phone 같은 overlap) 로 fit
+    //           (Fold內竖 234 적용, spacing = (capW − N×minW) / (N−1) = -10).
+    //     §3.2 instance 보호 룰 위반 없음 (capsule + button 모두 instance level
+    //     property override 만, master detach 안 함).
+    if (capsule && capsule.children && capsule.children.length >= 2) {
+      const innerButtons = capsule.children.filter(c => c.type === 'INSTANCE');
+      if (innerButtons.length >= 2) {
+        try { capsule.paddingLeft = 0; } catch {}
+        try { capsule.paddingRight = 0; } catch {}
+        const minW = innerButtons[0].minWidth || 66;
+        const totalMinW = innerButtons.length * minW;
+        const capW = capsule.width;
+        if (capW >= totalMinW) {
+          try { capsule.itemSpacing = 0; } catch {}
+          for (const b of innerButtons) {
+            try { b.layoutGrow = 1; } catch {}
+            try { b.layoutSizingHorizontal = 'FILL'; } catch {}
+          }
+        } else {
+          const negSpacing = Math.floor((capW - totalMinW) / (innerButtons.length - 1));
+          try { capsule.itemSpacing = negSpacing; } catch {}
+          for (const b of innerButtons) {
+            try { b.layoutGrow = 0; } catch {}
+            try { b.layoutSizingHorizontal = 'FIXED'; } catch {}
+            try { b.resize(minW, b.height); } catch {}
+          }
+        }
       }
     }
   }
