@@ -210,12 +210,12 @@
 ```
 Stage 1A: ✅ 완료 — extract 파이프라인 안정 운영 단계
 Stage 1B: ✅ 완료 — components.csv LibraryName + InternalPad rename
-Stage 1C: ⬜ 미시작 — Figma source frame 네이밍 규범 (작은 가이드 doc)
-Stage 1D: ⬜ 미시작 — Section 네이밍 규범 (작은 가이드 doc)
+Stage 1C: ✅ 완료 (2026-06-01) — references/naming-conventions.md (source frame 네이밍 규범)
+Stage 1D: ✅ 완료 (2026-06-01) — references/naming-conventions.md §2 (Section 네이밍 규범)
 Stage 2A: ✅ 완료 (2026-06-01) — tokens.json + setkeys.json 단일 권위 분리, app-variant-map §0.3/§0.4 redirect
 Stage 2B: ✅ 완료 (2026-06-01) — common-rules 5 파일 분할 + hub redirect (commits 549b929/f0952dc/366c2a6)
 Stage 2C: ❌ 폐기 (2026-06-01) — SKILL 슬림화 ROI 낮음 (user 직접 결정)
-Stage 3A: 🟡 부분 완료 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON 산출 완료, **wire-up 미완**
+Stage 3A: 🟡 부분 완료 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. **Step 3 (SKILL Phase 5 spec consume) 미완**
 Stage 3B: ⬜ 미시작 — validate-csv.ts / spec-to-checklist.ts
 ```
 
@@ -231,11 +231,9 @@ Stage 3B: ⬜ 미시작 — validate-csv.ts / spec-to-checklist.ts
 
 | # | 작업 | 추정 규모 | 비고 |
 |---|---|---|---|
-| 1 | **Stage 3A wire-up Step 2 — verify.ts schema 정합** | 중간 | verify.ts 를 spec.json shape (nested) 그대로 받게 rewrite. spec.json 이 runtime 의 단일 권위 source. 실 task 1 frame 끝까지 검증 필요. |
-| 2 | **Stage 3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. |
-| 3 | **Stage 1C — Figma source frame 네이밍 규범** | 작음 | `{App}_{Scene}_{State}_{SourceDevice}` 가이드 문서화 |
-| 4 | **Stage 1D — Section 네이밍 규범** | 작음 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
-| 5 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 중간 | 3A wire-up 후 실 task 검증 도구 |
+| 1 | **3A wire-up Step 2 잔여 — 실 task 1 frame end-to-end 검증** | 중간 | 다음 笔记/待办 적응 task 동안 spec-adapter helper 호출 → verifyChecklist errors=0 확인. mature 후 verify.ts 본체 직접 rewrite 결정 |
+| 2 | **3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. Step 2 검증 후 진입 |
+| 3 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 중간 | 3A wire-up 후 실 task 검증 도구 |
 
 ## 작업 이어가는 표준 절차 (어떤 AI든 동일)
 

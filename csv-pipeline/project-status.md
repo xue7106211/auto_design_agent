@@ -141,12 +141,12 @@
 ```
 Stage 1A: ✅ 完成
 Stage 1B: ✅ 完成 — components.csv LibraryName + InternalPad rename
-Stage 1C: ⬜ 未启动 — Figma source frame 命名规范（小型指南）
-Stage 1D: ⬜ 未启动 — Section 命名规范（小型指南）
+Stage 1C: ✅ 完成（2026-06-01）— references/naming-conventions.md (source frame 命名规范)
+Stage 1D: ✅ 完成（2026-06-01）— references/naming-conventions.md §2 (Section 命名规范)
 Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威分离，app-variant-map §0.3/§0.4 redirect
 Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
 Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
-Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON 产出完成，**wire-up 未完**
+Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。**Step 3 (SKILL Phase 5 spec consume) 未完**
 Stage 3B: ⬜ 未启动 — validate-csv.ts / spec-to-checklist.ts
 ```
 
@@ -162,11 +162,9 @@ Stage 3B: ⬜ 未启动 — validate-csv.ts / spec-to-checklist.ts
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **Stage 3A wire-up Step 2 — verify.ts schema 整合** | 中 | verify.ts 改为直接接受 spec.json shape（nested）。spec.json 成为 runtime 单一权威。需用真实 task 1 frame end-to-end 验证 |
-| 2 | **Stage 3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃 |
-| 3 | **Stage 1C — Figma source frame 命名规范** | 小 | `{App}_{Scene}_{State}_{SourceDevice}` 指南 |
-| 4 | **Stage 1D — Section 命名规范** | 小 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
-| 5 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 中 | 3A wire-up 后用真实 task 验证工具 |
+| 1 | **3A wire-up Step 2 剩余 — 真实 task 1 frame end-to-end 验证** | 中 | 下次 笔记/待办 适配 task 时调用 spec-adapter helper → verifyChecklist errors=0 确认。mature 后再决议 verify.ts 本体直接 rewrite |
+| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃。Step 2 验证后进入 |
+| 3 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 中 | 3A wire-up 后用真实 task 验证工具 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 

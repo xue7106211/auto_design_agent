@@ -85,7 +85,7 @@
 
 | # | 检查项 | 通过标准 |
 |---|--------|----------|
-| 1 | Section 命名 | 含测试名 + 日期（如 `TEST_xxx_2026-05-15_..._KIM`） |
+| 1 | Section 命名 | 형식 = `TEST_{App}_{Scene}_{State}_{YYYY-MM-DD}_{Operator}` (권위 `references/naming-conventions.md §2`). 정규식 매칭 시 자동 통과 |
 | 2 | 4 个目标版本完整 | Fold横/竖 + Pad横/竖 全部存在，对照 `targetVariantPlan` 无遗漏 |
 | 3 | 设备 frame 圆角 | Fold 内屏 50dp / Pad 34dp 精确匹配 |
 | 4 | 状态栏 variant + 高度 | Fold 用 `变体类型=fold`（46dp），Pad 用 `变体类型=pad`（**34dp，非 38dp 自然高度**） |

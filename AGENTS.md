@@ -92,6 +92,9 @@ auto_design_agent/
 │   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
 │   ├── font-degradation.md
 │   │   字体降级映射表、执行顺序和 fixFonts 代码模板。
+│   ├── naming-conventions.md
+│   │   Source frame / Section / spec.json id 命名规范 (Stage 1C+1D 결과).
+│   │   Phase 0.1 frame 명 자동 추출 + verifyChecklist §6.2 #1 자동 통과.
 │   ├── app-variant-map-template.md
 │   │   应用 variant 映射表统一模板。
 │   ├── layouts/

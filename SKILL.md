@@ -100,8 +100,8 @@ else:
 **强制步骤**：
 
 1. **向 user 确认**：「本次适配的 APP 是什么？适配的是哪个画面 / 子场景？」
-   - 若 source frame 名称 / section 名称已明确（如含 APP 名 + 场景关键字）→ 向 user 复述确认即可，无需重新提问
-   - 若模糊（frame 名 = 通用名如 "列表页"）→ 必须 AskUserQuestion
+   - 若 source frame 명이 `references/naming-conventions.md §1` 의 정규 형식 (`{App}_{Scene}_{State}_{Device}` 또는 sub-scene 포함 형식) 매칭 → app/scene/state/device 자동 추출, user 에 복술 1 회 후 진입. 추가 질문 不要.
+   - 若 source frame 명이 정규 형식 외 (e.g. `列表页` / `笔记主页` 같은 非-token 명) → 必须 AskUserQuestion
 2. **确定 app-variant-map 文件**：`references/app-variant-map-{app}.md`
    - 文件不存在 → 中止，报告缺口
    - **sub-scene 例外**：`待办` (Tasks) 是 笔记 app 内 子场景（非独立 app）→ 使用 `app-variant-map-笔记.md` + `app-Notes-mapping.csv`. 源 frame 名为 `待办_*` 时仍按 `app = 笔记` 处理
