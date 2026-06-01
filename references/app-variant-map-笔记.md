@@ -177,16 +177,16 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 详见 `common-rules §3.7a-NL`。
 
-### §0.2 padding 应用规则（A 类一律风满）
+### §0.2 padding 应用规则（device-dim 断点表 우선, 2026-06-01 修订）
 
-> **核心原则**：自带 internal padding 的标准组件（A 类）一律 `x=0, width=栏W` 风满。视觉 padding 由组件 internal 提供（默认 12dp）。详见 common-rules §3.4a.1。
+> **核心原则 (修订)**：A / B 类 모두 `device-dimensions.md` 断点 padding 表 우선. 落位 公식: `outer = max(0, spec − internal)`, `inst.x = outer, inst.width = 栏W − 2 × outer`. 详见 common-rules §3.4a.1 + §3.4a.3.
 
 #### 笔记 / 待办 标准组件落位规则（覆盖所有 frame / 栏 / framework）
 
 | 组件类别 | 处理 |
 |---------|------|
-| **A 类（全部自带 internal padding 的标准组件）**：`StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_Notes` / `List_Notes` / `Detail_Notes` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` | **instance 外壳 `x = 0, width = 栏W` 永远风满**。栏内视觉 padding = 组件 internal（默认 12dp，Detail_Notes 例外为 20dp 描述视觉左偏移，**不参与合算**）。<br>⚠️ **本规则仅约束 instance 外壳；instance 内部子节点（inner 胶囊 / TopBar root child / Sidebar BoardMaterialSection 等）的 sizing 由 `device-dimensions.md` 各组件专章规定，不可递归套用「外壳风满」**。具体：<br>&nbsp;&nbsp;• **ToolBar / BottomBar_Showcase 系 inner 胶囊** (`工具个数举例` / `TabMaterial-Showcase`)：依 `device-dimensions.md`「工具栏规格 / 胶囊尺寸」line 657~663 — 栏 W ≤ 440 → 风满（栏W − 48），栏 W > 440 → **定宽 344dp 居中**（parent `Overlay-Showcase.primaryAxisAlignItems = 'CENTER'`，capsule `sizH=FIXED, resize(344, h)`）。verifyChecklist ⑭ 自动检查<br>&nbsp;&nbsp;• **TopBar_03/_07 root child** (`Pad-TopBar_01`)：`inst.children[0].layoutSizingHorizontal = 'FILL'`（参 §0.5 末行）<br>&nbsp;&nbsp;• **Sidebar_Component 内部 BoardMaterialSection / NavigationSizeSection / 内容区域**：3 级递归 FILL override（参 §0.5）|
-| **B 类**：裸 frame / 自定义业务容器 | 按 `device-dimensions.md` 断点表合算（详见 common-rules §3.4a.3） |
+| **A 类（全部自带 internal padding 的标准组件）**：`StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_Notes` / `List_Notes` / `Detail_Notes` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` | **device-dim spec 우선 outer 합산**: `outer = max(0, spec − internal)`. internal ≥ spec 시 outer=0 (风满 + over 受 け 入 れ). 예: Pad 横 L 栏 spec=20, NavBar internal=12 → outer=8. 旧 「永远 x=0 风满」 룰 폐기 (2026-06-01 笔记 多端적응 task user 시각 검증 시 padding mismatch 발견).<br>⚠️ **本规则约束 instance 外壳; instance 内部 자식 (inner 胶囊 / TopBar root child / Sidebar BoardMaterialSection 等) 의 sizing 由 `device-dimensions.md` 各组件 専 章 규정**:<br>&nbsp;&nbsp;• **ToolBar / BottomBar_Showcase 系 inner 胶囊** (`工具个数举例` / `TabMaterial-Showcase`)：依 `device-dimensions.md`「工具栏规格 / 胶囊尺寸」 — 栏 W ≤ 440 → 风满 (capW = 栏W − 48), 栏 W > 440 → **定宽 344dp 居中** (parent `Overlay-Showcase.primaryAxisAlignItems = 'CENTER'`, capsule `layoutAlign='STRETCH', layoutSizingHorizontal='FIXED', resize(capW, h)`). placement.ts step 9 자동 적용. verifyChecklist ⑭ 자동 검사<br>&nbsp;&nbsp;• **TopBar_03/_07 root child** (`Pad-TopBar_01`)：`inst.children[0].layoutSizingHorizontal = 'FILL'`（참 §0.5 末行）<br>&nbsp;&nbsp;• **Sidebar_Component 内部 BoardMaterialSection / NavigationSizeSection / 内容区域**：3 级 递归 FILL override (참 §0.5) |
+| **B 类**：裸 frame / 自定义业务容器 | 按 §3.4a.3 통일 公식 (internal=0 가정 → outer = spec) |
 
 #### 笔记 NL framework 各 frame L 栏 width（**收起态特殊覆盖 device-dim 通用规则**）
 

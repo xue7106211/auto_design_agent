@@ -80,18 +80,20 @@
 
 > 应用专用实测应用表已迁出：笔记 / 待办 → `app-variant-map-笔记.md §0.2`。其它应用 → 各自 `app-variant-map-{app}.md`。
 
-### §3.4a.1 组件分类（A/B 二分）
+### §3.4a.1 组件分类（A/B 二分, 2026-06-01 修订）
 
-> **核心原则**：分类标准 = 「**是否自带 internal padding**」。所有自带 padding 的标准组件统一为 A 类风满，禁止合算；裸控件 / 自定义业务 frame 为 B 类，按 device-dim 断点表合算。
+> **核心原则 (修订)**：A / B 모두 **device-dimensions.md 断点表 spec 우선**. 합산 공식 = `outer = max(0, spec − internal)`. 단 internal ≥ spec 시 outer=0 (风满 + over 受 け 入 れ).
 
 | 类别 | 判定标准 | 组件 | padding 处理 |
 |------|---------|------|----------|
-| **A 类：自带 internal padding 的标准组件** | `instance.children[0].x > 0` 即自带（典型值 12dp） | `StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` / `List_*` / `Detail_*` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` 等 | **永远 `x = 0, width = 栏W` 风满**。视觉左右 padding = 组件 internal（默认 12dp）。**禁止任何 outer 合算**，禁止把 device-dim 断点表 spec 应用到 A 类组件 |
-| **B 类：裸控件 / 业务自定义 frame** | 无 internal padding 的纯 Frame / 分组卡片外框 / 用户自建容器 | 自定义 frame / 业务容器 | 按 `device-dimensions.md` 断点间距表取 spec：`x = spec, width = 栏W − 2 × spec`。1100 < 栏W 时改 `x = (栏W − 988)/2, width = 988` 居中 |
+| **A 类：自带 internal padding 的标准组件** | `instance.children[0].x > 0` 即自带（典型值 12dp） | `StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` / `List_*` / `Detail_*` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` 等 | **`outer = max(0, spec − internal)`**. `inst.x = outer, inst.width = 栏W − 2 × outer`. 단 `internal ≥ spec` 시 outer=0 (风满 + over 受け入れ) |
+| **B 类：裸控件 / 业务自定义 frame** | 无 internal padding 的纯 Frame / 分组卡片外框 / 用户自建容器 | 自定义 frame / 业务容器 | A 类와 동일 공식 (internal=0 가정 → outer = spec). 1100 < 栏W 时 `x = (栏W − 988)/2, width = 988` 居中 |
 
-判定要诀：**「有自带 padding ⇒ A 类风满；没有 ⇒ B 类合算」**。Figma 实测 `instance.children[0].x` > 0 即 A 类；查不到 internal padding 才是 B 类。**未列出的标准组件默认按 A 类处理**（风满），如确认是 B 类（裸 frame）才走合算。
+判정 要诀：**`device-dimensions.md` spec 와 instance internal 비교 → 부족분만큼 outer 합산**. internal 이 spec 보다 크거나 같으면 outer=0 (풍만).
 
-**Detail_Notes 例外**：自带 internal=20（封面图距 Detail 左缘 20dp）仍属 A 类风满，internal=20 仅描述视觉左 padding，不参与合算。
+**旧 룰 폐기 사유**: 「A 类一律 风满 / 禁止 outer 합산」 이전 룰이 user 시각 검증 시 padding 不일치 받아들여 적합도 부족. 2026-06-01 笔记 多端 적응 task 에서 Pad 横 L 栏 (spec 20, internal 12) padding 8dp 부족 / Pad 横 C 栏 (spec 28, internal 0) padding 28dp 부족 등 발견 → user 「device-dimensions이 원칙」 명시 → 본 룰로 정정.
+
+**Detail_Notes 例外**：自带 internal=20（封面图距 Detail 左缘 20dp）。spec ≥ 20 시 outer = spec − 20, spec < 20 시 outer=0 풍만.
 
 ### §3.4a.2 internal padding 定义
 
@@ -113,27 +115,27 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 | `SearchBar_ComponentSet_*` | 左 12, 右 12 | 一致 | 12 |
 | `List_Notes_*` | 左 12, 右 12 | 一致 | 12 |
 
-### §3.4a.3 合算公式（仅适用 B 类）
+### §3.4a.3 合算公式（A 类 + B 类 通用, 2026-06-01 修订）
 
-> ⚠️ **适用范围**：本节合算公式**仅适用 §3.4a.1 B 类（裸控件 / 业务自定义 frame）**。A 类标准组件（含 `SearchBar` / `Chip` / `List` / `Detail` 等所有自带 padding 的组件）**禁止**调用本公式 —— 一律 `x=0, w=栏W` 风满。
+> 旧 룰 「仅 B 类 적용」폐기. **A / B 양 类 모두 본 공식 적용**. spec = `device-dimensions.md` 各 device × screenMode 断点 padding 표.
 
-| 关系（仅 B 类）| x | 写入 width | visible 总 padding |
+| 关系 | x | 写入 width | visible 总 padding |
 |------|---|-----------|-------------------|
-| `internal ≥ spec` | 0 | 栏W | internal（自动 ≥ spec）|
+| `internal ≥ spec` | 0 | 栏W | internal（自동 ≥ spec, 风满 + over 受 け 入 れ）|
 | `internal < spec` | `spec − internal` | `栏W − 2 × outer` | `outer + internal = spec` |
 
-简言之（仅 B 类）：`outer = max(0, spec − internal)`。1100 < 栏W 时进一步用 `x = (栏W − 988)/2, w = 988` 居中。
+公식: **`outer = max(0, spec − internal)`**. 1100 < 栏W 时 `x = (栏W − 988)/2, w = 988` 居中.
 
-### §3.4a.4 执行准则
+### §3.4a.4 执行准则 (2026-06-01 修订)
 
 | # | 规则 |
 |---|------|
 | 1 | 通用内容容器：实测 `direct.x` 作 internal pl；`Chip` 的 `pl=0` 易误判，**以 CSV 为准** |
 | 2 | `Detail_Notes`：直接 `internal=20`，不测量外层 frame |
-| 3 | spec 来自 `device-dimensions.md` 栏 padding 表 + 断点表 |
-| 4 | 写入：`inst.x = outer; inst.width = 栏W − 2 × outer` |
-| 5 | **特殊组件不参与合算**：永远 `x=0, width=栏W` 风满 |
-| 6 | 远程组件 internal 不可在 instance 中改写；`internal > spec` 时风满 + 接受 over |
+| 3 | spec 来自 `device-dimensions.md` 栏 padding 表 + 断点表（**권위**） |
+| 4 | 写入：`inst.x = outer; inst.width = 栏W − 2 × outer`. outer = max(0, spec − internal) |
+| 5 | (废止) ~~特殊组件不参与合算~~ → A 类도 §3.4a.3 公식 적용 |
+| 6 | 远程组件 internal 不可在 instance 中改写；`internal ≥ spec` 时 outer=0 풍만 + 接受 over |
 
 ### §3.4a.5 `_00` 变体语义一致性表
 
