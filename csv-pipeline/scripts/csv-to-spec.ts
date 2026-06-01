@@ -123,6 +123,87 @@ function getLayoutSpec(device: string, screenMode: string, collapsed: boolean): 
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 断点 padding 表 (device-dimensions.md, 2026-06-01 修订)
+// 각 (device, screenMode, lane) → spec padding (dp).
+// 적용 공식: outer = max(0, spec - internal). instance.x = outer, w = laneW - 2*outer.
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface LanePaddingSpec {
+  N?: number; L?: number; C?: number;
+}
+
+function getLanePaddingSpec(device: string, screenMode: string, collapsed: boolean): LanePaddingSpec {
+  // 手机 / Fold外 = 12dp 통칙
+  if (device === '手机竖' || device === '手机横') return { C: 12 };
+  if (device === 'Fold外竖' || device === 'Fold外横') return { C: 12 };
+
+  // Fold内 (Q18 特例: 容器 ≤ 640dp = 12dp 통일, common-rules-instance.md §3.4a + device-dim §)
+  if (device === 'Fold内竖' && screenMode === 'LC') return { L: 12, C: 12 };
+  if (device === 'Fold内横' && screenMode === 'LC') return { L: 12, C: 12 };
+  if (device === 'Fold内竖' && screenMode === 'NC') return { N: 12, C: 12 };
+  if (device === 'Fold内横' && screenMode === 'NC') return { N: 12, C: 12 };
+  if (device.startsWith('Fold内') && screenMode === 'C') {
+    // C 通栏: device-dim Q18 특례 — 横屏 800<w≤1100 = 56, 그 외 12
+    const dim = DEVICE_DIMENSIONS[device];
+    if (device === 'Fold内横' && dim.frameW > 800 && dim.frameW <= 1100) return { C: 56 };
+    return { C: 12 };
+  }
+
+  // Pad横
+  if (device === 'Pad横' && screenMode === 'NLC') {
+    if (collapsed) return { N: 12, L: 20, C: 56 }; // L=428 → 20, C=994>800 → 56
+    return { N: 12, L: 20, C: 28 }; // L=428 → 20, C=722>640<=800 → 28
+  }
+  if (device === 'Pad横' && screenMode === 'NL') {
+    return { N: 12, L: 56 }; // L 1150/1334 > 1100 → 988 居中 (외측 fill)
+  }
+  if (device === 'Pad横' && screenMode === 'NC') {
+    return { N: 12, C: 56 }; // C 1150/1334 > 1100 → 988 居中
+  }
+  if (device === 'Pad横' && screenMode === 'LC') return { L: 20, C: 56 };
+  if (device === 'Pad横' && screenMode === 'C') return { C: 56 };
+
+  // Pad竖 (断点표 권위 — 본 표 우선)
+  if (device === 'Pad竖' && screenMode === 'NLC') {
+    if (collapsed) return { N: 12, L: 20, C: 12 }; // C=474<=640 → 12
+    return { N: 12, L: 20, C: 12 }; // 覆盖: L=428→20, C=521→12. 并列: L=304→12, C=373→12
+  }
+  if (device === 'Pad竖' && screenMode === 'NL') {
+    if (collapsed) return { N: 12, L: 56 }; // L=861>800<=1100 → 56
+    return { N: 12, L: 28 }; // L=677>640<=800 → 28
+  }
+  if (device === 'Pad竖' && screenMode === 'NC') {
+    if (collapsed) return { N: 12, C: 56 };
+    return { N: 12, C: 28 };
+  }
+  if (device === 'Pad竖' && screenMode === 'LC') return { L: 20, C: 20 }; // L=428→20, C=521→12. 표는 20/20 — 표 권위
+  if (device === 'Pad竖' && screenMode === 'C') return { C: 56 };
+
+  return {};
+}
+
+// component family → internal padding (dp) (자带 internal padding, common-rules §3.4a.2)
+// instance.children[0].x measurement reference. Detail_Notes 특례 = 20.
+// NavigationBar_Notes_01 (业务组件库): internal=0 — 외부 padding 전부 outer 부담.
+function getInternalPadding(family: string, variant: string): number {
+  // Detail_Notes 특례: 封面图 距 Detail 좌측 20dp (common-rules-instance.md §3.4a.2)
+  if (family === 'DetailNotes' || family === 'Detail_Notes') return 20;
+  // NavigationBar_Notes_01: 业务组件库 측, internal=0
+  if (/^NavigationBar_ComponentSet_Notes/.test(variant)) return 0;
+  // ToolBar / BottomBar_Showcase: 외각 풍만 (capsule master HUG 처리)
+  if (/^BottomBar_Showcase|^ToolBar_/.test(variant)) return 0;
+  // A 류 자연 internal: NavigationBar / SearchBar / SelectableChip / List / TextInput / Sidebar
+  return 12;
+}
+
+// element → family alias (csv-to-spec uiElement → 控件清单 family)
+function elementToFamily(element: string): string {
+  if (element === 'List') return 'List';
+  if (element === 'Detail') return 'DetailNotes';
+  return element;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Notes app §0.4 setKey registry (parsed from app-variant-map-笔记.md §0.4)
 // POC: hardcode subset. Phase 4 will parse .md table.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -144,7 +225,15 @@ const NOTES_SET_KEYS: Record<string, SetKeyEntry> = Object.fromEntries(
 
 // CSV authoring markers that are NOT Figma components — emit silently as no-setKey.
 //   竖屏背景 = portrait wallpaper anchor (background plate, not a ComponentSet).
-const NON_COMPONENT_MARKERS = new Set(['竖屏背景', '横屏背景', '_00']);
+//   (framework_reuse) = extract-mapping emits this when a cell reads "<framework>栏" alone
+//     (designer abbreviation for "use the same variant as the named framework's row").
+//   (placeholder) = extract-mapping emits this for Phase 4.5 search markers (TBD / 查询 etc.).
+//   (prose-only) = extract-mapping emits this for cells that hold designer notes without variantId
+//     (e.g. "标题栏 新建图标" = "place a new icon in the title bar slot").
+const NON_COMPONENT_MARKERS = new Set([
+  '竖屏背景', '横屏背景', '_00',
+  '(framework_reuse)', '(placeholder)', '(prose-only)',
+]);
 
 // Designer aliases — mapping CSV uses semantic names that differ from actual library
 // ComponentSet variant names. When emitting spec, rewrite variant + lookup with real name.
@@ -194,6 +283,9 @@ function resolveSetKey(variantId: string): SetKeyEntry | null {
   if (variantId.startsWith('TopBar_')) return NOTES_SET_KEYS.TopBar;
   if (variantId.startsWith('SearchBar_ComponentSet')) return NOTES_SET_KEYS.SearchBar;
   if (variantId.startsWith('SelectableChip_ComponentSet_Notes')) return NOTES_SET_KEYS.SelectableChip_Notes;
+  // SelectableChip_ComponentSet_NN (Notes-less base form) — separate library set.
+  // Family 'SelectableChip' must be probed and registered in setkeys.json before resolution.
+  // Returns null until then so validate-csv reports family-missing rather than silent wrong setKey.
   if (variantId.startsWith('List_Notes_')) return NOTES_SET_KEYS.List_Notes;
   if (variantId.startsWith('Detail_Notes_') || variantId.startsWith('DetailNotes_')) return NOTES_SET_KEYS.Detail_Notes;
   if (variantId.startsWith('BottomBar_Showcase_Notes')) return NOTES_SET_KEYS.BottomBar_Showcase_Notes;
@@ -212,6 +304,8 @@ function resolveSetKey(variantId: string): SetKeyEntry | null {
   if (variantId.startsWith('Notes_FloatingWindow_')) return NOTES_SET_KEYS.Notes_FloatingWindow;
   // Sidebar 전용 (414cabc8...): Sidebar_Component_PAD_LC_* / PAD_NLC_* (with Fab=有/无 inner property).
   if (variantId.startsWith('Sidebar_Component_PAD_NLC')) return NOTES_SET_KEYS.BottomBar_Sidebar;
+  // Sidebar_Component_NC / Sidebar_Component_PAD_LC_Fab — same library set, different variant-property values.
+  if (variantId.startsWith('Sidebar_Component_')) return NOTES_SET_KEYS.BottomBar_Sidebar;
   if (variantId.startsWith('NoticeBar_')) return NOTES_SET_KEYS.NoticeBar;
   if (variantId.startsWith('Scrollbar_')) return NOTES_SET_KEYS.Scrollbar;
   if (variantId.startsWith('TextFormatPanel_')) return NOTES_SET_KEYS.TextFormatPanel_Notes;
@@ -1020,16 +1114,32 @@ function buildSpec(opts: {
       continue;
     }
 
-    // §3.4a.1 A 类 组件 一律 风满: `x=0, w=lane.w`. 视觉 padding = component internal (默认 12dp).
-    //   本 pipeline 中渲染的全部标准组件 (NavBar/SearchBar/Chip/List/Detail/ToolBar/TextInput/Fab/Sidebar 等)
-    //   均为 A 类自带 internal padding —— 禁止 outer 合算 (§3.4a.3 仅适用 B 类裸 frame).
-    void meta; // metadata 其它用途保留
+    // §3.4a (2026-06-01 修订): outer = max(0, spec - internal). instance.x=outer, w=laneW-2*outer.
+    //   spec = device-dim 断点 padding 표 lookup, internal = component family 자带 (§3.4a.2).
+    //   旧 룰 (一律 风满, x=0 w=lane.w) 폐기 — Pad L spec 20 vs internal 12 = 8dp 부족 등 발생.
+    void meta;
+    const normLane = (laneKey === 'C' && r.lane === '全栏') ? 'C栏' : r.lane;
+    const variant = resolveVariant(r.variantId);
+    const familyForPad = elementToFamily(r.uiElement);
+    // ToolBar / BottomBar_Showcase: 외각 풍만 (capsule master HUG)
+    const isToolBarLike = /^BottomBar_Showcase|^ToolBar_/.test(variant);
+    let outerX: number, compW: number;
+    if (isToolBarLike) {
+      outerX = 0; compW = lane.w;
+    } else {
+      const padSpec = getLanePaddingSpec(device, screenMode, collapsed);
+      const laneKeyFromName = normLane === 'N栏' ? 'N' : normLane === 'L栏' ? 'L' : normLane === 'C栏' ? 'C' : 'C';
+      const specPad = (padSpec as any)[laneKeyFromName] ?? 12;
+      const internal = getInternalPadding(familyForPad, variant);
+      outerX = Math.max(0, specPad - internal);
+      compW = lane.w - 2 * outerX;
+    }
     components.push({
       element: r.uiElement,
-      lane: laneKey === 'C' && r.lane === '全栏' ? 'C栏' : r.lane,  // single-screen lane normalization
-      variant: resolveVariant(r.variantId),
+      lane: normLane,
+      variant,
       setKey: setKey.setKey, library: lib, category,
-      x: 0, w: lane.w,
+      x: outerX, w: compW,
       y: 0, h: 'auto',
       notes: r.notes,
     });
