@@ -270,93 +270,33 @@ async function placeStandardComponent(args) {
     throw new Error(`reflow detected: ${inst.name} expected ${w}x${h} got ${inst.width}x${inst.height}`);
   }
 
-  // 9. ToolBar / BottomBar_Showcase 胶囊后处理 (device-dim「工具栏规格」)
-  //    - 栏W ≤ 440 → 风满 (capW = 栏W − 48)
-  //    - 栏W > 440 → 定宽 344 居中
+  // 9. ToolBar / BottomBar_Showcase 胶囊后处理 (2026-06-01 룰 폐기 + 재정의)
   //
-  //    BB / ToolBar instance 의 master layoutMode 가 VERTICAL + capsule
-  //    layoutAlign='INHERIT' 인 경우, instance.resize(w, h) 만 해도 capsule 의
-  //    cross-axis (horizontal) 가 따라가지 않음 (자연 220 그대로). 따라서
-  //    capsule.layoutAlign='STRETCH' 로 cross-axis stretch 활성화 후 resize.
-  //    Overlay-Showcase (ABSOLUTE positioning) 도 lane 풍만 위해 별도 resize.
+  //    旧 룰 (commit 809d8cb, 폐기):
+  //      - 栏W ≤ 440 → 풍만 capW = 栏W − 48
+  //      - 栏W > 440 → 定宽 344 居中
+  //      - capsule.layoutAlign = STRETCH 강제
+  //      - 9b: button.layoutGrow=1 + FILL → 균등 분배
   //
-  //    회고: 2026-06-01 笔记 多端적응 task. Fold 内 LC (lane 353/282) BB
-  //    capsule 자연 220 그대로 → user 「엉망」 지적. step 9 가 栏W > 440 case 만
-  //    다루고 ≤ 440 풍만 룰 누락. 본 commit 으로 두 case 통합 + STRETCH +
-  //    Overlay resize 자동화.
-  const setName = inst.mainComponent && inst.mainComponent.parent && inst.mainComponent.parent.name || '';
-  if (/ToolBar|BottomBar_Showcase/.test(inst.name || setName)) {
-    const findCapsule = (n) => {
-      if (!n.children) return null;
-      for (const c of n.children) {
-        if (/工具个数举例|TabMaterial/.test(c.name || '')) return c;
-      }
-      return null;
-    };
-    const capsule = findCapsule(inst);
-    const overlay = inst.children && inst.children.find(c => /Overlay/.test(c.name || ''));
-    // Overlay-Showcase (ABSOLUTE) → lane 풍만
-    if (overlay) {
-      try { overlay.layoutSizingHorizontal = 'FIXED'; } catch {}
-      try { overlay.resize(w, overlay.height); } catch {}
-    }
-    if (capsule) {
-      // capsule 의 layoutAlign STRETCH 로 BB cross-axis 따라가게
-      try { capsule.layoutAlign = 'STRETCH'; } catch {}
-      try { capsule.layoutSizingHorizontal = 'FIXED'; } catch {}
-      const capExpect = w > 440 ? 344 : Math.max(w - 48, 0);
-      capsule.resize(capExpect, capsule.height);
-      // BB 의 cross-axis center 정렬 (capsule 가운데 위치)
-      if (inst.layoutMode === 'VERTICAL') {
-        try { inst.counterAxisAlignItems = 'CENTER'; } catch {}
-      }
-      if (overlay) {
-        try { overlay.primaryAxisAlignItems = 'CENTER'; } catch {}
-      }
-    }
-
-    // 9b. 胶囊 inner button 宽度自动分配 (2026-06-01 추가)
-    //     master `.组件状态变化` = `minWidth=66, FIXED 92dp, layoutGrow=0`. capsule
-    //     宽度 < 源 phone 自然宽 (= 220 / 344) 时 inner button 좌우 튀어나감.
-    //     回顾: 2026-06-01 笔记 多端적응 task Fold 内 LC (capsule 305/234) 의 3
-    //     button 좌측 -16~-52 으로 튀어나옴. step 9 외각 룰만 자동화 + inner
-    //     reflow 부재 시 발생.
-    //     两 갈래 fix:
-    //       (a) capsule 内 사용 가능 폭 ≥ N×minWidth →
-    //           layoutGrow=1 + FILL + itemSpacing=0 으로 자동 均等 分配
-    //           (Fold 内横 capsule 305 / 3 btn → 102 each;
-    //            Fold 内竖 capsule 234 / 3 btn → 78 each;
-    //            Pad capsule 344 / 4 btn → 86 each)
-    //       (b) capsule 폭 < N×minWidth → minWidth instance level 변경 不可 (figma 거부).
-    //           paddingL=R=0 + itemSpacing 음수 (源 phone 같은 overlap) 로 fit
-    //     §3.2 instance 보호 룰 위반 없음 (capsule + button 모두 instance level
-    //     property override 만, master detach 안 함).
-    if (capsule && capsule.children && capsule.children.length >= 2) {
-      const innerButtons = capsule.children.filter(c => c.type === 'INSTANCE');
-      if (innerButtons.length >= 2) {
-        try { capsule.paddingLeft = 0; } catch {}
-        try { capsule.paddingRight = 0; } catch {}
-        const minW = innerButtons[0].minWidth || 66;
-        const totalMinW = innerButtons.length * minW;
-        const capW = capsule.width;
-        if (capW >= totalMinW) {
-          try { capsule.itemSpacing = 0; } catch {}
-          for (const b of innerButtons) {
-            try { b.layoutGrow = 1; } catch {}
-            try { b.layoutSizingHorizontal = 'FILL'; } catch {}
-          }
-        } else {
-          const negSpacing = Math.floor((capW - totalMinW) / (innerButtons.length - 1));
-          try { capsule.itemSpacing = negSpacing; } catch {}
-          for (const b of innerButtons) {
-            try { b.layoutGrow = 0; } catch {}
-            try { b.layoutSizingHorizontal = 'FIXED'; } catch {}
-            try { b.resize(minW, b.height); } catch {}
-          }
-        }
-      }
-    }
-  }
+  //    旧 룰 잘못된 점: capsule 의 master 자연 width (220 / 344) 와 button 자연
+  //    width (28×28 icon 등) 를 무시하고 instance level 강제 변경. 결과:
+  //    button icon 이 지정 폭 (102dp 등) 으로 stretch 되어 「찌그러짐」.
+  //    user 지적 (2026-06-01 笔记 多端 적응 task): 「캡슐의 넓이는 왜 마음대로
+  //    줄이냐. 내용 수량에 따라 폭 변하지만 아이콘이 찌그러지는 건 아니다」.
+  //
+  //    新 룰: capsule master 자연값 그대로 유지 (HUG, button FIXED 자연 width).
+  //    BB instance 외각 만 lane W 로 풍만, BB 의 master default
+  //    `counterAxisAlignItems='CENTER'` (가운데 정렬) 그대로 → capsule 자연
+  //    220 폭 lane 가운데 자동 정렬. icon stretch 없음. master 가 단순 capsule 외
+  //    no-stretch 룰을 가진 경우 본 룰이 정답.
+  //
+  //    예외: capsule 자체가 STRETCH 인 master 가 있다면 (전혀 없는 경우는 아님)
+  //    별도 룰 필요. 현 笔记 / 待办 의 BottomBar_Showcase / ToolBar 모두 capsule
+  //    HUG default. 다른 family 추가 시 master 검증 필수.
+  //
+  //    실행: capsule / button / overlay / BB padding 모두 master default 유지.
+  //    instance level 강제 변경 없음. 외각 lane W 만 풍만.
+  // (구 capsule 후처리 + button 분배 코드 폐기 — master default 유지가 정답)
 
   return inst.id;
 }

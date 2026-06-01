@@ -237,37 +237,17 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
     errors.push(`scenarioFlags not provided but spec contains mask spec — §6.2 #23 violation`);
   }
 
-  // ⑭ ToolBar 胶囊 width
-  if (Array.isArray(spec.componentChecks)) {
-    for (const chk of spec.componentChecks) {
-      if (!/ToolBar|BottomBar_Showcase/.test(chk.label || '')) continue;
-      const node = await figma.getNodeByIdAsync(chk.id);
-      if (!node || !node.children) continue;
-      let capsule = null;
-      const findCapsule = (n, depth) => {
-        if (depth > 3 || capsule) return;
-        if (/工具个数举例|TabMaterial-Showcase/.test(n.name || '')) { capsule = n; return; }
-        if (n.children) for (const c of n.children) findCapsule(c, depth + 1);
-      };
-      findCapsule(node, 0);
-      if (!capsule) continue;
-      const colW = chk.w || node.width;
-      if (colW <= 440) {
-        const expectW = colW - 48;
-        if (Math.abs(capsule.width - expectW) > 0.5) {
-          errors.push(`${chk.label} 胶囊.width ${capsule.width} != ${expectW} (栏 W ${colW} ≤ 440 → 风满)`);
-        }
-      } else {
-        if (Math.abs(capsule.width - 344) > 0.5) {
-          errors.push(`${chk.label} 胶囊.width ${capsule.width} != 344 (栏 W > 440 → 定宽)`);
-        }
-        const expectX = (node.width - 344) / 2;
-        if (Math.abs(capsule.x - expectX) > 1) {
-          errors.push(`${chk.label} 胶囊.x ${capsule.x} != ${expectX} (居中)`);
-        }
-      }
-    }
-  }
+  // ⑭ ToolBar 胶囊 width — 2026-06-01 룰 폐기
+  //
+  //    旧 룰: 栏 W ≤ 440 → capW = 栏W−48 / > 440 → 344 居中.
+  //    이 룰이 capsule 의 master 자연 width (220 / 344) 와 inner button 자연
+  //    width (28×28 icon) 를 무시하고 강제 변경 → button icon stretch.
+  //    user 지적: 「캡슐의 넓이는 왜 마음대로 줄이냐. 아이콘 찌그러지는 건
+  //    아니다」.
+  //
+  //    新 룰: capsule = master HUG default 그대로 유지가 정답. instance level
+  //    자동 검사 不要 (master 가 단일 자연 width 보장). 본 항목 폐기.
+  // (구 ⑭ 검사 폐기)
 
   // ⑮ Pad N 栏 z-order (NavBar 在 Sidebar 之上)
   if (main) {
