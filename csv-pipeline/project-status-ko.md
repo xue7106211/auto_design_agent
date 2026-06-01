@@ -219,10 +219,10 @@ Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 1
 Stage 3B: 🟡 部分完成 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 捕获完成**. spec-to-checklist 由 spec-adapter.ts 的 specToVerifyShape 吸收 → 不需要单独产出. 检测 issue 修正按 ownership 分离 (无法自动修正)
 ```
 
-### Stage 3B baseline (2026-06-01 갱신, errors 129 → 0)
+### Stage 3B baseline (2026-06-01 갱신, errors 129 → 0, warnings 117 → 103)
 
 ```
-files=17  rows=1237  errors=0  warnings=117  report: spec-output/validate-csv-report.json
+files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-report.json
 ```
 
 | code | level | 件数 | 主 file | 修正 ownership |
@@ -231,9 +231,11 @@ files=17  rows=1237  errors=0  warnings=117  report: spec-output/validate-csv-re
 | `family-missing-in-setkeys` | error | 39 → 0 | components.csv (Keyboard 9 / SelectableChip 7 / Divider 1) | **修正完成** (2026-06-01) — (1) validate-csv.ts checkComponentsCsv VariantId fallback resolve + prefix 보강 (2) probe-setkeys (Figma MCP search_design_system) → setkeys.json 에 Keyboard (`f55f11f6...` 测试版) / SelectableChip (`208b0f0f...` 测试版) / Divider (`ee073ac0...` 旧 OS4 — 测试版 未 publish, NoticeBar pattern) 3 family 등록 |
 | `lane-framework-compat` | error | 14 → 0 | Notes | **修正完成** (2026-06-01) — extract-mapping.ts에 (1) framework/lane 검증 로직 + (2) Fold内 drilldown 시 framework reframe + (3) C framework 시 lane→全栏 collapse |
 | `family-not-verified` | warning | 74 | Notes (`NoticeBar` blocker) | designer (`控件变体清单.csv` status verify) |
-| `pickVariant-fallback` | warning | 43 | Notes | designer (variantId fuzzy match — 输入修正 ownership) |
+| `pickVariant-fallback` | warning | 43 → 29 | Notes | **부분 修正** (2026-06-01) — validator PICKVARIANT_RULES 를 csv-to-spec.ts:pickVariant() 11 룰과 sync (skip rules + variantId-prefix rule 추가). 残 29 = 진짜 designer task (NavBar 11 / AIWindow 10 / 搜索页面 6 / SearchBar 2) |
 
-**下一步 action**: errors 0 달성 → spec:guarded gate 통과. warnings 117 = designer ownership (4 blocker family `NoticeBar`/`Scrollbar`/`ActionSheet`/`Divider` 测试版 publish 대기 + `pickVariant-fallback` variantId 정규화).
+**下一步 action**: errors 0 달성 → spec:guarded gate 통과. 残余 103 warnings = designer ownership:
+- 4 blocker family (`NoticeBar`/`Scrollbar`/`ActionSheet`/`Divider`) 测试版 publish 대기 — 74건
+- pickVariant 29건 = ① single-screen NavBar/SearchBar 의 default variant (LC L栏=_05, C 全栏=`_11/_05/_02` 분기 룰) designer 명시 ② multi-component composition (`AIWindow_Notes` 10 / `搜索页面` 6) — 한 row에 여러 component 의 variantId가 섞임. row 세분 또는 uiElement 분리 필요
 
 ### Stage 3A 剩余 (wire-up gap)
 
@@ -251,6 +253,7 @@ files=17  rows=1237  errors=0  warnings=117  report: spec-output/validate-csv-re
 | 2 | ~~**probe-setkeys family 登记**~~ | ✅ 完成 (2026-06-01) | Keyboard/SelectableChip/Divider 3 family probe → setkeys.json 등록. validate-csv error 39 → 0 |
 | 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 대 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」 流程. Step 2 验证后再进入 |
 | 4 | **mapping-input variantId prefix 修正 89 件** | 대 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 等 prefix 自由输入 — 检讨在 extract-mapping.ts 侧追加规范化规则的可能性 |
+| 5 | **pickVariant 残余 29 designer 명시 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 분기 룰) — line 101 Notes csv `LC default L栏=_05` 보임, csv-to-spec 의 single-screen NavBar heuristic (예전 line 467 제거됨) 재정의 가능성 검토. (2) `AIWindow_Notes` / `搜索页面` 같은 composite uiElement 는 row 세분 (uiElement 별로 따로) 또는 csv-to-spec 측 group resolver 추가 |
 
 ## 工作衔接的标准流程 (任何 AI 都相同)
 

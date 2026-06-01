@@ -189,7 +189,10 @@ function loadSetkeys(): { families: Record<string, { setName: string; setKey: st
 // IMPORTANT: keep prefix list synchronized when csv-to-spec.ts changes.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const NON_COMPONENT_MARKERS = new Set(['竖屏背景', '横屏背景', '_00', '不展示', '']);
+const NON_COMPONENT_MARKERS = new Set([
+  '竖屏背景', '横屏背景', '_00', '不展示', '',
+  '(framework_reuse)', '(placeholder)', '(prose-only)',
+]);
 
 const VARIANT_PREFIX_TO_FAMILY: Array<[RegExp, string]> = [
   [/^StatusBar_/, 'StatusBar'],
@@ -199,6 +202,7 @@ const VARIANT_PREFIX_TO_FAMILY: Array<[RegExp, string]> = [
   [/^TopBar_/, 'TopBar'],
   [/^SearchBar_ComponentSet/, 'SearchBar'],
   [/^SelectableChip_ComponentSet_Notes/, 'SelectableChip_Notes'],
+  [/^SelectableChip_ComponentSet/, 'SelectableChip'],
   [/^List_Notes_/, 'List_Notes'],
   [/^Detail_Notes_|^DetailNotes_/, 'Detail_Notes'],
   [/^BottomBar_Showcase_Notes/, 'BottomBar_Showcase_Notes'],
@@ -207,8 +211,13 @@ const VARIANT_PREFIX_TO_FAMILY: Array<[RegExp, string]> = [
   [/^BottomBar_Showcase_|^BottomBar_/, 'BottomBar_Generic'],
   [/^Fab_|^Fab-/, 'BottomBar_Generic'],
   [/^TextInput_ComponentSet_Notes/, 'TextInput_Notes'],
+  [/^Sidebar_Notes_/, 'Sidebar_Notes'],
+  [/^Notes_FloatingWindow_/, 'Notes_FloatingWindow'],
   [/^Sidebar_Component_PAD_NLC/, 'BottomBar_Sidebar'],
   [/^Sidebar_Component_Fold_LC/, 'Sidebar_Component_Fold_LC'],
+  [/^Sidebar_Component_/, 'BottomBar_Sidebar'],
+  [/^Sidebar_BG_/, 'BottomBar_Sidebar'],
+  [/^Keyboard_/, 'Keyboard'],
   [/^NoticeBar_/, 'NoticeBar'],
   [/^Scrollbar_/, 'Scrollbar'],
   [/^TextFormatPanel_/, 'TextFormatPanel_Notes'],
@@ -222,7 +231,8 @@ const VARIANT_PREFIX_TO_FAMILY: Array<[RegExp, string]> = [
   [/^List_Task_/, 'List_Task'],
   [/^DetailTask_/, 'DetailTask'],
   [/^NewTaskWindow_/, 'NewTaskWindow'],
-  [/^RecordNotes_/, 'RecordNotes'],
+  [/^RecordNotes_|^Record_Notes_/, 'RecordNotes'],
+  [/^List_NoteSetting_/, 'List_Notes'],
   [/^AIWindow_Options_/, 'AIWindow_Notes'],
   [/^DrawerWindow_/, 'DrawerWindow'],
   [/^SearchReceiving_/, 'SearchReceiving'],
@@ -322,20 +332,51 @@ function checkRowUniqueness(rows: MappingRow[], issues: Issue[]): void {
   // (subScene, scene, state, device, screenMode, lane, uiElement) → variant 모음
   // 같은 key 에 여러 variant 정상 (csv-to-spec pickVariant 가 disambiguate). 단
   // pickVariant 룰이 매칭 안 하는 (lane, uiElement) 는 fallback warn → 본 validator 가 신호.
-  // pickVariant 룰 매핑 가능 set (csv-to-spec line 459-512 룰 + Fold内 LC + single-screen 룰):
-  const PICKVARIANT_RULES: Array<{ device: RegExp; screenMode: RegExp; lane: string; element: string }> = [
-    { device: /^Pad/, screenMode: /^NLC/, lane: 'L栏', element: 'NavigationBar' },
-    { device: /^Pad/, screenMode: /^NLC/, lane: 'L栏', element: 'List' },
-    { device: /^Pad/, screenMode: /^NLC/, lane: 'N栏', element: 'Sidebar' },
-    { device: /^Pad/, screenMode: /^NL/, lane: 'L栏', element: 'SearchBar' },
-    { device: /^Pad/, screenMode: /^NL/, lane: 'L栏', element: 'List' },
-    { device: /^Fold内/, screenMode: /^LC/, lane: 'C栏', element: 'Input' },
+  // pickVariant 룰 매핑 가능 set — csv-to-spec.ts:pickVariant() 와 sync (line 439-535):
+  //   1. Pad NLC + C栏 Input               → null (skip)
+  //   2. Pad (NLC|NL|NC) + N栏 NavigationBar → null (skip)
+  //   3. Fold内 LC + C栏 Input              → _08
+  //   4. (single-screen|C-mode) + 全栏 Input → _01
+  //   5. Pad NLC + L栏 NavigationBar        → flag-based (_07/_17/_09/_18)
+  //   6. Pad NLC + L栏 List 编辑             → _04
+  //   7. Pad NLC + N栏 Sidebar              → _01 / null
+  //   8. Pad NL + L栏 SearchBar             → TopBar_NN
+  //   9. Pad NL + L栏 List                  → flag-based (_13~_20)
+  //  10. NewTaskWindow_* (variantId-prefix) → _01
+  //  11. Pad NL + N栏 NavigationBar          → null (skip, rule 2 superset)
+  // (single-screen-mode = device∈SINGLE_SCREEN_DEVICES OR screenMode='C')
+  const SINGLE_SCREEN_DEVICES_RX = /^(手机竖|手机横|Fold外竖|Fold外横)$/;
+  const PICKVARIANT_RULES: Array<{
+    device?: RegExp; screenMode?: RegExp; lane: string; element?: string;
+    variantPrefix?: RegExp;
+  }> = [
+    // 1, 2, 7, 11 — skip rules (csv-to-spec returns null; multi-variant warning is moot)
+    { device: /^Pad/, screenMode: /^NLC/,    lane: 'C栏', element: 'Input' },
+    { device: /^Pad/, screenMode: /^(NLC|NL|NC)/, lane: 'N栏', element: 'NavigationBar' },
+    { device: /^Pad/, screenMode: /^NLC/,    lane: 'N栏', element: 'Sidebar' },
+    // 3 — Fold内 LC + C栏 Input
+    { device: /^Fold内/, screenMode: /^LC/,  lane: 'C栏', element: 'Input' },
+    // 4 — single-screen + 全栏 Input (device OR screenMode='C')
+    { device: SINGLE_SCREEN_DEVICES_RX,      lane: '全栏', element: 'Input' },
+    { screenMode: /^C$/,                     lane: '全栏', element: 'Input' },
+    // 5, 6 — Pad NLC + L栏 (NavigationBar / List)
+    { device: /^Pad/, screenMode: /^NLC/,    lane: 'L栏', element: 'NavigationBar' },
+    { device: /^Pad/, screenMode: /^NLC/,    lane: 'L栏', element: 'List' },
+    // 8, 9 — Pad NL + L栏 (SearchBar / List)
+    { device: /^Pad/, screenMode: /^NL/,     lane: 'L栏', element: 'SearchBar' },
+    { device: /^Pad/, screenMode: /^NL/,     lane: 'L栏', element: 'List' },
+    // 10 — NewTaskWindow (variantId-prefix rule, all (device, screenMode, lane))
+    { lane: '*',                              variantPrefix: /^NewTaskWindow_/ },
   ];
   function ruleMatches(r: MappingRow): boolean {
-    return PICKVARIANT_RULES.some(rule =>
-      rule.device.test(r.device) && rule.screenMode.test(r.screenMode || '') &&
-      rule.lane === r.lane && rule.element === r.uiElement,
-    );
+    return PICKVARIANT_RULES.some(rule => {
+      if (rule.device && !rule.device.test(r.device)) return false;
+      if (rule.screenMode && !rule.screenMode.test(r.screenMode || '')) return false;
+      if (rule.lane !== '*' && rule.lane !== r.lane) return false;
+      if (rule.element && rule.element !== r.uiElement) return false;
+      if (rule.variantPrefix && !rule.variantPrefix.test(r.variantId)) return false;
+      return true;
+    });
   }
   const groups = new Map<string, MappingRow[]>();
   for (const r of rows) {
@@ -366,16 +407,28 @@ function checkRowUniqueness(rows: MappingRow[], issues: Issue[]): void {
 
 function checkComponentsCsv(comps: ComponentRow[], setkeys: ReturnType<typeof loadSetkeys>, issues: Issue[]): void {
   // 8. components.csv 의 family 모두 setkeys.json 등록
-  const usedFamilies = new Set(comps.map(c => c.ComponentFamily).filter(Boolean));
-  for (const fam of usedFamilies) {
-    if (!setkeys.familyNames.has(fam)) {
-      issues.push({
-        level: 'error', rule: 'family-missing-in-setkeys',
-        message: `components.csv 의 family='${fam}' 부재 in setkeys.json (probe-setkeys 필요)`,
-        file: 'components.csv',
-        context: { family: fam },
-      });
+  // ComponentFamily 직접 등록 → OK. 미등록 시 같은 row 의 VariantId 로 resolveFamily 시도
+  // (components.csv 의 family 명명 ≠ setkeys 등록명 인 경우 — 예: Notes_NavigationBar ↔ NavigationBar_Notes).
+  // VariantId 로도 resolve 안 되면 진짜 missing → probe-setkeys 필요.
+  const reportedMissing = new Set<string>();
+  const familyVariantSamples = new Map<string, string>(); // family → 첫 번째 sample VariantId
+  for (const c of comps) {
+    if (!c.ComponentFamily) continue;
+    if (setkeys.familyNames.has(c.ComponentFamily)) continue;
+    if (!familyVariantSamples.has(c.ComponentFamily)) {
+      familyVariantSamples.set(c.ComponentFamily, c.VariantId);
     }
+    const resolved = c.VariantId ? resolveFamily(c.VariantId) : null;
+    if (resolved && setkeys.familyNames.has(resolved)) continue;
+    if (reportedMissing.has(c.ComponentFamily)) continue;
+    reportedMissing.add(c.ComponentFamily);
+    const sampleVid = familyVariantSamples.get(c.ComponentFamily) ?? '';
+    issues.push({
+      level: 'error', rule: 'family-missing-in-setkeys',
+      message: `components.csv 의 family='${c.ComponentFamily}' (variantId 예='${sampleVid}') 부재 in setkeys.json (probe-setkeys 필요)`,
+      file: 'components.csv',
+      context: { family: c.ComponentFamily, sampleVariantId: sampleVid },
+    });
   }
 }
 
