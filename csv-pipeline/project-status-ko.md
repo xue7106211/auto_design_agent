@@ -12,8 +12,8 @@
 摘要:
 - **Stage 1A / 1B / 2A / 2B / 3A 核心产出 + 3B** = ✅ 完成 (参考下方 "已完成工作")
 - **Stage 2C (SKILL 精简)** = ❌ 废弃 (2026-06-01, ROI 较低决策 — user 直接指示)
-- **Stage 3A wire-up** = 🟡 进行 中 (Step 2 sample 1 errors=0 检증 完, 추가 sample 累積 후 verify.ts rewrite 결정. SKILL Phase 5 spec consume 未完)
-- **Stage 3B baseline** = ✅ 完了 (errors=0 / warnings=103 외부 dependency)
+- **Stage 3A wire-up** = 🟡 进行中 (Step 2 sample 1 errors=0 验证完, 追加 sample 累积后 verify.ts rewrite 决定. SKILL Phase 5 spec consume 未完)
+- **Stage 3B baseline** = ✅ 完成 (errors=0 / warnings=103 外部 dependency)
 
 ## 已完成工作
 
@@ -206,11 +206,11 @@
 
 ### Stage 3A Step 2 sample 1 — [TEST] 笔记多端适配_HardMapping Play2 (✅ 2026-06-01)
 
-7 target frame end-to-end 검증 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
+7 target frame end-to-end 验证 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
 
-| # | Frame | ID | Spec.json | 크기 | errors |
+| # | Frame | ID | Spec.json | 尺寸 | errors |
 |---|---|---|---|---|---|
-| 1 | Fold内횡-LC-笔记 | 3018:74555 | Notes_笔记_LC_默认_Fold内横_LC | 888×628 | 0 |
+| 1 | Fold内横-LC-笔记 | 3018:74555 | Notes_笔记_LC_默认_Fold内横_LC | 888×628 | 0 |
 | 2 | Fold内竖-LC-笔记 | 3018:74556 | Notes_笔记_LC_默认_Fold内竖_LC | 628×888 | 0 |
 | 3 | Pad横-NLC并列-笔记 | 3018:74557 | Notes_笔记_NLC_默认_Pad横_NLC并列 | 1422×949 | 0 |
 | 4 | Pad竖-NLC覆盖-笔记 | 3018:74558 | Notes_笔记_NLC_默认_Pad竖_NLC覆盖 | 949×1422 | 0 |
@@ -218,28 +218,28 @@
 | 6 | Pad竖-NLC收起-笔记 | 3046:75980 | Notes_笔记_NLC_默认_Pad竖_NLC收起 | 949×1422 | 0 |
 | 7 | Pad横-NLC收起-笔记 | 3046:75981 | Notes_笔记_NLC_默认_Pad横_NLC收起 | 1422×949 | 0 |
 
-session 内 永구화 commit chain:
+session 内永久化 commit chain:
 - d065ee7: probe Keyboard / SelectableChip / Divider 3 family → 0 errors
-- 64767ea: validator/runtime sync (PICKVARIANT_RULES → false-positive 14 件 제거)
-- f2aa901: csv-to-spec padding outer 公式 (device-dim 断점 표 우선)
-- 6467714: NavigationBar / TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
+- 64767ea: validator / runtime sync (PICKVARIANT_RULES → 消除 14 件 false-positive)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点表优先)
+- 6467714: NavigationBar / TopBar outer=0 风满强制 (master 自带 28dp title pl 充足)
 
-9 항 audit 결과 (2026-06-01, render-spec.ts 정밀 비교):
+9 项 audit 结果 (2026-06-01, render-spec.ts 精密对比):
 
-| # | 룰 | 상태 | 위치 / 비고 |
+| # | 规则 | 状态 | 位置 / 备注 |
 |---|---|---|---|
-| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187 (frame=true), L205 (main=false), lane clipsContent=true는 SelectableChip 정상 처리 (L216) |
-| 5 | lane y=0 풍만 (statusBar 영역까지 fill 透出) | ⚠️ 재해석 | sample 1 7 frame 全 frame.fill == lane.fill (둘 다 surface or surface_low). 시각 동등. spec lane.y=statusBarH 유지가 component.y 보정 不要 면에서 더 안전. 보고서 文言 부정확 |
-| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 누적으로 결과 동일 |
-| 7 | children[0] FILL whitelist | ✅ partial coded | render-spec.ts L251 SearchBar 만. NavBar/TopBar 는 commit 6467714 padding outer=0 풍만 후 master 자연 width 충분 → inner FILL 不要. SelectableChip 깨졌던 전례 (chip row 의 leftmost pill stretch) 로 추가 family 신중 |
-| 8 | L list 제목 자동 ellipsis | ❌ 不实施 | #13 inner state walk 금지 룰 우선. 사용자 명시 요청 시만 적용. designer task |
-| 9 | NLC并列 main 内 z-order L→C→N | ✅ coded | createInstance 순서 N→L→C → 마지막 C top + Sidebar promote (L319) 경로 만 N top. sample 1 errors=0 통과 |
-| 10 | NLC覆盖 Sidebar = frame 직접子 + mask token 0.2 | ✅ coded | render-spec.ts L315 (sidebar promote) + L288 (mask), opacity from spec.masks[].opacity |
-| 11 | C 분할선 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill (시각 동일, strokeLeftWeight 보다 안전, common-rules §3.8) |
+| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187 (frame=true), L205 (main=false), lane clipsContent=true 即 SelectableChip 正常处理 (L216) |
+| 5 | lane y=0 风满 (statusBar 区域 fill 透出) | ⚠️ 重解释 | sample 1 全 7 frame 中 frame.fill == lane.fill (二者均 surface 或 surface_low). 视觉等同. spec lane.y=statusBarH 维持在 component.y 校正不需面更安全. 报告文言不正确 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 累加结果等同 |
+| 7 | children[0] FILL whitelist | ✅ partial coded | render-spec.ts L251 仅 SearchBar. NavBar / TopBar 在 commit 6467714 padding outer=0 风满后 master 自然 width 充足 → inner FILL 不需要. SelectableChip 破裂前例 (chip row 的 leftmost pill stretch) → 追加 family 慎重 |
+| 8 | L list 标题自动 ellipsis | ❌ 不实施 | #13 inner state walk 禁止规则优先. user 明示请求时仅适用. designer task |
+| 9 | NLC并列 main 内 z-order L→C→N | ✅ coded | createInstance 顺序 N→L→C → 末尾 C top + Sidebar promote (L319) 路径仅 N top. sample 1 errors=0 通过 |
+| 10 | NLC覆盖 Sidebar = frame 直接子 + mask token 0.2 | ✅ coded | render-spec.ts L315 (sidebar promote) + L288 (mask), opacity from spec.masks[].opacity |
+| 11 | C 分割线 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill (视觉等同, 较 strokeLeftWeight 更安全, common-rules §3.8) |
 | 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272 (statusBar), L345 (swipeIndicator) |
-| 13 | inner state walk 금지 | ✅ N/A | render-spec.ts 측 inner walk 없음 |
+| 13 | inner state walk 禁止 | ✅ N/A | render-spec.ts 侧无 inner walk |
 
-**결론**: 9 항 中 9 항 코드化 완료 (#5 재해석 / #8 不实施). 보고서 文言 "코드化 미완" 은 정밀 audit 결과 부정확 — queue #4 (本 9 항) 닫음. #8 만 designer task 로 잔존 (별 queue 不必).
+**结论**: 9 项中 9 项 coded 完成 (#5 重解释 / #8 不实施). 报告文言 "coded 未完" 是精密 audit 后判定不正确 — queue #4 (本 9 项) 关闭. 仅 #8 残存为 designer task (单独 queue 不必).
 
 ## 当前阶段摘要
 
@@ -253,11 +253,11 @@ Stage 1D: ✅ 完成 (2026-06-01) — references/naming-conventions.md §2 (Sect
 Stage 2A: ✅ 完成 (2026-06-01) — tokens.json + setkeys.json 单一权威分离, app-variant-map §0.3/§0.4 redirect
 Stage 2B: ✅ 完成 (2026-06-01) — common-rules 5 文件拆分 + hub redirect (commits 549b929/f0952dc/366c2a6)
 Stage 2C: ❌ 废弃 (2026-06-01) — SKILL 精简 ROI 较低 (user 直接决策)
-Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 검증 完了. **Step 3 (SKILL Phase 5 spec consume) 未完成**
-Stage 3B: ✅ 완료 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 캡처 완료** (errors=0 / warnings=103). spec-to-checklist 由 spec-adapter.ts 의 specToVerifyShape 흡수 → 단독 산출 불필요. 残余 warnings = 외부 dependency (designer 测试版 publish 대기)
+Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 验证完成. **Step 3 (SKILL Phase 5 spec consume) 未完成**
+Stage 3B: ✅ 完成 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 捕获完成** (errors=0 / warnings=103). spec-to-checklist 由 spec-adapter.ts 的 specToVerifyShape 吸收 → 单独产出不需要. 残余 warnings = 外部 dependency (designer 测试版 publish 等待)
 ```
 
-### Stage 3B baseline (2026-06-01 갱신, errors 129 → 0, warnings 117 → 103)
+### Stage 3B baseline (2026-06-01 更新, errors 129 → 0, warnings 117 → 103)
 
 ```
 files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-report.json
@@ -265,15 +265,15 @@ files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-re
 
 | code | level | 件数 | 主 file | 修正 ownership |
 |---|---|---|---|---|
-| `variantId-unresolved` | error | 89 → 0 | Phone/Contacts/Messaging 等 | **修正完成** (이전 session) |
-| `family-missing-in-setkeys` | error | 39 → 0 | components.csv (Keyboard 9 / SelectableChip 7 / Divider 1) | **修正完成** (2026-06-01) — (1) validate-csv.ts checkComponentsCsv VariantId fallback resolve + prefix 보강 (2) probe-setkeys (Figma MCP search_design_system) → setkeys.json 에 Keyboard (`f55f11f6...` 测试版) / SelectableChip (`208b0f0f...` 测试版) / Divider (`ee073ac0...` 旧 OS4 — 测试版 未 publish, NoticeBar pattern) 3 family 등록 |
-| `lane-framework-compat` | error | 14 → 0 | Notes | **修正完成** (2026-06-01) — extract-mapping.ts에 (1) framework/lane 검증 로직 + (2) Fold内 drilldown 시 framework reframe + (3) C framework 시 lane→全栏 collapse |
+| `variantId-unresolved` | error | 89 → 0 | Phone / Contacts / Messaging 等 | **修正完成** (前次 session) |
+| `family-missing-in-setkeys` | error | 39 → 0 | components.csv (Keyboard 9 / SelectableChip 7 / Divider 1) | **修正完成** (2026-06-01) — (1) validate-csv.ts checkComponentsCsv VariantId fallback resolve + prefix 加强 (2) probe-setkeys (Figma MCP search_design_system) → setkeys.json 中 Keyboard (`f55f11f6...` 测试版) / SelectableChip (`208b0f0f...` 测试版) / Divider (`ee073ac0...` 旧 OS4 — 测试版未 publish, NoticeBar pattern) 3 family 登录 |
+| `lane-framework-compat` | error | 14 → 0 | Notes | **修正完成** (2026-06-01) — extract-mapping.ts 中 (1) framework / lane 检验逻辑 + (2) Fold内 drilldown 时 framework reframe + (3) C framework 时 lane → 全栏 collapse |
 | `family-not-verified` | warning | 74 | Notes (`NoticeBar` blocker) | designer (`控件变体清单.csv` status verify) |
-| `pickVariant-fallback` | warning | 43 → 29 | Notes | **부분 修正** (2026-06-01) — validator PICKVARIANT_RULES 를 csv-to-spec.ts:pickVariant() 11 룰과 sync (skip rules + variantId-prefix rule 추가). 残 29 = 진짜 designer task (NavBar 11 / AIWindow 10 / 搜索页面 6 / SearchBar 2) |
+| `pickVariant-fallback` | warning | 43 → 29 | Notes | **部分修正** (2026-06-01) — validator PICKVARIANT_RULES 与 csv-to-spec.ts:pickVariant() 11 规则 sync (skip rules + variantId-prefix rule 追加). 残 29 = 真正的 designer task (NavBar 11 / AIWindow 10 / 搜索页面 6 / SearchBar 2) |
 
-**下一步 action**: errors 0 달성 → spec:guarded gate 통과. 残余 103 warnings = designer ownership:
-- 4 blocker family (`NoticeBar`/`Scrollbar`/`ActionSheet`/`Divider`) 测试版 publish 대기 — 74건
-- pickVariant 29건 = ① single-screen NavBar/SearchBar 의 default variant (LC L栏=_05, C 全栏=`_11/_05/_02` 분기 룰) designer 명시 ② multi-component composition (`AIWindow_Notes` 10 / `搜索页面` 6) — 한 row에 여러 component 의 variantId가 섞임. row 세분 또는 uiElement 분리 필요
+**下一步 action**: errors 0 达成 → spec:guarded gate 通过. 残余 103 warnings = designer ownership:
+- 4 blocker family (`NoticeBar` / `Scrollbar` / `ActionSheet` / `Divider`) 测试版 publish 等待 — 74 件
+- pickVariant 29 件 = ① single-screen NavBar / SearchBar 的 default variant (LC L栏=_05, C 全栏=`_11/_05/_02` 分支规则) designer 明示 ② multi-component composition (`AIWindow_Notes` 10 / `搜索页面` 6) — 一 row 中混入多 component 的 variantId. 需 row 细分或 uiElement 分离
 
 ### Stage 3A 剩余 (wire-up gap)
 
@@ -287,13 +287,13 @@ files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-re
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **3A wire-up Step 2 — 实 task sample 누적 (mature 판단)** | 中等 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 別 page 추가 sample → mature 후 verify.ts 본체 rewrite 결정 |
-| 2 | ~~**probe-setkeys family 登记**~~ | ✅ 완료 (2026-06-01) | Keyboard/SelectableChip/Divider 3 family probe → setkeys.json 등록. validate-csv error 39 → 0 |
-| 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 大 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」流程. Step 1 추가 sample 후 진입 |
-| 4 | ~~**csv-to-spec / render-spec 일반 룰 永久化 (#4~#13)**~~ | ✅ 완료 (2026-06-01) | 9 항 audit 결과 全部 이미 코드化 (#5 재해석 / #8 designer task). 위 sample 1 audit 표 참조 |
-| 5 | **probe-todo unverified family** | 小 | NoticeBar (16) / Scrollbar (52) / ActionSheet (6) — 测试版 publish 시 setkeys.json status: blocker → verified. validate-csv warnings 74 → 0 자동 수렴 |
-| 6 | **mapping-input variantId prefix 修正 89 件** | 大 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 등 prefix 自由 입력 — 검토 in extract-mapping.ts 측 정규화 규칙 추가 가능성 |
-| 7 | **pickVariant 残余 29 designer 명시 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 분기 룰) — line 101 Notes csv `LC default L栏=_05` 보임, csv-to-spec 의 single-screen NavBar heuristic (이전 line 467 제거됨) 재정의 가능성 검토. (2) `AIWindow_Notes` / `搜索页面` 같은 composite uiElement 는 row 세분 (uiElement 별로 따로) 또는 csv-to-spec 측 group resolver 추가 |
+| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中等 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完成. 后续 待办 page 或 笔记 别 page 追加 sample → mature 后 verify.ts 本体 rewrite 决定 |
+| 2 | ~~**probe-setkeys family 登记**~~ | ✅ 完成 (2026-06-01) | Keyboard / SelectableChip / Divider 3 family probe → setkeys.json 登录. validate-csv error 39 → 0 |
+| 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 大 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」流程. Step 1 追加 sample 后进入 |
+| 4 | ~~**csv-to-spec / render-spec 通用规则永久化 (#4~#13)**~~ | ✅ 完成 (2026-06-01) | 9 项 audit 结果全部已 coded (#5 重解释 / #8 designer task). 上 sample 1 audit 表参照 |
+| 5 | **probe-todo unverified family** | 小 | NoticeBar (16) / Scrollbar (52) / ActionSheet (6) — 测试版 publish 时 setkeys.json status: blocker → verified. validate-csv warnings 74 → 0 自动收敛 |
+| 6 | **mapping-input variantId prefix 修正 89 件** | 大 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 等 prefix 自由输入 — 检讨在 extract-mapping.ts 侧追加规范化规则的可能性 |
+| 7 | **pickVariant 残余 29 designer 明示 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 分支规则) — line 101 Notes csv `LC default L栏=_05` 可见, csv-to-spec 的 single-screen NavBar heuristic (前次 line 467 移除) 重定义可能性检讨. (2) `AIWindow_Notes` / `搜索页面` 等 composite uiElement 需 row 细分 (uiElement 分别单独) 或 csv-to-spec 侧 group resolver 追加 |
 
 ## 工作衔接的标准流程 (任何 AI 都相同)
 
@@ -304,7 +304,7 @@ files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-re
 4. 接受用户指示
 5. 阅读相应设计文档 (../../Improvement_doc/*.md)
 6. 进行工作
-   - frame 适配 task → 下方「适配 task 标准流程」 절 참조
+   - frame 适配 task → 下方「适配 task 标准流程」节参照
 7. 结束前:
    - 在本文档 "已完成工作" 中追加项
    - 从 "下一步任务队列" 中移除已完成项 + 添加发现的后续任务

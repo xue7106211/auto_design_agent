@@ -146,28 +146,28 @@
 - Pad竖-NLC收起-笔记 (3046:75980, 949×1422) — errors=0
 - Pad横-NLC收起-笔记 (3046:75981, 1422×949) — errors=0
 
-session 内 永久化 commit chain:
-- d065ee7: probe Keyboard/SelectableChip/Divider 3 family → 0 errors
-- 64767ea: validator/runtime sync (PICKVARIANT_RULES → false-positive 14 件 제거)
-- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点 表 우선)
-- 6467714: NavigationBar/TopBar outer=0 풍만 강제 (master 自带 28dp title pl 충분)
+session 内永久化 commit chain:
+- d065ee7: probe Keyboard / SelectableChip / Divider 3 family → 0 errors
+- 64767ea: validator / runtime sync (PICKVARIANT_RULES → 消除 14 件 false-positive)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点表优先)
+- 6467714: NavigationBar / TopBar outer=0 风满强制 (master 自带 28dp title pl 充足)
 
-9 项 audit 결과 (2026-06-01, render-spec.ts 정밀 비교):
+9 项 audit 结果 (2026-06-01, render-spec.ts 精密对比):
 
-| # | 룰 | 상태 | 위치 / 비고 |
+| # | 规则 | 状态 | 位置 / 备注 |
 |---|---|---|---|
 | 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187, L205 |
-| 5 | lane y=0 풍만 (statusBar 영역까지 fill 透出) | ⚠️ 재해석 | sample 1 7 frame 全 frame.fill == lane.fill, 시각 동등. lane.y=statusBarH 유지가 component.y 보정 不要 면에서 더 안전 |
-| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 누적 |
-| 7 | children[0] FILL whitelist | ✅ partial | render-spec.ts L251 SearchBar 만. NavBar/TopBar 는 commit 6467714 후 master 자연 width 충분 |
-| 8 | L list 제목 자동 ellipsis | ❌ 不实施 | #13 inner state walk 금지 우선. designer task |
-| 9 | NLC并列 z-order L→C→N | ✅ coded | createInstance N→L→C 순서 + Sidebar promote (L319) |
+| 5 | lane y=0 风满 (statusBar 区域 fill 透出) | ⚠️ 重解释 | sample 1 全 7 frame 中 frame.fill == lane.fill, 视觉等同. lane.y=statusBarH 维持在 component.y 校正不需方面更安全 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 累加 |
+| 7 | children[0] FILL whitelist | ✅ partial | render-spec.ts L251 仅 SearchBar. NavBar / TopBar 在 commit 6467714 后 master 自然 width 充足 |
+| 8 | L list 标题自动 ellipsis | ❌ 不实施 | #13 inner state walk 禁止规则优先. designer task |
+| 9 | NLC并列 z-order L→C→N | ✅ coded | createInstance N→L→C 顺序 + Sidebar promote (L319) |
 | 10 | NLC覆盖 Sidebar promote + mask 0.2 | ✅ coded | render-spec.ts L315, L288 |
-| 11 | C 분할선 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill |
+| 11 | C 分割线 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill |
 | 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272, L345 |
-| 13 | inner state walk 금지 | ✅ N/A | render-spec.ts 측 inner walk 없음 |
+| 13 | inner state walk 禁止 | ✅ N/A | render-spec.ts 侧无 inner walk |
 
-**결론**: 9 항 全部 코드化 完了 또는 등가 처리. queue #3 (本 9 항) 닫음.
+**结论**: 9 项全部已 coded 或等同处理. queue #3 (本 9 项) 关闭.
 
 ### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
 
@@ -175,10 +175,10 @@ session 内 永久化 commit chain:
 - filesScanned: 17, rowsScanned: 1237
 - **errors: 0**
 - **warnings: 103** (全部 app-Notes-mapping.csv)
-  - `family-not-verified` × 74: NoticeBar(16) / Scrollbar(52) / ActionSheet(6) — setkeys.json status='blocker', 测试版 publish 대기 (외부 dependency)
-  - `pickVariant-fallback` × 29 — 의도된 variant fallback (정상)
+  - `family-not-verified` × 74: NoticeBar(16) / Scrollbar(52) / ActionSheet(6) — setkeys.json status='blocker', 测试版 publish 等待 (外部 dependency)
+  - `pickVariant-fallback` × 29 — 意图的 variant fallback (正常)
 
-action 미필요 — 외부 dependency 解除 시 자동 0 으로 수렴.
+action 不需要 — 外部 dependency 解除时自动 0 收敛.
 
 ## 当前阶段总览
 
@@ -193,7 +193,7 @@ Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威�
 Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
 Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
 Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 验证完成. **Step 3 (SKILL Phase 5 spec consume) 未完**
-Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入. baseline 捕获: errors=0 / warnings=103 (全部 app-Notes-mapping.csv 内 family-not-verified 74 + pickVariant-fallback 29; blocker 3 family = NoticeBar/Scrollbar/ActionSheet 测试版 publish 대기, 외부 dependency)
+Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入. baseline 捕获: errors=0 / warnings=103 (全部 app-Notes-mapping.csv 内 family-not-verified 74 + pickVariant-fallback 29; blocker 3 family = NoticeBar / Scrollbar / ActionSheet 测试版 publish 等待, 外部 dependency)
 ```
 
 ### Stage 3A 剩余（wire-up gap）
@@ -208,10 +208,10 @@ Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pr
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 다음 待办 page or 笔记 别 page 추가 sample → mature 후 verify.ts 本体 rewrite 决议 |
-| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma. Phase 4 componentTaskList「判断」流废弃. Step 1 추가 sample 후 진입 |
-| 3 | ~~**csv-to-spec/render-spec 일반 룰 永久化 (#4~#13)**~~ | ✅ 완료 (2026-06-01) | 9 항 audit 結과 全部 已 코드化 (위 sample 1 audit 표). #8 만 designer task |
-| 4 | **probe-todo unverified family** | 소 | NoticeBar / Scrollbar / ActionSheet 测试版 publish 시 setkeys.json status: blocker → verified, validate-csv warnings 103 → ~0 |
+| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 后续 待办 page 或 笔记 别 page 追加 sample → mature 后 verify.ts 本体 rewrite 决议 |
+| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma. Phase 4 componentTaskList「判断」流废弃. Step 1 追加 sample 后进入 |
+| 3 | ~~**csv-to-spec / render-spec 通用规则永久化 (#4~#13)**~~ | ✅ 完成 (2026-06-01) | 9 项 audit 结果全部已 coded (上 sample 1 audit 表). 仅 #8 为 designer task |
+| 4 | **probe-todo unverified family** | 小 | NoticeBar / Scrollbar / ActionSheet 测试版 publish 时 setkeys.json status: blocker → verified, validate-csv warnings 103 → ~0 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 
