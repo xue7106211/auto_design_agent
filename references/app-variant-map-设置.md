@@ -13,7 +13,7 @@ status: draft
 
 ## 映射表
 
-设置为 LC 布局应用，Phone/Fold外屏无导航栏。
+设置为 LC 布局应用，手机竖/手机横/Fold外竖/Fold外横无导航栏。
 
 | | 手机竖 | 手机横 | Fold外竖 | Fold外横 | Fold内竖NC | Fold内竖LC | Fold内竖C | Fold内横NC | Fold内横LC | Fold内横C | Pad竖NLC | Pad竖NLC收起 | Pad竖NC | Pad竖LC | Pad竖C | Pad横NLC | Pad横NLC收起 | Pad横NC | Pad横LC | Pad横C |
 |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|

@@ -1,0 +1,796 @@
+﻿应用,,PHONE,,FOLD,,,,,,,,PAD,,,,,,,,,,,,,,,
+,,竖屏,横屏,外屏,,内屏 / 竖屏,,,内屏 / 横屏,,,竖屏,,,,,,,,横屏,,,,,,,
+,,,,竖屏,横屏,NC,LC,C,NC,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C
+笔记 Notes,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar
+/ NLC",BottomBar_Showcase_00,,BottomBar_Showcase_00,,,L栏：BottomBar_Showcase_00,,,L栏：BottomBar_Showcase_00,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00", ,,,,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00",,,,,,
+,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar
+ / NL",BottomBar_Showcase_00,,BottomBar_Showcase_00,,,,BottomBar_Showcase_00,,,BottomBar_Showcase_00,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00",,,,,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00",,,,
+,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar
+ / NC",BottomBar_Showcase_00,,BottomBar_Showcase_00,,,,BottomBar_Showcase_00,,,BottomBar_Showcase_00,,,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00",,,,,,,N栏：Sidebar_Component_PAD_NLC_01,"N栏：
+Sidebar_Component_PAD_NLC_00",,
+,标题栏 NavigationBar / NLC,NavigationBar_ComponentSet_01,,NavigationBar_ComponentSet_04,,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：
+NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,
+,标题栏 NavigationBar / N L,NavigationBar_ComponentSet_01,,NavigationBar_ComponentSet_04,,,,NavigationBar_ComponentSet_04,,,NavigationBar_ComponentSet_04,,,"N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_00",,,,,,,"N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_00",,,,
+,标题栏 NavigationBar / NC,NavigationBar_ComponentSet_11,,NavigationBar_ComponentSet_11,,,,NavigationBar_ComponentSet_11,,,NavigationBar_ComponentSet_11,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+
+L栏：
+NavigationBar_ComponentSet_11","N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_Notes_03",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+
+L栏：
+NavigationBar_ComponentSet_11","N栏：
+NavigationBar_ComponentSet_00
+
+
+L栏：
+NavigationBar_ComponentSet_Notes_03",,
+,标题栏 NavigationBar / LC,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_05,,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
+NavigationBar_ComponentSet_08
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
+NavigationBar_ComponentSet_08
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",
+,标题栏 NavigationBar / 详情全屏 / C,NavigationBar_ComponentSet_11,,NavigationBar_ComponentSet_11,,,,NavigationBar_ComponentSet_Notes_01,,,NavigationBar_ComponentSet_Notes_01,,,,,,,,NavigationBar_ComponentSet_Notes_01,,,,,,,,NavigationBar_ComponentSet_Notes_01
+,标题栏 NavigationBar / 私密笔记宫格 / C,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_05,,,,NavigationBar_ComponentSet_05,,,NavigationBar_ComponentSet_05,,,,,,,,NavigationBar_ComponentSet_08,,,,,,,,NavigationBar_ComponentSet_08
+,标题栏 NavigationBar / 思维导图 / C,NavigationBar_ComponentSet_Notes_02,,NavigationBar_ComponentSet_Notes_02,,,,NavigationBar_ComponentSet_Notes_02,,,NavigationBar_ComponentSet_Notes_02,,,,,,,,NavigationBar_ComponentSet_Notes_03,,,,,,,,NavigationBar_ComponentSet_Notes_03
+,标题栏 NavigationBar / 详情 NoteDetail / NLC,NavigationBar_ComponentSet_11,,NavigationBar_ComponentSet_11,,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_04
+
+C栏：NavigationBar_ComponentSet_Notes_01",,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：NavigationBar_ComponentSet_Notes_01",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：NavigationBar_ComponentSet_Notes_01",,,,,,
+,标题栏 NavigationBar / 编辑模式 Edit Mode / NLC,NavigationBar_ComponentSet_03,,NavigationBar_ComponentSet_06,,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_09
+
+C栏：
+NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_18
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_09
+
+C栏：
+NavigationBar_ComponentSet_Notes_01","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_18
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,
+,标题栏 NavigationBar / 编辑模式 Edit Mode / NL,NavigationBar_ComponentSet_03,,NavigationBar_ComponentSet_06,,,,NavigationBar_ComponentSet_06,,,NavigationBar_ComponentSet_06,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_00",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_00",,,,
+,标题栏 NavigationBar / 编辑模式 Edit Mode / LC,NavigationBar_ComponentSet_03,,NavigationBar_ComponentSet_06,,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
+NavigationBar_ComponentSet_09
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
+NavigationBar_ComponentSet_09
+
+C栏：
+NavigationBar_ComponentSet_Notes_01",
+,标题栏 NavigationBar / 思维导图编辑 MindMap_Edit / C,NavigationBar_ComponentSet_Notes_02,,NavigationBar_ComponentSet_Notes_02,,,,C栏：NavigationBar_ComponentSet_Notes_02,,,C栏：NavigationBar_ComponentSet_Notes_02,,,,,,,,NavigationBar_ComponentSet_Notes_03,,,,,,,,NavigationBar_ComponentSet_Notes_03
+,标题栏 NavigationBar / 私密笔记 / LC,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_02,,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：NavigationBar_ComponentSet_Notes_01",,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：NavigationBar_ComponentSet_Notes_01",,,,,,,,"L栏：
+NavigationBar_ComponentSet_08
+
+C栏：NavigationBar_ComponentSet_Notes_00",,,,,,,,"L栏：
+NavigationBar_ComponentSet_08
+
+C栏：NavigationBar_ComponentSet_Notes_00",
+,搜索栏 SearchBar / NLC,SearchBar_ComponentSet_05,,SearchBar_ComponentSet_05,,,"L栏：
+SearchBar_ComponentSet_05",,,"L栏：
+SearchBar_ComponentSet_05",,"L栏：
+SearchBar_ComponentSet_05","L栏：
+SearchBar_ComponentSet_05",,,,,,,"L栏：
+SearchBar_ComponentSet_05","L栏：
+SearchBar_ComponentSet_05",,,,,,
+,搜索栏 SearchBar / NL,SearchBar_ComponentSet_05,,SearchBar_ComponentSet_05,,,,SearchBar_ComponentSet_05,,,SearchBar_ComponentSet_05,,,"L栏：
+TopBar_03","L栏：
+TopBar_07",,,,,,,"L栏：
+TopBar_03","L栏：
+TopBar_07",,,,
+,搜索栏 SearchBar / LC,SearchBar_ComponentSet_02,,SearchBar_ComponentSet_02,,,"L栏：
+SearchBar_ComponentSet_02",, ,"L栏：
+SearchBar_ComponentSet_02",,,,,,,,"L栏：
+SearchBar_ComponentSet_02",,,,,,,,"L栏：
+SearchBar_ComponentSet_02",
+,搜索栏 SearchBar / 编辑模式 Edit Mode / NL,SearchBar_ComponentSet_05,,SearchBar_ComponentSet_05,,,SearchBar_ComponentSet_05,,,SearchBar_ComponentSet_05,,,,"L栏：
+TopBar_09","L栏：
+TopBar_08",,,,,,,"L栏：
+TopBar_09","L栏：
+TopBar_08",,,,
+,搜索页面 / NLC,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00","L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,,,,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00","L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,,,,
+,搜索页面 / NL,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,,"C栏：
+SearchBar_ComponentSet_04,
+
+SearchReceiving_01","C栏：
+SearchBar_ComponentSet_04,
+
+SearchReceiving_01",,,,,,,"C栏：
+SearchBar_ComponentSet_04,
+
+SearchReceiving_01","C栏：
+SearchBar_ComponentSet_04,
+
+SearchReceiving_01",,,,
+,搜索页面 / LC,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,"SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,,,,,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",,,,,,,,"L栏：
+SearchBar_ComponentSet_01,
+
+SearchReceiving_00",
+,信息提示 NoticeBar / NLC,NoticeBar_ComponentSet_01,,NoticeBar_ComponentSet_01,,,"L栏：
+NoticeBar_ComponentSet_01",,,"L栏：
+NoticeBar_ComponentSet_01",,"L栏：
+NoticeBar_ComponentSet_01","L栏：
+NoticeBar_ComponentSet_01",,,,,,,"L栏：
+NoticeBar_ComponentSet_01","L栏：
+NoticeBar_ComponentSet_01",,,,,,
+,信息提示 NoticeBar / NL,NoticeBar_ComponentSet_01,,NoticeBar_ComponentSet_01,,,,NoticeBar_ComponentSet_01,,,NoticeBar_ComponentSet_01,,,"L栏：
+NoticeBar_ComponentSet_01","L栏：
+NoticeBar_ComponentSet_01",,,,,,,"C栏：
+NoticeBar_ComponentSet_01","C栏：
+NoticeBar_ComponentSet_01",,,,
+,标签栏 SelectableChip / NLC,SelectableChip_ComponentSet_Notes_01,,SelectableChip_ComponentSet_Notes_01,,,"L栏：
+SelectableChip_ComponentSet_Notes_02",,,"L栏：
+SelectableChip_ComponentSet_Notes_02",,"L栏：
+SelectableChip_ComponentSet_Notes_00","L栏：
+SelectableChip_ComponentSet_Notes_00",,,,,,,"L栏：
+SelectableChip_ComponentSet_Notes_00","L栏：
+SelectableChip_ComponentSet_Notes_00",,,,,,
+,标签栏 SelectableChip / NL,SelectableChip_ComponentSet_Notes_01,,SelectableChip_ComponentSet_Notes_01,,,,SelectableChip_ComponentSet_Notes_01,,,SelectableChip_ComponentSet_Notes_01,,,"L栏：
+SelectableChip_ComponentSet_Notes_00","L栏：
+SelectableChip_ComponentSet_Notes_00",,,,,,,"L栏：
+SelectableChip_ComponentSet_Notes_00","L栏：
+SelectableChip_ComponentSet_Notes_00",,,,
+,列表 List / NLC,List_Notes_01,,List_Notes_01,,,"L栏：
+List_Notes_03",,,"L栏：
+List_Notes_03",,"L栏：
+List_Notes_03","L栏：
+List_Notes_03",,,,,,,"L栏：
+List_Notes_03","L栏：
+List_Notes_03",,,,,,
+,列表 List  / NL,List_Notes_05,,List_Notes_07,,,,List_Notes_09,,,List_Notes_11,,,"L栏：
+List_Notes_13","L栏：
+List_Notes_15",,,,,,,"L栏：
+List_Notes_17","L栏：
+List_Notes_19",,,,
+,列表 List / LC,List_Notes_01,,List_Notes_01,,,"L栏：
+List_Notes_03",,,"L栏：
+List_Notes_03",,,,,,,,"L栏：
+List_Notes_03",,,,,,,,"L栏：
+List_Notes_03",
+,列表 List / 编辑模式 Edit Mode / NLC,List_Notes_02,,List_Notes_02,,,"L栏：
+List_Notes_04",,,"L栏：
+List_Notes_04",,"L栏：
+List_Notes_04","L栏：
+List_Notes_04",,,,,,,"L栏：
+List_Notes_04","L栏：
+List_Notes_04",,,,,,
+,列表 List / 编辑模式 Edit Mode  / NL,List_Notes_06,,List_Notes_08,,,,List_Notes_10,,,List_Notes_12,,,"L栏：
+List_Notes_14","L栏：
+List_Notes_16",,,,,,,"L栏：
+List_Notes_18","L栏：
+List_Notes_20",,,,
+,列表 List / 编辑模式 Edit Mode / LC,List_Notes_02,,List_Notes_02,,,"L栏：
+List_Notes_04",,,"L栏：
+List_Notes_04",,,,,,,,"L栏：
+List_Notes_04",,,,,,,,"L栏：
+List_Notes_04",
+,底部工具栏 ToolBar / NLC,BottomBar_Showcase_Notes_01,,BottomBar_Showcase_Notes_01,,,"L栏：
+BottomBar_Showcase_Notes_02",,,"L栏：
+BottomBar_Showcase_Notes_02",,"L栏：
+BottomBar_Showcase_Notes_00","L栏：
+BottomBar_Showcase_Notes_00",,,,,,,"L栏：
+BottomBar_Showcase_Notes_00","L栏：
+BottomBar_Showcase_Notes_00",,,,,,
+,底部工具栏 ToolBar / NL,BottomBar_Showcase_Notes_01,,BottomBar_Showcase_Notes_01,,,,"L栏：
+BottomBar_Showcase_Notes_01",,,"L栏：
+BottomBar_Showcase_Notes_01",,,"L栏：
+BottomBar_Showcase_Notes_01","L栏：
+BottomBar_Showcase_Notes_01",,,,,,,"L栏：
+BottomBar_Showcase_Notes_01","L栏：
+BottomBar_Showcase_Notes_01",,,,
+,底部工具栏 ToolBar / LC,BottomBar_Showcase_Notes_01,,BottomBar_Showcase_Notes_01,,,"L栏：
+BottomBar_Showcase_Notes_02",,,"L栏：
+BottomBar_Showcase_Notes_02",,,,,,,,BottomBar_Showcase_Notes_00,,,,,,,,BottomBar_Showcase_Notes_00,
+,底部工具栏 ToolBar / 思维导图 Notes_Outline / C,BottomBar_Notes_Outline_01,,BottomBar_Notes_Outline_01,,,,BottomBar_Notes_Outline_01,,,BottomBar_Notes_Outline_01,,,,,,,,BottomBar_Notes_Outline_01,,,,,,,,BottomBar_Notes_Outline_01
+,底部工具栏 ToolBar / NoteEditPanel / NLC,BottomBar_NoteEditPanel_01,,BottomBar_NoteEditPanel_01,,,"C栏：
+BottomBar_NoteEditPanel_01",,,"C栏：
+BottomBar_NoteEditPanel_01",,"C栏：
+BottomBar_NoteEditPanel_02","C栏：
+BottomBar_NoteEditPanel_02",,,,,,,"C栏：
+BottomBar_NoteEditPanel_02","C栏：
+BottomBar_NoteEditPanel_02",,,,,,
+,底部工具栏 ToolBar / NoteEditPanel / LC,BottomBar_NoteEditPanel_01,,BottomBar_NoteEditPanel_01,,,BottomBar_NoteEditPanel_01,,,BottomBar_NoteEditPanel_01,,,,,,,,"C栏：
+BottomBar_NoteEditPanel_02",,,,,,,,"C栏：
+BottomBar_NoteEditPanel_02",
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / NLC,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,"L栏：
+ToolBar_ComponentSet_01","L栏：
+ToolBar_ComponentSet_01",,,,,,,"L栏：
+ToolBar_ComponentSet_01","L栏：
+ToolBar_ComponentSet_01",,,,,,
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / NL,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"ToolBar_ComponentSet_02：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_02","L栏：
+ToolBar_ComponentSet_02",,,,,,,"L栏：
+ToolBar_ComponentSet_02","L栏：
+ToolBar_ComponentSet_02",,,,
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / LC,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,,,,,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,,,,,,"L栏：
+ToolBar_ComponentSet_01 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",
+,底部工具栏 ToolBar / 思维导图编辑 MindMap_Edit /C,BottomBar_Notes_Outline_02,,BottomBar_Notes_Outline_02,,,,BottomBar_Notes_Outline_02,,,BottomBar_Notes_Outline_02,,,,,,,,BottomBar_Notes_Outline_02,,,,,,,,BottomBar_Notes_Outline_02
+,底部输入框 Input,TextInput_ComponentSet_Notes_01,,TextInput_ComponentSet_Notes_01,,,"C栏：
+TextInput_ComponentSet_Notes_08",,,"C栏：
+TextInput_ComponentSet_Notes_08",,"C栏：
+TextInput_ComponentSet_Notes_00","C栏：
+TextInput_ComponentSet_Notes_00",,,,,,,"C栏：
+TextInput_ComponentSet_Notes_00","C栏：
+TextInput_ComponentSet_Notes_00",,,,,,
+,,TextInput_ComponentSet_Notes_02,,TextInput_ComponentSet_Notes_02,,,C栏：TextInput_ComponentSet_Notes_02,,,C栏：TextInput_ComponentSet_Notes_02,,C栏：TextInput_ComponentSet_Notes_02,C栏：TextInput_ComponentSet_Notes_02,,,,,,,C栏：TextInput_ComponentSet_Notes_02,C栏：TextInput_ComponentSet_Notes_02,,,,,,
+,,TextInput_ComponentSet_Notes_03,,TextInput_ComponentSet_Notes_03,,,C栏：TextInput_ComponentSet_Notes_03,,,C栏：TextInput_ComponentSet_Notes_03,,C栏：TextInput_ComponentSet_Notes_03,C栏：TextInput_ComponentSet_Notes_03,,,,,,,C栏：TextInput_ComponentSet_Notes_03,C栏：TextInput_ComponentSet_Notes_03,,,,,,
+,,TextInput_ComponentSet_Notes_04,,TextInput_ComponentSet_Notes_04,,,C栏：TextInput_ComponentSet_Notes_04,,,C栏：TextInput_ComponentSet_Notes_04,,C栏：TextInput_ComponentSet_Notes_04,C栏：TextInput_ComponentSet_Notes_04,,,,,,,C栏：TextInput_ComponentSet_Notes_04,C栏：TextInput_ComponentSet_Notes_04,,,,,,
+,,TextInput_ComponentSet_Notes_05,,TextInput_ComponentSet_Notes_05,,,C栏：TextInput_ComponentSet_Notes_05,,,C栏：TextInput_ComponentSet_Notes_05,,C栏：TextInput_ComponentSet_Notes_05,C栏：TextInput_ComponentSet_Notes_05,,,,,,,C栏：TextInput_ComponentSet_Notes_05,C栏：TextInput_ComponentSet_Notes_05,,,,,,
+,,TextInput_ComponentSet_Notes_06,,TextInput_ComponentSet_Notes_06,,,C栏：TextInput_ComponentSet_Notes_06,,,C栏：TextInput_ComponentSet_Notes_06,,C栏：TextInput_ComponentSet_Notes_06,C栏：TextInput_ComponentSet_Notes_06,,,,,,,C栏：TextInput_ComponentSet_Notes_06,C栏：TextInput_ComponentSet_Notes_06,,,,,,
+,,TextInput_ComponentSet_Notes_07,,TextInput_ComponentSet_Notes_07,,,C栏：TextInput_ComponentSet_Notes_07,,,C栏：TextInput_ComponentSet_Notes_07,,C栏：TextInput_ComponentSet_Notes_07,C栏：TextInput_ComponentSet_Notes_07,,,,,,,C栏：TextInput_ComponentSet_Notes_07,C栏：TextInput_ComponentSet_Notes_07,,,,,,
+,滚动条 Scrollbar / NLC,Scrollbar_ComponentSet_01,,Scrollbar_ComponentSet_01,,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,"N栏：Scrollbar_ComponentSet_01
+
+L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,,,,,"N栏：Scrollbar_ComponentSet_01
+
+L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,,,,
+,滚动条 Scrollbar / NL,Scrollbar_ComponentSet_01,,Scrollbar_ComponentSet_01,,,,Scrollbar_ComponentSet_01,,,Scrollbar_ComponentSet_01,,,"N栏：Scrollbar_ComponentSet_01
+
+L栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+
+L栏：Scrollbar_ComponentSet_01",,,,,,,"N栏：Scrollbar_ComponentSet_01
+
+
+L栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+
+l栏：Scrollbar_ComponentSet_01",,,,
+,滚动条 Scrollbar / NC,Scrollbar_ComponentSet_01,,Scrollbar_ComponentSet_01,,,,Scrollbar_ComponentSet_01,,,Scrollbar_ComponentSet_01,,,,,"N栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+C栏：Scrollbar_ComponentSet_01",,,,,,,"N栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01","N栏：不展示
+
+C栏：Scrollbar_ComponentSet_01",,
+,滚动条 Scrollbar / LC,Scrollbar_ComponentSet_01,,Scrollbar_ComponentSet_01,,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,,,,,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",,,,,,,,"L栏：Scrollbar_ComponentSet_01
+
+C栏：Scrollbar_ComponentSet_01",
+,滚动条 Scrollbar / C,Scrollbar_ComponentSet_01,,Scrollbar_ComponentSet_01,,,,Scrollbar_ComponentSet_01,,,Scrollbar_ComponentSet_01,,,,,,,,Scrollbar_ComponentSet_01,,,,,,,,Scrollbar_ComponentSet_01
+,文字格式弹窗 TextFormatPanel / NLC,TextFormatPanel_01,,TextFormatPanel_01,,,"C栏：
+TextFormatPanel_02",,,"C栏：
+TextFormatPanel_01",,"C栏：
+TextFormatPanel_01","C栏：
+TextFormatPanel_01",,,,,,,"C栏：
+TextFormatPanel_01","C栏：
+TextFormatPanel_01",,,,,,
+,浮层 Overay / 管理文件夹 / Sidebar_Notes / NLC,Sidebar_Notes_01,,Sidebar_Notes_01,,,Sidebar_Notes_01,,,Sidebar_Notes_01,,Notes_FloatingWindow_01,,,,,,,,Notes_FloatingWindow_01,,,,,,,
+,浮层 Overay / 抽屉窗口 FloatingWindow,DrawerWindow_ComponentSet_high_01,,DrawerWindow_ComponentSet_high_01,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,,,,,,FloatingWindow_ComponentSet_01,,,,,,,
+,浮层 Overay / 分段按钮 Segmented Controls,SegmentedControls_ComponentSet_01,,SegmentedControls_ComponentSet_01,,SegmentedControls_ComponentSet_01,,,SegmentedControls_ComponentSet_01,,,SegmentedControls_ComponentSet_02,,,,,,,,SegmentedControls_ComponentSet_02,,,,,,,
+,浮层 Overay / 弹窗 Dialog,AlertDialog_ComponentSet_01,,AlertDialog_ComponentSet_01,,AlertDialog_ComponentSet_01,,,AlertDialog_ComponentSet_01,,,AlertDialog_ComponentSet_01,,,,,,,,AlertDialog_ComponentSet_01,,,,,,,
+,浮层 Overay / 选择器 Picker ,WheelPicker_ComponentSet_01,,WheelPicker_ComponentSet_01,,WheelPicker_ComponentSet_01,,,WheelPicker_ComponentSet_01,,,WheelPicker_ComponentSet_01,,,,,,,,WheelPicker_ComponentSet_01,,,,,,,
+,浮层 Overay / 菜单 Menu / NLC,Menu_ComponentSet_03,,Menu_ComponentSet_03,,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01","L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,,,,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01","L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,,,,
+,浮层 Overay / 菜单 Menu / NL,Menu_ComponentSet_03,,Menu_ComponentSet_03,,,,"C栏：
+Menu_ComponentSet_03",,,"C栏：
+Menu_ComponentSet_03",,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+Menu_ComponentSet_03","
+N栏：
+不展示
+
+L栏：
+Menu_ComponentSet_03",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+Menu_ComponentSet_03","
+N栏：
+不展示
+
+l栏：
+Menu_ComponentSet_03",,,,
+,浮层 Overay / 菜单 Menu / NC,Menu_ComponentSet_03,,Menu_ComponentSet_03,,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,,,,"N栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01","N栏：
+Menu_ComponentSet_00
+
+C栏：
+Menu_ComponentSet_01",,,,,,,"N栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01","N栏：
+Menu_ComponentSet_00
+
+C栏：
+Menu_ComponentSet_01",,
+,浮层 Overay / 菜单 Menu / LC,Menu_ComponentSet_03,,Menu_ComponentSet_03,,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,"L栏：
+Menu_ComponentSet_03
+
+C栏：
+Menu_ComponentSet_01",,,,,,,,"L栏：
+Menu_ComponentSet_00
+
+C栏：
+Menu_ComponentSet_01",,,,,,,,"L栏：
+Menu_ComponentSet_00
+
+C栏：
+Menu_ComponentSet_01",
+,浮层 Overay / 菜单 Menu / C,Menu_ComponentSet_03,,Menu_ComponentSet_03,,,,Menu_ComponentSet_01,,,Menu_ComponentSet_01,,,,,,,,Menu_ComponentSet_03,,,,,,,,Menu_ComponentSet_03
+,浮层 Overay / 行动操作按钮 ActionSheet ,Actionsheet_ComponentSet_01,,Actionsheet_ComponentSet_01,,Actionsheet_ComponentSet_01,,,Actionsheet_ComponentSet_01,,,Actionsheet_ComponentSet_01,,,,,,,,Actionsheet_ComponentSet_01,,,,,,,
+,笔记详情 DetailNotes / NLC,DetailNotes_01,,DetailNotes_01,,,"C栏：
+DetailNotes_01",,,"C栏：
+DetailNotes_01",,"C栏：
+DetailNotes_01","C栏：
+DetailNotes_01",,,,,,,"C栏：
+DetailNotes_01","C栏：
+DetailNotes_01",,,,,,
+,笔记详情 DetailNotes/ NC,DetailNotes_01,,DetailNotes_01,,,,DetailNotes_01,,,DetailNotes_01,,,,,"C 栏：
+DetailNotes_01","C 栏：
+DetailNotes_01",,,,,,,"C 栏：
+DetailNotes_01","C 栏：
+DetailNotes_01",,
+,笔记详情 DetailNotes / LC,DetailNotes_01,,DetailNotes_01,,,"C栏：
+DetailNotes_01",,,"C栏：
+DetailNotes_01",,,,,,,,"C栏：
+DetailNotes_01",,,,,,,,"C栏：
+DetailNotes_01",
+,笔记详情 DetailNotes / C,DetailNotes_01,,DetailNotes_01,,,,DetailNotes_01,,,DetailNotes_01,,,,,,,,DetailNotes_01,,,,,,,,DetailNotes_01
+,"AI窗口 AIWindow_Notes / 顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar / NC",Sidebar_Component_PAD_NLC_00,,Sidebar_Component_PAD_NLC_00,,,,Sidebar_Component_PAD_NLC_00,,,Sidebar_Component_PAD_NLC_00,,,,,"N栏：
+Sidebar_Component_PAD_NLC_01","N栏：
+Sidebar_Component_PAD_NLC_00",,,,,,,,,,
+,AI窗口 AIWindow_Notes / 标题栏 NavigationBar / NC,NavigationBar_ComponentSet_10,,NavigationBar_ComponentSet_13,,,,NavigationBar_ComponentSet_13,,,NavigationBar_ComponentSet_13,,,,,"N栏：
+NavigationBar_ComponentSet_00
+
+C栏：
+NavigationBar_ComponentSet_10","N栏：
+NavigationBar_ComponentSet_00
+
+C栏：
+NavigationBar_ComponentSet_12", ,,,,,,"N栏：
+NavigationBar_ComponentSet_00
+
+C栏：
+NavigationBar_ComponentSet_10","N栏：
+NavigationBar_ComponentSet_00
+
+C栏：
+NavigationBar_ComponentSet_12",,
+,AI窗口 AIWindow_Notes / 选项 Options / NC,AIWindow_Options_01,,AIWindow_Options_02,,,,AIWindow_Options_03,,,AIWindow_Options_04,,,,,C栏：AIWindow_Options_05,C栏：AIWindow_Options_05,,,,,,,C栏：AIWindow_Options_06,C栏：AIWindow_Options_06,,
+,AI窗口 AIWindow_Notes / 容器 / NC,DrawerWindow_ComponentSet_high_01,,竖屏背景,,,,C栏：竖屏背景,,,C栏：竖屏背景,,,,,C栏：竖屏背景,C栏：竖屏背景,,,,,,,C栏：竖屏背景,C栏：竖屏背景,,
+,AI窗口 AIWindow_Notes / 底部输入框 TextInput / NC,TextInput_ComponentSet_Notes_02,,TextInput_ComponentSet_Notes_02,,,,TextInput_ComponentSet_Notes_02,,,TextInput_ComponentSet_Notes_02,,,,,TextInput_ComponentSet_Notes_02,TextInput_ComponentSet_Notes_02,,,,,,,TextInput_ComponentSet_Notes_02,TextInput_ComponentSet_Notes_02,,
+,AI窗口 AIWindow_Notes / 思维导图 Notes_Outline,,,,,,,,,,,,,,,,,,,,,,,,,,
+,录音窗口 RecordNotes,RecordNotes_01,,RecordNotes_01,,,RecordNotes_02,,,RecordNotes_02,,RecordNotes_02,RecordNotes_02,,,,,,,RecordNotes_02,RecordNotes_02,,,,,,
+,应用设置页面 AppSettings / 一级,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_02,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,FloatingWindow_ComponentSet_01,,,,,,,,FloatingWindow_ComponentSet_01,,,,,,,
+,应用设置页面 AppSettings / 二级,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_02,,FloatingWindow_ComponentSet_02,,,FloatingWindow_ComponentSet_02,,,FloatingWindow_ComponentSet_02,,,,,,,,FloatingWindow_ComponentSet_02,,,,,,,
+待办 Tasks,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar",BottomBar_Showcase_00,,BottomBar_Showcase_00,,,"L栏：
+BottomBar_Showcase_00",,,"L栏：
+BottomBar_Showcase_00",,N栏：Sidebar_Component_PAD_NLC_01,N栏：Sidebar_Component_PAD_NLC_00,,,,,,,N栏：Sidebar_Component_PAD_NLC_01,N栏：Sidebar_Component_PAD_NLC_00,,,,,,
+,标题栏 NavigationBar,NavigationBar_ComponentSet_02,,NavigationBar_ComponentSet_05,,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：NavigationBar_ComponentSet_00",,,"L栏：
+NavigationBar_ComponentSet_05
+
+C栏：NavigationBar_ComponentSet_00",,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：NavigationBar_ComponentSet_00",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_07
+
+C栏：NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_17
+
+C栏：NavigationBar_ComponentSet_00",,,,,,
+,标题栏 NavigationBar / 编辑模式,NavigationBar_ComponentSet_03,,NavigationBar_ComponentSet_06,,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_00",,,"L栏：
+NavigationBar_ComponentSet_06
+
+C栏：
+NavigationBar_ComponentSet_00",,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_09
+
+C栏：NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_18
+
+C栏：NavigationBar_ComponentSet_00",,,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+L栏：
+NavigationBar_ComponentSet_09
+
+C栏：NavigationBar_ComponentSet_00","N栏：
+NavigationBar_ComponentSet_00
+
+L栏：
+NavigationBar_ComponentSet_18
+
+C栏：NavigationBar_ComponentSet_00",,,,,,
+,搜索栏 SearchBar,SearchBar_ComponentSet_05,,SearchBar_ComponentSet_05,,,"L栏：
+SearchBar_ComponentSet_05",,,"L栏：
+SearchBar_ComponentSet_05",,"L栏：
+SearchBar_ComponentSet_05","L栏：
+SearchBar_ComponentSet_05",,,,,,,"L栏：
+SearchBar_ComponentSet_05","L栏：
+SearchBar_ComponentSet_05",,,,,,
+,标签栏 SelectableChip / NLC,SelectableChip_ComponentSet_Notes_01,,SelectableChip_ComponentSet_Notes_01,,,"L栏：
+SelectableChip_ComponentSet_Notes_02",,,"L栏：
+SelectableChip_ComponentSet_Notes_02",,"N栏：
+SelectableChip_ComponentSet_Notes_00","N栏：
+SelectableChip_ComponentSet_Notes_00",,,,,,,"N栏：
+SelectableChip_ComponentSet_Notes_00","N栏：
+SelectableChip_ComponentSet_Notes_00",,,,,,
+,列表 List / NLC,List_Task_01,,List_Task_01,,,"L栏
+List_Task_03",,,"L栏
+List_Task_03",,"L栏
+List_Task_03","L栏
+List_Task_03",,,,,,,"L栏
+List_Task_03","L栏
+List_Task_03",,,,,,
+,列表 List / 编辑模式 Edit Mode,List_Task_02,,List_Task_02,,,"L栏：
+List_Task_04",,,"L栏：
+List_Task_04",,"L栏：
+List_Task_04","L栏：
+List_Task_04",,,,,,,"L栏：
+List_Task_04","L栏：
+List_Task_04",,,,,,
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / NLC,ToolBar_ComponentSet_02,,ToolBar_ComponentSet_02,,,"L栏：
+ToolBar_ComponentSet_01",,,"L栏：
+ToolBar_ComponentSet_01",,"L栏：
+ToolBar_ComponentSet_01","L栏：
+ToolBar_ComponentSet_01",,,,,,,"L栏：
+ToolBar_ComponentSet_01","L栏：
+ToolBar_ComponentSet_01",,,,,,
+,弹窗 AlertDialog,NewTaskWindow_01,,NewTaskWindow_01,,,C栏：NewTaskWindow_01,,,"C栏：
+NewTaskWindow_01",,"C栏：
+NewTaskWindow_01","C栏：
+NewTaskWindow_01",,,,,,,"C栏：
+NewTaskWindow_01","C栏：
+NewTaskWindow_01",,,,,,
+,,NewTaskWindow_02,,NewTaskWindow_02,,,C栏：NewTaskWindow_02,,,C栏：NewTaskWindow_02,,"C栏：
+NewTaskWindow_02","C栏：
+NewTaskWindow_02",,,,,,,"C栏：
+NewTaskWindow_02","C栏：
+NewTaskWindow_02",,,,,,
+,Fab,Fab_01,,Fab_01,,,"C栏：
+Fab_01",,,"C栏：
+Fab_01",,"C栏：
+Fab_00","C栏：
+Fab_00",,,,,,,"C栏：
+Fab_00","C栏：
+Fab_00",,,,,,
+,待办详情 DetailTask / NLC,,,DetailTask_00,,,"C栏：
+DetailTask_01",,,"C栏：
+DetailTask_01",,"C栏：
+DetailTask_01","C栏：
+DetailTask_01",,,,,,,"C栏：
+DetailTask_01","C栏：
+DetailTask_01",,,,,,

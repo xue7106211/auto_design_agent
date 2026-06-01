@@ -136,3 +136,25 @@ Pad 竖 NLC 覆盖时 frame 子级顺序（`scenarioFlags.NCovering=true` 单独
 **关键**：Sidebar 在多 mask 场景仍位于 N 覆盖遮罩之上（trigger 豁免原则）。L 栏不豁免 N 覆盖遮罩，但豁免编辑遮罩。**禁止凭直觉将 L 栏与 Sidebar 同 z 层处理**。
 
 详见 `common-rules.md §3.7b`。
+
+## 阴影裁切防止（迁出自 common-rules §3.9，2026-05-26）
+
+**症状**：`Sidebar_Component_PAD_NLC_*` 卡片自身含圆角 + 外部阴影。父 frame 链中任意一层 `clipsContent = true` → 阴影被裁切，N \| L 边界处的视觉浮起消失。
+
+**Sidebar 放置位置（强制）**：
+
+| 模式 | Sidebar 父节点 | 原因 |
+|------|--------------|------|
+| Pad 横 NLC（并列）| **frame 直接子级**（不放入 N 栏内部）| 放入 N 栏内部 → 阴影在 N 栏边界被裁切；即便 `clipsContent=false`，z-order 层级也不足以越过 L 栏之上 |
+| Pad 竖 NLC（覆盖）| **frame 直接子级** | 覆盖模式自然满足 |
+
+> ⚠️ **禁止将 Sidebar 放入 `main > N 栏` 内部**。Sidebar 必须为 frame 直接子级，通过 z-order（`component-placement-protocol.md §3` 模板）使阴影投射至 L 栏之上。N 栏 frame 仅在 main 内部占位（可保留空 frame 或省略）。
+
+**clipsContent 设置**：
+
+| 模式 | 目标 frame | main |
+|------|-----------|------|
+| Pad 横 NLC | `true`（保留圆角）| **`false`** |
+| Pad 竖 NLC | `true` | 不影响 |
+
+**Phase 6 验证**：Pad 横 截图中确认 Sidebar 右侧阴影渐变越过 N\|L 边界进入 L 栏。common-rules.md §6.2 #14 自动验证。

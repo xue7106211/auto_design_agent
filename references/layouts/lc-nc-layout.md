@@ -72,11 +72,11 @@ Fold 内屏竖屏 `LC` 是本约束的重点场景：
 - **栏顶 6dp 间距**：`L / C` 栏内顶部对齐控件（NavigationBar / SearchBar / Chip / List / Detail 等）第一项从 `y = 6` 开始；详见 `device-dimensions.md` 「基本对齐方式」。`Sidebar_Component_*` 外壳例外，直接贴紧状态栏下沿（`y = 0`）
 - **栏 padding**：按 `device-dimensions.md` 「断点间距」表由各栏宽度自动决定，与模式无关；栏内顶部对齐控件 `x = 栏padding`，宽度 = `栏W - 2 * 栏padding`
 - **★ scenarioFlags 驱动的遮罩处理（必读）**：消费 SKILL Phase 4 step 7 输出的 `scenarioFlags` JSON，按以下条件分别处理：
-  - `flags.LEditMode === true`（LC 最常见 trigger）→ 调用 `common-rules §3.7a`：① L 栏从 main 提升至 frame 直接子级 ② 添加 `遮罩-编辑`（Cw × frameH，仅 C 列）③ z-order 按 `protocol.md §3` 编辑模式扩展模板（LC 行）
+  - `flags.LEditMode === true`（LC 最常见 trigger）→ 调用 `common-rules-mask-zorder.md §3.7a`：① L 栏从 main 提升至 frame 直接子级 ② 添加 `遮罩-编辑`（Cw × frameH，仅 C 列）③ z-order 按 `protocol.md §3` 编辑模式扩展模板（LC 行）
   - `flags.CEditMode` only → 不渲染任何 mask（§3.7a 末）
   - LC 模式不存在 `NCovering`（无 N 栏）；如 user 切换为 NC，参考 `nlc-layout.md` 的 scenarioFlags 处理逻辑
 
-写入模式参考：`references/common-rules.md` 的“写入与降级策略”和“校验与修正”。
+写入模式参考：`references/common-rules-instance.md` (§4 写入 优先级) + `references/common-rules-verify.md` (§6 校验).
 
 > **★ protocol.md 函数调用强制（必读）**：本 layout reference 中的所有组件落位 / variant 切换 / resize / fill 写入 必须通过 `references/component-placement-protocol.md` 的标准函数：
 > - 组件落位 / swap / resize → `placeStandardComponent({...})` (§2)

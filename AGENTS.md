@@ -2,6 +2,58 @@
 
 本文件面向在本仓库内工作的 Agent。目标不是解释产品功能，而是约束如何安全、稳定地维护这些 Skill 文档。
 
+## 当前进行中的改革工作（2026-05 起）
+
+> **任何 AI Agent（Claude / Cursor / Codex / 其他）开始工作前必读**：
+
+正在进行 `workflow-reform-plan` 三阶段改革。
+
+### 文档位置
+
+映射工作所有资产（输入/输出/脚本/进度/Node 设置）集中在 **`csv-pipeline/` 单一文件夹**，自足封闭。
+
+| 路径 | 用途 |
+|---|---|
+| `csv-pipeline/` (项目内) | 映射工作全部资产 — README, project-status, mapping-input, mapping-output, scripts, package.json |
+| `../Improvement_doc/` (项目外，上级 `csv-migration/` 下) | 改革设计文档 — workflow-reform-plan / csv-authoring-guide / extract-mapping-design |
+
+> ⚠️ 注意：设计文档在**上层工作区**的 `Improvement_doc/`，工作资产在**项目内部**的 `csv-pipeline/`。避免同名文件夹冲突。
+
+### 接续工作的标准流程
+
+1. 读 `csv-pipeline/README.md` 把握 csv-pipeline 文件夹结构
+2. 读 `csv-pipeline/project-status-ko.md`（或 `.md`）确认现状与下一步队列
+3. 按用户指示读 `../Improvement_doc/` 下对应的 design 文档
+4. 执行任务
+5. 任务完成后 **必须** 更新 `csv-pipeline/project-status-ko.md`（同时更新 `.md`），让下个 session 的另一 AI 能无缝接续
+
+### 通用命令（任何 AI 通过 shell 调用）
+
+```bash
+cd csv-pipeline
+npm install       # 首次执行
+npm run extract   # Stage 1A：mapping-input/ → mapping-output/ 重新抽取
+npm run status    # 显示 mapping-output/ 当前状态 + 下一步队列
+```
+
+### 关键文档索引（按需读取，不要一次性全读）
+
+| 文档 | 用途 |
+|---|---|
+| `csv-pipeline/README.md` | csv-pipeline 文件夹入口 |
+| `csv-pipeline/project-status-ko.md` / `.md` | 当前进度 + 下一步队列（先读这个）|
+| `../Improvement_doc/workflow-reform-plan-ko.md` / `.md` | 三阶段改革总规划 |
+| `../Improvement_doc/csv-authoring-guide-ko.md` / `.md` | CSV 2-Tier 格式 + §0.4 单一权威原则 |
+| `../Improvement_doc/extract-mapping-design-ko.md` / `.md` | extract-mapping.ts 设计 + 已锁定决议 |
+
+### 决议变更禁止
+
+`../Improvement_doc/*.md` 中明确锁定的决议（标 ✅ 或"已确定"），未经用户确认不得修改。如确需变更：先改文档 → 再改代码。
+
+---
+
+
+
 ## 仓库定位
 
 - 这是一个 Figma 多终端适配的 Agent Skill 仓库，不是应用代码仓库。

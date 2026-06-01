@@ -1,0 +1,16 @@
+﻿应用,,PHONE,,FOLD,,,,,,,,PAD,,,,,,,,,,,,,,,
+,,竖屏,横屏,外屏,,内屏 / 竖屏,,,内屏 / 横屏,,,竖屏,,,,,,,,横屏,,,,,,,
+,,,,竖屏,横屏,NC,LC,C,NC,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C,NLC,NLC收起,NL,NL收起,NC,NC收起,LC,C
+相册 Gallery,"顶部导航栏 TopBar
+侧边栏 Sidebar
+底部导航栏 BottomBar",BottomBar_Showcase_Fab_01,BottomBar_Showcase_Fab_02,BottomBar_Showcase_Fab_01,BottomBar_Showcase_Fab_02,,,BottomBar_Showcase_Fab_01,,,BottomBar_Showcase_Fab_02,,,,,Sidebar_Component_PAD_NLC_01,,,TopBar_01,,,,,Sidebar_Component_PAD_NLC_01,,,TopBar_01
+,标题栏 NavigationBar,NavigationBar_ComponentSet_01,无标题栏,NavigationBar_ComponentSet_04,NavigationBar_ComponentSet_04,,,NavigationBar_ComponentSet_04,,,NavigationBar_ComponentSet_04,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+C栏：
+NavigationBar_ComponentSet_10",,,TopBar_01 标题栏,,,,,"N栏：
+NavigationBar_ComponentSet_12
+
+C栏：
+NavigationBar_ComponentSet_10",,,TopBar_01 标题栏
+,搜索栏 SearchBar,Fab_01：白色,Fab_01：白色,Fab_01：白色,Fab_01：白色,,,Fab_01：白色,,,Fab_01：白色,,,,,C栏：NavigationBar_ComponentSet_07 搜索图标,,,TopBar_01 搜索图标,,,,,C栏：NavigationBar_ComponentSet_07 搜索图标,,,TopBar_01 搜索图标

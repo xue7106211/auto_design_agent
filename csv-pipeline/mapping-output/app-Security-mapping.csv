@@ -1,0 +1,13 @@
+app,subScene,scene,state,uiElement,device,screenMode,栏,variantId,notes,framework
+Security,,NLC,默认,TopBar,手机竖,,全栏,_00,不渲染,
+Security,,NLC,默认,TopBar,Fold外竖,,全栏,_00,不渲染,
+Security,,C,默认,TopBar,Fold内竖,C,全栏,_00,不渲染,
+Security,,C,默认,TopBar,Fold内横,C,全栏,_00,不渲染,
+Security,,C,默认,TopBar,Pad竖,C,全栏,_00,不渲染,
+Security,,C,默认,TopBar,Pad横,C,全栏,_00,不渲染,
+Security,,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_10,,
+Security,,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_15,,
+Security,,C,默认,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_15,,
+Security,,C,默认,NavigationBar,Fold内横,C,全栏,NavigationBar_ComponentSet_15,,
+Security,,C,默认,NavigationBar,Pad竖,C,全栏,NavigationBar_ComponentSet_10,,
+Security,,C,默认,NavigationBar,Pad横,C,全栏,NavigationBar_ComponentSet_10,,

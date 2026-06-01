@@ -1,0 +1,13 @@
+app,subScene,scene,state,uiElement,device,screenMode,栏,variantId,notes,framework
+Compass,,NLC,默认,BottomBar,手机竖,,全栏,BottomBar_Showcase_01,,
+Compass,,NLC,默认,BottomBar,Fold外竖,,全栏,BottomBar_Showcase_01,,
+Compass,,C,默认,BottomBar,Fold内竖,C,全栏,BottomBar_Showcase_01,,
+Compass,,C,默认,TopBar,Fold内横,C,全栏,_00,不渲染,
+Compass,,C,默认,TopBar,Pad竖,C,全栏,_00,不渲染,
+Compass,,C,默认,TopBar,Pad横,C,全栏,_00,不渲染,
+Compass,,NLC,默认,NavigationBar,手机竖,,全栏,NavigationBar_ComponentSet_10,,
+Compass,,NLC,默认,NavigationBar,Fold外竖,,全栏,NavigationBar_ComponentSet_10,,
+Compass,,C,默认,NavigationBar,Fold内竖,C,全栏,NavigationBar_ComponentSet_10,,
+Compass,,C,默认,NavigationBar,Fold内横,C,全栏,_00,不渲染,
+Compass,,C,默认,NavigationBar,Pad竖,C,全栏,_00,不渲染,
+Compass,,C,默认,NavigationBar,Pad横,C,全栏,_00,不渲染,

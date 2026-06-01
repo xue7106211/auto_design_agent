@@ -54,12 +54,12 @@
 - **Pad 竖屏 NLC 覆盖模式**（应用级可选）：L/C 使用 LC 基准尺寸（L 428 + C 521），Sidebar 以 `覆盖` 形式叠在 L+C 之上；遮罩覆盖整个 frame（含状态栏），Sidebar 位于遮罩之上。详见 `device-dimensions.md`「覆盖 布局实例示范」
 - **N 栏 Sidebar 阴影 z-order 例外（并列 / 覆盖 通用）**：Sidebar 外壳允许阴影外溢，且阴影必须渲染于 L/C 之上。因此 `并列` 模式下必须把 Sidebar 从 N 栏容器取出，改挂到 frame 直接子级（最后位 = 最上层），`main` 改为 non-autolayout，L/C 手动定位到 N 栏宽度之后；`覆盖` 模式天然满足。详见 `device-dimensions.md`「N 栏 Sidebar 阴影 z-order」
 - **★ scenarioFlags 驱动的遮罩处理（必读）**：消费 SKILL Phase 4 step 7 输出的 `scenarioFlags` JSON，按以下条件分别处理：
-  - `flags.NCovering === true` → 调用 `common-rules §3.7` 添加 `遮罩-N覆盖`（全 frame，opacity 0.2）
-  - `flags.LEditMode === true` → 调用 `common-rules §3.7a`：① L 栏从 main 提升至 frame 直接子级 ② 添加 `遮罩-编辑`（Cw × frameH，仅 C 列）③ z-order 按 `protocol.md §3` 编辑模式扩展模板
-  - `flags.LEditMode + NCovering` 同时 → `common-rules §3.7b` 多 mask z-order：`main → 遮罩-编辑 → 状态栏 → 分割线 → L 栏 → 遮罩-N覆盖 → Sidebar → 杆子`
+  - `flags.NCovering === true` → 调用 `common-rules-mask-zorder.md §3.7` 添加 `遮罩-N覆盖`（全 frame，opacity 0.2）
+  - `flags.LEditMode === true` → 调用 `common-rules-mask-zorder.md §3.7a`：① L 栏从 main 提升至 frame 直接子级 ② 添加 `遮罩-编辑`（Cw × frameH，仅 C 列）③ z-order 按 `protocol.md §3` 编辑模式扩展模板
+  - `flags.LEditMode + NCovering` 同时 → `common-rules-mask-zorder.md §3.7b` 多 mask z-order：`main → 遮罩-编辑 → 状态栏 → 分割线 → L 栏 → 遮罩-N覆盖 → Sidebar → 杆子`
   - `flags.CEditMode` only → 不渲染任何 mask（§3.7a 末）
 
-写入模式参考：`references/common-rules.md` 的"写入与降级策略"和"校验与修正"。
+写入模式参考：`references/common-rules-instance.md` (§4 写入 优先级) + `references/common-rules-verify.md` (§6 校验).
 
 > **★ protocol.md 函数调用强制（必读）**：本 layout reference 中的所有组件落位 / variant 切换 / resize / fill 写入 必须通过 `references/component-placement-protocol.md` 的标准函数：
 > - 组件落位 / swap / resize → `placeStandardComponent({...})` (§2)

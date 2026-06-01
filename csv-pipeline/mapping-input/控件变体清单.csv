@@ -1,0 +1,245 @@
+﻿,VariantName,ComponentFamily,VariantId,Space,案例,组件完成情况,Figma MCP & Skill 测试,,,,,,,,,,,,,,
+状态栏 StatusBar,状态栏_手机Fold_01,StatusBar,StatusBar_01,,,,,,,,,,,,,,,,,,
+,状态栏_Pad,StatusBar,StatusBar_03,,,,,,,,,,,,,,,,,,
+控制杆 SwipeIndicator,控制杆_手机_竖屏_01,SwipeIndicator,SwipeIndicator_01,,,,,,,,,,,,,,,,,,
+,控制杆_手机_横屏_01,SwipeIndicator,SwipeIndicator_02,,,,,,,,,,,,,,,,,,
+,控制杆_Fold_外屏_竖屏_01,SwipeIndicator,SwipeIndicator_03,,,,,,,,,,,,,,,,,,
+,控制杆_Fold_外屏_横屏_01,SwipeIndicator,SwipeIndicator_04,,,,,,,,,,,,,,,,,,
+,控制杆_Fold_内屏_竖屏_01,SwipeIndicator,SwipeIndicator_05,,,,,,,,,,,,,,,,,,
+,控制杆_Fold_内屏_横屏_01,SwipeIndicator,SwipeIndicator_06,,,,,,,,,,,,,,,,,,
+,控制杆_Pad_竖屏_01,SwipeIndicator,SwipeIndicator_07,,,,,,,,,,,,,,,,,,
+,控制杆_Pad_横屏_01,SwipeIndicator,SwipeIndicator_08,,,,,,,,,,,,,,,,,,
+标题栏 NavigationBar,无标题栏,NavigationBar,NavigationBar_ComponentSet_00,,,YES,通过,,,,,,,,,,,,,,
+,大标题_手机默认,NavigationBar,NavigationBar_ComponentSet_01,"左12，右12
+标题左侧：28",,YES,通过,,,,,,,,,,,,,,
+,大标题_返回,NavigationBar,NavigationBar_ComponentSet_02,"左12，右12
+标题左侧：28",,YES,,,,,,,,,,,,,,,
+,大标题_编辑,NavigationBar,NavigationBar_ComponentSet_03,"左12，右12
+标题左侧：28",,YES,,,,,,,,,,,,,,,
+ ,中标题_左对齐,NavigationBar,NavigationBar_ComponentSet_04,"左12，右12
+标题左侧：28",,YES,通过,,,,,,,,,,,,,,
+,中标题_左对齐_返回,NavigationBar,NavigationBar_ComponentSet_05,"左12，右12
+标题左侧：28",,YES,,,,,,,,,,,,,,,
+,中标题_左对齐_编辑,NavigationBar,NavigationBar_ComponentSet_06,"左12，右12
+标题左侧：28",,YES,,,,,,,,,,,,,,,
+,中标题_左对齐_无标题,NavigationBar,NavigationBar_ComponentSet_15,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题,NavigationBar,NavigationBar_ComponentSet_07,左12，右12,,YES,通过,,,,,,,,,,,,,,
+,小标题_左对齐,NavigationBar,NavigationBar_ComponentSet_16,左12，右12,,15日YES,通过,,,,,,,,,,,,,,
+,小标题_返回,NavigationBar,NavigationBar_ComponentSet_08,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_编辑,NavigationBar,NavigationBar_ComponentSet_09,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_无标题,NavigationBar,NavigationBar_ComponentSet_10,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_无标题_返回,NavigationBar,NavigationBar_ComponentSet_11,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_关闭,NavigationBar,NavigationBar_ComponentSet_09,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_侧边栏_无标题,NavigationBar,NavigationBar_ComponentSet_12,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_侧边栏_编辑,NavigationBar,NavigationBar_ComponentSet_13,左12，右12,,YES,,,,,,,,,,,,,,,
+,小标题_侧边栏_收起_文字,NavigationBar,NavigationBar_ComponentSet_17,左12，右12,,15日YES,,,,,,,,,,,,,,,
+,小标题_侧边栏_编辑_收起,NavigationBar,NavigationBar_ComponentSet_18,左12，右12,,15日YES,,,,,,,,,,,,,,,
+,小标题_侧边栏_收起,NavigationBar,NavigationBar_ComponentSet_14,左12，右12,,YES,,,,,,,,,,,,,,,
+顶部导航 TopBar,无顶部导航,TopBar,TopBar_00,,,YES,,,,,,,,,,,,,,,
+,顶部导航组合,TopBar,TopBar_01,左12，右12,,YES,,,,,,,,,,,,,,,
+,顶部导航组合_返回,TopBar,TopBar_02,左12，右12,,YES,,,,,,,,,,,,,,,
+标签栏 SelectableChip,无标签栏,SelectableChip,SelectableChip_ComponentSet_00,,,YES,,,,,,,,,,,,,,,
+,等宽,SelectableChip,SelectableChip_ComponentSet_01,左12，右12,,YES,,,,,,,,,,,,,,,
+搜索栏 SearchBar,无搜索栏,SearchBar,SearchBar_ComponentSet_00,,,YES,,,,,,,,,,,,,,,
+,默认-,SearchBar,SearchBar_ComponentSet_05,左12，右12,,15日YES,,,,,,,,,,,,,,,
+,激活,SearchBar,SearchBar_ComponentSet_01,左12，右12,,YES,,,,,,,,,,,,,,,
+,sug词直搜,SearchBar,SearchBar_ComponentSet_03,左12，右12,,15日YES,,,,,,,,,,,,,,,
+,平板 / 顶部导航 / 默认,SearchBar,SearchBar_ComponentSet_02,左12，右12,,YES,,,,,,,,,,,,,,,
+,平板 / 顶部导航 / 激活 ,SearchBar,SearchBar_ComponentSet_04,左8，右8,,15日YES,,,,,,,,,,,,,,,
+,顶部标题栏搜索,SearchBar,TopBar_03,左12，右12,,YES,,,,,,,,,,,,,,,
+,顶部导航搜索_返回,SearchBar,TopBar_04,左12，右12,,YES,,,,,,,,,,,,,,,
+,顶部导航搜索,SearchBar,TopBar_05,左12，右12,,YES,,,,,,,,,,,,,,,
+,顶部标题栏搜索_左对齐,SearchBar,TopBar_06,左12，右12,,15日YES,,,,,,,,,,,,,,,
+,顶部导航搜索_侧边栏收起,SearchBar,TopBar_07,左12，右12,,19日YES,,,,,,,,,,,,,,,
+,顶部导航搜索_侧边栏_编辑,SearchBar,TopBar_09,左12，右12,,,,,,,,,,,,,,,,,
+,顶部导航搜索_侧边栏收起_编辑,SearchBar,TopBar_08,左12，右12,,,,,,,,,,,,,,,,,
+搜索结果面板 SearchReceiving,无搜索面板,SearchReceiving,SearchReceiving_00,,,YES,,,,,,,,,,,,,,,
+,搜索面板,SearchReceiving,SearchReceiving_01,左16，右16,,YES,,,,,,,,,,,,,,,
+ 分段按钮 Segmented Controls,默认,SegmentedControls,SegmentedControls_ComponentSet_00,,,,,,,,,,,,,,,,,,
+,默认,SegmentedControls,SegmentedControls_ComponentSet_01,左12，右12,,,,,,,,,,,,,,,,,
+,分段按钮_Pad,SegmentedControls,SegmentedControls_ComponentSet_02,最小 左16，右16,,,,,,,,,,,,,,,,,
+,分段按钮_容器,SegmentedControls,SegmentedControls_01,左16，右16,,,,,,,,,,,,,,,,,
+,,NavigationBar,NavigationBar_ComponentSet_13,左12，右12,,,,,,,,,,,,,,,,,
+底部导航栏 BottomBar,无底部导航栏,BottomBar,BottomBar_Showcase_00,,,YES,,,,,,,,,,,,,,,
+,默认,BottomBar,BottomBar_Showcase_01,"屏幕宽度：大于440的定宽344dp；
+小于440的铺满，左右padding24dp",,YES,,,,,,,,,,,,,,,
+,无FAB_分开展示,BottomBar,BottomBar_Showcase_02,左24,,YES,,,,,,,,,,,,,,,
+,配FAB,BottomBar,BottomBar_Showcase_Fab_01,"屏幕宽度：大于440的定宽344dp；
+小于440的铺满，左右padding24dp
+Gab：12",,YES,,,,,,,,,,,,,,,
+,配FAB_分开展示,BottomBar,BottomBar_Showcase_Fab_02,左24，右24,,YES,,,,,,,,,,,,,,,
+Fab,Fab,Fab,Fab_00,,,15日YES,,,,,,,,,,,,,,,
+,Fab,Fab,Fab_01,右24,,YES,,,,,,,,,,,,,,,
+,Fab,Fab,Fab_02,右24,,YES,,,,,,,,,,,,,,,
+侧边栏 Sidebar,Pad_NLC,Sidebar,Sidebar_Component_PAD_NLC_00,,,15日YES,,,,,,,,,,,,,,,
+,Pad_NLC,Sidebar,Sidebar_Component_PAD_NLC_01,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,通过,,,,,,,,,,,,,,
+,Pad_NLC_收起,Sidebar,Sidebar_Component_PAD_NLC_02,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,,,,,,,,,,,,,,,
+,Pad_NLC_编辑,Sidebar,Sidebar_Component_PAD_NLC_03,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,,,,,,,,,,,,,,,
+,Pad_LC,Sidebar,Sidebar_Component_PAD_LC_01,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,,,,,,,,,,,,,,,
+,Fold_LC,Sidebar,Sidebar_Component_Fold_LC_01,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12
+Fab：右24",,YES,,,,,,,,,,,,,,,
+,Pad_LC_配FAB,Sidebar,Sidebar_Component_PAD_LC_Fab_01,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,,,,,,,,,,,,,,,
+,Fold_LC_配FAB,Sidebar,Sidebar_Component_Fold_LC_Fab_01,"侧边栏组件左侧：12
+侧边栏组件内：左12，右12",,YES,,,,,,,,,,,,,,,
+,Pad_NLC_大标题,NavigationBar,NavigationBar_ComponentSet_01,,,YES,,,,,,,,,,,,,,,
+,Pad_NLC_中标题,NavigationBar,NavigationBar_ComponentSet_04,,,YES,,,,,,,,,,,,,,,
+,Pad_NLC_小标题,NavigationBar,NavigationBar_ComponentSet_12,,,YES,,,,,,,,,,,,,,,
+,Pad_NLC_编辑,NavigationBar,NavigationBar_ComponentSet_13,,,YES,,,,,,,,,,,,,,,
+,Pad_NLC_收起,NavigationBar,NavigationBar_ComponentSet_14,,,YES,,,,,,,,,,,,,,,
+,侧边栏_面板,Sidebar,Sidebar_BG_01,,,,,,,,,,,,,,,,,,
+,业务_笔记,Sidebar,Sidebar_Notes_01,定宽312,,YES,,,,,,,,,,,,,,,
+底部工具栏 ToolBar,默认,ToolBar,ToolBar_ComponentSet_00,,,YES,,,,,,,,,,,,,,,
+,默认,ToolBar,ToolBar_ComponentSet_01,"屏幕宽度：大于440的定宽 344；
+小于440的铺满，左右padding 24",,YES,,,,,,,,,,,,,,,
+,默认,ToolBar,ToolBar_ComponentSet_02,"屏幕宽度：大于440的定宽 344；
+小于440的铺满，左右padding 24",,,,,,,,,,,,,,,,,
+选择器 Picker ,选择器_无,WheelPicker,WheelPicker_ComponentSet_00,,,,,,,,,,,,,,,,,,
+,日期_时分,WheelPicker,WheelPicker_ComponentSet_01,"定宽 368
+
+最小左右 padding 12
+底部距离：
+有控制杆 → 距控制杆顶沿 12dp
+无控制杆 → 距屏幕底部 12dp
+
+Pad：上下剧中",,,,,,,,,,,,,,,,,
+滚动条 Scroll bar,默认,Scrollbar,Scrollbar_ComponentSet_01,右 0,,,,,,,,,,,,,,,,,
+分割线 Divider,分割线,Divider,Divider_ComponentSet_01,左28，右28,,,,,,,,,,,,,,,,,
+浮层 Overay,浮窗窗口,FloatingWindow,FloatingWindow_ComponentSet_01,左12，右12,,,,,,,,,,,,,,,,,
+,浮窗窗口,FloatingWindow,FloatingWindow_ComponentSet_02,左12，右12,,,,,,,,,,,,,,,,,
+,抽屉窗口_高,DrawerWindow,DrawerWindow_ComponentSet_high_01,左24，右24,,,,,,,,,,,,,,,,,
+,抽屉窗口_中,DrawerWindow,DrawerWindow_ComponentSet_mid_01,左24，右24,,,,,,,,,,,,,,,,,
+,抽屉窗口_低,DrawerWindow,DrawerWindow_ComponentSet_low_01,左24，右24,,,,,,,,,,,,,,,,,
+,弹窗,AlertDialog,AlertDialog_ComponentSet_01,"定宽 368
+
+最小左右 padding 12
+底部距离：
+有控制杆 → 距控制杆顶沿 12dp
+无控制杆 → 距屏幕底部 12dp
+
+Pad：上下剧中",,,,,,,,,,,,,,,,,
+,行动操作按钮,ActionSheet ,Actionsheet_ComponentSet_01,"弹窗定宽 ：368
+最小左右 padding 12
+底部距离：
+有控制杆 → 距控制杆顶沿 12dp
+无控制杆 → 距屏幕底部 12dp",,,,,,,,,,,,,,,,,
+,菜单_无,Menu,Menu_ComponentSet_00,,,,,,,,,,,,,,,,,,
+,菜单_默认,Menu,Menu_ComponentSet_01,"默认：从状态栏 6， 右 12
+在侧边栏 或容器 ：从容器顶部 12， 右 12",,,,,,,,,,,,,,,,,
+,菜单_分组_选择菜单,Menu,Menu_ComponentSet_02,"默认：从状态栏 6， 右 12
+在侧边栏 或容器 ：从容器顶部 12， 右 12",,,,,,,,,,,,,,,,,
+,菜单_分组_进入二级菜单,Menu,Menu_ComponentSet_03,"默认：从状态栏 6， 右 12
+在侧边栏 或容器 ：从容器顶部 12， 右 12",,,,,,,,,,,,,,,,,
+"信息提示
+NoticeBar",信息提示,NoticeBar,NoticeBar_ComponentSet_01,左12，右12,,,,,,,,,,,,,,,,,
+键盘 Keyboard,手机_竖屏,Keyboard,Keyboard_phone_h_01,左0，右0,,,,,,,,,,,,,,,,,
+,手机_横屏,Keyboard,Keyboard_phone_l_01,左0，右0,,,,,,,,,,,,,,,,,
+,Fold_外屏_竖屏,Keyboard,Keyboard_fold_inside_h_01,左0，右0,,,,,,,,,,,,,,,,,
+,Fold_外屏_横屏,Keyboard,Keyboard_fold_inside_l_01,左0，右0,,,,,,,,,,,,,,,,,
+,Fold_内屏_竖屏,Keyboard,Keyboard_fold_outside_h_01,左0，右0,,,,,,,,,,,,,,,,,
+,Fold_内屏_横屏,Keyboard,Keyboard_fold_outside_l_01,左0，右0,,,,,,,,,,,,,,,,,
+,Pad_内屏_竖屏,Keyboard,Keyboard_pad_h_01,左0，右0,,,,,,,,,,,,,,,,,
+,Pad_内屏_横屏,Keyboard,Keyboard_pad_l_01,左0，右0,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+业务单独组件,,,,,,,,,,,,,,,,,,,,,
+业务_笔记,笔记_标题栏,Notes_NavigationBar,NavigationBar_ComponentSet_Notes_01,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_标题栏,Notes_NavigationBar,NavigationBar_ComponentSet_Notes_02,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_标题栏,Notes_NavigationBar,NavigationBar_ComponentSet_Notes_03,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_标题栏,Notes_NavigationBar,NavigationBar_ComponentSet_Notes_04,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_详情,Notes_DetailNotes,DetailNotes_01,,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_01,上80，左24，右24；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_02,上20，左24，右24；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_03,上40，左24，右24；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_04,上40，左124，右124；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_05,上40，左28，右28；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_AI笔记,Notes_AIWindow_Notes,AIWindow_Options_06,上40，左56，右56；左上对齐,,YES,,,,,,,,,,,,,,,
+,笔记_录音,Notes_RecordNotes,Record_Notes_01,,,YES,,,,,,,,,,,,,,,
+,笔记_录音,Notes_RecordNotes,Record_Notes_02,,,YES,,,,,,,,,,,,,,,
+,笔记_设置,Notes_List_NoteSetting,List_NoteSetting_01,,,YES,,,,,,,,,,,,,,,
+,笔记_文字格式弹窗 TextFormatPanel,Notes_TextFormatPanel,TextFormatPanel_01,最小值 ：左12，右12,,YES,,,,,,,,,,,,,,,
+,,Notes_TextFormatPanel,TextFormatPanel_02,最小值 ：左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_浮窗,Notes_Menu,FloatingWindow_ComponentSet_Notes_01,定宽320,,YES,,,,,,,,,,,,,,,
+,笔记_列表_套卡,Notes_List,List_Notes_01,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_列表_套卡_编辑,Notes_List,List_Notes_02,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_列表,Notes_List,List_Notes_03,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_列表_编辑,Notes_List,List_Notes_04,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表,Notes_List,List_Notes_05,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_外屏,Notes_List,List_Notes_07,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_内屏_竖屏,Notes_List,List_Notes_09,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_内屏_横屏,Notes_List,List_Notes_11,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_竖屏,Notes_List,List_Notes_13,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_竖屏_收起,Notes_List,List_Notes_15,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_横屏,Notes_List,List_Notes_17,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_横屏_收起,Notes_List,List_Notes_19,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_编辑,Notes_List,List_Notes_06,左12，右12,,YES,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_外屏_编辑,Notes_List,List_Notes_08,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_内屏_竖屏_编辑,Notes_List,List_Notes_10,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Fold_内屏_横屏_编辑,Notes_List,List_Notes_12,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_竖屏_编辑,Notes_List,List_Notes_14,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_竖屏_收起_编辑,Notes_List,List_Notes_16,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_横屏_编辑,Notes_List,List_Notes_18,左12，右12,,,,,,,,,,,,,,,,,
+,笔记_卡片列表_Pad_横屏_收起_编辑,Notes_List,List_Notes_20,左12，右12,,,,,,,,,,,,,,,,,
+,笔记 _底部输入框 Input,Notes_TextInput,TextInput_ComponentSet_Notes_00,,,,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,Notes_TextInput,TextInput_ComponentSet_Notes_01,"Q18内屏：左20，右20
+手机、Q18外屏：左16，右16",,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,Notes_TextInput,TextInput_ComponentSet_Notes_08,"Q18内屏：左20，右20
+手机、Q18外屏：左16，右16",,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_02,"Fold 横屏：左116，右116
+Fold 竖屏：左24，右24
+Pad 横屏：左56，右56
+Pad 竖屏：左28，右28
+手机、Fold 外屏：左16，右16",,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_03,"Q18横屏：左116，右116
+Q18竖屏：左24，右24
+手机、Q18外屏：左16，右17",,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_04,"Q18横屏：左116，右116
+Q18竖屏：左24，右24
+手机、Q18外屏：左16，右18",,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_05,定宽，居中对齐,,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_06,定宽，居中对齐,,YES,,,,,,,,,,,,,,,
+,笔记_底部输入框 Input,TextInput,TextInput_ComponentSet_Notes_07,定宽，居中对齐,,YES,,,,,,,,,,,,,,,
+,笔记_标签栏,Notes_SelectableChip,SelectableChip_ComponentSet_Notes_00,,,,,,,,,,,,,,,,,,
+,笔记_标签栏,Notes_SelectableChip,SelectableChip_ComponentSet_Notes_01,左12，右0,,YES,,,,,,,,,,,,,,,
+,笔记_标签栏,Notes_SelectableChip,SelectableChip_ComponentSet_Notes_02,左12，右0,,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Showcase_Notes_00,,,,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Showcase_Notes_01,"屏幕宽度：大于440的定宽344；
+小于440的铺满，左右padding 24",,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Showcase_Notes_02,"屏幕宽度：大于440的定宽344；
+小于440的铺满，左右padding 24",,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Notes_Outline_00,,,,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Notes_Outline_01,,,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_Notes_Outline_02,,,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_00,,,,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_01,内部工具条定宽 320,,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_02,,,YES,,,,,,,,,,,,,,,
+,笔记_工具栏,Notes_BottomBar,BottomBar_NoteEditPanel_03,,,YES,,,,,,,,,,,,,,,
+,笔记_文件夹_浮窗,Notes_FloatingWindow,Notes_FloatingWindow_00,,,,,,,,,,,,,,,,,,
+,笔记_文件夹_浮窗,Notes_FloatingWindow,Notes_FloatingWindow_01,,,,,,,,,,,,,,,,,,
+,待办_待办详情_无,Notes_DetailTask,DetailTask_00,,,,,,,,,,,,,,,,,,
+,待办_待办详情,Notes_DetailTask,DetailTask_01,,,YES,,,,,,,,,,,,,,,
+,待办_列表_套卡,Notes_List,List_Task_01,左12，右12,,YES,,,,,,,,,,,,,,,
+,待办_列表_套卡_编辑,Notes_List,List_Task_02,左12，右12,,YES,,,,,,,,,,,,,,,
+,待办_列表,Notes_List,List_Task_03,左12，右12,,YES,,,,,,,,,,,,,,,
+,待办_列表_编辑,Notes_List,List_Task_04,左12，右12,,YES,,,,,,,,,,,,,,,
+,待办_新建,Notes_TaskWindow,NewTaskWindow_01,"最小宽度368
+最大宽度411
+左12，右12",,YES,,,,,,,,,,,,,,,
+,待办_新建,Notes_TaskWindow,NewTaskWindow_02,最小368，最大412,,YES,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+业务_录音,录音_Fab,Recorder_Fab,Fab_Rec_01,,,,,,,,,,,,,,,,,,
+业务_日历,日历_顶部导航栏,Calendar_TopBar,TopBar_Calendar_01,左16，右12,,,,,,,,,,,,,,,,,
+,日历_顶部导航栏,Calendar_TopBar,TopBar_Navigation_01,最小值 ：左16，右16,,YES,,,,,,,,,,,,,,,
+,日历_标题栏,Calendar_NavigationBar,NavigationBar_ComponentSet_Calendar_01,左16，右12,,,,,,,,,,,,,,,,,
+,日历_标题栏,Calendar_NavigationBar,NavigationBar_ComponentSet_Calendar_01,,,,,,,,,,,,,,,,,,
+业务_天气,天气_标题栏,Weather_NavigationBar,NavigationBar_ComponentSet_Weather_01,左12，右12,,,,,,,,,,,,,,,,,
+业务_设置_返回,设置_标题栏,Settings_NavigationBar,NavigationBar_ComponentSet_02,"左12，右12
+标题左侧：28",,,,,,,,,,,,,,,,,

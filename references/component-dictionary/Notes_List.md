@@ -84,7 +84,7 @@ instance.setProperties({
 - 手机 / Fold 外屏 NLC = `_01`，编辑 = `_02`
 - Fold 内屏 LC（NLC / LC）L 栏 = `_03`，编辑 = `_04`
 - Pad NLC L 栏（展开 / 收起）= `_03`，编辑 = `_04`
-- NL 默认（device-specific 变体，CSV1 控件总表）：手机竖 `_05` / Fold 外竖 `_07` / Fold 内竖 C fallback `_09` / Fold 内横 C fallback `_11` / Pad 竖 NL `_13` / Pad 竖 NL 收起 `_15` / Pad 横 NL `_17` / Pad 横 NL 收起 `_19`
+- NL 默认（device-specific 变体，`结构变化表-Notes.csv`）：手机竖 `_05` / Fold 外竖 `_07` / Fold 内竖 C fallback `_09` / Fold 内横 C fallback `_11` / Pad 竖 NL `_13` / Pad 竖 NL 收起 `_15` / Pad 横 NL `_17` / Pad 横 NL 收起 `_19`
 - NL 编辑（device-specific 变体）：手机竖 `_06` / Fold 外竖 `_08` / Fold 内竖 `_10` / Fold 内横 `_12` / Pad 竖 NL `_14` / Pad 竖 NL 收起 `_16` / Pad 横 NL `_18` / Pad 横 NL 收起 `_20`
 
 > CSV1 / CSV2 同步日期：2026-05-21。

@@ -1,0 +1,182 @@
+ComponentFamily,VariantId,VariantName,LibraryName,InternalPadL,InternalPadR,TitleLeftPad,NaturalW,NaturalH,Note
+StatusBar,StatusBar_01,状态栏_手机Fold_01,OS4 UI Kit,,,,,,
+StatusBar,StatusBar_03,状态栏_Pad,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_01,控制杆_手机_竖屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_02,控制杆_手机_横屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_03,控制杆_Fold_外屏_竖屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_04,控制杆_Fold_外屏_横屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_05,控制杆_Fold_内屏_竖屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_06,控制杆_Fold_内屏_横屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_07,控制杆_Pad_竖屏_01,OS4 UI Kit,,,,,,
+SwipeIndicator,SwipeIndicator_08,控制杆_Pad_横屏_01,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_00,无标题栏,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_01,大标题_手机默认,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_02,大标题_返回,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_03,大标题_编辑,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_04,中标题_左对齐,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_05,中标题_左对齐_返回,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_06,中标题_左对齐_编辑,OS4 UI Kit,12,12,28,,,左12，右12 / 标题左侧：28
+NavigationBar,NavigationBar_ComponentSet_15,中标题_左对齐_无标题,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_07,小标题,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_16,小标题_左对齐,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_08,小标题_返回,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_09,小标题_编辑,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_10,小标题_无标题,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_11,小标题_无标题_返回,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_09,小标题_关闭,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_12,小标题_侧边栏_无标题,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_13,小标题_侧边栏_编辑,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_17,小标题_侧边栏_收起_文字,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_18,小标题_侧边栏_编辑_收起,OS4 UI Kit,12,12,,,,左12，右12
+NavigationBar,NavigationBar_ComponentSet_14,小标题_侧边栏_收起,OS4 UI Kit,12,12,,,,左12，右12
+TopBar,TopBar_00,无顶部导航,OS4 UI Kit,,,,,,
+TopBar,TopBar_01,顶部导航组合,OS4 UI Kit,12,12,,,,左12，右12
+TopBar,TopBar_02,顶部导航组合_返回,OS4 UI Kit,12,12,,,,左12，右12
+SelectableChip,SelectableChip_ComponentSet_00,无标签栏,OS4 UI Kit,,,,,,
+SelectableChip,SelectableChip_ComponentSet_01,等宽,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,SearchBar_ComponentSet_00,无搜索栏,OS4 UI Kit,,,,,,
+SearchBar,SearchBar_ComponentSet_05,默认-,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,SearchBar_ComponentSet_01,激活,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,SearchBar_ComponentSet_03,sug词直搜,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,SearchBar_ComponentSet_02,平板 / 顶部导航 / 默认,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,SearchBar_ComponentSet_04,平板 / 顶部导航 / 激活,OS4 UI Kit,8,8,,,,左8，右8
+SearchBar,TopBar_03,顶部标题栏搜索,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_04,顶部导航搜索_返回,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_05,顶部导航搜索,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_06,顶部标题栏搜索_左对齐,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_07,顶部导航搜索_侧边栏收起,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_09,顶部导航搜索_侧边栏_编辑,OS4 UI Kit,12,12,,,,左12，右12
+SearchBar,TopBar_08,顶部导航搜索_侧边栏收起_编辑,OS4 UI Kit,12,12,,,,左12，右12
+SearchReceiving,SearchReceiving_00,无搜索面板,OS4 UI Kit,,,,,,
+SearchReceiving,SearchReceiving_01,搜索面板,OS4 UI Kit,16,16,,,,左16，右16
+SegmentedControls,SegmentedControls_ComponentSet_00,默认,OS4 UI Kit,,,,,,
+SegmentedControls,SegmentedControls_ComponentSet_01,默认,OS4 UI Kit,12,12,,,,左12，右12
+SegmentedControls,SegmentedControls_ComponentSet_02,分段按钮_Pad,OS4 UI Kit,16,16,,,,最小 左16，右16
+SegmentedControls,SegmentedControls_01,分段按钮_容器,OS4 UI Kit,16,16,,,,左16，右16
+NavigationBar,NavigationBar_ComponentSet_13,,OS4 UI Kit,12,12,,,,左12，右12
+BottomBar,BottomBar_Showcase_00,无底部导航栏,OS4 UI Kit,,,,,,
+BottomBar,BottomBar_Showcase_01,默认,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽344dp； / 小于440的铺满，左右padding24dp
+BottomBar,BottomBar_Showcase_02,无FAB_分开展示,OS4 UI Kit,24,,,,,左24
+BottomBar,BottomBar_Showcase_Fab_01,配FAB,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽344dp； / 小于440的铺满，左右padding24dp / Gab：12
+BottomBar,BottomBar_Showcase_Fab_02,配FAB_分开展示,OS4 UI Kit,24,24,,,,左24，右24
+Fab,Fab_00,Fab,OS4 UI Kit,,,,,,
+Fab,Fab_01,Fab,OS4 UI Kit,,24,,,,右24
+Fab,Fab_02,Fab,OS4 UI Kit,,24,,,,右24
+Sidebar,Sidebar_Component_PAD_NLC_00,Pad_NLC,OS4 UI Kit,,,,,,
+Sidebar,Sidebar_Component_PAD_NLC_01,Pad_NLC,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+Sidebar,Sidebar_Component_PAD_NLC_02,Pad_NLC_收起,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+Sidebar,Sidebar_Component_PAD_NLC_03,Pad_NLC_编辑,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+Sidebar,Sidebar_Component_PAD_LC_01,Pad_LC,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+Sidebar,Sidebar_Component_Fold_LC_01,Fold_LC,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12 / Fab：右24
+Sidebar,Sidebar_Component_PAD_LC_Fab_01,Pad_LC_配FAB,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+Sidebar,Sidebar_Component_Fold_LC_Fab_01,Fold_LC_配FAB,OS4 UI Kit,12,12,,,,侧边栏组件左侧：12 / 侧边栏组件内：左12，右12
+NavigationBar,NavigationBar_ComponentSet_01,Pad_NLC_大标题,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_04,Pad_NLC_中标题,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_12,Pad_NLC_小标题,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_13,Pad_NLC_编辑,OS4 UI Kit,,,,,,
+NavigationBar,NavigationBar_ComponentSet_14,Pad_NLC_收起,OS4 UI Kit,,,,,,
+Sidebar,Sidebar_BG_01,侧边栏_面板,OS4 UI Kit,,,,,,
+Sidebar,Sidebar_Notes_01,业务_笔记,OS4 UI Kit,,,,,,定宽312
+ToolBar,ToolBar_ComponentSet_00,默认,OS4 UI Kit,,,,,,
+ToolBar,ToolBar_ComponentSet_01,默认,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽 344； / 小于440的铺满，左右padding 24
+ToolBar,ToolBar_ComponentSet_02,默认,OS4 UI Kit,,,,,,屏幕宽度：大于440的定宽 344； / 小于440的铺满，左右padding 24
+WheelPicker,WheelPicker_ComponentSet_00,选择器_无,OS4 UI Kit,,,,,,
+WheelPicker,WheelPicker_ComponentSet_01,日期_时分,OS4 UI Kit,,,,,,定宽 368 / 最小左右 padding 12 / 底部距离： / 有控制杆 → 距控制杆顶沿 12dp / 无控制杆 → 距屏幕底部 12dp / Pad：上下剧中
+Scrollbar,Scrollbar_ComponentSet_01,默认,OS4 UI Kit,,0,,,,右 0
+Divider,Divider_ComponentSet_01,分割线,OS4 UI Kit,28,28,,,,左28，右28
+FloatingWindow,FloatingWindow_ComponentSet_01,浮窗窗口,OS4 UI Kit,12,12,,,,左12，右12
+FloatingWindow,FloatingWindow_ComponentSet_02,浮窗窗口,OS4 UI Kit,12,12,,,,左12，右12
+DrawerWindow,DrawerWindow_ComponentSet_high_01,抽屉窗口_高,OS4 UI Kit,24,24,,,,左24，右24
+DrawerWindow,DrawerWindow_ComponentSet_mid_01,抽屉窗口_中,OS4 UI Kit,24,24,,,,左24，右24
+DrawerWindow,DrawerWindow_ComponentSet_low_01,抽屉窗口_低,OS4 UI Kit,24,24,,,,左24，右24
+AlertDialog,AlertDialog_ComponentSet_01,弹窗,OS4 UI Kit,,,,,,定宽 368 / 最小左右 padding 12 / 底部距离： / 有控制杆 → 距控制杆顶沿 12dp / 无控制杆 → 距屏幕底部 12dp / Pad：上下剧中
+ActionSheet,Actionsheet_ComponentSet_01,行动操作按钮,OS4 UI Kit,,,,,,弹窗定宽 ：368 / 最小左右 padding 12 / 底部距离： / 有控制杆 → 距控制杆顶沿 12dp / 无控制杆 → 距屏幕底部 12dp
+Menu,Menu_ComponentSet_00,菜单_无,OS4 UI Kit,,,,,,
+Menu,Menu_ComponentSet_01,菜单_默认,OS4 UI Kit,,12,,,,默认：从状态栏 6， 右 12 / 在侧边栏 或容器 ：从容器顶部 12， 右 12
+Menu,Menu_ComponentSet_02,菜单_分组_选择菜单,OS4 UI Kit,,12,,,,默认：从状态栏 6， 右 12 / 在侧边栏 或容器 ：从容器顶部 12， 右 12
+Menu,Menu_ComponentSet_03,菜单_分组_进入二级菜单,OS4 UI Kit,,12,,,,默认：从状态栏 6， 右 12 / 在侧边栏 或容器 ：从容器顶部 12， 右 12
+NoticeBar,NoticeBar_ComponentSet_01,信息提示,OS4 UI Kit,12,12,,,,左12，右12
+Keyboard,Keyboard_phone_h_01,手机_竖屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_phone_l_01,手机_横屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_fold_inside_h_01,Fold_外屏_竖屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_fold_inside_l_01,Fold_外屏_横屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_fold_outside_h_01,Fold_内屏_竖屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_fold_outside_l_01,Fold_内屏_横屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_pad_h_01,Pad_内屏_竖屏,OS4 UI Kit,0,0,,,,左0，右0
+Keyboard,Keyboard_pad_l_01,Pad_内屏_横屏,OS4 UI Kit,0,0,,,,左0，右0
+Notes_NavigationBar,NavigationBar_ComponentSet_Notes_01,笔记_标题栏,业务组件库,12,12,,,,左12，右12
+Notes_NavigationBar,NavigationBar_ComponentSet_Notes_02,笔记_标题栏,业务组件库,12,12,,,,左12，右12
+Notes_NavigationBar,NavigationBar_ComponentSet_Notes_03,笔记_标题栏,业务组件库,12,12,,,,左12，右12
+Notes_NavigationBar,NavigationBar_ComponentSet_Notes_04,笔记_标题栏,业务组件库,12,12,,,,左12，右12
+Notes_DetailNotes,DetailNotes_01,笔记_详情,业务组件库,,,,,,
+Notes_AIWindow_Notes,AIWindow_Options_01,笔记_AI笔记,业务组件库,24,24,,,,上80，左24，右24；左上对齐
+Notes_AIWindow_Notes,AIWindow_Options_02,笔记_AI笔记,业务组件库,24,24,,,,上20，左24，右24；左上对齐
+Notes_AIWindow_Notes,AIWindow_Options_03,笔记_AI笔记,业务组件库,24,24,,,,上40，左24，右24；左上对齐
+Notes_AIWindow_Notes,AIWindow_Options_04,笔记_AI笔记,业务组件库,124,124,,,,上40，左124，右124；左上对齐
+Notes_AIWindow_Notes,AIWindow_Options_05,笔记_AI笔记,业务组件库,28,28,,,,上40，左28，右28；左上对齐
+Notes_AIWindow_Notes,AIWindow_Options_06,笔记_AI笔记,业务组件库,56,56,,,,上40，左56，右56；左上对齐
+Notes_RecordNotes,Record_Notes_01,笔记_录音,业务组件库,,,,,,
+Notes_RecordNotes,Record_Notes_02,笔记_录音,业务组件库,,,,,,
+Notes_List_NoteSetting,List_NoteSetting_01,笔记_设置,业务组件库,,,,,,
+Notes_TextFormatPanel,TextFormatPanel_01,笔记_文字格式弹窗 TextFormatPanel,业务组件库,12,12,,,,最小值 ：左12，右12
+Notes_TextFormatPanel,TextFormatPanel_02,,业务组件库,12,12,,,,最小值 ：左12，右12
+Notes_Menu,FloatingWindow_ComponentSet_Notes_01,笔记_浮窗,业务组件库,,,,,,定宽320
+Notes_List,List_Notes_01,笔记_列表_套卡,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_02,笔记_列表_套卡_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_03,笔记_列表,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_04,笔记_列表_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_05,笔记_卡片列表,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_07,笔记_卡片列表_Fold_外屏,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_09,笔记_卡片列表_Fold_内屏_竖屏,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_11,笔记_卡片列表_Fold_内屏_横屏,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_13,笔记_卡片列表_Pad_竖屏,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_15,笔记_卡片列表_Pad_竖屏_收起,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_17,笔记_卡片列表_Pad_横屏,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_19,笔记_卡片列表_Pad_横屏_收起,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_06,笔记_卡片列表_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_08,笔记_卡片列表_Fold_外屏_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_10,笔记_卡片列表_Fold_内屏_竖屏_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_12,笔记_卡片列表_Fold_内屏_横屏_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_14,笔记_卡片列表_Pad_竖屏_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_16,笔记_卡片列表_Pad_竖屏_收起_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_18,笔记_卡片列表_Pad_横屏_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Notes_20,笔记_卡片列表_Pad_横屏_收起_编辑,业务组件库,12,12,,,,左12，右12
+Notes_TextInput,TextInput_ComponentSet_Notes_00,笔记 _底部输入框 Input,业务组件库,,,,,,
+Notes_TextInput,TextInput_ComponentSet_Notes_01,笔记_底部输入框 Input,业务组件库,20,20,,,,Q18内屏：左20，右20 / 手机、Q18外屏：左16，右16
+Notes_TextInput,TextInput_ComponentSet_Notes_08,笔记_底部输入框 Input,业务组件库,20,20,,,,Q18内屏：左20，右20 / 手机、Q18外屏：左16，右16
+TextInput,TextInput_ComponentSet_Notes_02,笔记_底部输入框 Input,OS4 UI Kit,116,116,,,,Fold 横屏：左116，右116 / Fold 竖屏：左24，右24 / Pad 横屏：左56，右56 / Pad 竖屏：左28，右28 / 手机、Fold 外屏：左16，右16
+TextInput,TextInput_ComponentSet_Notes_03,笔记_底部输入框 Input,OS4 UI Kit,116,116,,,,Q18横屏：左116，右116 / Q18竖屏：左24，右24 / 手机、Q18外屏：左16，右17
+TextInput,TextInput_ComponentSet_Notes_04,笔记_底部输入框 Input,OS4 UI Kit,116,116,,,,Q18横屏：左116，右116 / Q18竖屏：左24，右24 / 手机、Q18外屏：左16，右18
+TextInput,TextInput_ComponentSet_Notes_05,笔记_底部输入框 Input,OS4 UI Kit,,,,,,定宽，居中对齐
+TextInput,TextInput_ComponentSet_Notes_06,笔记_底部输入框 Input,OS4 UI Kit,,,,,,定宽，居中对齐
+TextInput,TextInput_ComponentSet_Notes_07,笔记_底部输入框 Input,OS4 UI Kit,,,,,,定宽，居中对齐
+Notes_SelectableChip,SelectableChip_ComponentSet_Notes_00,笔记_标签栏,业务组件库,,,,,,
+Notes_SelectableChip,SelectableChip_ComponentSet_Notes_01,笔记_标签栏,业务组件库,12,0,,,,左12，右0
+Notes_SelectableChip,SelectableChip_ComponentSet_Notes_02,笔记_标签栏,业务组件库,12,0,,,,左12，右0
+Notes_BottomBar,BottomBar_Showcase_Notes_00,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_Showcase_Notes_01,笔记_工具栏,业务组件库,,,,,,屏幕宽度：大于440的定宽344； / 小于440的铺满，左右padding 24
+Notes_BottomBar,BottomBar_Showcase_Notes_02,笔记_工具栏,业务组件库,,,,,,屏幕宽度：大于440的定宽344； / 小于440的铺满，左右padding 24
+Notes_BottomBar,BottomBar_Notes_Outline_00,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_Notes_Outline_01,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_Notes_Outline_02,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_NoteEditPanel_00,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_NoteEditPanel_01,笔记_工具栏,业务组件库,,,,,,内部工具条定宽 320
+Notes_BottomBar,BottomBar_NoteEditPanel_02,笔记_工具栏,业务组件库,,,,,,
+Notes_BottomBar,BottomBar_NoteEditPanel_03,笔记_工具栏,业务组件库,,,,,,
+Notes_FloatingWindow,Notes_FloatingWindow_00,笔记_文件夹_浮窗,业务组件库,,,,,,
+Notes_FloatingWindow,Notes_FloatingWindow_01,笔记_文件夹_浮窗,业务组件库,,,,,,
+Notes_DetailTask,DetailTask_00,待办_待办详情_无,业务组件库,,,,,,
+Notes_DetailTask,DetailTask_01,待办_待办详情,业务组件库,,,,,,
+Notes_List,List_Task_01,待办_列表_套卡,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Task_02,待办_列表_套卡_编辑,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Task_03,待办_列表,业务组件库,12,12,,,,左12，右12
+Notes_List,List_Task_04,待办_列表_编辑,业务组件库,12,12,,,,左12，右12
+Notes_TaskWindow,NewTaskWindow_01,待办_新建,业务组件库,12,12,,,,最小宽度368 / 最大宽度411 / 左12，右12
+Notes_TaskWindow,NewTaskWindow_02,待办_新建,业务组件库,,,,,,最小368，最大412
+Recorder_Fab,Fab_Rec_01,录音_Fab,业务组件库,,,,,,
+Calendar_TopBar,TopBar_Calendar_01,日历_顶部导航栏,业务组件库,16,12,,,,左16，右12
+Calendar_TopBar,TopBar_Navigation_01,日历_顶部导航栏,业务组件库,16,16,,,,最小值 ：左16，右16
+Calendar_NavigationBar,NavigationBar_ComponentSet_Calendar_01,日历_标题栏,业务组件库,16,12,,,,左16，右12
+Calendar_NavigationBar,NavigationBar_ComponentSet_Calendar_01,日历_标题栏,业务组件库,,,,,,
+Weather_NavigationBar,NavigationBar_ComponentSet_Weather_01,天气_标题栏,业务组件库,12,12,,,,左12，右12
+Settings_NavigationBar,NavigationBar_ComponentSet_02,设置_标题栏,业务组件库,12,12,28,,,左12，右12 / 标题左侧：28
