@@ -216,7 +216,7 @@ Stage 2A: ✅ 완료 (2026-06-01) — tokens.json + setkeys.json 단일 권위 �
 Stage 2B: ✅ 완료 (2026-06-01) — common-rules 5 파일 분할 + hub redirect (commits 549b929/f0952dc/366c2a6)
 Stage 2C: ❌ 폐기 (2026-06-01) — SKILL 슬림화 ROI 낮음 (user 직접 결정)
 Stage 3A: 🟡 부분 완료 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. **Step 3 (SKILL Phase 5 spec consume) 미완**
-Stage 3B: ⬜ 미시작 — validate-csv.ts / spec-to-checklist.ts
+Stage 3B: 🟡 부분 완료 (2026-06-01) — validate-csv.ts 작성 + npm script + pre-commit hook 등록. spec-to-checklist 는 spec-adapter.ts 의 specToVerifyShape 가 흡수 → 별도 산출 不要. 실 실행 검증은 다음 task 시
 ```
 
 ### Stage 3A 잔여 (wire-up gap)
@@ -232,8 +232,8 @@ Stage 3B: ⬜ 미시작 — validate-csv.ts / spec-to-checklist.ts
 | # | 작업 | 추정 규모 | 비고 |
 |---|---|---|---|
 | 1 | **3A wire-up Step 2 잔여 — 실 task 1 frame end-to-end 검증** | 중간 | 다음 笔记/待办 적응 task 동안 spec-adapter helper 호출 → verifyChecklist errors=0 확인. mature 후 verify.ts 본체 직접 rewrite 결정 |
-| 2 | **3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. Step 2 검증 후 진입 |
-| 3 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 중간 | 3A wire-up 후 실 task 검증 도구 |
+| 2 | **3B 잔여 — validate-csv 실 실행 검증 + 누적 baseline** | 작음 | `npm run validate-csv` 실 실행 → 현재 mapping-output 기준 baseline error/warning 수치 캡쳐. 검출되는 issue 면 별 commit 으로 정정. 본 session 은 node 환경 망가져 검증 不可 |
+| 3 | **3A wire-up Step 3 — SKILL Phase 5 spec.json consume** | 큼 | render-spec.ts JS 출력을 use_figma 에 mandatory 흐름화. Phase 4 componentTaskList 「판단」 흐름 폐기. Step 2 검증 후 진입 |
 
 ## 작업 이어가는 표준 절차 (어떤 AI든 동일)
 

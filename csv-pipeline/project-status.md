@@ -147,7 +147,7 @@ Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威�
 Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
 Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
 Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。**Step 3 (SKILL Phase 5 spec consume) 未完**
-Stage 3B: ⬜ 未启动 — validate-csv.ts / spec-to-checklist.ts
+Stage 3B: 🟡 部分完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入完成. spec-to-checklist 等价由 spec-adapter.ts 的 specToVerifyShape 吸收 → 单独产出不需. 实运行验证待下次 task
 ```
 
 ### Stage 3A 剩余（wire-up gap）
@@ -163,8 +163,8 @@ Stage 3B: ⬜ 未启动 — validate-csv.ts / spec-to-checklist.ts
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
 | 1 | **3A wire-up Step 2 剩余 — 真实 task 1 frame end-to-end 验证** | 中 | 下次 笔记/待办 适配 task 时调用 spec-adapter helper → verifyChecklist errors=0 确认。mature 后再决议 verify.ts 本体直接 rewrite |
-| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃。Step 2 验证后进入 |
-| 3 | **Stage 3B — validate-csv.ts / spec-to-checklist.ts** | 中 | 3A wire-up 后用真实 task 验证工具 |
+| 2 | **3B 剩余 — validate-csv 实运行 + baseline 捕获** | 小 | `npm run validate-csv` 实运行 → 当前 mapping-output 基准 error/warning 数。检出 issue 时另 commit 修正 |
+| 3 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma。Phase 4 componentTaskList「判断」流废弃。Step 2 验证后进入 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 
