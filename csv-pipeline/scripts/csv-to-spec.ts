@@ -1123,8 +1123,12 @@ function buildSpec(opts: {
     const familyForPad = elementToFamily(r.uiElement);
     // ToolBar / BottomBar_Showcase: 외각 풍만 (capsule master HUG)
     const isToolBarLike = /^BottomBar_Showcase|^ToolBar_/.test(variant);
+    // NavigationBar 류 (NavigationBar_*, NavigationBar_Notes_*, TopBar_*): 외각 풍만 강제.
+    // device-dim §Q18 内屏横屏共识: 「NavigationBar 组件内置 pl=28，不要 override」
+    // master 自带 internal padding (28dp title 좌측 등) 충분 — instance level outer 적용 금지.
+    const isNavBarLike = /^(NavigationBar|TopBar)/.test(variant);
     let outerX: number, compW: number;
-    if (isToolBarLike) {
+    if (isToolBarLike || isNavBarLike) {
       outerX = 0; compW = lane.w;
     } else {
       const padSpec = getLanePaddingSpec(device, screenMode, collapsed);
