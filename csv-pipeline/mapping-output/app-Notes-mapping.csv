@@ -359,28 +359,28 @@ Notes,笔记,LC,NoteEditPanel,ToolBar,Fold内竖,LC,全栏,BottomBar_NoteEditPan
 Notes,笔记,LC,NoteEditPanel,ToolBar,Fold内横,LC,全栏,BottomBar_NoteEditPanel_01,,LC
 Notes,笔记,LC,NoteEditPanel,ToolBar,Pad竖,LC,C栏,BottomBar_NoteEditPanel_02,,LC
 Notes,笔记,LC,NoteEditPanel,ToolBar,Pad横,LC,C栏,BottomBar_NoteEditPanel_02,,LC
-Notes,笔记,NLC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NLC
-Notes,笔记,NLC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NLC
-Notes,笔记,LC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,NLC,编辑模式,ToolBar,Pad竖,NLC,L栏,ToolBar_ComponentSet_01,,NLC
-Notes,笔记,NLC,编辑模式,ToolBar,Pad竖,NLC收起,L栏,ToolBar_ComponentSet_01,,NLC
-Notes,笔记,NLC,编辑模式,ToolBar,Pad横,NLC,L栏,ToolBar_ComponentSet_01,,NLC
-Notes,笔记,NLC,编辑模式,ToolBar,Pad横,NLC收起,L栏,ToolBar_ComponentSet_01,,NLC
-Notes,笔记,NL,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NL
-Notes,笔记,NL,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NL
+Notes,笔记,NLC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NLC
+Notes,笔记,NLC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NLC
+Notes,笔记,LC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,NLC,编辑模式,ToolBar,Pad竖,NLC,L栏,ToolBar_ComponentSet_02,,NLC
+Notes,笔记,NLC,编辑模式,ToolBar,Pad竖,NLC收起,L栏,ToolBar_ComponentSet_02,,NLC
+Notes,笔记,NLC,编辑模式,ToolBar,Pad横,NLC,L栏,ToolBar_ComponentSet_02,,NLC
+Notes,笔记,NLC,编辑模式,ToolBar,Pad横,NLC收起,L栏,ToolBar_ComponentSet_02,,NLC
+Notes,笔记,NL,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NL
+Notes,笔记,NL,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,NL
 Notes,笔记,C,编辑模式,ToolBar,Fold内竖,C,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,C
 Notes,笔记,C,编辑模式,ToolBar,Fold内横,C,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,C
 Notes,笔记,NL,编辑模式,ToolBar,Pad竖,NL,L栏,ToolBar_ComponentSet_02,,NL
 Notes,笔记,NL,编辑模式,ToolBar,Pad竖,NL收起,L栏,ToolBar_ComponentSet_02,,NL
 Notes,笔记,NL,编辑模式,ToolBar,Pad横,NL,L栏,ToolBar_ComponentSet_02,,NL
 Notes,笔记,NL,编辑模式,ToolBar,Pad横,NL收起,L栏,ToolBar_ComponentSet_02,,NL
-Notes,笔记,LC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Pad竖,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
-Notes,笔记,LC,编辑模式,ToolBar,Pad横,LC,L栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,手机竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Fold外竖,,全栏,ToolBar_ComponentSet_01,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Fold内竖,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Fold内横,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Pad竖,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
+Notes,笔记,LC,编辑模式,ToolBar,Pad横,LC,L栏,ToolBar_ComponentSet_02,未选列表时候：禁用态 Disalbled / 选择列表时候 ：正常态 Normal,LC
 Notes,笔记,C,思维导图编辑,ToolBar,手机竖,,全栏,BottomBar_Notes_Outline_02,,C
 Notes,笔记,C,思维导图编辑,ToolBar,Fold外竖,,全栏,BottomBar_Notes_Outline_02,,C
 Notes,笔记,C,思维导图编辑,ToolBar,Fold内竖,C,全栏,BottomBar_Notes_Outline_02,,C

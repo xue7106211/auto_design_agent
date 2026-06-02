@@ -208,6 +208,28 @@ session 内 render-spec.ts 3 项 bug 修复 (user 视觉指摘 5 件 root cause)
 7. commit chain: `2a4a397` (render-spec 3 bug fix + 7 frame retro)
 8. next session 起手: `git log --oneline -5` → 读 `csv-pipeline/project-status.md` 本节 → F2/F4/F5/F6/F7 screenshot + verifyChecklist + padding 实测
 
+#### sample 2 — CSV ToolBar / SearchBar 修正 (✅ 2026-06-02 完了)
+
+user 视觉指摘 → CSV `结构变化表-Notes.csv` 自体错误确认 → user 直接修正 csv:
+- ToolBar / 编辑模式 / NLC + NL + LC: L栏 col `_01` → `_02`, 全栏 col (single-screen) `_02` → `_01`
+- sample 2 first emit 的 SearchBar `_02` (Fold外竖) bug 因 csv-to-spec single-screen standard-framework injection (commit c4f6007) re-emit 时 `_05` 一致.
+
+确认 (csv update 后 npm run extract + spec):
+
+| Frame | spec ToolBar | spec SearchBar | csv 一致 |
+|---|---|---|---|
+| F1 LC_Fold内横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F2 LC_Fold内竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F3 NLC_Pad横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F4 NLC_Pad竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F5 Fold外竖_C | C栏 `_01` | C栏 `_05` | ✅ |
+| F6 NLC_Pad竖收起 | L栏 `_02` | L栏 `_05` | ✅ |
+| F7 NLC_Pad横收起 | L栏 `_02` | L栏 `_05` | ✅ |
+
+figma instance retro 完了 (csv 权威 一致):
+- ToolBar: F1~F4/F6/F7 L栏 `_01` → `_02` (instance 3132:xxx), F5 C栏 `_02` → `_01` (3135:32269)
+- SearchBar: F5 C栏 `_02` → `_05` (3121:84184)
+
 #### sample 2 视觉 issue — F5 SearchBar padding (next session 修)
 
 user 视觉指摘 (2026-06-02): F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.

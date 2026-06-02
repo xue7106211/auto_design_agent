@@ -1,6 +1,6 @@
 # extract-mapping report
 
-Generated: 2026-06-01T09:01:02.472Z
+Generated: 2026-06-02T01:20:06.537Z
 
 ## Statistics
 
@@ -32,9 +32,9 @@ Generated: 2026-06-01T09:01:02.472Z
 ## Diff vs app-mapping-stage1a.csv (legacy)
 
 - legacy keys: 886
-- matched: 701
-- new-only (legacy 缺失或新捕获): 272
-- legacy-only (新抽取中不存在): 185
+- matched: 699
+- new-only (legacy 缺失或新捕获): 282
+- legacy-only (新抽取中不存在): 187
 
 ### New-only examples (first 20)
 - Calculator|TopBar|手机竖||全栏|TopBar_01
