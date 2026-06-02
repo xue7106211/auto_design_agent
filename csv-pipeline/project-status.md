@@ -194,6 +194,20 @@ session 内 render-spec.ts 3 项 bug 修复 (user 视觉指摘 5 件 root cause)
 - lane width: csv + device-dim + 笔记 §0.1 #8/#9 special rule (NLC收起 N 88 收起占位) 一致 ✅
 - cornerRadius: device-dim Fold 内屏 50 / Fold 外屏不对称 / Pad 34 一致 ✅
 
+#### sample 2 残余检证 (next session 交接)
+
+本 session 完了 = render-spec.ts 3 bug 修复 + 7 frame retro placement + F1/F3 视觉 spot check.
+
+**残余任务**:
+1. F2 / F4 / F5 / F6 / F7 视觉 spot check (各 frame screenshot + sidebar / mask cornerRadius / 视觉 padding)
+2. 7 frame verifyChecklist run (sample 1 模式: spec-adapter.specToVerifyShape → verifyChecklist → errors=0)
+3. padding 实测 (user 明示请求): 各 instance figma 实际 x/w 测量 → csv + device-dim 权威对照
+4. frame ID 交接: F1=3107:79477, F2=3109:80207, F3=3110:80583, F4=3112:81326, F5=3114:82067, F6=3116:82698, F7=3118:83033
+5. runtime tools: `csv-pipeline/runtime/spec-adapter.ts` + `verify.ts`
+6. 检证权威: `csv-pipeline/mapping-input/结构变化表-Notes.csv` + `references/layouts/device-dimensions.md` + `references/app-variant-map-笔记.md` §0.1 #8/#9
+7. commit chain: `2a4a397` (render-spec 3 bug fix + 7 frame retro)
+8. next session 起手: `git log --oneline -5` → 读 `csv-pipeline/project-status.md` 本节 → F2/F4/F5/F6/F7 screenshot + verifyChecklist + padding 实测
+
 ### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
 
 `npm run validate-csv` baseline:
