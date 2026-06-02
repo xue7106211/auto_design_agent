@@ -1,0 +1,199 @@
+{
+  "id": "Notes_待办_NLC_编辑模式_Pad横_NLC并列",
+  "source": {
+    "app": "Notes",
+    "subScene": "待办",
+    "scene": "NLC",
+    "state": "编辑模式",
+    "device": "Pad横",
+    "screenMode": "NLC"
+  },
+  "frame": {
+    "w": 1422,
+    "h": 949,
+    "cornerRadius": 34,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_03",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 1422,
+    "h": 34
+  },
+  "layout": {
+    "type": "NLC并列",
+    "lanes": {
+      "N": {
+        "x": 0,
+        "y": 34,
+        "w": 272,
+        "h": 915,
+        "fill": "surface"
+      },
+      "L": {
+        "x": 272,
+        "y": 34,
+        "w": 428,
+        "h": 915,
+        "fill": "surface"
+      },
+      "C": {
+        "x": 700,
+        "y": 34,
+        "w": 722,
+        "h": 915,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": true,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "Sidebar",
+      "lane": "N栏",
+      "variant": "Sidebar_Component_PAD_NLC_01",
+      "setKey": "414cabc8e633c33cc6441ff0f936f971dc9babd3",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 272,
+      "y": 0,
+      "h": 915,
+      "notes": ""
+    },
+    {
+      "element": "NavigationBar",
+      "lane": "L栏",
+      "variant": "NavigationBar_ComponentSet_09",
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SearchBar",
+      "lane": "L栏",
+      "variant": "SearchBar_ComponentSet_05",
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 56,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "List",
+      "lane": "L栏",
+      "variant": "List_Task_04",
+      "setKey": "1107d1e9566fff3d96635c2485ed1d96607903b6",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 112,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "ToolBar",
+      "lane": "L栏",
+      "variant": "ToolBar_ComponentSet_01",
+      "setKey": "7792738f76cb9bac0413bd6fddf8f5aaa571d828",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 815,
+      "h": 100,
+      "notes": ""
+    },
+    {
+      "element": "DetailTask",
+      "lane": "C栏",
+      "variant": "DetailTask_01",
+      "setKey": "cfb8919278f9ebae27962fdffe5f6f294dcf814e",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 722,
+      "y": 56,
+      "h": "auto",
+      "notes": ""
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "",
+      "family": "Notes_TaskWindow",
+      "lane": "C栏",
+      "variant": "AlertDialog_NewTask_01",
+      "setKey": "0f741e08f5541c86dfd684e38f4ca837b7ef9e0e",
+      "library": "业务组件库",
+      "source": "out-of-flow"
+    }
+  ],
+  "masks": [
+    {
+      "name": "遮罩-编辑",
+      "x": 700,
+      "y": 0,
+      "w": 722,
+      "h": 949,
+      "cornerRadius": {
+        "topLeft": 0,
+        "topRight": 34,
+        "bottomLeft": 0,
+        "bottomRight": 34
+      },
+      "fill": "mask",
+      "opacity": 0.2
+    }
+  ],
+  "divider": {
+    "x": 700,
+    "y": 0,
+    "w": 1,
+    "h": 949,
+    "fill": "outline"
+  },
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_08",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 1422,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "遮罩-编辑",
+    "L栏",
+    "Sidebar",
+    "杆子"
+  ]
+}

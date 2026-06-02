@@ -1,0 +1,88 @@
+{
+  "id": "Notes_笔记_NC_二级_Fold内竖_NC",
+  "source": {
+    "app": "Notes",
+    "subScene": "笔记",
+    "scene": "NC",
+    "state": "二级",
+    "device": "Fold内竖",
+    "screenMode": "NC"
+  },
+  "frame": {
+    "w": 628,
+    "h": 888,
+    "cornerRadius": 50,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_01",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 628,
+    "h": 46
+  },
+  "layout": {
+    "type": "NC",
+    "lanes": {
+      "N": {
+        "x": 0,
+        "y": 46,
+        "w": 282,
+        "h": 842,
+        "fill": "surface"
+      },
+      "C": {
+        "x": 282,
+        "y": 46,
+        "w": 346,
+        "h": 842,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [],
+  "overlays": [
+    {
+      "trigger": "",
+      "family": "FloatingWindow",
+      "lane": "全栏",
+      "variant": "FloatingWindow_ComponentSet_02",
+      "setKey": "d586e39fcd850cc3e2f364d877725d4fab64d42d",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    }
+  ],
+  "masks": [],
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_05",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 628,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "Sidebar",
+    "杆子"
+  ]
+}

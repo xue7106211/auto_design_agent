@@ -1,0 +1,84 @@
+{
+  "id": "Notes_笔记_NLC_二级_手机竖_C",
+  "source": {
+    "app": "Notes",
+    "subScene": "笔记",
+    "scene": "NLC",
+    "state": "二级",
+    "device": "手机竖",
+    "screenMode": "NLC"
+  },
+  "frame": {
+    "w": 392,
+    "h": 851,
+    "cornerRadius": 34,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_01",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 392,
+    "h": 46
+  },
+  "layout": {
+    "type": "C",
+    "lanes": {
+      "C": {
+        "x": 0,
+        "y": 46,
+        "w": 392,
+        "h": 805,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "AppSettings",
+      "lane": "C栏",
+      "variant": "NavigationBar_ComponentSet_02",
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 392,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    }
+  ],
+  "overlays": [],
+  "masks": [],
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_01",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 392,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "杆子"
+  ]
+}

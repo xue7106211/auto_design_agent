@@ -57,8 +57,8 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 | 7 | **栏背景色 token** | **判定 = 容器内 list 的 card-presence**: 卡片 / 套卡 → `surface_low`, flat list (如 `List_Task_03`) → `surface`. **N 栏 (Sidebar) = 跟随 L (无则跟随 C)**. 详细 device × screenMode 矩阵 + 决策树 → §0.3 本文 + 末尾「栏背景色」表权威 |
 | 8 | **NL framework L 栏 顶部通则** | 笔记 / 待办 **宫格 NL framework**：N 收起时 N 栏自身消失 + **L 栏 width = frameW**（满幅吸收）。**⚠️ 禁止** device-dim 通用 NL 收起 split（`N=88 + L=1334/861`）。<br>**NL framework L 栏 NavBar 一律 `_00`（不渲染，默认 + 编辑均同）** — 顶部统一使用 `TopBar_X` 单独放置；TopBar 自身为 NavBar + SearchBar 合成变体（NavigationBar set 内「顶部导航」family）。<br>**NL framework N 栏 NavBar 也一律 `_00`（不渲染，默认 + 编辑、展开 + 收起 均同）** — Sidebar (`Sidebar_Component_PAD_NLC_01`) 内部 `NavigationAtoms`（56dp）已承担 N 栏标题栏角色，**禁止** 在 N 栏外额外放置 `NavigationBar_ComponentSet_12 / _18` 等：<br>&nbsp;&nbsp;• **默认 展开** → `TopBar_03`（内含 NavBar_07 + SearchBar_02）<br>&nbsp;&nbsp;• **默认 收起** → `TopBar_07`（内含 NavBar_17 + SearchBar_02，**自带 N 恢复 icon**）<br>&nbsp;&nbsp;• **编辑 展开** → `TopBar_09`（内含 NavBar_18 + SearchBar_02）<br>&nbsp;&nbsp;• **编辑 收起** → `TopBar_08`（内含 NavBar_18 + SearchBar_02，**自带 N 恢复 icon**）<br>NL framework 中 L NavBar 不允许单独放置，TopBar_X 已吸收 NavBar 角色。NLC framework（笔记 / 待办之外的应用）才使用 88dp `Sidebar_Component_PAD_NLC_00`。详见「N 收起 规则」节 + common-rules §0 #19 |
 | 9 | **Fold 内 NL→C 单栏 fallback 通则** | Fold 内屏 framework 仅含 `NC / LC / C`，**无 NL**。NL 语义（`N+L`，无 C）在 Fold 内屏渲染时 fallback 为 **C 单栏 + L 内容上提**：list / 顶部模块直接占据 C 栏。CSV 表中 NL 行 `Fold内竖-C` / `Fold内横-C` 列即该 fallback 形态使用的具体 variant，**device-specific**。本规则仅适用 Fold 内屏；Pad 上 NL 是真实 framework 不 fallback。**List 默认 / NL** device-specific 变体（奇数序列）：`手机竖=_05` / `Fold外竖=_07` / `Fold内竖 C 单栏=_09` / `Fold内横 C 单栏=_11` / `Pad竖NL=_13` / `Pad竖NL收起=_15` / `Pad横NL=_17` / `Pad横NL收起=_19`。**编辑 NL** device-specific 变体（偶数序列）：`手机竖=_06` / `Fold外竖=_08` / `Fold内竖=_10` / `Fold内横=_12` / `Pad竖NL=_14` / `Pad竖NL收起=_16` / `Pad横NL=_18` / `Pad横NL收起=_20`。<br>**Fold 内 NL→C fallback 顶部 stack**（2026-05-28 追加）：禁止使用 Pad NL 专用合成变体 `TopBar_03/_07/_08/_09`。与笔记 LC 一致采用独立 stack：NavigationBar `_04`（中标题 56h，无返回，右侧 search Q + menu ⋮）+ SearchBar `_05`（392 满幅，56h）+ Chip + List + BottomBar。错误变体（例如 NavBar `_10`）会导致 title text 显示为空 "小标题" placeholder 且 search Q icon 消失。**Pad NL 展开** 时不渲染 chip（笔记 NLC L 栏 default 的 Chip 顺序不适用 — Pad NL home 直接进入 list）。|
-| 10 | **Sidebar_Notes attached form 풀히트 룰**（2026-05-31 정식 채택, MUST）| `Sidebar_Notes_01` 은 笔记 ManageFoldWindow attached form 으로 사용. master 에 `layoutSizingV='Fill'` + 자연 H=589 정의. 매핑표 line 512-515 (Fold 全 device, line 513 Fold外竖 / line 514-515 Fold内 LC) 가 본 component 를 가리키면 다음 룰 **MUST**:<br>① **외각 H 풀히트**: `inst.resize(324, mainH)` (= `frameH − statusBarH`). 자연 589 그대로 사용 금지 (Fold 内횡 mainH=582 시 7dp 杆子 영역 침범; Fold 内竖 mainH=842 시 253dp 빈 공간).<br>② **位置**: `x=0, y=statusBarH` (左侧 attached, 状态栏 아래). 浮窗 居中 룰 적용 금지 (浮窗 ≠ Sidebar attached).<br>③ **inner FILL 적용 범위**: `inst.children[0]` (`近手菜单组件`) 만 `layoutSizingV='FILL'`. 그 자식 (`新版标题栏` 자연 H=56 / `文件夹列表` 자연 H=52 / `列表组/分割线` 자연 H=24) 은 master HUG/FIXED 그대로 유지. **`Sidebar_Component_PAD_NLC` 系 의 3-级 递归 FILL 룰 (BoardMaterialSection / NavigationSizeSection / 内容区域) 적용 절대 금지** — 구조 다름. 잘못 적용 시 「新版标题栏」 H 가 mainH 까지 늘어 (예: 280dp) icon `y=120` 위치 비정상.<br>④ **Pad device 는 다른 매핑** (`Notes_FloatingWindow_01` 浮窗 居中 + 遮罩) 적용 — 본 룰 적용 안 함. line 516-517 행 lookup 별도.<br>⑤ **runtime 자동 적용**: `placeStandardComponent({ inst, w:324, h:mainH, ... })` 호출 시 `placement.ts` step 7c 가 ③ 자동 적용. verifyChecklist `sidebarMainH:true` 옵션이 ①②③ 모두 자동 검사.<br>⑥ **회고**: master 에 `layoutSizingV='Fill'` 가 정의되어 있어도 figma `createInstance()` 는 default `FIXED` 로 시작 → master Fill 가 자동 전파되지 않음. 따라서 명시 호출이 정식 룰로 필요. (2026-05-31 笔记-文件夹 적응 task 에서 Fold 横屏 杆子 침범 / 竖屏 빈 공간 발견 후 정식 채택; 이전 §0.5 历史踩坑 항목에서 승격) |
-| 11 | **Notes_FloatingWindow_01 Pad 浮窗 落位 룰**（2026-05-31 정식 채택, MUST）| Pad device (NLC) 浮窗 落位: `inst.resize(546, H)` 居中 (H: Pad竖=636 / Pad横=round(frameH×0.8)=759, device-dim 「浮窗 FloatingWindow」 spec). 浮窗 z 아래 `RECTANGLE 遮罩-浮窗-ManageFold` (frameW×frameH, fill `遮罩色/mask` 0.2). z-order: `... → Sidebar (있다면) → 遮罩-浮窗 → Notes_FloatingWindow → 杆子`. NCovering 遮罩 위에 stacking 허용 (双层 mask). Fold device 는 §0.1 #10 (`Sidebar_Notes` attached form). cross-file master cascade FIXED chain 통칙 = `common-rules §3.6 #9a` 참조 |
+| 10 | **Sidebar_Notes attached form 满铺规则**（2026-05-31 正式采用, MUST）| `Sidebar_Notes_01` 用作笔记 ManageFoldWindow attached form. master 中已定义 `layoutSizingV='Fill'` + 自然 H=589. 映射表 line 512-515 (Fold 全 device, line 513 Fold外竖 / line 514-515 Fold内 LC) 指向本 component 时, 以下规则 **MUST**:<br>① **外壳 H 满铺**: `inst.resize(324, mainH)` (= `frameH − statusBarH`). 禁止直接使用自然 589 (Fold 内横 mainH=582 时侵占 7dp 杆子区域; Fold 内竖 mainH=842 时残留 253dp 空白).<br>② **位置**: `x=0, y=statusBarH` (左侧 attached, 状态栏下方). 禁止适用浮窗居中规则 (浮窗 ≠ Sidebar attached).<br>③ **inner FILL 适用范围**: 仅 `inst.children[0]` (`近手菜单组件`) 设 `layoutSizingV='FILL'`. 其子节点 (`新版标题栏` 自然 H=56 / `文件夹列表` 自然 H=52 / `列表组/分割线` 自然 H=24) 维持 master HUG/FIXED. **绝对禁止适用 `Sidebar_Component_PAD_NLC` 系的 3-级递归 FILL 规则 (BoardMaterialSection / NavigationSizeSection / 内容区域)** — 结构不同. 错误适用时「新版标题栏」H 会拉伸至 mainH (例: 280dp), icon `y=120` 位置异常.<br>④ **Pad device 走另一映射** (`Notes_FloatingWindow_01` 浮窗居中 + 遮罩) — 不适用本规则. line 516-517 行另行 lookup.<br>⑤ **runtime 自动适用**: 调用 `placeStandardComponent({ inst, w:324, h:mainH, ... })` 时 `placement.ts` step 7c 自动适用 ③. verifyChecklist `sidebarMainH:true` 选项自动检查 ①②③ 全部.<br>⑥ **回顾**: 即使 master 定义了 `layoutSizingV='Fill'`, figma `createInstance()` 默认以 `FIXED` 起始 → master Fill 不会自动传播. 因此显式调用作为正式规则是必要的. (2026-05-31 笔记-文件夹适配 task 中发现 Fold 横屏杆子侵占 / 竖屏空白后正式采用; 由先前 §0.5 历史踩坑项升格) |
+| 11 | **Notes_FloatingWindow_01 Pad 浮窗落位规则**（2026-05-31 正式采用, 2026-06-02 H 修订, MUST）| Pad device (NLC) 浮窗落位: `inst.resize(546, 636)` 居中. **Pad竖 / Pad横 H 都用 636 (master 自然 H 一致)**, 不用 device-dim「浮窗 FloatingWindow」 spec 的 `frameH×0.8` (Pad横=759). **理由**: master `Notes_FloatingWindow_01` 内部 `Frame 2147228694` (8 个 文件夹列表 stacked) + ABSOLUTE bg `FloatingWindow-ComponentSet` 的 cross-file ABSOLUTE constraints cascade 未 publish 状态 (参照 `common-rules §3.6 #9a`). 759 适用时 inner 内容自然结束 (~504dp) 后产生 ~247dp 空白. 自然 H=636 保持时内容与容器末端对齐. cross-file ABSOLUTE cascade publish 后可恢复 80% rule (在此之前 fallback rule). 浮窗 z 下方 `RECTANGLE 遮罩-浮窗-ManageFold` (frameW×frameH, fill `遮罩色/mask` 0.2). z-order: `... → Sidebar (若存在) → 遮罩-浮窗 → Notes_FloatingWindow → 杆子`. 允许在 NCovering 遮罩之上 stacking (双层 mask). Fold device 走 §0.1 #10 (`Sidebar_Notes` attached form). 本 H rule 的唯一权威 source = `csv-pipeline/mapping-input/floating-spec.csv:6` (Notes_FloatingWindow_01 Pad横 row, heightExpr=636) |
 
 ### §0.1-AI 特殊子场景 framework 规则（AI提问 / 录音 等 C栏直接使用子场景）
 
@@ -88,7 +88,7 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
    - **禁止**：① 使用 device-dimensions 断点表 padding 替代本规则 ② 仅凭 AIWindow 顶层 `paddingLeft`（Fold 系 variant 全部为 0）判定 —— 必须按测量方法实测或查参考表 ③ 旧公式 `TextInput.x=X, w=栏W−2X`（已废弃，改为栏风满+内部 padding）
 5. **栏背景色**：AI提问 C 栏 frame fill = `背景色/surface_low`（与 AIWindow 灰色对话背景一致）。frame 外壳也同色（StatusBar 透明后底色一致）。
-5a. **AIWindow_Options 位置（C 栏内 left-attached, 2026-05-31 정식 채택, MUST）**：自然 폭 그대로 + **`x = 0`**（C 栏 좌측 起点 attached），中央정렬 금지. 源稿 (手机 DrawerWindow 内 x=0) 와 시각 一致 보장. `y = statusBarH + 6 + 56`（NavBar 아래 stack 시작）. 본 룰의 root cause: AI对话 자연 폭 < 栏 폭이라 中央정렬 시 좌측 여백 발생, 源稿 좌측 attached pattern 일치 안 함. **회고**: 2026-05-31 适配 시 `aiX = (栏W − 自然W)/2` 직관 적용 → user 가 「위치 부정확」 지적 → 본 룰로 정식화. (Pad横 NC 의 `_06` 1150×263 = 栏폭 1150 우연 일치라 중앙=좌측 동일했지만, Fold內横 `_04` / Fold內竖 `_03` / Pad竖 `_05` 의 자연폭 < 栏폭 때문에 좌측 여백 발생).
+5a. **AIWindow_Options 位置（C 栏内 left-attached, 2026-05-31 正式采用, MUST）**：保持自然宽 + **`x = 0`**（C 栏左侧起点 attached），禁止居中对齐. 与源稿 (手机 DrawerWindow 内 x=0) 视觉保持一致. `y = statusBarH + 6 + 56`（从 NavBar 下方开始 stack）. 本规则的 root cause: AI 对话自然宽 < 栏宽, 居中对齐时产生左侧空白, 与源稿左侧 attached pattern 不一致. **回顾**: 2026-05-31 适配时凭直觉适用 `aiX = (栏W − 自然W)/2` → user 指出「位置不准确」 → 升级为正式规则. (Pad 横 NC 的 `_06` 1150×263 = 栏宽 1150 偶然一致, 因此中央=左侧相同; 但 Fold 内横 `_04` / Fold 内竖 `_03` / Pad 竖 `_05` 的自然宽 < 栏宽, 因此产生左侧空白).
 6. **NavigationBar variant（CSV 权威）**：
 
      | device | C栏 NavigationBar | N栏 NavigationBar |
@@ -177,16 +177,16 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 详见 `common-rules §3.7a-NL`。
 
-### §0.2 padding 应用规则（A 类一律风满）
+### §0.2 padding 应用规则（device-dim 断点表优先, 2026-06-01 修订）
 
-> **核心原则**：自带 internal padding 的标准组件（A 类）一律 `x=0, width=栏W` 风满。视觉 padding 由组件 internal 提供（默认 12dp）。详见 common-rules §3.4a.1。
+> **核心原则 (修订)**：A / B 类均以 `device-dimensions.md` 断点 padding 表为优先. 落位公式: `outer = max(0, spec − internal)`, `inst.x = outer, inst.width = 栏W − 2 × outer`. 详见 common-rules §3.4a.1 + §3.4a.3.
 
 #### 笔记 / 待办 标准组件落位规则（覆盖所有 frame / 栏 / framework）
 
 | 组件类别 | 处理 |
 |---------|------|
-| **A 类（全部自带 internal padding 的标准组件）**：`StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_Notes` / `List_Notes` / `Detail_Notes` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` | **instance 外壳 `x = 0, width = 栏W` 永远风满**。栏内视觉 padding = 组件 internal（默认 12dp，Detail_Notes 例外为 20dp 描述视觉左偏移，**不参与合算**）。<br>⚠️ **本规则仅约束 instance 外壳；instance 内部子节点（inner 胶囊 / TopBar root child / Sidebar BoardMaterialSection 等）的 sizing 由 `device-dimensions.md` 各组件专章规定，不可递归套用「外壳风满」**。具体：<br>&nbsp;&nbsp;• **ToolBar / BottomBar_Showcase 系 inner 胶囊** (`工具个数举例` / `TabMaterial-Showcase`)：依 `device-dimensions.md`「工具栏规格 / 胶囊尺寸」line 657~663 — 栏 W ≤ 440 → 风满（栏W − 48），栏 W > 440 → **定宽 344dp 居中**（parent `Overlay-Showcase.primaryAxisAlignItems = 'CENTER'`，capsule `sizH=FIXED, resize(344, h)`）。verifyChecklist ⑭ 自动检查<br>&nbsp;&nbsp;• **TopBar_03/_07 root child** (`Pad-TopBar_01`)：`inst.children[0].layoutSizingHorizontal = 'FILL'`（参 §0.5 末行）<br>&nbsp;&nbsp;• **Sidebar_Component 内部 BoardMaterialSection / NavigationSizeSection / 内容区域**：3 级递归 FILL override（参 §0.5）|
-| **B 类**：裸 frame / 自定义业务容器 | 按 `device-dimensions.md` 断点表合算（详见 common-rules §3.4a.3） |
+| **A 类（全部自带 internal padding 的标准组件）**：`StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_Notes` / `List_Notes` / `Detail_Notes` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` | **device-dim spec 优先 outer 合算**: `outer = max(0, spec − internal)`. internal ≥ spec 时 outer=0 (满铺 + over 接受). 例: Pad 横 L 栏 spec=20, NavBar internal=12 → outer=8. 旧规则「永远 x=0 满铺」废弃 (2026-06-01 笔记多端适配 task user 视觉验证时发现 padding mismatch).<br>⚠️ **本规则约束 instance 外壳; instance 内部子节点 (inner 胶囊 / TopBar root child / Sidebar BoardMaterialSection 等) 的 sizing 由 `device-dimensions.md` 各组件专章规定**:<br>&nbsp;&nbsp;• **ToolBar / BottomBar_Showcase 系 inner 胶囊** (`工具个数举例` / `TabMaterial-Showcase`): **保持 master HUG 自然 width 不变** (笔记 `BottomBar_Showcase_Notes_02` capsule = 220, 待办 ToolBar 等因 master 不同而异). 禁止在 instance level 强制变更 (会导致 button icon stretch). BB instance 外壳 = lane W 满铺, master default `counterAxisAlignItems='CENTER'` 自动使 capsule 居中对齐. 旧规则「栏 W ≤ 440 满铺 / > 440 定宽 344」废弃 (2026-06-01, user 指出「icon 挤压变形」). placement.ts step 9 废弃, verifyChecklist ⑭ 废弃.<br>&nbsp;&nbsp;• **TopBar_03/_07 root child** (`Pad-TopBar_01`)：`inst.children[0].layoutSizingHorizontal = 'FILL'`（参见 §0.5 末行）<br>&nbsp;&nbsp;• **Sidebar_Component 内部 BoardMaterialSection / NavigationSizeSection / 内容区域**：3 级递归 FILL override (参见 §0.5) |
+| **B 类**：裸 frame / 自定义业务容器 | 按 §3.4a.3 统一公式 (假定 internal=0 → outer = spec) |
 
 #### 笔记 NL framework 各 frame L 栏 width（**收起态特殊覆盖 device-dim 通用规则**）
 
@@ -222,7 +222,7 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 ### §0.3 必用 token 引用
 
-> **Raw token data**（name / libraryKey / fallbackRGB / defaultOpacity）= [`csv-pipeline/data/tokens.json`](../csv-pipeline/data/tokens.json) 单一权威。Phase 4 `buildTokenCache(names)` 직접 read. 본 §0.3 = 笔记 / 待办 specific 적용 logic 만.
+> **Raw token data**（name / libraryKey / fallbackRGB / defaultOpacity）= [`csv-pipeline/data/tokens.json`](../csv-pipeline/data/tokens.json) 单一权威。Phase 4 `buildTokenCache(names)` 直接 read. 本 §0.3 = 笔记 / 待办 specific 适用 logic 而已.
 
 > **背景 token 选择规则（核心 + 普遍）**：
 > - **判定标准 = 该容器内的列表组件是否带卡片，不是 app 名 / framework / 设备**：
@@ -230,11 +230,11 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 >   - 容器是单一全幅 panel / **不带卡片的 flat list**（如 `List_Task_03`）→ 容器 fill = **`背景色/surface`**（白底）
 >   - 卡片自身永远 `背景色/surface`（白），由组件自带 binding 提供
 >   - ⚠️ **同一 app 内不同子场景 / 不同设备 / 不同 variant 可能不同**：判定按变种 instance 的实际结构（卡片 stacked vs flat list + divider），**禁止以 app 名 / framework 一律下定**。具体分支：
->     - **笔记 `List_Notes_01`**（手机 / Fold外）= 卡片 gap-stacked（item 사이 12dp gap, cornerRadius=20）→ `surface_low`
->     - **笔记 `List_Notes_03 / _04`**（Fold内 / Pad，default + 编辑모드）= flat list + internal `套卡列表/分割线` instance → `surface`
+>     - **笔记 `List_Notes_01`**（手机 / Fold外）= 卡片 gap-stacked（item 之间 12dp gap, cornerRadius=20）→ `surface_low`
+>     - **笔记 `List_Notes_03 / _04`**（Fold内 / Pad，default + 编辑模式）= flat list + internal `套卡列表/分割线` instance → `surface`
 >     - **待办 `List_Task_01`**（手机 / Fold外）= 套卡 → `surface_low`
 >     - **待办 `List_Task_03`**（Fold内 / Pad）= flat list 无卡片 → `surface`
->     - 변종 별 분기 회고: 2026-06-01 笔记多端적응 시 「笔记 List_Notes 全设备带卡片」 stale claim 으로 4 frame L 栏 fill 잘못 적용 → 본 분기 도입.
+>     - 变种分支回顾: 2026-06-01 笔记多端适配时, 因「笔记 List_Notes 全设备带卡片」stale claim 导致 4 个 frame L 栏 fill 错误适用 → 引入本分支.
 > - **笔记 / 待办 各栏归属（具体应用）**：
 >   - **L 栏 笔记 手机 / Fold 外屏**（`List_Notes_01` 卡片 gap-stacked）→ `surface_low`
 >   - **L 栏 笔记 Fold 内屏 / Pad**（`List_Notes_03` / `_04` flat list + internal divider）→ `surface`
@@ -279,24 +279,24 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 
 | device | screenMode | frame | N 栏 | L 栏 | C 栏 |
 |--------|-----------|------|------|------|------|
-| Pad竖 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad竖 | NLC | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Pad竖 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
-| Pad竖 | NL | `surface_low` | `surface_low` | `surface_low` | — |
-| Pad竖 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
-| Pad竖 | NC | `surface_low` | `surface_low` | — | `surface` |
+| Pad竖 | NL | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes flat) | — |
+| Pad竖 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes flat) | — |
+| Pad竖 | NC | `surface_low` | `surface` (跟随 C) | — | `surface` |
 | Pad竖 | NC收起 | `surface_low` | 不存在 (N 消失) | — | `surface` |
 | Pad竖 | LC | `surface_low` | 不存在 | `surface` (笔记 List_Notes_03 flat) | `surface` |
 | Pad竖 | C | `surface_low` | 不存在 | 不存在 | `surface_low` |
-| Pad横 | NLC | `surface_low` | `surface_low` | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
+| Pad横 | NLC | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes_03 flat) | `surface` (笔记 Detail) |
 | Pad横 | NLC收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes_03 flat) | `surface` |
-| Pad横 | NL | `surface_low` | `surface_low` | `surface_low` | — |
-| Pad横 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface_low` | — |
-| Pad横 | NC | `surface_low` | `surface_low` | — | `surface` |
+| Pad横 | NL | `surface_low` | `surface` (跟随 L) | `surface` (笔记 List_Notes flat) | — |
+| Pad横 | NL收起 | `surface_low` | 不存在 (N 消失) | `surface` (笔记 List_Notes flat) | — |
+| Pad横 | NC | `surface_low` | `surface` (跟随 C) | — | `surface` |
 | Pad横 | NC收起 | `surface_low` | 不存在 (N 消失) | — | `surface` |
 | Pad横 | LC | 不存在 | 不存在 | 不存在 | — |
 | Pad横 | C | 不存在 | 不存在 | 不存在 | `surface_low` |
 
-> **변종 별 분기 (笔记 + 待办 동형 구조, 2026-06-01 정정)**:
+> **变种分支 (笔记 + 待办同形结构, 2026-06-01 修正)**:
 >
 > - **笔记 L 栏**:
 >   - 手机 / Fold外 (`List_Notes_01` 卡片 stacked) → `surface_low` (灰底)
@@ -304,16 +304,16 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 > - **待办 L 栏**:
 >   - 手机 / Fold外 (`List_Task_01` 套卡) → `surface_low`
 >   - Fold内 / Pad (`List_Task_03` flat) → `surface`
-> - **frame 외각**:
->   - 笔记 全 device → `surface_low` (외각 灰底로 卡片浮起 일관성, list 내부 카드성과 무관)
+> - **frame 外壳**:
+>   - 笔记全 device → `surface_low` (外壳灰底使卡片浮起一致, 与 list 内部卡片性无关)
 >   - 待办 → `surface` (Fold内 / Pad), `surface_low` (手机 / Fold外, 套卡)
 >
-> **Pad NL Sub-rows** (List_Notes_13 / _15 / _17 / _19 = flat, per §0.1 #9 NL→C fallback variant): 上表 Pad竖/Pad横 NL 行의 L 栏 셀도 `surface` 가 정답이나 본 수정에서는 상기 NLC 행만 update — Pad NL 변종 검증은 후속.
+> **Pad NL Sub-rows** (List_Notes_13 / _15 / _17 / _19 = flat, per §0.1 #9 NL→C fallback variant): 上表 Pad 竖/Pad 横 NL 行的 L 栏单元格也以 `surface` 为正解, 但本次修订仅更新上述 NLC 行 — Pad NL 变种验证留待后续.
 
 
 ### §0.4 关键组件 set keys（pointer）
 
-> **권위 source** = [`csv-pipeline/data/setkeys.json`](../csv-pipeline/data/setkeys.json) 단일 권위 (families / authoritativeLibraryKeys / `_known_stale_or_wrong_keys` 포함). Phase 4.5 Gate A / Gate C / Phase 5 import 시 setkeys.json 직접 read. 변경 시 setkeys.json 수정 + git commit (본 .md 보강 不要). 既存 cross-ref 18+개의 「§0.4」 표기 = 의미상 「setkeys.json」.
+> **权威 source** = [`csv-pipeline/data/setkeys.json`](../csv-pipeline/data/setkeys.json) 单一权威 (包含 families / authoritativeLibraryKeys / `_known_stale_or_wrong_keys`). Phase 4.5 Gate A / Gate C / Phase 5 import 时直接 read setkeys.json. 变更时修改 setkeys.json + git commit (无需补充本 .md). 既有 cross-ref 18+ 处的「§0.4」标注 = 语义上即「setkeys.json」.
 
 ### §0.5 历史踩坑（笔记 / 待办 应用专用）
 
@@ -336,8 +336,8 @@ CSV vs 本文档冲突时处理：[common-rules §3.11](common-rules.md#§3.11-c
 | 变体内部 sizing | TopBar_03 / TopBar_07（笔记 宫格 NL Pad 4 frame 顶部 search 变体）`instance.resize(targetW)` 后 root child `Pad-TopBar_01` 仍保持自然 width 1422 + `layoutSizingHorizontal='FIXED'` → 右侧裁切（搜索框 / 编辑 / 菜单 icon 不显示）。实测：Pad 横 NL 展开=272dp 裁切，Pad 竖 NL 展开=745dp 裁切（过半），Pad 竖 NL 收起=473dp 裁切 | common-rules §3.6 强制 6 步序列外，需追加 **`inst.children[0].layoutSizingHorizontal = 'FILL'`** override。校验：`inst.children[0].width === inst.width` |
 | 搜索激活态 | Pad NL 搜索激活时 L 栏统一为 `SearchBar_01 + SearchReceiving_00`（新 page 承接）| **仅 Pad NL 在 C 栏承接**：`SearchBar_04`（激活态）+ `SearchReceiving_01`（Dropdown）。对应 `device-dimensions.md` 搜索 spec「Pad 承接 panel」节。其他形态为 `_01 + _00`（新 page 承接模式）|
 | 变体未落地 | Fold 内 LC L 栏 ToolBar `_02` 尝试 → 组件库中不存在 | 以 mapping CSV 权威 spec 保留 `_02`。落地前临时 fallback：渲染 `_01`，落地后通过 `swapComponent` 升级 |
-| 变体内部 sizing — Sidebar_Notes attached form | (2026-05-31 정식 룰 §0.1 #10 으로 승격) | **§0.1 #10 「Sidebar_Notes attached form 풀히트 룰」 참조**. 历史踩坑 表 의 본 항목은 history pointer 만 유지 — 실제 룰 본문은 §0.1 #10 단일 권위 source |
-| 变体内部 sizing — Notes_FloatingWindow cascade FILL | (2026-05-31 정식 룰 §0.1 #11 으로 승격) | **§0.1 #11 「Notes_FloatingWindow_01 Pad cascade FILL 룰」 참조**. 历史踩坑 表 의 본 항목은 history pointer 만 유지 — 실제 룰 본문은 §0.1 #11 단일 권위 source |
+| 变体内部 sizing — Sidebar_Notes attached form | (2026-05-31 升格为正式规则 §0.1 #10) | **参照 §0.1 #10「Sidebar_Notes attached form 满铺规则」**. 历史踩坑表中本项仅保留 history pointer — 实际规则正文以 §0.1 #10 为单一权威 source |
+| 变体内部 sizing — Notes_FloatingWindow cascade FILL | (2026-05-31 升格为正式规则 §0.1 #11) | **参照 §0.1 #11「Notes_FloatingWindow_01 Pad cascade FILL 规则」**. 历史踩坑表中本项仅保留 history pointer — 实际规则正文以 §0.1 #11 为单一权威 source |
 
 ---
 

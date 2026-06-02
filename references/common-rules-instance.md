@@ -1,8 +1,8 @@
 # 通用规则 — 标准组件 instance 闭环
 
-> Phase 4 + Phase 5 매번 로드. 标准组件 import / resize / swap / clone / property fallback / instance 优先级.
-> 본 파일 = §3.1~§3.6 (instance 처리) + §3.10 (timestamp + fresh-import) + §3.12 (property 缺) + §4 (写入 优先级).
-> mask / z-order → `common-rules-mask-zorder.md`. 원칙 / 메타 룰 → `common-rules-principles.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
+> Phase 4 + Phase 5 每次加载. 标准组件 import / resize / swap / clone / property fallback / instance 优先级.
+> 本文件 = §3.1~§3.6 (instance 处理) + §3.10 (timestamp + fresh-import) + §3.12 (property 缺) + §4 (写入优先级).
+> mask / z-order → `common-rules-mask-zorder.md`. 原则 / 元规则 → `common-rules-principles.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
 
 ## §3.1 基础组件任务清单
 
@@ -80,18 +80,20 @@
 
 > 应用专用实测应用表已迁出：笔记 / 待办 → `app-variant-map-笔记.md §0.2`。其它应用 → 各自 `app-variant-map-{app}.md`。
 
-### §3.4a.1 组件分类（A/B 二分）
+### §3.4a.1 组件分类（A/B 二分, 2026-06-01 修订）
 
-> **核心原则**：分类标准 = 「**是否自带 internal padding**」。所有自带 padding 的标准组件统一为 A 类风满，禁止合算；裸控件 / 自定义业务 frame 为 B 类，按 device-dim 断点表合算。
+> **核心原则（修订）**: A / B 两类均以 **`device-dimensions.md` 断点表 spec 为权威**。合算公式 = `outer = max(0, spec − internal)`。`internal ≥ spec` 时 outer=0（风满 + 接受 over）。
 
 | 类别 | 判定标准 | 组件 | padding 处理 |
 |------|---------|------|----------|
-| **A 类：自带 internal padding 的标准组件** | `instance.children[0].x > 0` 即自带（典型值 12dp） | `StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` / `List_*` / `Detail_*` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` 等 | **永远 `x = 0, width = 栏W` 风满**。视觉左右 padding = 组件 internal（默认 12dp）。**禁止任何 outer 合算**，禁止把 device-dim 断点表 spec 应用到 A 类组件 |
-| **B 类：裸控件 / 业务自定义 frame** | 无 internal padding 的纯 Frame / 分组卡片外框 / 用户自建容器 | 自定义 frame / 业务容器 | 按 `device-dimensions.md` 断点间距表取 spec：`x = spec, width = 栏W − 2 × spec`。1100 < 栏W 时改 `x = (栏W − 988)/2, width = 988` 居中 |
+| **A 类：自带 internal padding 的标准组件** | `instance.children[0].x > 0` 即自带（典型值 12dp） | `StatusBar_*` / `NavigationBar*`（含 `_Notes`）/ `TopBar_*` / `SearchBar_ComponentSet` / `SelectableChip_ComponentSet_*` / `List_*` / `Detail_*` / `BottomBar_*`（含 `_Showcase_*` / `_NoteEditPanel_*` / `_Notes_Outline_*`）/ `ToolBar_*` / `Sidebar_Component_*` / `TextInput_ComponentSet_Notes` / `Fab_*` 等 | **`outer = max(0, spec − internal)`**。`inst.x = outer, inst.width = 栏W − 2 × outer`。`internal ≥ spec` 时 outer=0（风满 + 接受 over） |
+| **B 类：裸控件 / 业务自定义 frame** | 无 internal padding 的纯 Frame / 分组卡片外框 / 用户自建容器 | 自定义 frame / 业务容器 | 与 A 类同公式（internal=0 → outer = spec）。1100 < 栏W 时 `x = (栏W − 988)/2, width = 988` 居中 |
 
-判定要诀：**「有自带 padding ⇒ A 类风满；没有 ⇒ B 类合算」**。Figma 实测 `instance.children[0].x` > 0 即 A 类；查不到 internal padding 才是 B 类。**未列出的标准组件默认按 A 类处理**（风满），如确认是 B 类（裸 frame）才走合算。
+判定要诀: **`device-dimensions.md` spec 与 instance internal 比较 → 不足部分以 outer 补足**。internal ≥ spec 时 outer=0（风满）。
 
-**Detail_Notes 例外**：自带 internal=20（封面图距 Detail 左缘 20dp）仍属 A 类风满，internal=20 仅描述视觉左 padding，不参与合算。
+**旧规则废止原因**: 「A 类一律风满 / 禁止 outer 合算」旧规则与 device-dim spec mismatch（Pad L internal 12 vs spec 20），用户视觉验证时 padding 不一致。2026-06-01 笔记多端适配 task 中 Pad 横 L 栏（spec 20, internal 12） 8dp 不足 / Pad 横 C 栏（spec 28, internal 0） 28dp 不足等发现 → 用户明示「device-dimensions 为原则」→ 本规则修订。
+
+**Detail_Notes 例外**: 自带 internal=20（封面图距 Detail 左缘 20dp）。spec ≥ 20 时 outer = spec − 20，spec < 20 时 outer=0 风满。
 
 ### §3.4a.2 internal padding 定义
 
@@ -113,27 +115,27 @@ const internalPl = direct.absoluteBoundingBox.x - inst.absoluteBoundingBox.x;
 | `SearchBar_ComponentSet_*` | 左 12, 右 12 | 一致 | 12 |
 | `List_Notes_*` | 左 12, 右 12 | 一致 | 12 |
 
-### §3.4a.3 合算公式（仅适用 B 类）
+### §3.4a.3 合算公式（A 类 + B 类 通用, 2026-06-01 修订）
 
-> ⚠️ **适用范围**：本节合算公式**仅适用 §3.4a.1 B 类（裸控件 / 业务自定义 frame）**。A 类标准组件（含 `SearchBar` / `Chip` / `List` / `Detail` 等所有自带 padding 的组件）**禁止**调用本公式 —— 一律 `x=0, w=栏W` 风满。
+> 旧规则「仅 B 类适用」废止。**A / B 两类均适用本公式**。spec = `device-dimensions.md` 各 device × screenMode 断点 padding 表。
 
-| 关系（仅 B 类）| x | 写入 width | visible 总 padding |
+| 关系 | x | 写入 width | visible 总 padding |
 |------|---|-----------|-------------------|
-| `internal ≥ spec` | 0 | 栏W | internal（自动 ≥ spec）|
+| `internal ≥ spec` | 0 | 栏W | internal（自动 ≥ spec, 风满 + 接受 over）|
 | `internal < spec` | `spec − internal` | `栏W − 2 × outer` | `outer + internal = spec` |
 
-简言之（仅 B 类）：`outer = max(0, spec − internal)`。1100 < 栏W 时进一步用 `x = (栏W − 988)/2, w = 988` 居中。
+公式: **`outer = max(0, spec − internal)`**。1100 < 栏W 时 `x = (栏W − 988)/2, w = 988` 居中。
 
-### §3.4a.4 执行准则
+### §3.4a.4 执行准则 (2026-06-01 修订)
 
 | # | 规则 |
 |---|------|
 | 1 | 通用内容容器：实测 `direct.x` 作 internal pl；`Chip` 的 `pl=0` 易误判，**以 CSV 为准** |
 | 2 | `Detail_Notes`：直接 `internal=20`，不测量外层 frame |
-| 3 | spec 来自 `device-dimensions.md` 栏 padding 表 + 断点表 |
-| 4 | 写入：`inst.x = outer; inst.width = 栏W − 2 × outer` |
-| 5 | **特殊组件不参与合算**：永远 `x=0, width=栏W` 风满 |
-| 6 | 远程组件 internal 不可在 instance 中改写；`internal > spec` 时风满 + 接受 over |
+| 3 | spec 来自 `device-dimensions.md` 栏 padding 表 + 断点表（**权威**） |
+| 4 | 写入: `inst.x = outer; inst.width = 栏W − 2 × outer`。outer = max(0, spec − internal) |
+| 5 | （废止）~~特殊组件不参与合算~~ → A 类也适用 §3.4a.3 公式 |
+| 6 | 远程组件 internal 不可在 instance 中改写；`internal ≥ spec` 时 outer=0 风满 + 接受 over |
 
 ### §3.4a.5 `_00` 变体语义一致性表
 
@@ -217,7 +219,7 @@ if (Math.abs(inst.width - targetW) > 0.5) throw new Error(`reflow: ${inst.name}`
 | **8** | **ToolBar / BottomBar_Showcase inner state 2nd pass 必须在 `placeStandardComponent` 函数体内执行**（protocol.md step 10），禁止依赖调用方 inline 补充。capsule `setProperties({数量:X})` 会 rebuild children（全新 ID），首次 walk 只传递首项，后续 `.组件状态变化` 等 deep-inner 节点 miss。修复 = 统一走 protocol.md 完整函数，禁止 simplified inline helper |
 | **9** | **master Fill ↔ instance default FIXED 通则** (2026-05-31, MUST): master `layoutSizing*='Fill'` 即使有定义, `createInstance()` default = `FIXED`. 不自动传播 → 必须显式调用 `inst.resize(w, h)` 或 `inst.layoutSizing*='FILL'` (auto-layout slot 父节点). **检验**: 必须直接 dump instance property (禁止仅看 master 推断). app-specific 应用例 → `app-variant-map-{app}.md` (如 笔记 `Sidebar_Notes` attached → §0.1 #10). |
 | **9a** | **cross-file master cascade + ABSOLUTE constraints** (2026-05-31): master inner ABSOLUTE child (背景/blur 等) `constraints` **不可 instance level override**. cross-file instance 需 resize 超过 master 自然 H 时: ① master file 侧 ABSOLUTE child `constraints={horizontal/vertical:'STRETCH'}` + AUTO child sizingV='FILL' cascade ② library publish 必要 ③ publish 后 fresh import + createInstance + resize 自动 cascade ④ publish 前 fallback = 自然 H + 居中 (override 不可 layer stuck → 视觉空白). 回顾: 2026-05-31 `Notes_FloatingWindow_01` Pad 横 759 应用时 inner ABSOLUTE 636 stuck → 底部 123dp 空白. publish 后 cascade 正常. |
-| **10** | **ToolBar / BottomBar_Showcase 胶囊 inner 버튼 폭 자동 분배** (2026-06-01): capsule 폭이 源 phone (= 344) 보다 줄어들면 inner `.组件状态变化` (master `minWidth=66, FIXED 92`) 좌우 튀어나감. `placement.ts` step 9b 자동 적용: ① capW ≥ N×minWidth → `layoutGrow=1 + layoutSizingH=FILL + itemSpacing=0` 균등 분배 (Fold內横 305 / Pad 380) ② capW < N×minWidth → minWidth instance 변경 不可 → `paddingL=R=0 + itemSpacing 음수` overlap 으로 fit (Fold內竖 234, spacing=-10). instance level 만 변경, master detach 없음 (§3.2 위반 아님). 회고: 2026-06-01 笔记 编辑 task 에서 Fold L (353/282) 의 capsule (305/234) inner 4 버튼 좌측 -16/-52 으로 튀어나옴. step 9 외각 폭 룰만 자동화 했고 inner reflow 부재 → 본 룰 추가. |
+| **10** | **ToolBar / BottomBar_Showcase 胶囊 inner 按钮宽自动分配** (2026-06-01): capsule 宽比源 phone (= 344) 缩短时, inner `.组件状态变化` (master `minWidth=66, FIXED 92`) 左右溢出. `placement.ts` step 9b 自动适用: ① capW ≥ N×minWidth → `layoutGrow=1 + layoutSizingH=FILL + itemSpacing=0` 均等分配 (Fold 内横 305 / Pad 380) ② capW < N×minWidth → minWidth instance 不可变更 → `paddingL=R=0 + itemSpacing 负值` overlap 以 fit (Fold 内竖 234, spacing=-10). 仅变更 instance level, 无 master detach (不违反 §3.2). 回顾: 2026-06-01 笔记编辑 task 中 Fold L (353/282) 的 capsule (305/234) inner 4 按钮左侧 -16/-52 溢出. 仅自动化了 step 9 外壳宽度规则, inner reflow 缺席 → 添加本规则. |
 
 ### §3.6.A 自动校验函数补强 (verifyChecklist 增项)
 
@@ -318,4 +320,4 @@ if (freshTarget) return freshTarget;  // 废弃旧搜索结果, 用 fresh
 
 ---
 
-> **연관 파일**: principles → `common-rules-principles.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
+> **关联文件**: principles → `common-rules-principles.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.

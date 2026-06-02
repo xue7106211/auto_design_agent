@@ -1,8 +1,8 @@
 # 通用规则 — 遮罩 / z-order / 栏间分割线
 
-> Phase 5 落位 시 매번 로드. NLC 覆盖 / L 编辑 / NL framework / NLC 并列 / 多 mask 叠加 / 栏间分割线 / Sidebar 阴影.
-> 본 파일 = §3.7~§3.7b (mask z-order) + §3.8 (栏间 분할선) + §3.9 (Sidebar 阴影 pointer).
-> 원칙 → `common-rules-principles.md`. instance → `common-rules-instance.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
+> Phase 5 落位时每次加载. NLC 覆盖 / L 编辑 / NL framework / NLC 并列 / 多 mask 叠加 / 栏间分割线 / Sidebar 阴影.
+> 本文件 = §3.7~§3.7b (mask z-order) + §3.8 (栏间分割线) + §3.9 (Sidebar 阴影 pointer).
+> 原则 → `common-rules-principles.md`. instance → `common-rules-instance.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
 
 ## §3.7 NLC 覆盖模式 遮罩 + z-order
 
@@ -195,6 +195,20 @@ C.strokeAlign = 'INSIDE';
 
 > **2026-05-26 迁出**: 该规则迁至 [`component-dictionary/sidebar.md` 「阴影裁切防止」节](component-dictionary/sidebar.md) 单一来源. 配置位置 / clipsContent 设置 / Phase 6 校验 全部参见该文件.
 
+### §3.9-scope clipsContent 规则的精确 scope (2026-06-02 追加, MUST)
+
+**Default**: `frame` / `main` / `L 栏` / `C 栏` / `N 栏` 全部 **`clipsContent = true`** (圆角 visible + lane overflow 防止).
+
+**例外 (Pad横 NLC并列 仅 1 case)**: §3.9 Sidebar 阴影可见性需要, 仅 **`main` + `N 栏`** 设 `clipsContent = false`. **`frame` / `L 栏` / `C 栏` 保持 `true`**.
+
+**禁止**:
+- §3.9 规则被错误泛化导致 `frame.clipsContent=false` → cornerRadius 视觉表现消失
+- `L 栏 / C 栏.clipsContent=false` → chip `.选项` items, SearchBar inner, NavBar 标题 text 溢出 lane
+
+**runtime 自动检查**: `verify.ts ⑱` 自动检测 (`spec.framework='NLC并列' && spec.device='Pad横'` flag 触发).
+
+**回顾 (2026-06-02)**: 笔记多终端适配 task 中 §3.9 规则被错误泛化 → 4 frame 全部 frame/main/L/C 全套设 false. 圆角消失 + chip overflow + 标题 overflow. user 指出后修正. .md only 规则 6 个月内 7 次复发 (依据 memory `feedback_runtime_enforce_rules`) → 必须 runtime guard 化.
+
 ---
 
-> **연관 파일**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
+> **关联文件**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.

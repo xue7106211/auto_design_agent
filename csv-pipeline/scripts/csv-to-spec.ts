@@ -123,6 +123,87 @@ function getLayoutSpec(device: string, screenMode: string, collapsed: boolean): 
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 断点 padding 表 (device-dimensions.md, 2026-06-01 修订)
+// 각 (device, screenMode, lane) → spec padding (dp).
+// 적용 공식: outer = max(0, spec - internal). instance.x = outer, w = laneW - 2*outer.
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface LanePaddingSpec {
+  N?: number; L?: number; C?: number;
+}
+
+function getLanePaddingSpec(device: string, screenMode: string, collapsed: boolean): LanePaddingSpec {
+  // 手机 / Fold外 = 12dp 통칙
+  if (device === '手机竖' || device === '手机横') return { C: 12 };
+  if (device === 'Fold外竖' || device === 'Fold外横') return { C: 12 };
+
+  // Fold内 (Q18 特例: 容器 ≤ 640dp = 12dp 통일, common-rules-instance.md §3.4a + device-dim §)
+  if (device === 'Fold内竖' && screenMode === 'LC') return { L: 12, C: 12 };
+  if (device === 'Fold内横' && screenMode === 'LC') return { L: 12, C: 12 };
+  if (device === 'Fold内竖' && screenMode === 'NC') return { N: 12, C: 12 };
+  if (device === 'Fold内横' && screenMode === 'NC') return { N: 12, C: 12 };
+  if (device.startsWith('Fold内') && screenMode === 'C') {
+    // C 通栏: device-dim Q18 특례 — 横屏 800<w≤1100 = 56, 그 외 12
+    const dim = DEVICE_DIMENSIONS[device];
+    if (device === 'Fold内横' && dim.frameW > 800 && dim.frameW <= 1100) return { C: 56 };
+    return { C: 12 };
+  }
+
+  // Pad横
+  if (device === 'Pad横' && screenMode === 'NLC') {
+    if (collapsed) return { N: 12, L: 20, C: 56 }; // L=428 → 20, C=994>800 → 56
+    return { N: 12, L: 20, C: 28 }; // L=428 → 20, C=722>640<=800 → 28
+  }
+  if (device === 'Pad横' && screenMode === 'NL') {
+    return { N: 12, L: 56 }; // L 1150/1334 > 1100 → 988 居中 (외측 fill)
+  }
+  if (device === 'Pad横' && screenMode === 'NC') {
+    return { N: 12, C: 56 }; // C 1150/1334 > 1100 → 988 居中
+  }
+  if (device === 'Pad横' && screenMode === 'LC') return { L: 20, C: 56 };
+  if (device === 'Pad横' && screenMode === 'C') return { C: 56 };
+
+  // Pad竖 (断点표 권위 — 본 표 우선)
+  if (device === 'Pad竖' && screenMode === 'NLC') {
+    if (collapsed) return { N: 12, L: 20, C: 12 }; // C=474<=640 → 12
+    return { N: 12, L: 20, C: 12 }; // 覆盖: L=428→20, C=521→12. 并列: L=304→12, C=373→12
+  }
+  if (device === 'Pad竖' && screenMode === 'NL') {
+    if (collapsed) return { N: 12, L: 56 }; // L=861>800<=1100 → 56
+    return { N: 12, L: 28 }; // L=677>640<=800 → 28
+  }
+  if (device === 'Pad竖' && screenMode === 'NC') {
+    if (collapsed) return { N: 12, C: 56 };
+    return { N: 12, C: 28 };
+  }
+  if (device === 'Pad竖' && screenMode === 'LC') return { L: 20, C: 20 }; // L=428→20, C=521→12. 표는 20/20 — 표 권위
+  if (device === 'Pad竖' && screenMode === 'C') return { C: 56 };
+
+  return {};
+}
+
+// component family → internal padding (dp) (자带 internal padding, common-rules §3.4a.2)
+// instance.children[0].x measurement reference. Detail_Notes 특례 = 20.
+// NavigationBar_Notes_01 (业务组件库): internal=0 — 외부 padding 전부 outer 부담.
+function getInternalPadding(family: string, variant: string): number {
+  // Detail_Notes 특례: 封面图 距 Detail 좌측 20dp (common-rules-instance.md §3.4a.2)
+  if (family === 'DetailNotes' || family === 'Detail_Notes') return 20;
+  // NavigationBar_Notes_01: 业务组件库 측, internal=0
+  if (/^NavigationBar_ComponentSet_Notes/.test(variant)) return 0;
+  // ToolBar / BottomBar_Showcase: 외각 풍만 (capsule master HUG 처리)
+  if (/^BottomBar_Showcase|^ToolBar_/.test(variant)) return 0;
+  // A 류 자연 internal: NavigationBar / SearchBar / SelectableChip / List / TextInput / Sidebar
+  return 12;
+}
+
+// element → family alias (csv-to-spec uiElement → 控件清单 family)
+function elementToFamily(element: string): string {
+  if (element === 'List') return 'List';
+  if (element === 'Detail') return 'DetailNotes';
+  return element;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Notes app §0.4 setKey registry (parsed from app-variant-map-笔记.md §0.4)
 // POC: hardcode subset. Phase 4 will parse .md table.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -144,7 +225,15 @@ const NOTES_SET_KEYS: Record<string, SetKeyEntry> = Object.fromEntries(
 
 // CSV authoring markers that are NOT Figma components — emit silently as no-setKey.
 //   竖屏背景 = portrait wallpaper anchor (background plate, not a ComponentSet).
-const NON_COMPONENT_MARKERS = new Set(['竖屏背景', '横屏背景', '_00']);
+//   (framework_reuse) = extract-mapping emits this when a cell reads "<framework>栏" alone
+//     (designer abbreviation for "use the same variant as the named framework's row").
+//   (placeholder) = extract-mapping emits this for Phase 4.5 search markers (TBD / 查询 etc.).
+//   (prose-only) = extract-mapping emits this for cells that hold designer notes without variantId
+//     (e.g. "标题栏 新建图标" = "place a new icon in the title bar slot").
+const NON_COMPONENT_MARKERS = new Set([
+  '竖屏背景', '横屏背景', '_00',
+  '(framework_reuse)', '(placeholder)', '(prose-only)',
+]);
 
 // Designer aliases — mapping CSV uses semantic names that differ from actual library
 // ComponentSet variant names. When emitting spec, rewrite variant + lookup with real name.
@@ -194,6 +283,9 @@ function resolveSetKey(variantId: string): SetKeyEntry | null {
   if (variantId.startsWith('TopBar_')) return NOTES_SET_KEYS.TopBar;
   if (variantId.startsWith('SearchBar_ComponentSet')) return NOTES_SET_KEYS.SearchBar;
   if (variantId.startsWith('SelectableChip_ComponentSet_Notes')) return NOTES_SET_KEYS.SelectableChip_Notes;
+  // SelectableChip_ComponentSet_NN (Notes-less base form) — separate library set.
+  // Family 'SelectableChip' must be probed and registered in setkeys.json before resolution.
+  // Returns null until then so validate-csv reports family-missing rather than silent wrong setKey.
   if (variantId.startsWith('List_Notes_')) return NOTES_SET_KEYS.List_Notes;
   if (variantId.startsWith('Detail_Notes_') || variantId.startsWith('DetailNotes_')) return NOTES_SET_KEYS.Detail_Notes;
   if (variantId.startsWith('BottomBar_Showcase_Notes')) return NOTES_SET_KEYS.BottomBar_Showcase_Notes;
@@ -206,8 +298,14 @@ function resolveSetKey(variantId: string): SetKeyEntry | null {
   if (variantId.startsWith('BottomBar_Showcase_') || variantId.startsWith('BottomBar_')) return NOTES_SET_KEYS.BottomBar_Generic;
   if (variantId.startsWith('Fab_') || variantId.startsWith('Fab-')) return NOTES_SET_KEYS.BottomBar_Generic;
   if (variantId.startsWith('TextInput_ComponentSet_Notes')) return NOTES_SET_KEYS.TextInput_Notes;
+  // 笔记 ManageFoldWindow attached form (Fold device) + Pad 浮窗 form. app-variant-map §0.1 #10/#11.
+  // MUST precede Sidebar_Component_ branch (Sidebar_Notes_ is more specific).
+  if (variantId.startsWith('Sidebar_Notes_')) return NOTES_SET_KEYS.Sidebar_Notes;
+  if (variantId.startsWith('Notes_FloatingWindow_')) return NOTES_SET_KEYS.Notes_FloatingWindow;
   // Sidebar 전용 (414cabc8...): Sidebar_Component_PAD_LC_* / PAD_NLC_* (with Fab=有/无 inner property).
   if (variantId.startsWith('Sidebar_Component_PAD_NLC')) return NOTES_SET_KEYS.BottomBar_Sidebar;
+  // Sidebar_Component_NC / Sidebar_Component_PAD_LC_Fab — same library set, different variant-property values.
+  if (variantId.startsWith('Sidebar_Component_')) return NOTES_SET_KEYS.BottomBar_Sidebar;
   if (variantId.startsWith('NoticeBar_')) return NOTES_SET_KEYS.NoticeBar;
   if (variantId.startsWith('Scrollbar_')) return NOTES_SET_KEYS.Scrollbar;
   if (variantId.startsWith('TextFormatPanel_')) return NOTES_SET_KEYS.TextFormatPanel_Notes;
@@ -627,10 +725,16 @@ interface FloatingContainerSpec {
 
 interface FloatingRow {
   family: string; device: string;
+  state: string;     // '*' wildcard or matches spec.state (e.g. '默认', '一级')
+  subScene: string;  // '*' wildcard or matches spec.subScene (e.g. '笔记', 'AppSettings')
   setKey: string; library: string;  // FW container set authoritative source (overrides §0.4 if present)
   widthExpr: string; heightExpr: string;
   posXExpr: string; posYExpr: string;
-  headerH: number; modal: boolean;
+  headerH: number;
+  modal: boolean;
+  attached: boolean;       // true = attached form (e.g. Sidebar_Notes), no modal mask, side-anchored
+  attachedSide: string;    // 'left' | 'right' (only meaningful when attached=true)
+  fillVertical: boolean;   // attached form: instance H = frameH - statusBarH (mainH fill)
   contentPaddingTop: number; contentPaddingLR: number;
   bottomCornerMatchFW: boolean;
   innerVariant: string; innerSetKey: string; innerLibrary: string;
@@ -644,15 +748,20 @@ function loadFloatingSpec(): FloatingRow[] {
   });
   return records.map((r: any) => ({
     family: r.family, device: r.device,
+    state: r.state ?? '*',
+    subScene: r.subScene ?? '*',
     setKey: r.setKey ?? '', library: r.library ?? '',
     widthExpr: r.widthExpr, heightExpr: r.heightExpr,
     posXExpr: r.posXExpr, posYExpr: r.posYExpr,
     headerH: Number(r.headerH),
     modal: r.modal === 'true' || r.modal === true,
-    contentPaddingTop: Number(r.contentPaddingTop),
-    contentPaddingLR: Number(r.contentPaddingLR),
+    attached: r.attached === 'true' || r.attached === true,
+    attachedSide: r.attachedSide ?? '',
+    fillVertical: r.fillVertical === 'true' || r.fillVertical === true,
+    contentPaddingTop: Number(r.contentPaddingTop) || 0,
+    contentPaddingLR: Number(r.contentPaddingLR) || 0,
     bottomCornerMatchFW: r.bottomCornerMatchFW === 'true' || r.bottomCornerMatchFW === true,
-    innerVariant: r.innerVariant, innerSetKey: r.innerSetKey, innerLibrary: r.innerLibrary,
+    innerVariant: r.innerVariant ?? '', innerSetKey: r.innerSetKey ?? '', innerLibrary: r.innerLibrary ?? '',
   }));
 }
 
@@ -668,9 +777,12 @@ function evalFloatingExpr(expr: string, vars: Record<string, number>): number {
 }
 
 // FW component natural cornerRadius. POC: hardcoded by family. Migrate to components.csv read later.
+// Notes_FloatingWindow master self-radius = 0 (inner panel renders the visible 36dp radius).
+// Spec cornerRadius is applied to the floatingContainer wrapper for visual parity with the panel.
 const FLOATING_CR: Record<string, number> = {
   FloatingWindow_ComponentSet_01: 36,
   FloatingWindow_ComponentSet_02: 36,
+  Notes_FloatingWindow_01: 36,
 };
 
 interface FrameSpec {
@@ -863,6 +975,41 @@ function buildSpec(opts: {
       }
     }
   }
+
+  // 2026-06-02 single-screen standard-framework injection: 笔记/待办 single-screen
+  // (手机/Fold外) 의 spec.id 가 scene='LC' 또는 scene='NL' 등 derived scene 으로 emit 될 때,
+  // baseFilter 가 r.scene === scene 으로 LC row 만 take → NLC standard framework 의 row 가
+  // group 에 들어오지 못해 framework-priority filter 가 작동 안 함. single-screen + standardFw
+  // 가 NLC 인 경우 NLC scene 의 same (lane, uiElement, state) row 를 candidate 에 주입.
+  // 회고: 2026-06-02 sample 2 F5 (Fold外竖 LC 编辑模式 spec.id) 의 SearchBar variant
+  // 가 LC row 의 _02 (Pad 顶部 内嵌 자연 176×44) 로 emit → user 视觉指摘 ("padding 없음").
+  // 권위 = csv line 237 SearchBar/NLC col5 = _05 (满幅 392×56).
+  if (standardFw && SINGLE_SCREEN_DEVICES.has(device) && scene !== standardFw) {
+    const nlcRowsAll = opts.mapping.filter(r =>
+      r.app === app && (r.subScene ?? '') === subScene &&
+      r.scene === standardFw &&
+      r.device === device && r.screenMode === queryScreenMode &&
+      r.uiElement !== 'Overay' &&
+      r.variantId !== '不展示' && r.variantId.trim() !== ''
+    );
+    const nlcByKey = new Map<string, MappingRow[]>();
+    for (const r of nlcRowsAll) {
+      const k = groupKey(r);
+      if (!nlcByKey.has(k)) nlcByKey.set(k, []);
+      nlcByKey.get(k)!.push(r);
+    }
+    for (const [key, candidates] of groups) {
+      const nlcCandidates = nlcByKey.get(key);
+      if (!nlcCandidates || nlcCandidates.length === 0) continue;
+      // state inheritance: NLC may only have 默认 row, treat as fallback (encyclopedic mapping)
+      const stateMatch = nlcCandidates.filter(r => r.state === state);
+      const fallback = stateMatch.length > 0 ? stateMatch : nlcCandidates;
+      const onlyLC = candidates.every(r => r.framework !== standardFw);
+      if (onlyLC) {
+        groups.set(key, fallback);
+      }
+    }
+  }
   const pickedRows: MappingRow[] = [];
   for (const candidates of groups.values()) {
     const chosen = pickVariant(candidates, { device, screenMode, flags: scenarioFlags });
@@ -1002,16 +1149,36 @@ function buildSpec(opts: {
       continue;
     }
 
-    // §3.4a.1 A 类 组件 一律 风满: `x=0, w=lane.w`. 视觉 padding = component internal (默认 12dp).
-    //   本 pipeline 中渲染的全部标准组件 (NavBar/SearchBar/Chip/List/Detail/ToolBar/TextInput/Fab/Sidebar 等)
-    //   均为 A 类自带 internal padding —— 禁止 outer 合算 (§3.4a.3 仅适用 B 类裸 frame).
-    void meta; // metadata 其它用途保留
+    // §3.4a (2026-06-01 修订): outer = max(0, spec - internal). instance.x=outer, w=laneW-2*outer.
+    //   spec = device-dim 断点 padding 표 lookup, internal = component family 자带 (§3.4a.2).
+    //   旧 룰 (一律 风满, x=0 w=lane.w) 폐기 — Pad L spec 20 vs internal 12 = 8dp 부족 등 발생.
+    void meta;
+    const normLane = (laneKey === 'C' && r.lane === '全栏') ? 'C栏' : r.lane;
+    const variant = resolveVariant(r.variantId);
+    const familyForPad = elementToFamily(r.uiElement);
+    // ToolBar / BottomBar_Showcase: 외각 풍만 (capsule master HUG)
+    const isToolBarLike = /^BottomBar_Showcase|^ToolBar_/.test(variant);
+    // NavigationBar 류 (NavigationBar_*, NavigationBar_Notes_*, TopBar_*): 외각 풍만 강제.
+    // device-dim §Q18 内屏横屏共识: 「NavigationBar 组件内置 pl=28，不要 override」
+    // master 自带 internal padding (28dp title 좌측 등) 충분 — instance level outer 적용 금지.
+    const isNavBarLike = /^(NavigationBar|TopBar)/.test(variant);
+    let outerX: number, compW: number;
+    if (isToolBarLike || isNavBarLike) {
+      outerX = 0; compW = lane.w;
+    } else {
+      const padSpec = getLanePaddingSpec(device, screenMode, collapsed);
+      const laneKeyFromName = normLane === 'N栏' ? 'N' : normLane === 'L栏' ? 'L' : normLane === 'C栏' ? 'C' : 'C';
+      const specPad = (padSpec as any)[laneKeyFromName] ?? 12;
+      const internal = getInternalPadding(familyForPad, variant);
+      outerX = Math.max(0, specPad - internal);
+      compW = lane.w - 2 * outerX;
+    }
     components.push({
       element: r.uiElement,
-      lane: laneKey === 'C' && r.lane === '全栏' ? 'C栏' : r.lane,  // single-screen lane normalization
-      variant: resolveVariant(r.variantId),
+      lane: normLane,
+      variant,
       setKey: setKey.setKey, library: lib, category,
-      x: 0, w: lane.w,
+      x: outerX, w: compW,
       y: 0, h: 'auto',
       notes: r.notes,
     });
@@ -1091,24 +1258,61 @@ function buildSpec(opts: {
   });
 
   // Stage 3A.x: floatingContainer first-class entity (gap-audit-overlay-container-spec.md).
-  // Scan overlays[] for FloatingWindow_*/DrawerWindow_* matching floating-spec.csv (family + device).
-  // Match → upgrade to floatingContainer + emit modal mask + remove from overlays list.
+  // Scan overlays[] for FloatingWindow_*/DrawerWindow_* matching floating-spec.csv
+  // by (family + device + state + subScene). state/subScene support '*' wildcard for
+  // back-compat with rows authored before the schema bump.
+  // Bug A fix (2026-06-01): previous matcher ignored state/subScene → 默认 frames received
+  // AppSettings 一级 inner (List_NoteSetting_01). New filter scopes the match to the
+  // designer-authored row matching the frame's actual sub-scene + state.
+  // attached form (e.g. Sidebar_Notes_01): row.attached=true → no modal mask, side-anchored
+  // instance with H = frameH - statusBarH (mainH fill). app-variant-map §0.1 #10.
   let floatingContainer: FloatingContainerSpec | undefined;
   const floatingRows = loadFloatingSpec();
   for (let i = 0; i < overlays.length; i++) {
     const ov = overlays[i];
-    const row = floatingRows.find(r => r.family === ov.variant && r.device === device);
+    const row = floatingRows.find(r =>
+      r.family === ov.variant
+      && r.device === device
+      && (r.state === '*' || r.state === state)
+      && (r.subScene === '*' || r.subScene === subScene),
+    );
     if (!row) continue;
+    const ctx: Record<string, number> = {
+      frameW: dim.frameW, frameH: dim.frameH, statusBarH: dim.statusBarH, w: 0, h: 0,
+    };
+    ctx.w = evalFloatingExpr(row.widthExpr, ctx);
+    ctx.h = evalFloatingExpr(row.heightExpr, ctx);
+    const fwX = evalFloatingExpr(row.posXExpr, ctx);
+    const fwY = evalFloatingExpr(row.posYExpr, ctx);
+    // attached form: no header, no inner content slot — instance occupies the whole rect.
+    // modal form: header + content slot below header.
+    if (row.attached) {
+      floatingContainer = {
+        family: ov.family, variant: ov.variant,
+        setKey: row.setKey || ov.setKey, library: row.library || ov.library,
+        x: fwX, y: fwY, w: ctx.w, h: ctx.h,
+        cornerRadius: 0,
+        headerH: 0,
+        modal: false,
+        contentSlot: {
+          x: 0, y: 0, w: ctx.w, h: ctx.h,
+          paddingTop: 0, paddingLR: 0,
+          fillToken: 'surface',
+          bottomLeftRadius: 0, bottomRightRadius: 0,
+          clipsContent: false,
+          // attached form: inner content sourced from designer's source frame instance,
+          // not from a separate inner library variant. Renderer uses the instance natural inner.
+          innerNode: { type: 'instance', variant: ov.variant, setKey: row.setKey || ov.setKey, library: row.library || ov.library },
+        },
+      };
+      overlays.splice(i, 1);
+      break;
+    }
     const fwCR = FLOATING_CR[ov.variant];
     if (fwCR === undefined) {
       console.warn(`! floating-spec match but FLOATING_CR missing for ${ov.variant}`);
       continue;
     }
-    const ctx: Record<string, number> = { frameW: dim.frameW, frameH: dim.frameH, w: 0, h: 0 };
-    ctx.w = evalFloatingExpr(row.widthExpr, ctx);
-    ctx.h = evalFloatingExpr(row.heightExpr, ctx);
-    const fwX = evalFloatingExpr(row.posXExpr, ctx);
-    const fwY = evalFloatingExpr(row.posYExpr, ctx);
     const slotH = ctx.h - row.headerH;
     // has-cards trace: List_* assumed cards-true; refine via components.csv hasCards column later.
     const hasCards = /^List_/.test(row.innerVariant);
@@ -1190,10 +1394,17 @@ function buildSpec(opts: {
   // Rule: 分割线 sits below all masks (gets dimmed alongside the status bar).
   let zOrder: string[];
   if (floatingContainer) {
-    // floatingContainer modal overlay: FW (header) + 内容裁剪区 (slot above FW with source content).
-    zOrder = floatingContainer.modal
-      ? ['main', '状态栏', '遮罩-全幅', 'floatingContainer', '内容裁剪区', '杆子']
-      : ['main', '状态栏', 'floatingContainer', '内容裁剪区', '杆子'];
+    if (floatingContainer.modal) {
+      // modal overlay: FW (header) + 内容裁剪区 (slot above FW with source content).
+      zOrder = ['main', '状态栏', '遮罩-全幅', 'floatingContainer', '内容裁剪区', '杆子'];
+    } else if (lanes.C) {
+      // non-modal attached form (e.g. Sidebar_Notes_01) over an LC/NLC layout.
+      // Divider stays below attached panel; attached sits above 状态栏 to extend over its column.
+      zOrder = ['main', '状态栏', '分割线', 'floatingContainer', '杆子'];
+    } else {
+      // non-modal attached form over a single-pane layout (no divider).
+      zOrder = ['main', '状态栏', 'floatingContainer', '杆子'];
+    }
   } else if (editMaskApplies && scenarioFlags.NCovering) {
     // §3.7b: multi-mask stack (LEditMode + NCovering — only NLC覆盖 reaches this branch since LC has no NCovering)
     zOrder = ['main', '状态栏', '分割线', '遮罩-编辑', 'L栏', '遮罩-N覆盖', 'Sidebar', '杆子'];

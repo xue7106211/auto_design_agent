@@ -63,6 +63,6 @@ const sb03 = sbSet.children.find(c => c.name.includes('03')); // Pad
 ## cross-reference
 
 - common-rules.md §3.6 — auto-layout 实例 resize 通用陷阱（StatusBar 的 inner child FILL 强制规则的泛化）
-- common-rules.md §3.10 — Set key stale 检测 + fresh-import 강제 + §0.4 即时更新
+- common-rules.md §3.10 — Set key stale 检测 + fresh-import 强制 + §0.4 即时更新
 - common-rules.md §3.4a.5 — `_00` variant 含义（StatusBar 无 `_00`，仅参考）
-- `csv-pipeline/data/setkeys.json` — set key registry (单一权威 since 2026-05-31; 各 app `app-variant-map-{app}.md §0.4` 는 본 file 의 pointer)
+- `csv-pipeline/data/setkeys.json` — set key registry (单一权威 since 2026-05-31; 各 app `app-variant-map-{app}.md §0.4` 是本 file 的 pointer)

@@ -285,19 +285,23 @@ function findVariant(set, variantName) {
   }
 
   // ── 5. masks (after divider, before SwipeIndicator) ──────
+  // Each mask carries its own cornerRadius (per spec.masks[].cornerRadius), which may
+  // be asymmetric (e.g. 编辑 mask covers C lane only → topLeft/bottomLeft = 0,
+  // topRight/bottomRight = frame radius). Falling back to frame.cornerRadius (commit
+  // af93530 prior) over-rounds the mask edge that abuts the divider.
   for (const m of SPEC.masks) {
     const r = figma.createRectangle();
     r.name = m.name;
     r.x = m.x; r.y = m.y;
     r.resize(m.w, m.h);
-    // Mask matches frame corners (round-rect frame edges).
-    if (typeof SPEC.frame.cornerRadius === 'number') {
-      r.cornerRadius = SPEC.frame.cornerRadius;
-    } else {
-      r.topLeftRadius = SPEC.frame.cornerRadius.topLeft;
-      r.topRightRadius = SPEC.frame.cornerRadius.topRight;
-      r.bottomLeftRadius = SPEC.frame.cornerRadius.bottomLeft;
-      r.bottomRightRadius = SPEC.frame.cornerRadius.bottomRight;
+    const cr = m.cornerRadius != null ? m.cornerRadius : SPEC.frame.cornerRadius;
+    if (typeof cr === 'number') {
+      r.cornerRadius = cr;
+    } else if (cr) {
+      r.topLeftRadius = cr.topLeft;
+      r.topRightRadius = cr.topRight;
+      r.bottomLeftRadius = cr.bottomLeft;
+      r.bottomRightRadius = cr.bottomRight;
     }
     bindFill(r, maskVar, TOKENS.mask.fallback, m.opacity);
     frame.appendChild(r);
@@ -316,6 +320,9 @@ function findVariant(set, variantName) {
   // Per zOrder: when 'Sidebar' is listed in SPEC.zOrder as a top-level entry, the Sidebar
   // instance must live at frame level (not inside main/N栏). Required for shadow visibility
   // (§3.9: N栏 + main clipsContent=false; Sidebar at frame level z-above L).
+  // Rename promoted instance to 'Sidebar' so the step-9 zOrder pass (findChildren by name)
+  // can reorder it; otherwise instance.name='Sidebar_Component'/'Sidebar_Component_PAD_NLC_01'
+  // never matches and Sidebar stays at the bottom of frame.children (z=0), invisible under main.
   if (SPEC.zOrder.includes('Sidebar') && laneNodes.N) {
     const N = laneNodes.N;
     const sidebarInst = N.findChild((c) => /Sidebar/i.test(c.name || ''));
@@ -328,6 +335,7 @@ function findVariant(set, variantName) {
       frame.appendChild(sidebarInst);
       sidebarInst.x = absX;
       sidebarInst.y = absY;
+      sidebarInst.name = 'Sidebar';
     }
   }
 
@@ -345,14 +353,26 @@ function findVariant(set, variantName) {
   si.fills = [];
 
   // ── 8. overlays (out-of-flow, top z) ─────────────────────
+  // out-of-flow overlays (NoticeBar / Scrollbar / TextFormatPanel etc.) appear only on
+  // user trigger (notification / scroll / text selection). spec emits them for completeness
+  // but they carry no x/y/w/h, so always rendering them dumps each instance at frame (0,0)
+  // and produces a visible artifact stack at the top-left corner. Skip rendering by default;
+  // an opt-in o.render===true flag re-enables placement once spec carries position data.
   for (const o of SPEC.overlays) {
+    if (!o || o.render !== true) continue;
     try {
       const set = await getSet(o.setKey);
       const variant = findVariant(set, o.variant);
       const inst = variant.createInstance();
       inst.name = o.family;
       frame.appendChild(inst);
-      // overlays carry no x/y/w/h in spec — leave at natural size
+      if (typeof o.x === 'number') inst.x = o.x;
+      if (typeof o.y === 'number') inst.y = o.y;
+      if (typeof o.w === 'number' && typeof o.h === 'number') {
+        try { inst.layoutSizingHorizontal = 'FIXED'; } catch {}
+        try { inst.layoutSizingVertical = 'FIXED'; } catch {}
+        inst.resize(o.w, o.h);
+      }
     } catch (e) { console.warn('overlay import failed', o.family, e); }
   }
 

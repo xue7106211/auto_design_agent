@@ -1,0 +1,1263 @@
+{
+  "generatedAt": "2026-06-02T09:00:12.469Z",
+  "args": {
+    "strict": false
+  },
+  "totals": {
+    "filesScanned": 17,
+    "rowsScanned": 1237,
+    "errors": 0,
+    "warnings": 103
+  },
+  "issues": [
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 244,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 245,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 246,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 247,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 248,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 249,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 250,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 251,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 252,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 253,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 254,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 255,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 256,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 257,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 258,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='NoticeBar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 259,
+      "context": {
+        "family": "NoticeBar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 446,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 447,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 448,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 449,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 450,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 451,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 452,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 453,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 454,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 456,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 457,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 458,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 459,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 460,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 462,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 463,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 464,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 465,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 466,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 467,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 468,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 469,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 471,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 472,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 473,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 475,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 476,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 477,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 478,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 479,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 480,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 481,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 483,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 484,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 485,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 487,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 488,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 489,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 490,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 491,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 492,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 493,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 494,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 495,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 496,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 497,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 498,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 499,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 500,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 501,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 502,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='Scrollbar' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 503,
+      "context": {
+        "family": "Scrollbar",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 598,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 599,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 600,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 601,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 602,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "family-not-verified",
+      "message": "family='ActionSheet' status='blocker' (not 'verified') — spec emit OK but Figma probe needed",
+      "file": "app-Notes-mapping.csv",
+      "line": 603,
+      "context": {
+        "family": "ActionSheet",
+        "status": "blocker"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Fold内竖",
+        "screenMode": "LC",
+        "lane": "L栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Fold内横",
+        "screenMode": "LC",
+        "lane": "L栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "Fold内竖",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "Fold内横",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_05, NavigationBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Pad竖",
+        "screenMode": "LC",
+        "lane": "C栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Pad横",
+        "screenMode": "LC",
+        "lane": "C栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "手机竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "Pad竖",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "默认",
+        "device": "Pad横",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "NavigationBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Fold内竖",
+        "screenMode": "LC",
+        "lane": "L栏",
+        "uiElement": "SearchBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "默认",
+        "device": "Fold内横",
+        "screenMode": "LC",
+        "lane": "L栏",
+        "uiElement": "SearchBar"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NLC",
+        "state": "搜索激活",
+        "device": "手机竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NLC",
+        "state": "搜索激活",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NL",
+        "state": "搜索激活",
+        "device": "手机竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NL",
+        "state": "搜索激活",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "搜索激活",
+        "device": "手机竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "LC",
+        "state": "搜索激活",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "搜索页面"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_10, AIWindow_Options_01, DrawerWindow_ComponentSet_high_01, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "手机竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_02, 竖屏背景, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Fold外竖",
+        "screenMode": "",
+        "lane": "全栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_03, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "AI对话",
+        "device": "Fold内竖",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_04, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "C",
+        "state": "AI对话",
+        "device": "Fold内横",
+        "screenMode": "C",
+        "lane": "全栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: Sidebar_Component_PAD_NLC_01, NavigationBar_ComponentSet_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad竖",
+        "screenMode": "NC",
+        "lane": "N栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (2 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_00) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad竖",
+        "screenMode": "NC收起",
+        "lane": "N栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_05, 竖屏背景) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad竖",
+        "screenMode": "NC",
+        "lane": "C栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_05, 竖屏背景) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad竖",
+        "screenMode": "NC收起",
+        "lane": "C栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_06, 竖屏背景) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad横",
+        "screenMode": "NC",
+        "lane": "C栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    },
+    {
+      "level": "warning",
+      "rule": "pickVariant-fallback",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_06, 竖屏背景) but no pickVariant 规则 — fallback to first",
+      "file": "app-Notes-mapping.csv",
+      "context": {
+        "subScene": "笔记",
+        "scene": "NC",
+        "state": "AI对话",
+        "device": "Pad横",
+        "screenMode": "NC收起",
+        "lane": "C栏",
+        "uiElement": "AIWindow_Notes"
+      }
+    }
+  ]
+}

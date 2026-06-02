@@ -12,7 +12,8 @@
     "probe-setkeys": "tsx scripts/probe-setkeys.ts",
     "validate-keys": "tsx scripts/validate-keys.ts",
     "validate-keys:online": "tsx scripts/validate-keys-online.ts",
-    "spec:guarded": "npm run spec && npm run validate-keys && npm run validate-keys:online",
+    "validate-csv": "tsx scripts/validate-csv.ts",
+    "spec:guarded": "npm run validate-csv && npm run spec && npm run validate-keys && npm run validate-keys:online",
     "status": "tsx scripts/show-status.ts",
     "install-hook": "bash scripts/install-hook.sh"
   },

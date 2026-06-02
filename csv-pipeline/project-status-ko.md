@@ -1,273 +1,510 @@
-# 프로젝트 진행 상황
+# 项目进展状况
 
-> **이 문서가 진행 상황의 단일 권위입니다.** 작업 시작 전 읽고, 작업 종료 시 갱신하세요.
-> 마지막 갱신: 2026-05-25
+> **本文档为进度的单一权威.** 开始工作前阅读, 工作结束时更新.
+> 最后更新: 2026-06-01
 >
-> ⚠️ **유통 기한 있음**: 이 문서는 **workflow-reform 작업 진행 중**에만 유효. 모든 Stage(1A/1B/1C/2/3) 완료 후에는 `csv-pipeline/archive/project-status-final.md`로 이동하고 안정 운영 단계로 전환. 미래 AI는 reform 종료 후 이 문서를 routinely 읽지 않아도 됨.
+> ⚠️ **有有效期**: 本文档**仅在 workflow-reform 进行期间**有效. 所有 Stage(1A/1B/1C/2/3) 完成后, 应迁移至 `csv-pipeline/archive/project-status-final.md` 并切换至稳定运营阶段. reform 结束后, 未来 AI 不需要例行阅读本文档.
 
-## 현재 단계
+## 当前阶段
 
-**workflow-reform-plan 3-Stage 개혁 중 — Stage 1A Phase 1 완료**
+**Stage 2B / 3A 产出完成. 剩余 = 3A wire-up (参考 Improvement_doc/3A-wire-up-plan.md)**
 
-## 완료된 작업
+摘要:
+- **Stage 1A / 1B / 2A / 2B / 3A 核心产出 + 3B** = ✅ 完成 (参考下方 "已完成工作")
+- **Stage 2C (SKILL 精简)** = ❌ 废弃 (2026-06-01, ROI 较低决策 — user 直接指示)
+- **Stage 3A wire-up** = 🟡 进行中 (Step 2 sample 1 errors=0 验证完, 追加 sample 累积后 verify.ts rewrite 决定. SKILL Phase 5 spec consume 未完)
+- **Stage 3B baseline** = ✅ 完成 (errors=0 / warnings=103 外部 dependency)
 
-### Stage 1A Phase 1 — extract-mapping 파이프라인 (✅ 2026-05-25)
+## 已完成工作
 
-- `scripts/extract-mapping.ts` 구현 (~480 lines)
-- `scripts/show-status.ts` 구현
-- `package.json` + `tsconfig.json` 셋업
-- 의존성: csv-parse, csv-stringify, tsx, typescript
-- `npm run extract` + `npm run status` 명령 등록
-- 1회 실행 검증 완료:
-  - 入: 146 source 행 (`mapping-input/结构变化表 - 控件总表.csv`)
-  - 出: 1253 정규화 행, 17개 앱 분리
-  - `mapping-output/SystemUIKIT-mapping.csv` (22 항목, SystemUIKIT)
+### Stage 1A Phase 1 — extract-mapping 管线 (✅ 2026-05-25)
+
+- 实现 `scripts/extract-mapping.ts` (~480 lines)
+- 实现 `scripts/show-status.ts`
+- `package.json` + `tsconfig.json` 配置
+- 依赖: csv-parse, csv-stringify, tsx, typescript
+- 注册 `npm run extract` + `npm run status` 命令
+- 单次执行验证完成:
+  - 入: 146 source 行 (`mapping-input/结构变化表 - 控件总表.csv`)
+  - 出: 1253 规范化行, 17 个 app 拆分
+  - `mapping-output/SystemUIKIT-mapping.csv` (22 项, SystemUIKIT)
   - `mapping-output/app-{App}-mapping.csv` × 17
-  - `mapping-output/components.csv` (178 컴포넌트)
-  - `mapping-output/extract-report.md` (warnings 0건)
+  - `mapping-output/components.csv` (178 组件)
+  - `mapping-output/extract-report.md` (warnings 0 件)
   - `mapping-output/.last-extract` (mtime sentinel)
 
-### 입력 분리 — 팀별 ownership (✅ 2026-05-25)
+### 输入拆分 — 团队 ownership (✅ 2026-05-25)
 
-**배경**: 디자이너 분업 워크플로를 위해 단일 mega CSV (`结构变化表 - 控件总表.csv`)를 17개 팀별 파일로 분리.
+**背景**: 为支持 designer 分工 workflow, 将单一 mega CSV (`结构变化表 - 控件总表.csv`) 拆分为 17 个团队独立文件.
 
-**완료 작업**:
-- `scripts/split-input.ts` 1회용 분리 스크립트 작성 + 실행
-- `mapping-input/结构变化表-{App}.csv` × 17 생성 (1230행 → 146 데이터 행 분리, 3-level 헤더 보존)
-- `控件变体清单 - 控件变体清单.csv` → `控件变体清单.csv` 단순화
-- 원본 mega CSV는 split 후 자연 제거됨
-- `extract-mapping.ts` 다중 입력 지원 (glob `结构变化表-*.csv` + 헤더 일관성 검증)
-- `show-status.ts` 다중 source 자동 감지
-- pre-commit hook은 기존 `mapping-input/*.csv` glob으로 호환
+**完成工作**:
+- 编写并执行一次性拆分脚本 `scripts/split-input.ts`
+- 生成 `mapping-input/结构变化表-{App}.csv` × 17 (1230 行 → 146 数据行拆分, 保留 3-level 表头)
+- `控件变体清单 - 控件变体清单.csv` → `控件变体清单.csv` 简化命名
+- 拆分后原 mega CSV 自然移除
+- `extract-mapping.ts` 支持多输入 (glob `结构变化表-*.csv` + 表头一致性验证)
+- `show-status.ts` 自动检测多 source
+- pre-commit hook 沿用现有 `mapping-input/*.csv` glob, 兼容
 
-**팀 분배**:
-| 팀 파일 | 담당 |
+**团队分配**:
+| 团队文件 | 负责 |
 |---|---|
-| 结构变化表-SystemUIKIT.csv | 시스템팀 (Keyboard / StatusBar / SwipeIndicator) |
-| 结构变化表-Notes.csv | 笔记 디자이너 (待办 Tasks 포함) |
-| 结构变化表-Phone.csv | 电话 디자이너 (展示+收起拨号键盘 sub-state 포함) |
-| 结构变化表-Contacts.csv | 联系人 디자이너 (Pad 端 sub-state 포함) |
-| 그 외 14개 | 각 앱 디자이너 |
+| 结构变化表-SystemUIKIT.csv | 系统团队 (Keyboard / StatusBar / SwipeIndicator) |
+| 结构变化表-Notes.csv | 笔记 designer (含 待办 Tasks) |
+| 结构变化表-Phone.csv | 电话 designer (含 展示+收起拨号键盘 sub-state) |
+| 结构变化表-Contacts.csv | 联系人 designer (含 Pad 端 sub-state) |
+| 其余 14 个 | 各 app designer |
 
-**검증**: extract 출력 동일 (1253행, 17 앱, matched=785, warnings=0)
+**验证**: extract 输出一致 (1253 行, 17 app, matched=785, warnings=0)
 
-### Stage 2A 笔记 정리 — I4 enum 권위 등록 + I2 栏背景色 흡수 (✅ 2026-05-26)
+### Stage 2A 笔记 整理 — I4 enum 权威登记 + I2 栏背景色 吸收 (✅ 2026-05-26)
 
-**I4 — 枚举定义 (37행) 제거**:
-- `common-rules.md §0.4 共通枚举定义` 신설 — 8-device + screenMode + resultType enum 단일 권위
-- 笔记.md `## 枚举定义` (line 264-303) → pointer 1줄로 교체
-- 효과: 笔记 외 다른 16개 app reference도 향후 동일 패턴으로 정리 가능 (단일 권위 확보)
+**I4 — 枚举定义 (37 行) 移除**:
+- 新增 `common-rules.md §0.4 共通枚举定义` — 8-device + screenMode + resultType enum 单一权威
+- 笔记.md `## 枚举定义` (line 264-303) → 替换为 1 行 pointer
+- 效果: 笔记 之外的其它 16 个 app reference 也可后续按相同模式整理 (确立单一权威)
 
-**I2 — 栏背景색 (73행) → §0.3 흡수**:
-- `## 栏背景色` 섹션 (line 717-789) 통째 제거
-- 동일 데이터를 §0.3 안에 `device × screenMode 별 fill 매트릭스` 통합 표로 재정리 (3개 표: 手机/Fold外, Fold内, Pad)
-- card-presence rule prose는 §0.3 기존 콘텐츠가 이미 보유 — 중복 제거됨
-- 待办 차이점만 footnote 1줄로 처리
+**I2 — 栏背景色 (73 行) → §0.3 吸收**:
+- 整体移除 `## 栏背景色` 章节 (line 717-789)
+- 同样数据在 §0.3 内重新整理为 `device × screenMode 的 fill 矩阵` 整合表 (3 张表: 手机/Fold外, Fold内, Pad)
+- card-presence rule prose 已由 §0.3 既有内容覆盖 — 移除重复
+- 待办 差异点仅以 1 行 footnote 处理
 
-**결과**: 笔记.md 758 → **702행** (-56행, 누적 -94행 from 796)
+**结果**: 笔记.md 758 → **702 行** (-56 行, 累计 -94 行 from 796)
 
-### Stage 2A 笔记 정리 — I3 组件间距 섹션 제거 (✅ 2026-05-26)
+### Stage 2A 笔记 整理 — I3 组件间距 章节移除 (✅ 2026-05-26)
 
-**범위**: `app-variant-map-笔记.md` 단독. 다른 16개 app은 미시작 상태로 그대로 둠 (笔记 시범 검증 우선).
+**范围**: `app-variant-map-笔记.md` 单独. 其余 16 个 app 保持未开始状态 (笔记 试点验证优先).
 
-**작업**:
-- `## 组件间距` 섹션 (line 669-715, 48행) 삭제 → components.csv pointer 5행으로 교체
-- 정보 보존 검증: components.csv (Stage 1B output)가 InternalPadL/R + TitleLeftPad + Note 컬럼으로 모든 padding 정보 (定宽 / 屏中对齐 / 底部位置 / 특수 룰 포함) 보유
-- TextInput_Notes_01~04 의 device-dimensions.md 충돌 해결 룰은 §0.2 末尾 (line 193-195)로 이송
-- Sidebar_02 deprecation 룰은 이미 N 收起 규칙(line 324, 328)에 완전 — 별도 작업 불필요
-- 결과: 笔记.md 796 → 758 행 (-38행)
+**工作**:
+- 删除 `## 组件间距` 章节 (line 669-715, 48 行) → 替换为 components.csv pointer 5 行
+- 信息保留验证: components.csv (Stage 1B output) 的 InternalPadL/R + TitleLeftPad + Note 列覆盖所有 padding 信息 (定宽 / 屏中对齐 / 底部位置 / 含特殊规则)
+- TextInput_Notes_01~04 的 device-dimensions.md 冲突解决规则迁移至 §0.2 末尾 (line 193-195)
+- Sidebar_02 deprecation 规则已经被 N 收起 规则(line 324, 328) 完全覆盖 — 不需要单独工作
+- 结果: 笔记.md 796 → 758 行 (-38 行)
 
-**다음 단계**: I4 (枚举定义 제거) → I2 (栏背景色 §0.3 흡수) → I1 (映射表 제거, 가장 큰 영향)
+**下一步**: I4 (枚举定义 移除) → I2 (栏背景色 §0.3 吸收) → I1 (映射表 移除, 影响最大)
 
 
 
-**시도**: `app-variant-map-笔记.md` (796행) 시범 분리 — `-tokens.md` (§0.3) + `-keys.md` (§0.4) 신규 파일 생성.
+**尝试**: `app-variant-map-笔记.md` (796 行) 试点拆分 — 新建 `-tokens.md` (§0.3) + `-keys.md` (§0.4) 文件.
 
-**문제 발견 후 되돌림**:
-- workflow-reform-plan §2A의 "Phase 5는 -tokens.md 단독 / Phase 4.5는 -keys.md 단독" 가정이 실제 SKILL.md 구조와 안 맞음. SKILL.md는 `app-variant-map-{app}.md §0` 통째로 로드 지시 (line 187, 320 등).
-- 분리해도 AI 컨텍스트 절약 0. 라인 수는 오히려 증가 (frontmatter + pointer 오버헤드).
-- csv-to-spec.ts (Stage 3A) 용도는 §0.4 표를 본문 안에서도 동일하게 파싱 가능 — 분리 불필요.
+**问题发现后回滚**:
+- workflow-reform-plan §2A 中 "Phase 5 仅 -tokens.md / Phase 4.5 仅 -keys.md" 假设与实际 SKILL.md 结构不符. SKILL.md 指示整体加载 `app-variant-map-{app}.md §0` (line 187, 320 等).
+- 拆分对 AI context 节省为 0. 行数反而增加 (frontmatter + pointer overhead).
+- csv-to-spec.ts (Stage 3A) 用途上, §0.4 表在正文中也可同样 parse — 无需拆分.
 
-**되돌림**: 
-- 두 분리 파일 삭제 + 본문 §0.3 / §0.4 인라인 복원
-- `references/app-variant-map-笔记.md` 796행으로 환원
+**回滚**:
+- 删除两个拆分文件 + 正文 §0.3 / §0.4 inline 复原
+- `references/app-variant-map-笔记.md` 还原为 796 行
 
-**교훈**: 
-- 분리는 "AI가 부분 로드 가능할 때만" 의미 있음. 현 SKILL.md는 reference 통째로 로드 → 분리 가치 없음
-- 진짜 컨텍스트 절약하려면 SKILL.md 자체 슬림화 (Stage 2C) 또는 Phase별 부분 로드 메커니즘 도입이 선행되어야
+**教训**:
+- 拆分仅在 "AI 可部分加载时" 才有意义. 当前 SKILL.md 整体加载 reference → 无拆分价值
+- 真正节省 context 需先做 SKILL.md 自身精简 (Stage 2C) 或引入 Phase 级别的部分加载机制
 
-### Stage 1B Phase 1 — components.csv LibraryName 컬럼 추가 (✅ 2026-05-25)
+### Stage 1B Phase 1 — components.csv LibraryName 列添加 (✅ 2026-05-25)
 
-**배경**: 원래 Stage 1B 계획은 `LibraryName / Category(A/B류) / DeviceScope / HasInternalPad` 4개 컬럼 추가. 그러나 분석 결과:
-- `Category(A/B류)` 자동 판정 룰 (`InternalPad >0 이면 A류`)이 데이터와 모순 (StatusBar `0,0`이지만 A류)
-- A/B 이분법은 178행 41 family 중 28 family를 미커버 (Overlay/Decorative 그룹 별도 분류 필요)
-- A/B는 family 단위 정보라 variant 행마다 같은 값 반복 — CSV 컬럼 부적합. `csv-to-spec.ts` 코드 lookup이 더 깔끔
-- `DeviceScope` 자동 추론 커버리지 9% (16/178), 91%는 `控件变体清单.csv`에 디자이너 입력 필요 — 즉시 가치 낮음
+**背景**: 原 Stage 1B 计划添加 `LibraryName / Category(A/B类) / DeviceScope / HasInternalPad` 4 列. 然而分析后发现:
+- `Category(A/B类)` 自动判定规则 (`InternalPad >0 即为 A 类`) 与数据矛盾 (StatusBar `0,0` 但属 A 类)
+- A/B 二分覆盖不到 178 行 41 family 中的 28 family (Overlay/Decorative 组需另外分类)
+- A/B 是 family 维度信息, 在每个 variant 行重复 — 不适合 CSV 列. 由 `csv-to-spec.ts` 代码 lookup 更清晰
+- `DeviceScope` 自动推断覆盖率 9% (16/178), 91% 需 designer 在 `控件变体清单.csv` 输入 — 即时价值低
 
-**결정**: Stage 1B를 `LibraryName` 추가 + `PaddingL/R → InternalPadL/R` rename으로 단순화. Category/HasInternalPad/DeviceScope는 Stage 3A `csv-to-spec.ts`에서 코드 lookup으로 처리.
+**决策**: 将 Stage 1B 简化为添加 `LibraryName` + `PaddingL/R → InternalPadL/R` rename. Category/HasInternalPad/DeviceScope 在 Stage 3A `csv-to-spec.ts` 中通过代码 lookup 处理.
 
-**완료**:
-- `extract-mapping.ts` `ComponentMeta` 인터페이스 + `resolveLibrary()` 룰 추가
-- `APP_PREFIX_RE = /^(Notes|Calendar|Settings|Weather|Recorder)_/` → `业务组件库`, 그 외 → `OS4 UI Kit` (common-rules §0.5.1 기반)
-- `components.csv` 컬럼: `LibraryName` 추가, `PaddingL/R` → `InternalPadL/R` rename
-- 검증: 178행 모두 매핑 (业务组件库 68, OS4 UI Kit 110), warnings=0, legacy diff 변동 없음
+**完成**:
+- `extract-mapping.ts` 添加 `ComponentMeta` interface + `resolveLibrary()` 规则
+- `APP_PREFIX_RE = /^(Notes|Calendar|Settings|Weather|Recorder)_/` → `业务组件库`, 其余 → `OS4 UI Kit` (基于 common-rules §0.5.1)
+- `components.csv` 列: 添加 `LibraryName`, `PaddingL/R` → `InternalPadL/R` rename
+- 验证: 178 行全部映射 (业务组件库 68, OS4 UI Kit 110), warnings=0, legacy diff 无变化
 
-**Library 소스 잠금 (3개)**: 
+**Library 源锁定 (3 个)**:
 - `Xiaomi-Hyper-OS4-UI-Kit` (FBvQ3xM5C62MgIcA1JHWIs)
 - `Xiaomi-HyperOS-业务组件库` (mrvMGwkbZ7qZML7iOfQsvI)
-- `HyperOS4-Design-Token-Lib` (5gZYD8i6JqBvsaS7yvnO9c) — token-only, components.csv 등장 안 함
+- `HyperOS4-Design-Token-Lib` (5gZYD8i6JqBvsaS7yvnO9c) — token-only, 不出现在 components.csv
 
-### 인프라 정리 (✅ 2026-05-25)
+### 基础设施整理 (✅ 2026-05-25)
 
-- 매핑 작업 전체를 `csv-pipeline/` 단일 자족 폴더로 통합
-- 상위 `csv-migration/Improvement_doc/`(설계 문서)과 명확히 분리
-- AGENTS.md에 csv-pipeline 진입점 명시
+- 将映射工作整体集中在 `csv-pipeline/` 单一自足文件夹
+- 与上层 `csv-migration/Improvement_doc/`(设计文档) 明确分离
+- AGENTS.md 中明确 csv-pipeline 入口
 
 ### Stage 1A Phase 2 — SKILL.md mtime check (✅ 2026-05-25)
 
-- SKILL.md에 `Phase 0.0a: csv-pipeline 신선도 체크` 섹션 추가
-- AI 세션 시작 시 `mapping-input/*.csv` mtime 비교 → stale이면 자동 `npm run extract`
-- workflow-reform 종료 후 본 섹션 제거 예정 (유통 기한 명시됨)
+- SKILL.md 添加 `Phase 0.0a: csv-pipeline 新鲜度检查` 章节
+- AI session 启动时比较 `mapping-input/*.csv` mtime → 若 stale 则自动 `npm run extract`
+- 计划在 workflow-reform 结束后移除该章节 (已注明有效期)
 
-### references device enum 일괄 업데이트 — Phase A + B (✅ 2026-05-25)
+### references device enum 批量更新 — Phase A + B (✅ 2026-05-25)
 
-검토 결과 project-status의 "16개 파일" 추정은 부정확. 실제는 4 references + SKILL.md, **5개 파일에서 4가지 명명 컨벤션 공존** 발견.
+复查后发现 project-status 中 "16 个文件" 估计不准确. 实际为 4 references + SKILL.md, **5 个文件中并存 4 种命名约定**.
 
-**Phase A 완료** (Pad 어미 제거):
-- `Pad竖屏` → `Pad竖`, `Pad横屏` → `Pad横` (13건 일괄 치환)
-- 영향: `template.md`, `笔记.md`, `common-rules.md`, `SKILL.md`
+**Phase A 完成** (移除 Pad 后缀):
+- `Pad竖屏` → `Pad竖`, `Pad横屏` → `Pad横` (13 处批量替换)
+- 影响: `template.md`, `笔记.md`, `common-rules.md`, `SKILL.md`
 
-**Phase B 완료** (enum 표 8-device 확장):
-- `app-variant-map-template.md` device enum 표: 5-device → 8-device (`手机竖`/`手机横`/`Fold外竖`/`Fold外横`/`Fold内竖`/`Fold内横`/`Pad竖`/`Pad横`)
-- `app-variant-map-笔记.md` 동일 처리
-- template.md의 layout decision 표 + 매핑 예시 entries → 8-device로 정렬
-- 두 파일에 deprecation note 추가 (구 컨벤션 폐기 명시)
+**Phase B 完成** (enum 表扩展为 8-device):
+- `app-variant-map-template.md` device enum 表: 5-device → 8-device (`手机竖`/`手机横`/`Fold外竖`/`Fold外横`/`Fold内竖`/`Fold内横`/`Pad竖`/`Pad横`)
+- `app-variant-map-笔记.md` 同样处理
+- template.md 的 layout decision 表 + 映射示例 entries → 对齐至 8-device
+- 两个文件添加 deprecation note (明确旧约定废弃)
 
-**Phase C 완료** (2026-05-25 추가 처리):
+**Phase C 完成** (2026-05-25 追加处理):
 - `common-rules.md:824` `Fold横屏 → Fold竖屏 → Pad横 → Pad竖` → `Fold内横 → Fold内竖 → Pad横 → Pad竖`
-- `SKILL.md` 5곳 동일 패턴 정정 (line 188, 241-242, 290, 505, 536, 792)
+- `SKILL.md` 5 处同样模式修正 (line 188, 241-242, 290, 505, 536, 792)
 - `设置.md`, `短信.md` prose `Phone/Fold外屏无导航栏` → `手机竖/手机横/Fold外竖/Fold外横无导航栏`
-- 4-device convention (`Fold横屏/Fold竖屏/Fold内屏-横屏`) 잔재 0건 확인
+- 确认 4-device convention (`Fold横屏/Fold竖屏/Fold内屏-横屏`) 残留 0 件
 
-### Stage 1A 데이터 품질 — legacy diff 정규화 (✅ 2026-05-25)
+### Stage 1A 数据质量 — legacy diff 规范化 (✅ 2026-05-25)
 
-- legacy CSV (`legacy/app-mapping-stage1a.csv`)를 새 컨벤션으로 자동 정규화 후 비교
-- 정규화 함수 추가: `normalizeLegacyDevice` (PHONE_竖屏 → 手机竖, FOLD_外屏+竖屏 → Fold外竖 등), `normalizeLegacyUiElement` (标题栏 NavigationBar → NavigationBar), `normalizeLegacyLane` (소문자 정규화), app은 기존 `normalizeAppName` 재사용
-- 결과: **matched 0 → 785** (의미 있는 비교 가능)
-- legacy-only 147건 = legacy의 잘못된 분류 (다중 컴포넌트 header를 BottomBar로 일괄 분류한 케이스 등)
-- new-only 246건 = 새 추출이 정확히 분리한 케이스 (Sidebar/TopBar 구분, description 정리 등)
-- diff 보고서가 이제 legacy 오류 audit trail로 동작
+- 将 legacy CSV (`legacy/app-mapping-stage1a.csv`) 按新约定自动规范化后再对比
+- 添加规范化函数: `normalizeLegacyDevice` (PHONE_竖屏 → 手机竖, FOLD_外屏+竖屏 → Fold外竖 等), `normalizeLegacyUiElement` (标题栏 NavigationBar → NavigationBar), `normalizeLegacyLane` (小写规范化), app 复用现有 `normalizeAppName`
+- 结果: **matched 0 → 785** (得到有意义的对比)
+- legacy-only 147 件 = legacy 错误分类 (例如将多组件 header 一律归为 BottomBar)
+- new-only 246 件 = 新提取正确分离的情况 (Sidebar/TopBar 区分, description 整理 等)
+- diff 报告现可作为 legacy 错误的 audit trail
 
-### Stage 1A 데이터 품질 — warnings 정교화 (✅ 2026-05-25)
+### Stage 1A 数据质量 — warnings 精细化 (✅ 2026-05-25)
 
-- **warnings 233 → 0** (100% 감소)
-- 추가/개선:
-  - `extract-mapping.ts` 추론 룰 11개 → 30개 (TextInput, Detail, Menu, AlertDialog, Picker, FloatingWindow, ToolBar, RecordNotes, AIWindow, NewTaskWindow 등)
-  - `inferUiElement` 2-pass 매칭 + special placeholder skip
-  - col 1 sticky 상속 (빈 col 1 → 직전 행 uiElement 자동 inherit)
-  - 분리 정확도 향상: well-formed regex (`^[A-Za-z]+(_[A-Za-z0-9]+)+`) 우선, fallback에서만 warn
-  - multi-line lane prefix 처리 (`C 栏：\nDetailNotes_01` 형태)
-  - 소문자 lane 정규화 (`l栏` → `L栏`)
-  - lane prefix 공백 허용 (`C 栏` = `C栏`)
-  - non-render keyword 확장 (`无导航栏`, `隐藏` 추가)
-  - framework-reuse placeholder는 워닝에서 silent로 강등 (의도된 패턴)
+- **warnings 233 → 0** (减少 100%)
+- 添加/改进:
+  - `extract-mapping.ts` 推断规则 11 个 → 30 个 (TextInput, Detail, Menu, AlertDialog, Picker, FloatingWindow, ToolBar, RecordNotes, AIWindow, NewTaskWindow 等)
+  - `inferUiElement` 2-pass 匹配 + special placeholder skip
+  - col 1 sticky 继承 (空 col 1 → 自动 inherit 上一行 uiElement)
+  - 提升拆分准确度: 优先使用 well-formed regex (`^[A-Za-z]+(_[A-Za-z0-9]+)+`), 仅在 fallback 中 warn
+  - multi-line lane prefix 处理 (`C 栏：\nDetailNotes_01` 形式)
+  - lane 大小写规范化 (`l栏` → `L栏`)
+  - 允许 lane prefix 中的空格 (`C 栏` = `C栏`)
+  - non-render keyword 扩展 (添加 `无导航栏`, `隐藏`)
+  - framework-reuse placeholder 在 warnings 中降级为 silent (有意为之的模式)
 
 ### Stage 1A Phase 3 — Git pre-commit hook (✅ 2026-05-25)
 
-- `csv-pipeline/scripts/pre-commit.sh` (hook 본체) + `install-hook.sh` (설치 스크립트)
-- `npm run install-hook` 명령으로 `.git/hooks/pre-commit` symlink 생성
-- 동작: `csv-pipeline/mapping-input/*.csv` staged 감지 → `npm run extract` 자동 실행 → `mapping-output/` 자동 stage
-- 비매핑 변경 시 skip 정상 (오버헤드 0)
-- 검증: input 변경 케이스 + 비매핑 변경 케이스 둘 다 통과
-- non-ASCII 파일명 처리 위해 `git diff --cached --name-only -z` 사용
+- `csv-pipeline/scripts/pre-commit.sh` (hook 主体) + `install-hook.sh` (安装脚本)
+- 通过 `npm run install-hook` 命令创建 `.git/hooks/pre-commit` symlink
+- 行为: 检测 `csv-pipeline/mapping-input/*.csv` 已 stage → 自动执行 `npm run extract` → 自动 stage `mapping-output/`
+- 非映射变更时正常 skip (零开销)
+- 验证: input 变更与非映射变更两种情况均通过
+- 为处理非 ASCII 文件名, 使用 `git diff --cached --name-only -z`
 
-### 결정 잠금 (변경 시 사용자 확인 필수)
+### 决策锁定 (变更时必须经用户确认)
 
-`../../Improvement_doc/extract-mapping-design-ko.md` §확정 결정 사항 참조:
+参考 `../../Improvement_doc/extract-mapping-design-ko.md` §确定决策事项:
 
-1. ✅ app 명명 = EN-only + CamelCase (`Notes`, `FileManager`, `MiMover`, `Phone`)
-2. ✅ uiElement 명명 = EN-only (`NavigationBar`)
-3. ✅ screenMode `""` 의미 = "이 device는 layout split 없음"
-4. ✅ 다중 컴포넌트 cell 자동 추론 + 모호 시 WARN
-5. ✅ 8-device 컨벤션 (`Fold外竖` / `Fold外横` 포함)
-6. ✅ extract-report에 legacy diff 포함
+1. ✅ app 命名 = EN-only + CamelCase (`Notes`, `FileManager`, `MiMover`, `Phone`)
+2. ✅ uiElement 命名 = EN-only (`NavigationBar`)
+3. ✅ screenMode `""` 含义 = "该 device 无 layout split"
+4. ✅ 多组件 cell 自动推断 + 模糊时 WARN
+5. ✅ 8-device 约定 (含 `Fold外竖` / `Fold外横`)
+6. ✅ extract-report 包含 legacy diff
 
-### setKey 결정 잠금 (`../../Improvement_doc/csv-authoring-guide-ko.md`)
+### setKey 决策锁定 (`../../Improvement_doc/csv-authoring-guide-ko.md`)
 
-- ✅ CSV에서 setKey 컬럼 제거
-- ✅ 단일 권위 = `references/app-variant-map-{app}.md §0.4`
-- ✅ csv-to-spec 변환 시 join
+- ✅ 从 CSV 移除 setKey 列
+- ✅ 单一权威 = `references/app-variant-map-{app}.md §0.4`
+- ✅ csv-to-spec 转换时 join
 
-## 현재 단계 요약
+### Stage 3A Step 2 sample 1 — [TEST] 笔记多端适配_HardMapping Play2 (✅ 2026-06-01)
 
-**Stage 1A 완전 완료** — extract 파이프라인 안정 운영 단계.
+7 target frame end-to-end 验证 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
 
-```
-Stage 1A: ✅ 완료 (이 세션 누적)
-Stage 1B: ✅ 완료 (단순화 — LibraryName 추가 + InternalPad rename. 나머지 metadata는 Stage 3A에서 코드 lookup)
-Stage 2A: ❌ 무효화 (2026-05-26, SKILL.md가 reference 통째 로드 → 분리 가치 없음. Stage 2C 선행 필요)
-Stage 1C: ⬜ 미시작 — Figma source frame 네이밍 규범
-Stage 1D: ⬜ 미시작 — Section 네이밍 규범
-Stage 2A: ⬜ 미시작 — app-variant-map 분리 (.md / .csv / -keys.md / -tokens.md)
-Stage 2B: ⬜ 미시작 — common-rules 계층화 (principles/instance/mask-zorder/verify/prohibit)
-Stage 2C: ⬜ 미시작 — SKILL.md 슬림화 (770행 → ~300행)
-Stage 3A: ⬜ 미시작 — CSV → Frame Spec JSON 자동 생성
-Stage 3B: ⬜ 미시작 — csv-to-spec.ts / validate-csv.ts / spec-to-checklist.ts
-```
+| # | Frame | ID | Spec.json | 尺寸 | errors |
+|---|---|---|---|---|---|
+| 1 | Fold内横-LC-笔记 | 3018:74555 | Notes_笔记_LC_默认_Fold内横_LC | 888×628 | 0 |
+| 2 | Fold内竖-LC-笔记 | 3018:74556 | Notes_笔记_LC_默认_Fold内竖_LC | 628×888 | 0 |
+| 3 | Pad横-NLC并列-笔记 | 3018:74557 | Notes_笔记_NLC_默认_Pad横_NLC并列 | 1422×949 | 0 |
+| 4 | Pad竖-NLC覆盖-笔记 | 3018:74558 | Notes_笔记_NLC_默认_Pad竖_NLC覆盖 | 949×1422 | 0 |
+| 5 | Fold外竖-C-笔记 | 3046:75979 | Notes_笔记_LC_默认_Fold外竖_C | 435×637 | 0 |
+| 6 | Pad竖-NLC收起-笔记 | 3046:75980 | Notes_笔记_NLC_默认_Pad竖_NLC收起 | 949×1422 | 0 |
+| 7 | Pad横-NLC收起-笔记 | 3046:75981 | Notes_笔记_NLC_默认_Pad横_NLC收起 | 1422×949 | 0 |
 
-## 다음 작업 큐 (우선순위순)
+session 内永久化 commit chain:
+- d065ee7: probe Keyboard / SelectableChip / Divider 3 family → 0 errors
+- 64767ea: validator / runtime sync (PICKVARIANT_RULES → 消除 14 件 false-positive)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点表优先)
+- 6467714: NavigationBar / TopBar outer=0 风满强制 (master 自带 28dp title pl 充足)
 
-| # | 작업 | 추정 규모 | 비고 |
+9 项 audit 结果 (2026-06-01, render-spec.ts 精密对比):
+
+| # | 规则 | 状态 | 位置 / 备注 |
 |---|---|---|---|
-| 1 | **Stage 2C — SKILL.md 슬림화** | 큼 | 770행 → 300행. 함수 시그니처, 폰트 디그레이드, 규칙 재서술, Token 목록 → 각자 reference로 이동. **이게 끝나야 Stage 2A 재검토 가치가 생김** |
-| 2 | **Stage 3A — csv-to-spec.ts (Frame Spec JSON 생성기)** | 큼 | mapping-output + 笔记.md §0.4 + device-dimensions.md → spec JSON. §0.4 본문 인라인이라 파서가 직접 추출. Category/HasInternalPad/DeviceScope family lookup도 여기서 처리 |
-| 4 | **Stage 1C — Figma source frame 네이밍 규범** | 작음 | `{App}_{Scene}_{State}_{SourceDevice}` 네이밍 가이드 문서화 |
-| 5 | **Stage 2B — common-rules 계층화** | 중간 | 987행 flat → principles/instance/mask-zorder/verify/prohibit. §3.4a A/B 분류 체계 재검토 (3분법 또는 코드 lookup으로 이전) |
-| 6 | **Stage 1D — Section 네이밍 규범** | 작음 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187 (frame=true), L205 (main=false), lane clipsContent=true 即 SelectableChip 正常处理 (L216) |
+| 5 | lane y=0 风满 (statusBar 区域 fill 透出) | ⚠️ 重解释 | sample 1 全 7 frame 中 frame.fill == lane.fill (二者均 surface 或 surface_low). 视觉等同. spec lane.y=statusBarH 维持在 component.y 校正不需面更安全. 报告文言不正确 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 累加结果等同 |
+| 7 | children[0] FILL whitelist | ✅ partial coded | render-spec.ts L251 仅 SearchBar. NavBar / TopBar 在 commit 6467714 padding outer=0 风满后 master 自然 width 充足 → inner FILL 不需要. SelectableChip 破裂前例 (chip row 的 leftmost pill stretch) → 追加 family 慎重 |
+| 8 | L list 标题自动 ellipsis | ❌ 不实施 | #13 inner state walk 禁止规则优先. user 明示请求时仅适用. designer task |
+| 9 | NLC并列 main 内 z-order L→C→N | ✅ coded | createInstance 顺序 N→L→C → 末尾 C top + Sidebar promote (L319) 路径仅 N top. sample 1 errors=0 通过 |
+| 10 | NLC覆盖 Sidebar = frame 直接子 + mask token 0.2 | ✅ coded | render-spec.ts L315 (sidebar promote) + L288 (mask), opacity from spec.masks[].opacity |
+| 11 | C 分割线 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill (视觉等同, 较 strokeLeftWeight 更安全, common-rules §3.8) |
+| 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272 (statusBar), L345 (swipeIndicator) |
+| 13 | inner state walk 禁止 | ✅ N/A | render-spec.ts 侧无 inner walk |
 
-## 작업 이어가는 표준 절차 (어떤 AI든 동일)
+**结论**: 9 项中 9 项 coded 完成 (#5 重解释 / #8 不实施). 报告文言 "coded 未完" 是精密 audit 后判定不正确 — queue #4 (本 9 项) 关闭. 仅 #8 残存为 designer task (单独 queue 不必).
+
+### Stage 3A Step 2 sample 2 — [TEST] 笔记多端适配_编辑模式 V3 KIM (✅ 2026-06-02)
+
+7 target frame end-to-end placed (section 3075:78880, page Play2):
+
+| # | Frame | ID | Spec.json | 尺寸 |
+|---|---|---|---|---|
+| 1 | LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC | 888×628 |
+| 2 | LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC | 628×888 |
+| 3 | NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 | 1422×949 |
+| 4 | NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 | 949×1422 |
+| 5 | LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C | 435×637 |
+| 6 | NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 | 949×1422 |
+| 7 | NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 | 1422×949 |
+
+session 内 render-spec.ts 3 bug 修复 (user 视觉指摘 5 件 root cause):
+
+1. **mask cornerRadius 不对称定义被忽略** — render-spec L294~301 仅用 `SPEC.frame.cornerRadius`, `spec.masks[].cornerRadius` 的不对称定义 (例 `{topLeft:0, topRight:50, bottomLeft:0, bottomRight:50}`) 被忽略. fix: 改用 `m.cornerRadius != null ? m.cornerRadius : SPEC.frame.cornerRadius` 优先.
+2. **Sidebar promote 后 zOrder 匹配失败** — promote 后 instance.name=`Sidebar_Component_PAD_NLC_01`, step-9 zOrder pass 的 `findChildren(c.name === 'Sidebar')` 0 match → Sidebar 滞留 frame.children[0] 被 main 遮蔽. fix: promote 时 `sidebarInst.name = 'Sidebar'` 强制改名.
+3. **out-of-flow overlay 堆积在左上角** — render-spec overlays 处理仅 `inst.name = o.family; frame.appendChild(inst)` (无 x/y), NoticeBar / Scrollbar / TextFormatPanel 等 trigger-only overlay 全部 dump 到 frame (0,0). fix: 默认 skip, `o.render === true` opt-in 时才 placement.
+
+检证遗漏回顾: 首次 7 frame 生成时未查 `结构变化表-Notes.csv` (designer 权威) + `device-dimensions.md` (Q18/Q19/Pad 尺寸权威), 仅看 spec.json 工作. user 指摘后 audit:
+- ToolBar variant: csv 权威一致 (NLC/LC = `_01`, NL/C-only = `_02`) ✅
+- lane width: csv + device-dim + 笔记 §0.1 #8/#9 special rule (NLC收起 N 88 收起占位) 一致 ✅
+- cornerRadius: device-dim Fold 内屏 50 / Fold 外屏不对称 / Pad 34 一致 ✅
+
+#### sample 2 残余检证 (next session 交接)
+
+本 session 完了 = render-spec.ts 3 bug 修复 + 7 frame retro placement + F1/F3 视觉 spot check.
+
+**残余任务**:
+1. **F2/F4/F5/F6/F7 视觉 spot check** — 各 frame screenshot + sidebar / mask cornerRadius / 视觉 padding 一一确认 (F1 + F3 已 done)
+2. **7 frame verifyChecklist run** — sample 1 模式: spec-adapter.specToVerifyShape → verifyChecklist → errors=0 确认 (本 session 未运行)
+3. **padding 实测 (user 明示请求)** — 各 instance figma 实际 x/w 测量 → csv + device-dim 权威对照 (audit 是 spec.json 数据 vs 权威, figma instance 实测未做)
+4. **frame ID 交接**:
+
+| Frame | ID | spec.json |
+|---|---|---|
+| F1 LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC |
+| F2 LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC |
+| F3 NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 |
+| F4 NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 |
+| F5 LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C |
+| F6 NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 |
+| F7 NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 |
+
+5. **runtime tools** — `csv-pipeline/runtime/spec-adapter.ts` + `verify.ts` (sample 1 验证用过的 pattern)
+6. **检证权威 source** — `csv-pipeline/mapping-input/结构变化表-Notes.csv` + `references/layouts/device-dimensions.md` + `references/app-variant-map-笔记.md` §0.1 #8 / #9 (笔记 special rules: 宫格 NL N 收起 整 frameW / NLC 收起 N 88 占位 / Sidebar promote)
+7. **commit chain (sample 2 session)** — `2a4a397` (render-spec 3 bug fix + 7 frame retro)
+8. **next session 起手** — `git log --oneline -5` 后读 `csv-pipeline/project-status-ko.md` 本节 → F2/F4/F5/F6/F7 screenshot + verifyChecklist + padding 实测 顺序
+
+#### sample 2 — CSV ToolBar / SearchBar 修正 (✅ 2026-06-02 完了)
+
+user 视觉指摘 → CSV `结构变化表-Notes.csv` 自体错误确认 → user 直接修正 csv:
+- ToolBar / 编辑模式 / NLC + NL + LC: L栏 col `_01` → `_02`, 全栏 col (single-screen) `_02` → `_01`
+- sample 2 first emit 的 SearchBar `_02` (Fold外竖) bug 因 csv-to-spec single-screen standard-framework injection (commit c4f6007) re-emit 时 `_05` 一致.
+
+确认 (csv update 后 npm run extract + npm run spec):
+
+| Frame | spec ToolBar | spec SearchBar | csv 一致 |
+|---|---|---|---|
+| F1 LC_Fold内横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F2 LC_Fold内竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F3 NLC_Pad横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F4 NLC_Pad竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F5 Fold外竖_C | C栏 `_01` | C栏 `_05` | ✅ |
+| F6 NLC_Pad竖收起 | L栏 `_02` | L栏 `_05` | ✅ |
+| F7 NLC_Pad横收起 | L栏 `_02` | L栏 `_05` | ✅ |
+
+figma instance retro 完了 (csv 权威 一致):
+- ToolBar: F1~F4/F6/F7 L栏 `_01` → `_02` (3132:xxx), F5 C栏 `_02` → `_01` (3135:32269)
+- SearchBar: F5 C栏 `_02` → `_05` (3121:84184)
+
+#### sample 2 — F5 SearchBar padding (✅ 2026-06-02 完了)
+
+user 视觉指摘: F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.
+
+root cause = csv-to-spec.ts baseFilter 的 `r.scene === scene` 条件 → spec.id scene='LC' 仅 take → NLC standard framework row 不能到达 group → LC row 的 `_02` (Pad 顶部 内嵌 自然 176) emit → 满幅 445 时 padding=0 visual.
+
+fix: csv-to-spec.ts (commit `c4f6007`) — 笔记/待办 single-screen device 的 derived scene 时 NLC scene 的 row 注入到 candidate. spec re-emit 后 F5 SearchBar = `_05` (满幅 392×56, 自体 internal 12dp visible padding).
+
+figma instance retro: F5 SearchBar `_02` (3114:82081) → `_05` (3121:84184). x=0 w=435 lane 满幅 + master 内 InputBackground x=12 w=411 visual padding 12dp.
+
+#### sample 2 — 7 frame retro session 累积 commit chain
+
+| commit | 内容 |
+|---|---|
+| `2a4a397` | render-spec.ts 3 bug fix (mask cornerRadius / Sidebar promote rename / overlay skip) + 7 frame retro placement |
+| `a0cbfd1` | sample 2 残余检证 next session 交接 note |
+| `54c53af` | F5 SearchBar padding bug 诊断 (解决前) |
+| `c4f6007` | csv-to-spec.ts single-screen 笔记/待办 standard-framework injection fix |
+| `5b1f661` | csv (user 修正): ToolBar 编辑模式 _01/_02 swap + spec re-emit |
+
+#### next session 交接 — sample 2 残余检证 + sample 3
+
+**sample 2 7 frame final 状态** (2026-06-02 基准, csv 修正 + retro 全 完了):
+
+| Frame | ID | spec.json |
+|---|---|---|
+| F1 LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC |
+| F2 LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC |
+| F3 NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 |
+| F4 NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 |
+| F5 LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C |
+| F6 NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 |
+| F7 NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 |
+
+**残余检证 task** (next session):
+
+1. **F2/F4/F5/F6/F7 视觉 spot check** — 各 frame screenshot, F1+F3 已 done.
+2. **7 frame verifyChecklist run** — sample 1 model: spec-adapter.specToVerifyShape → verifyChecklist (csv-pipeline/runtime/spec-adapter.ts + verify.ts) → errors=0 确认.
+3. **padding 实测 各 instance** — figma instance.x / w 测量 → csv + device-dim 权威对照. user 明示请求.
+4. **7 frame Phase 6 verifyChecklist 24 项** — common-rules §6.2 24 项 全 frame 通过确认.
+
+**检证权威 source**:
+- `csv-pipeline/mapping-input/结构变化表-Notes.csv` (designer 权威, user 修正后)
+- `references/layouts/device-dimensions.md` (Q18/Q19/Pad 尺寸权威)
+- `references/app-variant-map-笔记.md` §0.1 #8/#9 (笔记 special rules)
+- `csv-pipeline/spec-output/spec/Notes_笔记_*.json` (csv-to-spec emit 结果)
+
+**runtime tools**:
+- `csv-pipeline/runtime/spec-adapter.ts` (specToVerifyShape, findInstanceInFrame)
+- `csv-pipeline/runtime/verify.ts` (verifyChecklist 24 项)
+- use_figma 调用 pattern: sample 1 的 verifyChecklist run 代码参照
+
+**重要规则 reminder** (本 session 违反 / 遗漏):
+- `feedback_apply_rules_dont_intuit`: csv + device-dim 直接 lookup. 仅看 spec.json (derived) 工作禁止.
+- `feedback_phase_re_check_must_actually_read`: phase 5 进入时 device-dim / common-rules §3.7~§3.10 每次直接 read.
+- `feedback_no_korean_in_docs`: 文档作成时韩文使用禁止. 中/英 only.
+
+**next session 起手 顺序**:
+1. `git log --oneline -10` (commit chain 把握)
+2. `csv-pipeline/project-status-ko.md` 本节 read (sample 2 状态 / 残余 task)
+3. F2/F4/F5/F6/F7 screenshot — visual spot check (sidebar 可见 / mask cornerRadius / ToolBar variant / SearchBar padding 一一确认)
+4. 7 frame verifyChecklist run (spec-adapter + verify.ts inline use_figma)
+5. issue 发现时 csv 或 csv-to-spec.ts root cause 追踪 (即答 figma swap 禁止, root 修复)
+
+## 当前阶段摘要
+
+**Stage 1A / 1B / 2A / 2B / 3A 产出** 完成. 剩余 = **Stage 3A wire-up** + 1C/1D (小型指南文档).
 
 ```
-1. AGENTS.md 읽기 (프로젝트 루트)
-2. csv-pipeline/README.md 읽기
-3. 본 project-status-ko.md 읽기 → 현재 상태 + 다음 작업 큐 파악
-4. 사용자 지시 받기
-5. 해당 design 문서 읽기 (../../Improvement_doc/*.md)
-6. 작업 진행
-7. 종료 전:
-   - 본 문서 "완료된 작업"에 항목 추가
-   - "다음 작업 큐"에서 완료된 항목 제거 + 발견된 후속 작업 추가
-   - 새 결정 사항이 있으면 design 문서에 잠금
+Stage 1A: ✅ 完成 — extract 管线进入稳定运营阶段
+Stage 1B: ✅ 完成 — components.csv LibraryName + InternalPad rename
+Stage 1C: ✅ 完成 (2026-06-01) — references/naming-conventions.md (source frame 命名规范)
+Stage 1D: ✅ 完成 (2026-06-01) — references/naming-conventions.md §2 (Section 命名规范)
+Stage 2A: ✅ 完成 (2026-06-01) — tokens.json + setkeys.json 单一权威分离, app-variant-map §0.3/§0.4 redirect
+Stage 2B: ✅ 完成 (2026-06-01) — common-rules 5 文件拆分 + hub redirect (commits 549b929/f0952dc/366c2a6)
+Stage 2C: ❌ 废弃 (2026-06-01) — SKILL 精简 ROI 较低 (user 直接决策)
+Stage 3A: 🟡 部分完成 (2026-06-01) — csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts. Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 验证完成. **Step 3 (SKILL Phase 5 spec consume) 未完成**
+Stage 3B: ✅ 完成 (2026-06-01) — 编写 validate-csv.ts + npm script + pre-commit hook 注册 + **baseline 捕获完成** (errors=0 / warnings=103). spec-to-checklist 由 spec-adapter.ts 的 specToVerifyShape 吸收 → 单独产出不需要. 残余 warnings = 外部 dependency (designer 测试版 publish 等待)
 ```
 
-## 명령어
+### Stage 3B baseline (2026-06-01 更新, errors 129 → 0, warnings 117 → 103)
+
+```
+files=17  rows=1237  errors=0  warnings=103  report: spec-output/validate-csv-report.json
+```
+
+| code | level | 件数 | 主 file | 修正 ownership |
+|---|---|---|---|---|
+| `variantId-unresolved` | error | 89 → 0 | Phone / Contacts / Messaging 等 | **修正完成** (前次 session) |
+| `family-missing-in-setkeys` | error | 39 → 0 | components.csv (Keyboard 9 / SelectableChip 7 / Divider 1) | **修正完成** (2026-06-01) — (1) validate-csv.ts checkComponentsCsv VariantId fallback resolve + prefix 加强 (2) probe-setkeys (Figma MCP search_design_system) → setkeys.json 中 Keyboard (`f55f11f6...` 测试版) / SelectableChip (`208b0f0f...` 测试版) / Divider (`ee073ac0...` 旧 OS4 — 测试版未 publish, NoticeBar pattern) 3 family 登录 |
+| `lane-framework-compat` | error | 14 → 0 | Notes | **修正完成** (2026-06-01) — extract-mapping.ts 中 (1) framework / lane 检验逻辑 + (2) Fold内 drilldown 时 framework reframe + (3) C framework 时 lane → 全栏 collapse |
+| `family-not-verified` | warning | 74 | Notes (`NoticeBar` blocker) | designer (`控件变体清单.csv` status verify) |
+| `pickVariant-fallback` | warning | 43 → 29 | Notes | **部分修正** (2026-06-01) — validator PICKVARIANT_RULES 与 csv-to-spec.ts:pickVariant() 11 规则 sync (skip rules + variantId-prefix rule 追加). 残 29 = 真正的 designer task (NavBar 11 / AIWindow 10 / 搜索页面 6 / SearchBar 2) |
+
+**下一步 action**: errors 0 达成 → spec:guarded gate 通过. 残余 103 warnings = designer ownership:
+- 4 blocker family (`NoticeBar` / `Scrollbar` / `ActionSheet` / `Divider`) 测试版 publish 等待 — 74 件
+- pickVariant 29 件 = ① single-screen NavBar / SearchBar 的 default variant (LC L栏=_05, C 全栏=`_11/_05/_02` 分支规则) designer 明示 ② multi-component composition (`AIWindow_Notes` 10 / `搜索页面` 6) — 一 row 中混入多 component 的 variantId. 需 row 细分或 uiElement 分离
+
+### Stage 3A 剩余 (wire-up gap)
+
+详见 `../../Improvement_doc/3A-wire-up-plan.md`. 核心 mismatch 3 个:
+
+1. **runtime verify.ts schema mismatch** — verify.ts 读取 flat shape (`spec.frameW / spec.cols / spec.cornerRadius`), 但 csv-to-spec 产出的 spec.json 为 nested (`spec.frame.w / spec.layout.lanes / spec.frame.cornerRadius`). AI 每个 frame 都在手动转换.
+2. **SKILL Phase 5 未消费 spec.json** — Phase 4 组件 task list 基于 .md lookup. 已产出 152 spec JSON, 但仍未实际投入使用.
+3. **render-spec.ts 的 use_figma JS output 用法在 SKILL 中未规定** — Phase 5 把 render-spec 产出的 JS 传给 use_figma 的流程在任何地方都未明示.
+
+## 下一步任务队列 (按优先级)
+
+| # | 任务 | 估计规模 | 备注 |
+|---|---|---|---|
+| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中等 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完成. 后续 待办 page 或 笔记 别 page 追加 sample → mature 后 verify.ts 本体 rewrite 决定 |
+| 2 | ~~**probe-setkeys family 登记**~~ | ✅ 完成 (2026-06-01) | Keyboard / SelectableChip / Divider 3 family probe → setkeys.json 登录. validate-csv error 39 → 0 |
+| 3 | **3A wire-up Step 3 — SKILL Phase 5 消费 spec.json** | 大 | 将 render-spec.ts JS 输出 mandatory 流程化进 use_figma. 废弃 Phase 4 componentTaskList 「判断」流程. Step 1 追加 sample 后进入 |
+| 4 | ~~**csv-to-spec / render-spec 通用规则永久化 (#4~#13)**~~ | ✅ 完成 (2026-06-01) | 9 项 audit 结果全部已 coded (#5 重解释 / #8 designer task). 上 sample 1 audit 表参照 |
+| 5 | **probe-todo unverified family** | 小 | NoticeBar (16) / Scrollbar (52) / ActionSheet (6) — 测试版 publish 时 setkeys.json status: blocker → verified. validate-csv warnings 74 → 0 自动收敛 |
+| 6 | **mapping-input variantId prefix 修正 89 件** | 大 | designer ownership. `1. 未选中L栏list：无标题`, `(framework_reuse)`, `无标题栏` 等 prefix 自由输入 — 检讨在 extract-mapping.ts 侧追加规范化规则的可能性 |
+| 7 | **pickVariant 残余 29 designer 明示 task** | 中 | (1) NavBar single-screen LC default L栏 (`_05` vs `_02` 分支规则) — line 101 Notes csv `LC default L栏=_05` 可见, csv-to-spec 的 single-screen NavBar heuristic (前次 line 467 移除) 重定义可能性检讨. (2) `AIWindow_Notes` / `搜索页面` 等 composite uiElement 需 row 细分 (uiElement 分别单独) 或 csv-to-spec 侧 group resolver 追加 |
+
+## 工作衔接的标准流程 (任何 AI 都相同)
+
+```
+1. 阅读 AGENTS.md (项目根)
+2. 阅读 csv-pipeline/README.md
+3. 阅读本 project-status-ko.md → 把握当前状态 + 下一步任务队列
+4. 接受用户指示
+5. 阅读相应设计文档 (../../Improvement_doc/*.md)
+6. 进行工作
+   - frame 适配 task → 下方「适配 task 标准流程」节参照
+7. 结束前:
+   - 在本文档 "已完成工作" 中追加项
+   - 从 "下一步任务队列" 中移除已完成项 + 添加发现的后续任务
+   - 若有新决策, 在设计文档中锁定
+```
+
+## 适配 task 标准流程 (frame 适应时, 2026-06-01 user 决策)
+
+> AI 不做决定 / 不做规则化. designer 对每个 component 选择「跟随基本规则 / explicit override」. 跟随基本规则 → 该规则的所有附属行为自动 cascade.
+
+```
+适配 task 进入时:
+1. mapping-input → mapping-output 自动生成 (npm run extract)
+2. 阅读 references/layouts/device-dimensions.md 全文
+   (基本骨架 + padding 断点 + 浮层/工具栏/搜索/遮罩 spec)
+3. 阅读 控件变体清单.csv + 通过 setkeys.json 验证 figma source
+4. 阅读 结构变化表-{App}.csv 对应 sub-scene + state 行 + cell 内 prose annotation
+   阅读 app-variant-map-{App}.md §0 (app-specific 基本规则)
+
+收到 designer figma file 后:
+5. source dump: get_metadata + get_design_context + get_screenshot
+   font precheck + sourceVisibleInventory 3 分类 (bar / main-content / overlay)
+
+每个 case (target frame) 的 mapping 编写:
+6. AI 列出每个 component / overlay / mask / floatingContainer 的「可选项」:
+   - 选项 A 「基本规则」: device-dim / app-variant-map §0.X 的适用规则
+   - 选项 B 「explicit override」: 该 case 特有的明示值 (variantId / x/y/w/h / fill / inner)
+7. designer 对每个项选择 A 或 B
+   - A 选中 → 该规则的所有附属行为自动 cascade (padding / position / inner walk / fill / mask / zOrder ...)
+   - B 选中 → 该 explicit 值直接 write
+8. AI 按照 designer 的选择应用 (placeStandardComponent 既存函数), get_screenshot 视觉验证, verifyChecklist errors=0 后进入下一 case
+```
+
+**AI 不做的事**: 推断决定 / 规则化提议 / 自动选择基本规则 / 推测 explicit override.
+**「基本规则」的来源**: device-dimensions.md, common-rules-instance.md §3.4a/§3.6, common-rules-mask-zorder.md §3.7~§3.8, component-placement-protocol.md §2~§4, app-variant-map-{App}.md §0, font-degradation.md.
+
+## 命令
 
 ```bash
 cd csv-pipeline
-npm run extract    # mapping-input/*.csv → mapping-output/ 재생성
-npm run status     # 현재 상태 + 본 문서의 다음 작업 큐 출력
+npm run extract    # mapping-input/*.csv → mapping-output/ 重新生成
+npm run status     # 输出当前状态 + 本文档的下一步任务队列
 ```
 
-## 산출물 위치
+## 产出物位置
 
 ```
-csv-migration/                              ← 상위 워크스페이스
-├── Improvement_doc/                        ← 설계 문서 (프로젝트 외부)
+csv-migration/                              ← 上层 workspace
+├── Improvement_doc/                        ← 设计文档 (项目外部)
 │   ├── workflow-reform-plan-ko.md / .md
 │   ├── csv-authoring-guide-ko.md / .md
 │   └── extract-mapping-design-ko.md / .md
-└── auto_design_agent_backup/               ← Skill 저장소 루트
-    ├── AGENTS.md                           ← AI 진입점
-    ├── SKILL.md, README.md, references/    ← 기존 Skill 자산
-    └── csv-pipeline/                       ← 매핑 작업 자족 sub-project
-        ├── README.md                       ← 폴더 진입점
-        ├── project-status-ko.md / .md      ← 본 문서
+└── auto_design_agent_backup/               ← Skill 仓库根
+    ├── AGENTS.md                           ← AI 入口
+    ├── SKILL.md, README.md, references/    ← 现有 Skill 资产
+    └── csv-pipeline/                       ← 映射工作自足 sub-project
+        ├── README.md                       ← 文件夹入口
+        ├── project-status-ko.md / .md      ← 本文档
         ├── package.json + tsconfig.json
         ├── node_modules/
-        ├── mapping-input/                  ← 디자이너 업스트림 (팀별 분리 소유)
-        │   ├── 结构变化表-{App}.csv × 17   ← 앱 팀별 독립 파일
-        │   └── 控件变体清单.csv            ← 컴포넌트 디자이너 (단일)
-        ├── mapping-output/                 ← extract 산출물 (재생성됨)
+        ├── mapping-input/                  ← designer 上游 (按团队拆分所有权)
+        │   ├── 结构变化表-{App}.csv × 17   ← 各 app 团队独立文件
+        │   └── 控件变体清单.csv            ← 组件 designer (单一)
+        ├── mapping-output/                 ← extract 产出 (重新生成)
         │   ├── SystemUIKIT-mapping.csv
         │   ├── app-{App}-mapping.csv × 18
         │   ├── components.csv
@@ -277,7 +514,7 @@ csv-migration/                              ← 상위 워크스페이스
         │   ├── extract-mapping.ts
         │   └── show-status.ts
         └── legacy/
-            └── app-mapping-stage1a.csv     ← 사용자 수동 작성본 (참고용)
+            └── app-mapping-stage1a.csv     ← 用户手动编写版 (参考用)
 ```
 
-> **위치 주의**: 설계 문서는 **상위** `csv-migration/Improvement_doc/`, 매핑 작업 전체는 **프로젝트 내부** `csv-pipeline/`. 자족적 sub-project.
+> **位置注意**: 设计文档位于**上层** `csv-migration/Improvement_doc/`, 映射工作整体位于**项目内** `csv-pipeline/`. 自足 sub-project.

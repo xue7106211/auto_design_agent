@@ -1,13 +1,15 @@
 # 项目进展状态
 
 > **本文档是进度的单一权威。** 开始工作前先读，结束工作后更新。
-> 最后更新：2026-05-25
+> 最后更新：2026-06-01
 >
 > ⚠️ **有效期限**：本文档**仅在 workflow-reform 工作进行期间**有效。所有 Stage（1A/1B/1C/2/3）完成后，移至 `csv-pipeline/archive/project-status-final.md`，进入稳定运营阶段。reform 结束后未来的 AI 不需要 routine 阅读本文档。
 
+> 📌 **韩文版（`project-status-ko.md`）为权威**。本中文版为同步翻译版，结构同步即可，详细 narrative 参看韩文版。
+
 ## 当前阶段
 
-**workflow-reform-plan 三阶段改革中 — Stage 1A Phase 1 完成**
+**Stage 2B / 3A 产出完成，剩余 = 3A wire-up（详 `../../Improvement_doc/3A-wire-up-plan.md`）**
 
 ## 已完成工作
 
@@ -132,33 +134,210 @@
 - ✅ 单一权威 = `references/app-variant-map-{app}.md §0.4`
 - ✅ csv-to-spec 时 join
 
+### Stage 3A Step 2 sample 1 — [TEST] 笔记多端适配_HardMapping Play2 (✅ 2026-06-01)
+
+7 target frame end-to-end 验证 (csv-to-spec spec → spec-adapter.specToVerifyShape → verifyChecklist):
+
+- Fold内横-LC-笔记 (3018:74555, 888×628) — errors=0
+- Fold内竖-LC-笔记 (3018:74556, 628×888) — errors=0
+- Pad横-NLC并列-笔记 (3018:74557, 1422×949) — errors=0
+- Pad竖-NLC覆盖-笔记 (3018:74558, 949×1422) — errors=0
+- Fold外竖-C-笔记 (3046:75979, 435×637) — errors=0
+- Pad竖-NLC收起-笔记 (3046:75980, 949×1422) — errors=0
+- Pad横-NLC收起-笔记 (3046:75981, 1422×949) — errors=0
+
+session 内永久化 commit chain:
+- d065ee7: probe Keyboard / SelectableChip / Divider 3 family → 0 errors
+- 64767ea: validator / runtime sync (PICKVARIANT_RULES → 消除 14 件 false-positive)
+- f2aa901: csv-to-spec padding outer 公式 (device-dim 断点表优先)
+- 6467714: NavigationBar / TopBar outer=0 风满强制 (master 自带 28dp title pl 充足)
+
+9 项 audit 结果 (2026-06-01, render-spec.ts 精密对比):
+
+| # | 规则 | 状态 | 位置 / 备注 |
+|---|---|---|---|
+| 4 | frame.clipsContent=true / main·lane·instance=false | ✅ coded | render-spec.ts L187, L205 |
+| 5 | lane y=0 风满 (statusBar 区域 fill 透出) | ⚠️ 重解释 | sample 1 全 7 frame 中 frame.fill == lane.fill, 视觉等同. lane.y=statusBarH 维持在 component.y 校正不需方面更安全 |
+| 6 | component y = statusBarH + spec.y | ✅ implicit | main.y=statusBarH + lane.y=0 + c.y 累加 |
+| 7 | children[0] FILL whitelist | ✅ partial | render-spec.ts L251 仅 SearchBar. NavBar / TopBar 在 commit 6467714 后 master 自然 width 充足 |
+| 8 | L list 标题自动 ellipsis | ❌ 不实施 | #13 inner state walk 禁止规则优先. designer task |
+| 9 | NLC并列 z-order L→C→N | ✅ coded | createInstance N→L→C 顺序 + Sidebar promote (L319) |
+| 10 | NLC覆盖 Sidebar promote + mask 0.2 | ✅ coded | render-spec.ts L315, L288 |
+| 11 | C 分割线 outline token bind | ✅ coded | render-spec.ts L277 RECTANGLE+fill |
+| 12 | statusBar / 杆子 fills=[] | ✅ coded | render-spec.ts L272, L345 |
+| 13 | inner state walk 禁止 | ✅ N/A | render-spec.ts 侧无 inner walk |
+
+**结论**: 9 项全部已 coded 或等同处理. queue #3 (本 9 项) 关闭.
+
+### Stage 3A Step 2 sample 2 — [TEST] 笔记多端适配_编辑模式 V3 KIM (✅ 2026-06-02)
+
+7 target frame end-to-end placed (section 3075:78880, page Play2):
+
+| # | Frame | ID | Spec.json | 尺寸 |
+|---|---|---|---|---|
+| 1 | LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC | 888×628 |
+| 2 | LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC | 628×888 |
+| 3 | NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 | 1422×949 |
+| 4 | NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 | 949×1422 |
+| 5 | LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C | 435×637 |
+| 6 | NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 | 949×1422 |
+| 7 | NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 | 1422×949 |
+
+session 内 render-spec.ts 3 项 bug 修复 (user 视觉指摘 5 件 root cause):
+
+1. **mask cornerRadius 不对称定义被忽略** — render-spec L294~301 仅使用 `SPEC.frame.cornerRadius`, `spec.masks[].cornerRadius` 的不对称 (例 `{topLeft:0, topRight:50, bottomLeft:0, bottomRight:50}`) 被覆盖为对称 50. fix: 改为 `m.cornerRadius != null ? m.cornerRadius : SPEC.frame.cornerRadius` 优先.
+2. **Sidebar promote 后 zOrder 匹配失败** — promote 後 instance.name=`Sidebar_Component_PAD_NLC_01`, step-9 zOrder pass 的 `findChildren(c.name === 'Sidebar')` 0 match → Sidebar 滞留 frame.children[0] 被 main 遮蔽. fix: promote 时 `sidebarInst.name = 'Sidebar'` 强制改名.
+3. **out-of-flow overlay 堆积在 frame 左上角** — render-spec overlays 处理仅 `inst.name = o.family; frame.appendChild(inst)` (无 x/y), NoticeBar / Scrollbar / TextFormatPanel 等 trigger-only overlay 全部 dump 到 frame (0,0). fix: 默认 skip, `o.render === true` opt-in 时才 placement.
+
+检证遗漏回顾: 首次 7 frame 生成时未查 `结构变化表-Notes.csv` (designer 权威) 与 `device-dimensions.md` (Q18 / Q19 / Pad 尺寸权威), 仅看 spec.json 工作. user 指摘后 audit:
+- ToolBar variant: csv 权威一致 (NLC/LC = `_01`, NL/C-only = `_02`) ✅
+- lane width: csv + device-dim + 笔记 §0.1 #8/#9 special rule (NLC收起 N 88 收起占位) 一致 ✅
+- cornerRadius: device-dim Fold 内屏 50 / Fold 外屏不对称 / Pad 34 一致 ✅
+
+#### sample 2 残余检证 (next session 交接)
+
+本 session 完了 = render-spec.ts 3 bug 修复 + 7 frame retro placement + F1/F3 视觉 spot check.
+
+**残余任务**:
+1. F2 / F4 / F5 / F6 / F7 视觉 spot check (各 frame screenshot + sidebar / mask cornerRadius / 视觉 padding)
+2. 7 frame verifyChecklist run (sample 1 模式: spec-adapter.specToVerifyShape → verifyChecklist → errors=0)
+3. padding 实测 (user 明示请求): 各 instance figma 实际 x/w 测量 → csv + device-dim 权威对照
+4. frame ID 交接: F1=3107:79477, F2=3109:80207, F3=3110:80583, F4=3112:81326, F5=3114:82067, F6=3116:82698, F7=3118:83033
+5. runtime tools: `csv-pipeline/runtime/spec-adapter.ts` + `verify.ts`
+6. 检证权威: `csv-pipeline/mapping-input/结构变化表-Notes.csv` + `references/layouts/device-dimensions.md` + `references/app-variant-map-笔记.md` §0.1 #8/#9
+7. commit chain: `2a4a397` (render-spec 3 bug fix + 7 frame retro)
+8. next session 起手: `git log --oneline -5` → 读 `csv-pipeline/project-status.md` 本节 → F2/F4/F5/F6/F7 screenshot + verifyChecklist + padding 实测
+
+#### sample 2 — CSV ToolBar / SearchBar 修正 (✅ 2026-06-02 完了)
+
+user 视觉指摘 → CSV `结构变化表-Notes.csv` 自体错误确认 → user 直接修正 csv:
+- ToolBar / 编辑模式 / NLC + NL + LC: L栏 col `_01` → `_02`, 全栏 col (single-screen) `_02` → `_01`
+- sample 2 first emit 的 SearchBar `_02` (Fold外竖) bug 因 csv-to-spec single-screen standard-framework injection (commit c4f6007) re-emit 时 `_05` 一致.
+
+确认 (csv update 后 npm run extract + spec):
+
+| Frame | spec ToolBar | spec SearchBar | csv 一致 |
+|---|---|---|---|
+| F1 LC_Fold内横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F2 LC_Fold内竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F3 NLC_Pad横 | L栏 `_02` | L栏 `_05` | ✅ |
+| F4 NLC_Pad竖 | L栏 `_02` | L栏 `_05` | ✅ |
+| F5 Fold外竖_C | C栏 `_01` | C栏 `_05` | ✅ |
+| F6 NLC_Pad竖收起 | L栏 `_02` | L栏 `_05` | ✅ |
+| F7 NLC_Pad横收起 | L栏 `_02` | L栏 `_05` | ✅ |
+
+figma instance retro 完了 (csv 权威 一致):
+- ToolBar: F1~F4/F6/F7 L栏 `_01` → `_02` (instance 3132:xxx), F5 C栏 `_02` → `_01` (3135:32269)
+- SearchBar: F5 C栏 `_02` → `_05` (3121:84184)
+
+#### sample 2 — F5 SearchBar padding (✅ 2026-06-02 完了)
+
+user 视觉指摘: F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.
+
+root cause = csv-to-spec.ts baseFilter 的 `r.scene === scene` 条件 → spec.id scene='LC' 仅 take → NLC standard framework row 不到达 group → LC row 的 `_02` (Pad 顶部 内嵌 自然 176) emit → 满幅 445 时 padding=0 visual.
+
+fix: csv-to-spec.ts (commit `c4f6007`) — 笔记/待办 single-screen device 的 derived scene 时 NLC scene 的 row 注入 candidate. spec re-emit 后 F5 SearchBar = `_05` (满幅 392×56, 自体 internal 12dp visible padding).
+
+figma instance retro: F5 SearchBar `_02` (3114:82081) → `_05` (3121:84184).
+
+#### sample 2 — 7 frame retro session 累积 commit chain
+
+| commit | 内容 |
+|---|---|
+| `2a4a397` | render-spec.ts 3 bug fix (mask cornerRadius / Sidebar promote rename / overlay skip) + 7 frame retro placement |
+| `a0cbfd1` | sample 2 残余检证 next session 交接 note |
+| `54c53af` | F5 SearchBar padding bug 诊断 (解决前) |
+| `c4f6007` | csv-to-spec.ts single-screen 笔记/待办 standard-framework injection fix |
+| `5b1f661` | csv (user 修正): ToolBar 编辑模式 _01/_02 swap + spec re-emit |
+
+#### next session 交接 — sample 2 残余检证
+
+**sample 2 7 frame final 状态** (2026-06-02 基准, csv 修正 + retro 全 完了):
+
+| Frame | ID | spec.json |
+|---|---|---|
+| F1 LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC |
+| F2 LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC |
+| F3 NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 |
+| F4 NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 |
+| F5 LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C |
+| F6 NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 |
+| F7 NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 |
+
+**残余检证 task** (next session):
+1. F2/F4/F5/F6/F7 视觉 spot check (各 frame screenshot, F1+F3 已 done)
+2. 7 frame verifyChecklist run (spec-adapter.specToVerifyShape → verifyChecklist 24 项)
+3. padding 实测 各 instance (figma instance.x / w 测量 → csv + device-dim 权威对照)
+
+**检证权威 source**:
+- `csv-pipeline/mapping-input/结构变化表-Notes.csv` (designer 权威, user 修正后)
+- `references/layouts/device-dimensions.md` (Q18/Q19/Pad 尺寸权威)
+- `references/app-variant-map-笔记.md` §0.1 #8/#9 (笔记 special rules)
+- `csv-pipeline/spec-output/spec/Notes_笔记_*.json` (csv-to-spec emit 结果)
+
+**runtime tools**:
+- `csv-pipeline/runtime/spec-adapter.ts` (specToVerifyShape, findInstanceInFrame)
+- `csv-pipeline/runtime/verify.ts` (verifyChecklist 24 项)
+
+**重要规则 reminder** (本 session 违反 / 遗漏):
+- `feedback_apply_rules_dont_intuit`: csv + device-dim 直接 lookup. 仅看 spec.json (derived) 工作禁止
+- `feedback_phase_re_check_must_actually_read`: phase 5 进入时 device-dim / common-rules §3.7~§3.10 每次直接 read
+- `feedback_no_korean_in_docs`: 文档作成时韩文使用禁止. 中/英 only
+
+**next session 起手 顺序**:
+1. `git log --oneline -10` (commit chain 把握)
+2. 读 `csv-pipeline/project-status.md` 本节 (sample 2 状态 / 残余 task)
+3. F2/F4/F5/F6/F7 screenshot — visual spot check
+4. 7 frame verifyChecklist run
+5. issue 发现时 csv 或 csv-to-spec.ts root cause 追踪 (即答 figma swap 禁止)
+- (A) 推荐 — spec.json 数据本身正确化
+
+其他 frame 影响 audit:
+- F1 LC_Fold内横, F2 LC_Fold内竖 — csv col 6/col 9 的 SearchBar LC row 须确认. 现 F1/F2 spec 是 `_05`(392×56, w=353/282 风满) emit — 与 designer 意图可能不一致 (line 326 规则若适用应是 `_02` 自然 width center)
+
+### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
+
+`npm run validate-csv` baseline:
+- filesScanned: 17, rowsScanned: 1237
+- **errors: 0**
+- **warnings: 103** (全部 app-Notes-mapping.csv)
+  - `family-not-verified` × 74: NoticeBar(16) / Scrollbar(52) / ActionSheet(6) — setkeys.json status='blocker', 测试版 publish 等待 (外部 dependency)
+  - `pickVariant-fallback` × 29 — 意图的 variant fallback (正常)
+
+action 不需要 — 外部 dependency 解除时自动 0 收敛.
+
 ## 当前阶段总览
 
 **Stage 1A 全部完成** — extract 流水线进入稳定运营阶段。
 
 ```
-Stage 1A: ✅ 完成（本会话累计）
-Stage 1B: ⬜ 未启动 — 控件变体清单 CSV2 增强（NaturalW/H 等 metadata 补强）
-Stage 1C: ⬜ 未启动 — Figma source frame 命名规范
-Stage 1D: ⬜ 未启动 — Section 命名规范
-Stage 2A: ⬜ 未启动 — app-variant-map 拆分（.md / .csv / -keys.md / -tokens.md）
-Stage 2B: ⬜ 未启动 — common-rules 分层（principles/instance/mask-zorder/verify/prohibit）
-Stage 2C: ⬜ 未启动 — SKILL.md 瘦身（770 行 → ~300 行）
-Stage 3A: ⬜ 未启动 — CSV → Frame Spec JSON 自动生成
-Stage 3B: ⬜ 未启动 — csv-to-spec.ts / validate-csv.ts / spec-to-checklist.ts
+Stage 1A: ✅ 完成
+Stage 1B: ✅ 完成 — components.csv LibraryName + InternalPad rename
+Stage 1C: ✅ 完成（2026-06-01）— references/naming-conventions.md (source frame 命名规范)
+Stage 1D: ✅ 完成（2026-06-01）— references/naming-conventions.md §2 (Section 命名规范)
+Stage 2A: ✅ 完成（2026-06-01）— tokens.json + setkeys.json 单一权威分离，app-variant-map §0.3/§0.4 redirect
+Stage 2B: ✅ 完成（2026-06-01）— common-rules 5 文件分层 + hub redirect（commits 549b929/f0952dc/366c2a6）
+Stage 2C: ❌ 废弃（2026-06-01）— SKILL 瘦身 ROI 低（用户直接决议）
+Stage 3A: 🟡 部分完成（2026-06-01）— csv-to-spec.ts + render-spec.ts + 152 spec JSON + spec-adapter.ts。Step 2 sample 1 ([TEST] 笔记多端适配_HardMapping Play2 7 frame) errors=0 验证完成. **Step 3 (SKILL Phase 5 spec consume) 未完**
+Stage 3B: ✅ 完成（2026-06-01）— validate-csv.ts 编写 + npm script + pre-commit hook 接入. baseline 捕获: errors=0 / warnings=103 (全部 app-Notes-mapping.csv 内 family-not-verified 74 + pickVariant-fallback 29; blocker 3 family = NoticeBar / Scrollbar / ActionSheet 测试版 publish 等待, 外部 dependency)
 ```
+
+### Stage 3A 剩余（wire-up gap）
+
+详细：`../../Improvement_doc/3A-wire-up-plan.md`。3 个核心 mismatch：
+
+1. **runtime verify.ts schema mismatch** — verify.ts 读 flat shape (`spec.frameW / spec.cols / spec.cornerRadius`)，而 csv-to-spec 产出的 spec.json 是 nested (`spec.frame.w / spec.layout.lanes / spec.frame.cornerRadius`)。AI 每个 frame 手动转换。
+2. **SKILL Phase 5 不 consume spec.json** — Phase 4 componentTaskList 仍基于 .md lookup。152 spec JSON 已产出但实际未进入工作流。
+3. **render-spec.ts 的 use_figma JS output 用法 SKILL 未 prescribe** — Phase 5 把 render-spec 产出的 JS 喂给 use_figma 的流程未在任何地方明示。
 
 ## 下一步任务队列（按优先级）
 
 | # | 任务 | 估计规模 | 备注 |
 |---|---|---|---|
-| 1 | **Stage 1B — components.csv metadata 增强** | 中 | 现 components.csv 仅含 paddings。补 NaturalW/H、DeviceScope、Category（A 类/B 类）。利用 CSV2 source（`控件变体清单.csv`）的附加信息 |
-| 2 | **Stage 2A — app-variant-map 拆分** | 中 | 现 1 文件 → `-mapping.csv`/`-keys.md`/`-tokens.md` 4 文件化。先以 笔记 reference 试点 |
-| 3 | **Stage 2C — SKILL.md 瘦身** | 大 | 770 行 → 300 行。函数签名、字体降级、规则重述、Token 列表 → 各 reference 转移 |
-| 4 | **Stage 3A — csv-to-spec.ts（Frame Spec JSON 生成器）** | 大 | mapping-output + §0.4 + device-dimensions.md → spec JSON。将 Phase 5 判定前置到 spec 阶段 |
-| 5 | **Stage 1C — Figma source frame 命名规范** | 小 | `{App}_{Scene}_{State}_{SourceDevice}` 命名指南文档化 |
-| 6 | **Stage 2B — common-rules 分层** | 中 | 987 行 flat → principles/instance/mask-zorder/verify/prohibit |
-| 7 | **Stage 1D — Section 命名规范** | 小 | `TEST_{App}_{Scene}_{State}_{Date}_{Operator}` |
+| 1 | **3A wire-up Step 2 — 实 task sample 累积 (mature 判断)** | 中 | sample 1 (笔记 Play2 7 frame, 2026-06-01) errors=0 完了. 后续 待办 page 或 笔记 别 page 追加 sample → mature 后 verify.ts 本体 rewrite 决议 |
+| 2 | **3A wire-up Step 3 — SKILL Phase 5 consume spec.json** | 大 | render-spec.ts JS 输出强制流入 use_figma. Phase 4 componentTaskList「判断」流废弃. Step 1 追加 sample 后进入 |
+| 3 | ~~**csv-to-spec / render-spec 通用规则永久化 (#4~#13)**~~ | ✅ 完成 (2026-06-01) | 9 项 audit 结果全部已 coded (上 sample 1 audit 表). 仅 #8 为 designer task |
+| 4 | **probe-todo unverified family** | 小 | NoticeBar / Scrollbar / ActionSheet 测试版 publish 时 setkeys.json status: blocker → verified, validate-csv warnings 103 → ~0 |
 
 ## 接续工作的标准流程（任何 AI 通用）
 

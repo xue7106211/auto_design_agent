@@ -405,24 +405,24 @@ BottomBar_NoteEditPanel_02",,,,,,
 ,底部工具栏 ToolBar / NoteEditPanel / LC,BottomBar_NoteEditPanel_01,,BottomBar_NoteEditPanel_01,,,BottomBar_NoteEditPanel_01,,,BottomBar_NoteEditPanel_01,,,,,,,,"C栏：
 BottomBar_NoteEditPanel_02",,,,,,,,"C栏：
 BottomBar_NoteEditPanel_02",
-,底部工具栏 ToolBar / 编辑模式 Edit Mode / NLC,"ToolBar_ComponentSet_02 ：
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / NLC,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
-选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
-未选列表时候：禁用态 Disalbled
-选择列表时候 ：正常态 Normal",,,"L栏：
-ToolBar_ComponentSet_01 ：
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,,"L栏：
-ToolBar_ComponentSet_01 ：
+ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_02 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,"L栏：
-ToolBar_ComponentSet_01","L栏：
-ToolBar_ComponentSet_01",,,,,,,"L栏：
-ToolBar_ComponentSet_01","L栏：
-ToolBar_ComponentSet_01",,,,,,
-,底部工具栏 ToolBar / 编辑模式 Edit Mode / NL,"ToolBar_ComponentSet_02 ：
+ToolBar_ComponentSet_02","L栏：
+ToolBar_ComponentSet_02",,,,,,,"L栏：
+ToolBar_ComponentSet_02","L栏：
+ToolBar_ComponentSet_02",,,,,,
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / NL,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
-选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,,,"ToolBar_ComponentSet_02 ：
 未选列表时候：禁用态 Disalbled
@@ -433,21 +433,21 @@ ToolBar_ComponentSet_02","L栏：
 ToolBar_ComponentSet_02",,,,,,,"L栏：
 ToolBar_ComponentSet_02","L栏：
 ToolBar_ComponentSet_02",,,,
-,底部工具栏 ToolBar / 编辑模式 Edit Mode / LC,"ToolBar_ComponentSet_02 ：
+,底部工具栏 ToolBar / 编辑模式 Edit Mode / LC,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
-选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_02 ：
-未选列表时候：禁用态 Disalbled
-选择列表时候 ：正常态 Normal",,,"L栏：
-ToolBar_ComponentSet_01 ：
+选择列表时候 ：正常态 Normal",,"ToolBar_ComponentSet_01 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,,"L栏：
-ToolBar_ComponentSet_01 ：
+ToolBar_ComponentSet_02 ：
+未选列表时候：禁用态 Disalbled
+选择列表时候 ：正常态 Normal",,,"L栏：
+ToolBar_ComponentSet_02 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,,,,,,,"L栏：
-ToolBar_ComponentSet_01 ：
+ToolBar_ComponentSet_02 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",,,,,,,,"L栏：
-ToolBar_ComponentSet_01 ：
+ToolBar_ComponentSet_02 ：
 未选列表时候：禁用态 Disalbled
 选择列表时候 ：正常态 Normal",
 ,底部工具栏 ToolBar / 思维导图编辑 MindMap_Edit /C,BottomBar_Notes_Outline_02,,BottomBar_Notes_Outline_02,,,,BottomBar_Notes_Outline_02,,,BottomBar_Notes_Outline_02,,,,,,,,BottomBar_Notes_Outline_02,,,,,,,,BottomBar_Notes_Outline_02

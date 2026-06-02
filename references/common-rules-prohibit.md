@@ -1,8 +1,8 @@
 # 通用规则 — 禁止项 索引
 
-> Phase 6 (验证) 매번 로드. 4 카테고리 (파일 / 검색 / 实例 / 验证) 禁止 项 总집.
-> 본 파일 = §7 禁止 색인. 각 항목은 다른 파일의 본문 룰에 대한 reverse-index.
-> 원칙 → `common-rules-principles.md`. instance → `common-rules-instance.md`. mask-zorder → `common-rules-mask-zorder.md`. verify → `common-rules-verify.md`.
+> Phase 6 (验证) 每次加载. 4 类 (文件 / 检索 / 实例 / 验证) 禁止项总集.
+> 本文件 = §7 禁止索引. 各项是对其他文件正文规则的 reverse-index.
+> 原则 → `common-rules-principles.md`. instance → `common-rules-instance.md`. mask-zorder → `common-rules-mask-zorder.md`. verify → `common-rules-verify.md`.
 
 ## §7. 禁止项索引
 
@@ -52,9 +52,9 @@
 | 25 | `scenarioFlags` JSON 缺失下汇报"适配完成"（Phase 4 step 7 未执行）| `common-rules-verify.md §6.2 #23` / SKILL Phase 4 step 7 |
 | 26 | 实例失败时绕道 「fallback / clone」 后汇报"适配完成"（未通过 `common-rules-principles.md §3.14` 实证）| `common-rules-principles.md §3.14` / `common-rules-instance.md §4.1` |
 | 27 | scenarioFlags 信号未在 `app-variant-map-{app}.md §0.1b 导出信号表` 列出时凭直觉填 flag 值 | `common-rules-principles.md §0 #13` / app-variant-map-template §0.X |
-| 28 | 1회성 special case 를 §0.1 #N / §3.X 룰로 추가 (self-check 「다른 app 에서도 反復?」 통과 못 했는데) | `common-rules-principles.md §0 #28 / §3.15` |
-| 29 | runtime 函수로 解決 가능한 fix recipe 를 룰 文 본문에 매번 read 강제로 포함 | `common-rules-principles.md §3.15 #2` |
+| 28 | 将一次性 special case 添加为 §0.1 #N / §3.X 规则 (self-check 「在其他 app 中也会重复？」未通过却添加) | `common-rules-principles.md §0 #28 / §3.15` |
+| 29 | 将 runtime 函数即可解决的 fix recipe 强制每次 read 包含到规则文正文 | `common-rules-principles.md §3.15 #2` |
 
 ---
 
-> **연관 파일**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md`.
+> **关联文件**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md`.

@@ -34,6 +34,15 @@ fi
 
 (cd "$PIPELINE" && npm run extract)
 
+# Run CSV consistency check (Stage 3B). Errors block the commit; warnings allowed.
+echo "🔍 csv-pipeline pre-commit: validate-csv (Stage 3B)"
+(cd "$PIPELINE" && npm run --silent validate-csv) || {
+  echo ""
+  echo "✗ validate-csv 报错: 请修正 mapping CSV 后再 commit"
+  echo "  详细 report: $PIPELINE/spec-output/validate-csv-report.json"
+  exit 1
+}
+
 # Auto-stage regenerated output
 git add "$PIPELINE/mapping-output/"
 echo "✓ mapping-output/ 自动 stage 完成"

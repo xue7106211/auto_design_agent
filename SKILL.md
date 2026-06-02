@@ -100,8 +100,8 @@ else:
 **强制步骤**：
 
 1. **向 user 确认**：「本次适配的 APP 是什么？适配的是哪个画面 / 子场景？」
-   - 若 source frame 名称 / section 名称已明确（如含 APP 名 + 场景关键字）→ 向 user 复述确认即可，无需重新提问
-   - 若模糊（frame 名 = 通用名如 "列表页"）→ 必须 AskUserQuestion
+   - 若 source frame 名匹配 `references/naming-conventions.md §1` 的正规格式 (`{App}_{Scene}_{State}_{Device}` 或包含 sub-scene 的格式) → 自动提取 app/scene/state/device, 向 user 复述 1 次后进入. 无需追加提问.
+   - 若 source frame 名超出正规格式 (e.g. `列表页` / `笔记主页` 这类 non-token 名) → 必须 AskUserQuestion
 2. **确定 app-variant-map 文件**：`references/app-variant-map-{app}.md`
    - 文件不存在 → 中止，报告缺口
    - **sub-scene 例外**：`待办` (Tasks) 是 笔记 app 内 子场景（非独立 app）→ 使用 `app-variant-map-笔记.md` + `app-Notes-mapping.csv`. 源 frame 名为 `待办_*` 时仍按 `app = 笔记` 处理
@@ -177,17 +177,17 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 | `screenshot` | 当前页面视觉快照 | 视觉基线截图已生成 |
 | `fontDegradationMap` | 不可用字体 → fallback 映射（全部可用则为空） | 不可用字体已记录降级映射 |
 | `sourceInnerStateMap` | 源稿每个组件实例 → 内部 INSTANCE 子节点的 `componentProperties` 快照（递归收集 状态 / 数量 / 材质 / 编辑态 / 文本 / instance-swap 等业务态）| 源 frame 全部组件 inner state 已 dump，作为 Phase 5 `placeStandardComponent({ sourceInst })` 与 Phase 6 verifyChecklist ⑯ 的同步源 |
-| `sourceVisibleInventory` | 源 frame 全部 `visible=true` instance 의 분류 dump (Phase 1 step 5, 2026-05-31 추가) | **3 분류 必수**: ① `[bar]` (StatusBar / NavBar / BottomBar / TabBar / SwipeIndicator 等), ② `[main-content]` (List / Detail / Sidebar / SearchBar / Chip / TextInput 等 frame body), ③ `[overlay]` (Sidebar_Notes / FloatingWindow / DrawerWindow / Modal / ActionSheet / Menu / Picker / Dialog 등 active state overlay layer). 모든 `[overlay]` entry 는 Phase 4 componentTaskList 必수 포함, 모든 target frame 에 propagate (overlay 가 단일 device 에만 적용된다는 explicit 사용자 지시 없는 한). [overlay] active state 는 source 가 그 화면에서 overlay 가 띄워진 상태를 보여주는 신호 = 사용자 의도. **누락 default 금지** |
+| `sourceVisibleInventory` | 源 frame 全部 `visible=true` instance 的分类 dump (Phase 1 step 5, 2026-05-31 添加) | **3 分类必须**: ① `[bar]` (StatusBar / NavBar / BottomBar / TabBar / SwipeIndicator 等), ② `[main-content]` (List / Detail / Sidebar / SearchBar / Chip / TextInput 等 frame body), ③ `[overlay]` (Sidebar_Notes / FloatingWindow / DrawerWindow / Modal / ActionSheet / Menu / Picker / Dialog 等 active state overlay layer). 所有 `[overlay]` entry 必须包含到 Phase 4 componentTaskList, 并向所有 target frame propagate (除非用户明确指示 overlay 仅适用于单一 device). [overlay] active state 是 source 在该画面展示了 overlay 弹出状态的信号 = 用户意图. **禁止默认遗漏** |
 
-**Phase 1 step 5 强制 user 출력** (sourceVisibleInventory dump 직후 1행 보고):
+**Phase 1 step 5 强制 user 输出** (sourceVisibleInventory dump 后立即 1 行报告):
 
 ```
-✓ Phase 1 source state: [overlay] 보유 (e.g. Sidebar_Notes_01 attached form). 全 target frame propagate 적용 예정.
-   또는
-✓ Phase 1 source state: [overlay] 없음. main-content + bars only.
+✓ Phase 1 source state: 持有 [overlay] (e.g. Sidebar_Notes_01 attached form). 计划向全部 target frame propagate 适用.
+   或
+✓ Phase 1 source state: 无 [overlay]. main-content + bars only.
 ```
 
-[overlay] 가 발견되면 user 가 「본 task 에서 overlay 제외」 명시 안 한 한 **모든 target frame 에 적용**. user 는 본 1행 출력 보고 즉시 정정 가능. 누락 시 Phase 5 후반에 발견 → 모든 frame 수정 비용 발생 (대표 사례: 2026-05-31 笔记 Sidebar_Notes / Notes_FloatingWindow 누락 → 7 frame 全 수정).
+发现 [overlay] 时, 除非 user 明示「本 task 排除 overlay」, **适用于所有 target frame**. user 看到本 1 行输出后可立即修正. 遗漏后于 Phase 5 后段发现 → 产生所有 frame 修改成本 (代表案例: 2026-05-31 笔记 Sidebar_Notes / Notes_FloatingWindow 遗漏 → 7 frame 全部修改).
 
 此外，`sourceDesignContext` 中还必须明确：关键组件和变体已识别、页面功能区域已划分（导航区、列表区、内容区、操作区等）。
 
@@ -313,19 +313,19 @@ return { unavailableFonts: unavailable, totalTextNodes: textNodes.length };
 
 ### Phase 3：加载通用规则
 
-**强制读取 7 文件全文** (단순 로드 단계, 미读 시 Phase 4/5 진입 금지):
+**强制读取 7 文件全文** (单纯加载阶段, 未读时禁止进入 Phase 4/5):
 
-1. `references/common-rules-principles.md` — §0 (28원칙) + §1/§2 经界 + §3.11/§3.13/§3.14/§3.15 메타 룰
-2. `references/common-rules-instance.md` — §3.1~§3.6 실例 闭环 + §3.10/§3.12 + §4 写入 우선순위 (§3.6 reflow 陷阱 = 18+ 历史 错误 핵심)
-3. `references/common-rules-mask-zorder.md` — §3.7~§3.7b 遮罩 z-order + §3.8 분할선 + §3.9 pointer
-4. `references/common-rules-verify.md` — §5 落位 + §6 检查清单 25 항
-5. `references/common-rules-prohibit.md` — §7 禁止 索引
-6. `references/component-placement-protocol.md` — `placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 4 함수 시그니처 + 호출순서 (함수 본체 = `csv-pipeline/runtime/placement.ts` + `verify.ts`)
-7. `references/font-degradation.md` — `fixFonts` 함수 본체 + 降级 / 강제 순서 / degradationMap
+1. `references/common-rules-principles.md` — §0 (28 原则) + §1/§2 边界 + §3.11/§3.13/§3.14/§3.15 元规则
+2. `references/common-rules-instance.md` — §3.1~§3.6 实例闭环 + §3.10/§3.12 + §4 写入优先级 (§3.6 reflow 陷阱 = 18+ 历史错误核心)
+3. `references/common-rules-mask-zorder.md` — §3.7~§3.7b 遮罩 z-order + §3.8 分割线 + §3.9 pointer
+4. `references/common-rules-verify.md` — §5 落位 + §6 检查清单 25 项
+5. `references/common-rules-prohibit.md` — §7 禁止索引
+6. `references/component-placement-protocol.md` — `placeStandardComponent` / `buildTokenCache` / `bindFill` / `verifyChecklist` 4 函数签名 + 调用顺序 (函数本体 = `csv-pipeline/runtime/placement.ts` + `verify.ts`)
+7. `references/font-degradation.md` — `fixFonts` 函数本体 + 降级 / 强制顺序 / degradationMap
 
-应用 전용 규칙 = `app-variant-map-{app}.md` (Phase 4 로드).
+应用专用规则 = `app-variant-map-{app}.md` (Phase 4 加载).
 
-> **关键决定**: `resetOverrides` 默认 **OFF** (reset → width override 清, hug content reflow → 过去 가장 빈번한 fail root cause).
+> **关键决定**: `resetOverrides` 默认 **OFF** (reset → width override 清, hug content reflow → 过去最频繁的 fail root cause).
 
 ### Phase 4：生成页面级组件任务 + Token 缓存
 
@@ -439,15 +439,15 @@ componentTaskList 每条目必须通过以下 **3 项双向**检查（**双向 =
 
 | # | 检查方向 | 检查 | 通过条件 | 未通过处理 |
 |---|------|------|---------|----------|
-| 1 | 源稿 → 适配 | **源稿存在性**（防 spurious 추가）| source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
-| 2 | **CSV → 适配**（防 phone-context 误传递）| **CSV 映射表行存在性**：`app-{App}-mapping.csv` 의 `(子场景, device, layoutType, lane, resolvedUiElement)` 행이 存在해야 함 | 行 absent → **삭제** (例: 编辑모드 行에 TextInput 부재 → C 栏 TextInput 그리지 않음). **「源 phone frame 有 X」 ≠ 「目标 device 编辑모드 有 X」** — 源稿 phone DrawerWindow / AI对话 등의 phone-only context 부속 컴포넌트는 device-별 子场景 변환에 자동 transfer 금지 |
+| 1 | 源稿 → 适配 | **源稿存在性**（防 spurious 添加）| source frame metadata 中存在同语义组件（`resolvedUiElement` 匹配）| 不存在 → 删除该条目（§2.1 密度守恒：源稿无 → 目标无）|
+| 2 | **CSV → 适配**（防 phone-context 误传递）| **CSV 映射表行存在性**：`app-{App}-mapping.csv` 中 `(子场景, device, layoutType, lane, resolvedUiElement)` 行必须存在 | 行 absent → **删除** (例: 编辑模式行中无 TextInput → 不在 C 栏绘制 TextInput). **「源 phone frame 有 X」 ≠ 「目标 device 编辑模式有 X」** — 源稿 phone DrawerWindow / AI 对话等 phone-only context 附属组件, 禁止在 device 别子场景转换中自动 transfer |
 | 2a | **state-column matrix activity check**（state 维度活性检查，2026-05-29 追加）| input CSV `结构变化表-{App}.csv` 每个 uiElement 行，**当前 state 行的 target device 列 cell 为空 → 该组件不适配**。仅看「默认模式行」就把 SearchBar / NavBar 默认等补入 = 违规。每个 uiElement × (state, device) cell 必须显式 lookup | cell 为空仍添加 → 删除。例：待办 编辑未选 → input CSV `line 747 SearchBar` 行的「编辑模式」列本身缺失 → 编辑未选 4 frame 全部不放 SearchBar。仅 lookup 默认 NLC 行 (line 761) 会导致 SearchBar 误加入（本规则缺失时实际发生过）|
-| 3 | ComponentSet 出处 | 优先使用 `source instance.mainComponent.parent` 의 set; 该 set 内含目标 variant → 직접 사용 | set 내 목표 variant 없음 → search_design_system. **단 顶层 variant 値은 §0 #22 따라 CSV 映射表 우선 (源稿 variant ≠ 自动 권위)** |
+| 3 | ComponentSet 出处 | 优先使用 `source instance.mainComponent.parent` 的 set; 该 set 内含目标 variant → 直接使用 | set 内无目标 variant → search_design_system. **但顶层 variant 值依 §0 #22, CSV 映射表优先 (源稿 variant ≠ 自动权威)** |
 
-> **양방향 검사의 의미** (2026-05-28 笔记 编辑모드 Pad 적응 시 회고로 추가)：
-> - 일방향 (源稿 → 적용) 만 검사 시 「源 frame 有 X → 默认 적용」 误判 발생 (例: 笔记详情页 phone DrawerWindow 의 TextInput 이 编辑모드 Pad C 栏에 부적절 自动 추가됨)
-> - 일방향 (CSV → 적용) 만 검사 시 「CSV 行 있음 → 默认 적용」 误判 발생 (例: 源稿无 NoticeBar 인데 CSV 行 있다고 추가)
-> - 양방향 모두 통과해야 적용. 한쪽 절대 absent → 削除 / 양쪽 일치 → 적용 / **CSV 만 absent + 源稿 有** → CSV update 필요한지 user confirm.
+> **双向检查的含义** (2026-05-28 笔记编辑模式 Pad 适配回顾时添加)：
+> - 仅单向 (源稿 → 适用) 检查时, 会出现「源 frame 有 X → 默认适用」误判 (例: 笔记详情页 phone DrawerWindow 的 TextInput 被不当自动添加到编辑模式 Pad C 栏)
+> - 仅单向 (CSV → 适用) 检查时, 会出现「CSV 行存在 → 默认适用」误判 (例: 源稿无 NoticeBar, 仅因 CSV 行存在而添加)
+> - 双向均通过才适用. 一方明确 absent → 删除 / 双方一致 → 适用 / **仅 CSV absent + 源稿有** → 向 user 确认是否需要 CSV update.
 
 #### Gate C：belongsToSet 强制列
 
@@ -461,43 +461,43 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 
 ### Phase 5：读取布局 reference 并执行
 
-> **🔁 RE-CHECK（落位前必读）**：每次进入 Phase 5 必须重读 `common-rules-instance.md` 全문 (§3.6 reflow 陷阱 + §3.10 库 updatedAt 비교) + `common-rules-mask-zorder.md` 全文 (§3.7~§3.7b 遮罩 z-order + §3.7a-NL「NL framework + LEditMode 一律 mask 不渲染」 + §3.8 분할선 + §3.9 Sidebar 阴影) + `device-dimensions.md`「工具栏规格」(ToolBar 胶囊 width spec, verifyChecklist ⑭ 자동 검사).
+> **🔁 RE-CHECK（落位前必读）**：每次进入 Phase 5 必须重读 `common-rules-instance.md` 全文 (§3.6 reflow 陷阱 + §3.10 库 updatedAt 比较) + `common-rules-mask-zorder.md` 全文 (§3.7~§3.7b 遮罩 z-order + §3.7a-NL「NL framework + LEditMode 一律 mask 不渲染」 + §3.8 分割线 + §3.9 Sidebar 阴影) + `device-dimensions.md`「工具栏规格」(ToolBar 胶囊 width spec, verifyChecklist ⑭ 自动检查).
 >
-> **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 가장 빈번한 failure root cause）.
+> **关键决定**：`resetOverrides` 默认 **OFF**（reset → width override 清, hug content reflow → 最频繁的 failure root cause）.
 >
 > **任何组件 swap / resize / 落位** 必须调用 `placeStandardComponent({...})`（函数本体 = `csv-pipeline/runtime/placement.ts`, 签名 + 调用顺序 = 本文档 「标准落位代码模板」节）, 禁止 inline 临时序列.
 
-#### Phase 5 prior frames consistency check (hard gate, 2026-05-31 추가)
+#### Phase 5 prior frames consistency check (hard gate, 2026-05-31 添加)
 
-> **作用**: 既存 frame 이 적용된 상태에서 새 frame 추가 시 (예: 처음 4 frame 후 user 가 收起态 / Fold外 추가 요청) **既存 frame 의 component list 와의 일치성 자동 보장**. 새 frame 만의 main content 만 작성 → `[overlay]` / 공통 component 누락 防止.
+> **作用**: 在已有 frame 已适用的状态下追加新 frame 时 (例: 完成最初 4 个 frame 后 user 要求追加 收起态 / Fold外) **自动保证与已有 frame 的 component list 一致性**. 仅写入新 frame 自身 main content → 防止 `[overlay]` / 公共 component 遗漏.
 
-**触发**: Phase 5 에서 신규 frame N 작성 진입 시 (frame N=1 제외, frame N≥2 모두 적용).
+**触发**: 进入 Phase 5 新 frame N 写入时 (除 frame N=1 外, frame N≥2 全部适用).
 
-**强制 step (frame 落位 전 必수 출력 1 행)**:
+**强制 step (frame 落位前必须输出 1 行)**:
 
 ```
-✓ Phase 5 frame {N} prior consistency: prior {N-1} frames 의 [overlay] = [Sidebar_Notes / Notes_FloatingWindow / ...] 
-  → 본 frame 적용 예정: [Notes_FloatingWindow_01 (Pad device 매핑 per §0.1 #11)] / [Sidebar_Notes_01 (Fold device 매핑 per §0.1 #10)] / [없음 — 사유: ...]
+✓ Phase 5 frame {N} prior consistency: prior {N-1} frames 的 [overlay] = [Sidebar_Notes / Notes_FloatingWindow / ...] 
+  → 本 frame 计划适用: [Notes_FloatingWindow_01 (Pad device 映射 per §0.1 #11)] / [Sidebar_Notes_01 (Fold device 映射 per §0.1 #10)] / [无 — 理由: ...]
 ```
 
-**판정 룰**:
+**判定规则**:
 
-| prior frame component | 새 frame 적용 | device 매핑 |
+| prior frame component | 新 frame 适用 | device 映射 |
 |---|---|---|
-| `[overlay]` Sidebar_Notes (Fold attached form) | Fold device → 适用; Pad device → §0.1 #11 룰 따라 `Notes_FloatingWindow_01` 으로 변환 | mapping CSV `Overay 行` 으로 device 별 lookup |
-| `[overlay]` Notes_FloatingWindow (Pad 浮窗) | Pad device → 适用; Fold device → §0.1 #10 룰 따라 `Sidebar_Notes_01` 로 변환 | 同上 |
-| `[bar]` StatusBar / SwipeIndicator | 全 device 适用, variant device 별 lookup | SystemUIKIT-mapping.csv |
-| `[main-content]` List / Detail / NavBar 등 | 全 device 适用, variant + size 가 device 별 | app-mapping CSV |
-| `[overlay]` 가 prior frame 에 없는데 새 frame 만 새로 추가 | user explicit 명시 必수 (default 추가 금지) | — |
+| `[overlay]` Sidebar_Notes (Fold attached form) | Fold device → 适用; Pad device → 依 §0.1 #11 规则转换为 `Notes_FloatingWindow_01` | 通过 mapping CSV `Overay 行` 按 device 查询 |
+| `[overlay]` Notes_FloatingWindow (Pad 浮窗) | Pad device → 适用; Fold device → 依 §0.1 #10 规则转换为 `Sidebar_Notes_01` | 同上 |
+| `[bar]` StatusBar / SwipeIndicator | 全 device 适用, variant 按 device 查询 | SystemUIKIT-mapping.csv |
+| `[main-content]` List / Detail / NavBar 等 | 全 device 适用, variant + size 按 device | app-mapping CSV |
+| `[overlay]` 不在 prior frame 中, 仅新 frame 新增 | 必须 user explicit 明示 (禁止默认添加) | — |
 
-**누락 자동 검사 (gate fail 처리)**:
-- prior frame 全 ∋ X (overlay class) 이고 새 frame 에 X mapping 존재 → 적용 不 → **gate fail, 정정 후 재진입**
-- prior frame 全 ∌ X 이고 새 frame 에 X 추가 → user explicit 명시 必수 (없을 시 fail)
+**遗漏自动检查 (gate fail 处理)**:
+- prior frame 全部 ∋ X (overlay class) 且新 frame 中存在 X mapping → 未适用 → **gate fail, 修正后重新进入**
+- prior frame 全部 ∌ X 但新 frame 中追加了 X → 必须 user explicit 明示 (无明示则 fail)
 
-**대표 회고 (2026-05-31 笔记 task)**:
-- 1차 누락: 첫 4 frame 작성 시 source `[overlay]` Sidebar_Notes 全 누락 → user 지적 후 추가
-- 2차 누락: frame 5,6,7 추가 시 frame 6,7 (Pad NLC收起) `Notes_FloatingWindow` 또 누락 → user 지적 후 추가
-- 본 룰 도입 후 expected: prior frame 3,4 가 浮窗 보유 → 자동 propagate, 누락 不可
+**代表回顾 (2026-05-31 笔记 task)**:
+- 第 1 次遗漏: 写入最初 4 个 frame 时, source `[overlay]` Sidebar_Notes 全部遗漏 → 经 user 指出后追加
+- 第 2 次遗漏: 追加 frame 5,6,7 时, frame 6,7 (Pad NLC 收起) 的 `Notes_FloatingWindow` 再次遗漏 → 经 user 指出后追加
+- 引入本规则后 expected: prior frame 3,4 持有浮窗 → 自动 propagate, 不可遗漏
 
 根据 Phase 2 和 Phase 4 的结果，读取对应布局 reference，并由主 Skill 按 reference 中的骨架、栏位、组件放置和验收规则执行。
 
@@ -518,9 +518,9 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 - 布局类型为 LC 或 NC → 读取 `references/layouts/lc-nc-layout.md`
 - 布局类型为 C → 读取 `references/layouts/c-layout.md`
 
-**强制约束 10 항** (核心 4 + 위임): ① 布局 reference 미读 → Figma 写入 금지 ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿 충돌 → reference 우선, 판단 불가 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须 落地 (fallback/blocked 标记 가능, 위치 保留, 详 `common-rules-instance.md §4.2`). 나머지 6 항 (栏宽 vertical propagation / Auto Layout Fill / 既有 全页 clone 금지 / 복용 ≠ 源稿 variant 보존 / clone = fallback path / 设计系统 검색 의무) → `common-rules-principles.md §1.1` + `common-rules-instance.md §3.1 / §4.1` 와 같음, 그쪽 우선.
+**强制约束 10 项** (核心 4 + 委派): ① 未读布局 reference → 禁止写入 Figma ② reference 栏宽 / 栏位职责 / 验收项 > 模型推断 ③ reference ↔ 源稿冲突 → reference 优先, 无法判断 → 中止 ④ `app-variant-map` 返回 `variant` + 未 hidden/absent → 必须落地 (允许 fallback/blocked 标记, 保留位置, 详 `common-rules-instance.md §4.2`). 其余 6 项 (栏宽 vertical propagation / Auto Layout Fill / 禁止整页 clone 既有 / 复用 ≠ 保留源稿 variant / clone = fallback path / 设计系统检索义务) → 与 `common-rules-principles.md §1.1` + `common-rules-instance.md §3.1 / §4.1` 相同, 以那边为优先.
 
-**目标稿放置 약속**: 源稿 옆 동일 section, 顺序 `Fold内横 → Fold内竖 → Pad横 → Pad竖`, 偏离 → 사용자 명시 시 만 허용 + 사유 출력. `targetVariantPlan` 미생성 항 = 미完了 (첫 frame 만 만들고 中止 금지).
+**目标稿放置约定**: 与源稿同 section 紧邻, 顺序 `Fold 内横 → Fold 内竖 → Pad 横 → Pad 竖`, 偏离时仅在用户明示下允许 + 输出理由. `targetVariantPlan` 未生成项 = 未完成 (禁止仅生成首个 frame 后中止).
 
 ### 标准落位代码模板（必用，禁止 inline 临时序列）
 
@@ -535,6 +535,8 @@ componentTaskList 每行必须含 `belongsToSet`（set name + set key + library 
 | Phase 5 fill 写入 each node | `await bindFill(node, tokenName, fallbackRGB, opacity=1)` | protocol.md §4 | token lookup + setBoundVariableForPaint，无则 RGB fallback |
 | Phase 5 字体不可用时 | `await fixFonts(node, degradationMap)` | `references/font-degradation.md` | clone → swap → detach → fixFonts → appendChild 链中最后一步 |
 | Phase 6 frame 完成后 | `const errors = await verifyChecklist(frame, spec, scenarioFlags)` | **`csv-pipeline/runtime/verify.ts`** (映射表 = protocol.md §6) | 16 项自动检测（含 ⑭~⑯ 扩展），`errors.length > 0` 必须修复 |
+
+> **spec-adapter.ts (optional helper, 2026-06-01 添加)**: 将 csv-pipeline 的 spec.json (nested shape, e.g. `spec.frame.w` / `spec.layout.lanes.L.w`) 转换为 verify.ts 读取的 flat shape (`spec.frameW` / `spec.cols['L栏']`) 的 helper. 若实际 task 基于 spec.json, 则 `await Read('csv-pipeline/runtime/spec-adapter.ts')` 后调用 `verifySpec = specToVerifyShape(SPEC, frame)` 1 次即可自动化转换. 使用手填 spec 模板时无需此 helper. **Phase 5 wire-up 的 mandatory 化在 Step 3 (独立 session, 实 figma 1 frame end-to-end 验证后) 决定** — 详情参见 `Improvement_doc/3A-wire-up-plan.md`.
 
 **禁止顺序倒置**：
 - `bindFill` 必须在 `placeStandardComponent` 之后（节点已落位才能写 fill）
@@ -589,11 +591,13 @@ await placeStandardComponent({
 >
 > **业务范围**：本表覆盖笔记 / HyperOS 业务全部不可用字体。表外字体降级 fallback = `{family:'MiSans', style:'Regular'}`（详见 font-degradation.md 末段）。
 
-### Phase 6：验证 + 自动验证 함수
+### Phase 6：验证 + 自动验证函数
 
-> **🔁 RE-CHECK** (验证前 필독): `common-rules-verify.md §6.2` (25 항 강제 清单) + `§6.3` (frame 完成 후 强制 截图) + `common-rules-prohibit.md §7` (禁止 항 索引) + `app-variant-map-{app}.md §C` (앱 전용 验证, 있을 시). 함수 본체 = `csv-pipeline/runtime/verify.ts`.
+> **🔁 RE-CHECK** (验证前必读): `common-rules-verify.md §6.2` (25 项强制清单) + `§6.3` (frame 完成后强制截图) + `common-rules-prohibit.md §7` (禁止项索引) + `app-variant-map-{app}.md §C` (应用专用验证, 若存在). 函数本体 = `csv-pipeline/runtime/verify.ts`.
 
-매 frame 落位 完成 후 즉시 `await verifyChecklist(frame, spec, scenarioFlags)` 호출. errors.length > 0 → 修复 → 重 verify (循环 max 3, 仍 fail → 사용자 报告 + 中止). silently 通过 금지.
+每个 frame 落位完成后立即调用 `await verifyChecklist(frame, spec, scenarioFlags)`. errors.length > 0 → 修复 → 重新 verify (循环 max 3, 仍 fail → 向用户报告 + 中止). 禁止 silently 通过.
+
+> **🚫 禁止 manual inline verify（2026-06-02 追加，hard rule）**：Phase 6 **必须** `Read('csv-pipeline/runtime/verify.ts')` 取函数本体 inject 后调用真实 `verifyChecklist(...)`，**禁止**自行手写一份「精简版 verify」inline 执行。手写版必然遗漏 verify.ts 中累积的 auto-fire 检查项（⑥d N栏fill / ⑱ clipsContent / ⑲ lane-y 等），导致 errors=0 假通过。**回顾**：2026-06-02 待办多端适配 task 中，AI 用 manual inline verify（无 ⑥d）→ Pad横 N 栏 `fills=[]` 透明未被捕获 → user 指出「패드 N 배경 또 틀렸어」。根因 = 既存 runtime guard 被 manual 旁路。**判定**：Phase 6 输出必须含 `verifyChecklist` 真实调用证据（verify.ts inject）；若 task frame 结构 lane 在 frame 直接子级（§3.8 满高度模式）而非 `main` wrapper 内，verify.ts 各检查项已兼容两种结构 lookup（⑥d/⑮/⑱ 均 fallback frame 直接子级），仍须跑真实函数。
 
 **spec 模板（Pad 竖 NLC 覆盖 + L 编辑模式 示例）**：
 
@@ -611,7 +615,7 @@ const spec = {
   frameW: 949, frameH: 1422,
   cornerRadius: 34,
   statusBarH: 34,                    // pad 强制 34（自然 38）
-  cols: { 'L 栏': 428, 'C 栏': 521 },
+  cols: { 'L栏': 428, 'C栏': 521 },  // 无空格 (common-rules §0 #14, 与 render-spec 产物一致)
   sidebar: { h: 1388 },              // 仅 Pad NLC 时设
   divider: true,                     // LC / NLC 模式 true，NC / C 通栏 false
   componentChecks: [                 // 任何需要 reflow 自检的组件

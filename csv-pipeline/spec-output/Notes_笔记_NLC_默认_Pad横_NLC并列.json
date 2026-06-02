@@ -1,0 +1,323 @@
+{
+  "id": "Notes_笔记_NLC_默认_Pad横_NLC并列",
+  "source": {
+    "app": "Notes",
+    "subScene": "笔记",
+    "scene": "NLC",
+    "state": "默认",
+    "device": "Pad横",
+    "screenMode": "NLC"
+  },
+  "frame": {
+    "w": 1422,
+    "h": 949,
+    "cornerRadius": 34,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_03",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 1422,
+    "h": 34
+  },
+  "layout": {
+    "type": "NLC并列",
+    "lanes": {
+      "N": {
+        "x": 0,
+        "y": 34,
+        "w": 272,
+        "h": 915,
+        "fill": "surface"
+      },
+      "L": {
+        "x": 272,
+        "y": 34,
+        "w": 428,
+        "h": 915,
+        "fill": "surface"
+      },
+      "C": {
+        "x": 700,
+        "y": 34,
+        "w": 722,
+        "h": 915,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "Sidebar",
+      "lane": "N栏",
+      "variant": "Sidebar_Component_PAD_NLC_01",
+      "setKey": "414cabc8e633c33cc6441ff0f936f971dc9babd3",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 272,
+      "y": 0,
+      "h": 915,
+      "notes": ""
+    },
+    {
+      "element": "NavigationBar",
+      "lane": "L栏",
+      "variant": "NavigationBar_ComponentSet_07",
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SearchBar",
+      "lane": "L栏",
+      "variant": "SearchBar_ComponentSet_05",
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 56,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "List",
+      "lane": "L栏",
+      "variant": "List_Notes_03",
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 428,
+      "y": 112,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "NavigationBar",
+      "lane": "C栏",
+      "variant": "NavigationBar_ComponentSet_Notes_01",
+      "setKey": "ac60af7e28e6491b3520ecaefd71fa7e03832c31",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 722,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "DetailNotes",
+      "lane": "C栏",
+      "variant": "DetailNotes_01",
+      "setKey": "961f0e237edea438d52e6d2ad9b4e38c99bd2c68",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 722,
+      "y": 62,
+      "h": 853,
+      "notes": ""
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "管理文件夹; Sidebar_Notes",
+      "family": "Notes_FloatingWindow",
+      "lane": "全栏",
+      "variant": "Notes_FloatingWindow_01",
+      "setKey": "",
+      "library": "业务组件库",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "分段按钮 Segmented Controls",
+      "family": "SegmentedControls",
+      "lane": "全栏",
+      "variant": "SegmentedControls_ComponentSet_02",
+      "setKey": "d9ccd733092affaf4595ab81e5901c6491f6ef97",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "弹窗 Dialog",
+      "family": "AlertDialog",
+      "lane": "全栏",
+      "variant": "AlertDialog_ComponentSet_01",
+      "setKey": "d9aebc0d0ec6cd4ecc5f737d3488f259fcf0bb93",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "选择器 Picker",
+      "family": "WheelPicker",
+      "lane": "全栏",
+      "variant": "WheelPicker_ComponentSet_01",
+      "setKey": "c85ec854ab52d7ef978d85e8be02e48c9012120a",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "菜单 Menu",
+      "family": "Menu",
+      "lane": "L栏",
+      "variant": "Menu_ComponentSet_03",
+      "setKey": "d4c7b5f80ce5bf5f80156169fbd2b83f18f14b02",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "菜单 Menu",
+      "family": "Menu",
+      "lane": "C栏",
+      "variant": "Menu_ComponentSet_01",
+      "setKey": "d4c7b5f80ce5bf5f80156169fbd2b83f18f14b02",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "行动操作按钮 ActionSheet",
+      "family": "ActionSheet",
+      "lane": "全栏",
+      "variant": "Actionsheet_ComponentSet_01",
+      "setKey": "89115fca0d241fa621ddc07780421677c64b8aa5",
+      "library": "OS4 UI Kit",
+      "source": "Overay-row"
+    },
+    {
+      "trigger": "",
+      "family": "NoticeBar",
+      "lane": "L栏",
+      "variant": "NoticeBar_ComponentSet_01",
+      "setKey": "9a390fc96915452840e6428294a7f5ad724ebf3d",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "Scrollbar",
+      "lane": "N栏",
+      "variant": "Scrollbar_ComponentSet_01",
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "Scrollbar",
+      "lane": "L栏",
+      "variant": "Scrollbar_ComponentSet_01",
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "Scrollbar",
+      "lane": "C栏",
+      "variant": "Scrollbar_ComponentSet_01",
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "Notes_TextFormatPanel",
+      "lane": "C栏",
+      "variant": "TextFormatPanel_01",
+      "setKey": "c1cd1e4344bed74b3962415c9e38f538fa0701a6",
+      "library": "业务组件库",
+      "source": "out-of-flow"
+    }
+  ],
+  "floatingContainer": {
+    "family": "FloatingWindow",
+    "variant": "FloatingWindow_ComponentSet_01",
+    "setKey": "d586e39fcd850cc3e2f364d877725d4fab64d42d",
+    "library": "OS4 UI Kit",
+    "x": 438,
+    "y": 95,
+    "w": 546,
+    "h": 759,
+    "cornerRadius": 36,
+    "headerH": 56,
+    "modal": true,
+    "contentSlot": {
+      "x": 0,
+      "y": 56,
+      "w": 546,
+      "h": 703,
+      "paddingTop": 12,
+      "paddingLR": 0,
+      "fillToken": "surface_low",
+      "bottomLeftRadius": 36,
+      "bottomRightRadius": 36,
+      "clipsContent": true,
+      "innerNode": {
+        "type": "instance",
+        "variant": "List_NoteSetting_01",
+        "setKey": "c1511ec17a7aa60755c6de25ccf7855695c36f9b",
+        "library": "业务组件库"
+      }
+    }
+  },
+  "masks": [
+    {
+      "name": "遮罩-全幅",
+      "x": 0,
+      "y": 0,
+      "w": 1422,
+      "h": 949,
+      "cornerRadius": 34,
+      "fill": "mask",
+      "opacity": 0.2
+    }
+  ],
+  "divider": {
+    "x": 700,
+    "y": 0,
+    "w": 1,
+    "h": 949,
+    "fill": "outline"
+  },
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_08",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 1422,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "遮罩-全幅",
+    "floatingContainer",
+    "内容裁剪区",
+    "杆子"
+  ]
+}
