@@ -291,6 +291,30 @@ session 内 render-spec.ts 3 bug 修复 (user 视觉指摘 5 件 root cause):
 7. **commit chain (sample 2 session)** — `2a4a397` (render-spec 3 bug fix + 7 frame retro)
 8. **next session 起手** — `git log --oneline -5` 后读 `csv-pipeline/project-status-ko.md` 本节 → F2/F4/F5/F6/F7 screenshot + verifyChecklist + padding 实测 顺序
 
+#### sample 2 视觉 issue — F5 SearchBar padding (next session 修)
+
+user 视觉指摘 (2026-06-02): F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.
+
+实测 figma 状态:
+- SearchBar_ComponentSet_02 instance: `x=0, w=435, paddingL/R=0`
+- inner `SearchBar-Pad-InputBackground-MinWidth`: master 自然 width=176, 但 instance 中 sizingH=FILL → w=435 (lane 满幅)
+- 结果 = input box 横跨 0~435, 无视觉 padding
+
+权威 audit:
+- csv 权威 (line 249): Fold外竖 LC SearchBar = `_02` ✅ (designer 明示)
+- `app-variant-map-笔记.md` line 326: 「L栏 SearchBar 用 `_02`(自然 176×44 是 Pad 顶部 内嵌) | LC 风满 = `_05`(392×56)」
+- designer 意图 = `_02` 自然 176 width + 屏中对齐, NOT 风满
+
+bug: csv-to-spec.ts spec emit step 对 `_02` 类 (Pad 顶部 内嵌, 自然 small width) 不应用 自然 width 维持 + center align 规则, 一律 `w = laneW - 2*outer` 风满 emit. F5 spec.json SearchBar = `{x:0, w:435}` 是 root.
+
+修复方向:
+- (A) csv-to-spec.ts: SearchBar variant `_02` 检出时 自然 width 维持 + `x = (laneW - 自然W)/2` center 应用 emit.
+- (B) render-spec.ts: instance.componentProperties 或 mainComp.name 检测 `_02` 后 inner FILL skip + 自然 width center.
+- (A) 推荐 — spec.json 自体 数据正确化.
+
+其他 frame 影响 audit (csv 中 LC SearchBar `_02` 明示 frame):
+- F1 LC_Fold内横, F2 LC_Fold内竖 — csv col 6 / col 9 的 SearchBar LC row 须确认. 现 F1/F2 spec 是 `_05`(392×56, w=353/282 风满) emit — 与 designer 意图可能不一致 (line 326 规则若适用应当是 `_02` 自然 width center)
+
 ## 当前阶段摘要
 
 **Stage 1A / 1B / 2A / 2B / 3A 产出** 完成. 剩余 = **Stage 3A wire-up** + 1C/1D (小型指南文档).
