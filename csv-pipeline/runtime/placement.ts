@@ -162,7 +162,11 @@ const NOTES_INTERNAL_PAD = {
   SearchBar_ComponentSet: 12,
   SelectableChip_ComponentSet_Notes: 12,
   List_Notes: 12,
+  List_Task: 12,                     // 待办 列表 (variant 名). internal 12 (components.csv)
+  '待办列表': 12,                     // 待办 列表 (set 名 — createInstance 默认实例名). 同 internal 12
   Detail_Notes: 20,
+  Detail_Task: 20,                   // 待办 详情 (variant 名). internal 20 (封面/内容左缘偏移, 同 Detail_Notes)
+  DetailTask: 20,                    // alias (源稿命名差异 兼容)
   TextInput_ComponentSet_Notes: 12,  // _05/_06/_07 的不同规则在 device-dim 处理
   ToolBar_ComponentSet: 0,           // 外缘风满 + capsule 内处 (master HUG)
   BottomBar_Showcase: 0,

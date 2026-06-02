@@ -19,29 +19,35 @@
 | fill | 绑定 `遮罩色/mask` token，opacity `0.2` |
 | 圆角 | 与 frame 一致（Pad 34dp） |
 
+> **★ z-order 核心原则（2026-06-02 用户指示，正本，覆盖旧版「状态栏 dim」规则）**：
+> **`状态栏` 与 `Sidebar`(N) = 「绝对不可被遮挡」层**。任何 `遮罩` / lane 都不得盖在它们之上。
+> - `状态栏` = 仅次于 `杆子`(/`Keyboard`)，在所有 遮罩·lane·main 之上。
+> - `Sidebar`(N) = 在 `状态栏` 之下、但在所有 遮罩·lane 之上（N=trigger，永不 dim）。
+> - `遮罩` = 盖在「自身 dim 对象」之上、「豁免对象（trigger lane / 状态栏 / Sidebar）」之下。
+> **旧版「遮罩在状态栏之上、status bar 一同 dim」已废弃** —— 该规则使 L 栏 promote 后完全遮住状态栏（时间/信号消失），用户反复指出（6 个月 7+ 次）。dim 只作用于内容区（main / 被 dim lane），状态栏与 Sidebar 始终明亮可见。
+
 **遮罩覆盖范围原则（核心）**：
-- 遮罩 = 该 trigger 列**全域**（含其上方 status bar 区域）。
-- N 覆盖 trigger = Sidebar 列。**Sidebar 列以外的全部区域（含 状态栏 全幅）= 遮罩范围**。
-- ❌ 不要再用「状态栏可读性 / 时间信号可读」这类 rationale 推导 z-order。覆盖关系按「列归属」决定：trigger 列豁免，其它列（含 status bar 对应区段）一律 dim。
+- 遮罩-N覆盖 dim 对象 = L 栏 + C 栏（main 内容全域）。**豁免** = `状态栏` + `Sidebar`(N trigger)。
+- 即 N 覆盖时 L、C 均 dim；状态栏、Sidebar 在遮罩之上不被 dim。
 
 **frame 直接子级 z-order**（从底到顶）：
 
 ```
-1. main（含 L 栏 + C 栏）
-2. 状态栏-StatusBar
-3. 栏间分割线              ← 遮罩-N覆盖 之下 → 分割线 一同 dim
-4. 遮罩-N覆盖              ← 在状态栏 + 分割线 之上 → 状态栏 / 分割线 均被 dim（仅 N 列除外，由 Sidebar promote 完成）
-5. Sidebar                 ← N 覆盖遮罩之上（Sidebar = N trigger，唯一豁免）
-6. 杆子                    ← 风满 + 透明 + 最顶 z
+1. main（含 L 栏 + C 栏）   ← 被 遮罩-N覆盖 dim
+2. 遮罩-N覆盖              ← 盖在 main(L+C) 之上 → L、C dim
+3. Sidebar                 ← 遮罩之上（N=trigger 豁免，永不 dim）
+4. 状态栏-StatusBar        ← 所有 遮罩·lane 之上（绝对不可遮挡）
+5. 杆子                    ← 风满 + 透明 + 最顶 z
 ```
+> 栏间分割线 = C 栏 `strokeLeftWeight`（§3.8），无独立节点。
 
 **MUST**:
-- 遮罩-N覆盖 必须在状态栏之上（否则状态栏不被 dim，违反「全 frame 除 trigger 列豁免」原则）。
-- Sidebar 在所有后续 appendChild 后必须保持上述 z 位（不能被杆子取代）。
+- `状态栏` 必须在 `遮罩-N覆盖` **之上**（否则被遮罩 / L 栏遮住，时间信号不可见）。
+- `Sidebar` 必须在 `遮罩-N覆盖` 之上、`状态栏` 之下。
+- 缺 `遮罩-N覆盖` —— 否则 N 栏与 L+C 视觉无分层。
 
 **NEVER**:
-- 把 `状态栏` 提升到 `遮罩-N覆盖` 之上。
-- 缺 `遮罩-N覆盖` —— 否则 N 栏与 L+C 视觉无分层。
+- 把 `遮罩-N覆盖` 提升到 `状态栏` 或 `Sidebar` 之上（会遮住绝对不可遮挡层）。
 
 ### §3.7a 编辑状态遮罩（L 栏进入编辑模式时）
 
@@ -60,33 +66,32 @@
 | fill | 绑定 `遮罩色/mask` token，opacity `0.2` |
 | 代码映射 | `csv-to-spec.ts` editMask emit 时使用 `{topLeft:0, topRight:fcr.tr, bottomLeft:0, bottomRight:fcr.br}` 对象形式（Fold外 非对称 frame 也自动适配）。render-spec / use_figma 调用方需用 typeof guard 分支（`typeof === 'number'` ? scalar : object 4-corner）。|
 
-**关键解释**：spec `device-dimensions.md`「遮罩定义 / 适用范围」 写「整个 frame，触发控件除外」。**触发控件 = L 栏整列**（含其上方 status bar 区域）。所以遮罩区 = `frame − L 列 = C 列（含 C 列上方 status bar 区段）`。N 栏触发时同理（遮罩 = 全 frame − Sidebar 列）。
+**关键解释**：触发控件 = L 栏（豁免，不 dim）。遮罩-编辑 dim 对象 = **C 列内容区（main）**。L 栏、状态栏、Sidebar 均在遮罩之上，不被 dim。
 
-**遮罩覆盖范围原则（与 §3.7 一致）**：
-- 遮罩-编辑覆盖 **C 列全域，含 C 列上方的 status bar 区段**（即 status bar 的 C 列区段必须被 dim）。
-- ❌ 不要再用「状态栏可读性 / 时间信号可读」rationale 推导 z-order。L 列上方的 status bar 不被 dim 是因为它属于 trigger 列（L），与「可读性」无关。
+**遮罩覆盖范围原则（2026-06-02 正本，与 §3.7 一致）**：
+- 遮罩-编辑 dim 对象 = **C 列内容（main 内 C 栏）**。L 栏（trigger 豁免）+ 状态栏（绝对不可遮挡）在遮罩之上。
+- ❌ 旧版「遮罩盖住 C 列 status bar 区段、status bar 一同 dim」已废弃 —— 该规则使状态栏被遮住（时间信号消失），用户反复指出。**状态栏始终在最上层明亮可见**。
 
-**z-order 强制（遮罩-编辑 必须在状态栏之上，C 列 status bar 区段才会 dim）**：
+**z-order 强制（从底到顶；状态栏 = 绝对不可遮挡，仅次于杆子）**：
 
 ```
-1. main（仅含 C 栏；L 栏从 main 提升到 frame 直接子级）
-2. 状态栏-StatusBar
-3. 栏间分割线              ← 遮罩-编辑 之下 → 分割线 一同 dim
-4. 遮罩-编辑（C 列）       ← 在状态栏 + 分割线 之上 → C 列 status bar 区段被 dim
-5. L 栏                    ← frame 直接子，覆盖在编辑遮罩之上（trigger 除外）
-6. 杆子
+1. main（仅含 C 栏；L 栏从 main 提升到 frame 直接子级）   ← 被 遮罩-编辑 dim
+2. 遮罩-编辑（C 列尺寸 Cw × frameH）  ← 盖在 main(C) 之上 → C 内容 dim
+3. L 栏                    ← frame 直接子，编辑遮罩之上（trigger 豁免，不 dim）
+4. 状态栏-StatusBar        ← 所有 遮罩·lane 之上（绝对不可遮挡，时间信号始终可见）
+5. 杆子                    ← 最顶 z
 ```
+> 栏间分割线 = C 栏 `strokeLeftWeight`（§3.8），无独立节点。
 
 **MUST**:
-- 遮罩-编辑 必须在状态栏之上（C 列 status bar 区段 dim 必需）。
-- L 栏从 main 内部移出至 frame 直接子级（`frame.appendChild(L)`），定位 `x = L 列起点, y = statusBarH`。否则无法在 z-order 上凌驾于 frame 级遮罩之上。
+- `状态栏` 必须在 `遮罩-编辑` + `L 栏` **之上**（绝对不可遮挡；否则 status bar 被 L 栏 promote 后完全遮住）。
+- L 栏从 main 内部移出至 frame 直接子级（`frame.appendChild(L)`），定位 `x = L 列起点, y = statusBarH`，z 在遮罩-编辑之上、状态栏之下。
 - main 内部仅保留 C 栏（其它列 promote）。
-- 遮罩-编辑 必须位于 frame 直接子级，禁止放入 C 栏内部（C 栏内部遮罩无法盖住 C 列上方 status bar 区域，且无法被 frame-level 圆角裁切）。
+- 遮罩-编辑 必须位于 frame 直接子级（被 frame-level 圆角裁切），尺寸 `Cw × frameH`，z 在 main 之上、L 栏之下。
 
 **NEVER**:
-- 把 `状态栏` 提升到 `遮罩-编辑` 之上。
+- 把 `遮罩-编辑` 或 `L 栏` 提升到 `状态栏` 之上（会遮住绝对不可遮挡的状态栏）。
 - 把 `遮罩-编辑` 做成全 frame 尺寸 → 会盖住 L 列触发区域。
-- 把 `遮罩-编辑` 放入 C 栏 children → C 栏只占 mainH 高，盖不到 status bar 区。
 - L 栏继续留在 main 内部 → 无法 z-promote 到遮罩之上。
 
 ### §3.7a-NL NL framework + LEditMode 处理
@@ -103,17 +108,17 @@
 
 **规则**: 除编辑遮罩 + L promote 外，**Sidebar (N 栏) 也必须 promote 为 frame 直接子级**。原因: §3.9 Sidebar 阴影裁切防止 — Sidebar 阴影要越过 N|L 边界可见，需 N+main `clipsContent=false` + Sidebar z 在 L 之上。NLC并列 default (LEditMode=false) 时 Sidebar 在 main/N 内、L 也在 main 内，处于同一 z 平面。LEditMode 下 L promote 为 frame 直接子级后，若 Sidebar 仍在 main 内则 z 低于 L → 阴影被 L 的 surface fill 遮挡。
 
-**z-order 强制**（与 §3.7b 同一模式，仅缺 N覆盖遮罩）:
+**z-order 强制**（2026-06-02 正本；与 §3.7b 同一模式，仅缺 N覆盖遮罩。状态栏/Sidebar = 绝对不可遮挡）:
 
 ```
-1. main（仅含 C 栏 + N 栏外壳，但 N 栏内部不再含 Sidebar）
-2. 状态栏-StatusBar
-3. 栏间分割线              ← 遮罩-编辑 之下
-4. 遮罩-编辑（C 列）       ← 状态栏 + 分割线 之上
-5. L 栏                    ← frame 直接子，编辑遮罩之上
-6. Sidebar                 ← frame 直接子，L 之上（阴影 visible）
-7. 杆子
+1. main（仅含 C 栏 + N 栏外壳，但 N 栏内部不再含 Sidebar）   ← 被 遮罩-编辑 dim（C 内容）
+2. 遮罩-编辑（C 列）       ← 盖在 main(C) 之上
+3. L 栏                    ← frame 直接子，编辑遮罩之上（trigger 豁免）
+4. Sidebar                 ← frame 直接子，L 之上（阴影 visible，N 绝对不可遮挡）
+5. 状态栏-StatusBar        ← 所有 遮罩·lane·Sidebar 之上（绝对不可遮挡）
+6. 杆子                    ← 最顶 z
 ```
+> 栏间分割线 = C 栏 `strokeLeftWeight`（§3.8），无独立节点。
 
 **MUST**:
 - N 栏 + main `clipsContent = false`（§3.9 Sidebar 阴影裁切防止）
@@ -124,34 +129,34 @@
 - 仅 promote Sidebar 而未设置 N+main `clipsContent` → 阴影在 N 右边界被裁切
 - 将 N 栏 frame 整体 promote → 其它 column 与 layout 错乱
 
-**csv-to-spec.ts zOrder 输出**:
+**csv-to-spec.ts zOrder 输出**（2026-06-02 正本，状态栏/Sidebar 上提至顶）:
 ```
-NLC并列 + LEditMode → ['main','状态栏','分割线','遮罩-编辑','L栏','Sidebar','杆子']
+NLC并列 + LEditMode → ['main','遮罩-编辑','L栏','Sidebar','状态栏','杆子']
 ```
-（`lanes.N` 存在时自动追加 'Sidebar' entry；`lanes.N` 不存在时 = LC framework → 无 Sidebar entry）
+（`lanes.N` 存在时自动追加 'Sidebar' entry；`lanes.N` 不存在时 = LC framework → 无 Sidebar entry，则 `['main','遮罩-编辑','L栏','状态栏','杆子']`。分割线 = strokeLeft 无独立节点）
 
 ### §3.7b 多遮罩叠加 z-order（编辑遮罩 + N 覆盖遮罩同时存在）
 
 **WHEN**: Pad 竖 NLC 覆盖模式 + L 栏编辑同时激活（用户显式确认两种 trigger 共存）。
 
-**z-order 强制（按 reference frame 验证，禁止从 spec text 推测）**：
+**z-order 强制（2026-06-02 正本；状态栏/Sidebar = 绝对不可遮挡，提至顶）**：
 
 ```
-1. main（仅 C 栏）
-2. 状态栏-StatusBar
-3. 栏间分割线              ← 所有遮罩 之下 → 分割线 一同 dim
-4. 遮罩-编辑（C 列）       ← 在状态栏 + 分割线 之上（与 §3.7a 一致）→ C 列 status bar 区段 dim
-5. L 栏                    ← 编辑遮罩 之上，N 覆盖遮罩 之下
-6. 遮罩-N覆盖（全 frame）  ← 高 z；L 栏 / 状态栏 / 编辑遮罩 都被 N 覆盖一并 dim
-7. Sidebar                 ← N 覆盖遮罩 之上（唯一豁免：Sidebar = N 覆盖 trigger）
-8. 杆子
+1. main（仅 C 栏）          ← 被 遮罩-编辑 + 遮罩-N覆盖 dim
+2. 遮罩-编辑（C 列）        ← 盖在 main(C) 之上
+3. L 栏                     ← 编辑遮罩 之上（编辑时 L 豁免），N 覆盖遮罩 之下（覆盖时 L 被 dim）
+4. 遮罩-N覆盖（全 frame）   ← 盖在 L+C 之上 → L、C 均 dim
+5. Sidebar                  ← N 覆盖遮罩 之上（N=trigger 豁免，绝对不可遮挡）
+6. 状态栏-StatusBar         ← 所有 遮罩·lane·Sidebar 之上（绝对不可遮挡，时间信号始终可见）
+7. 杆子                     ← 最顶 z
 ```
+> 栏间分割线 = C 栏 `strokeLeftWeight`（§3.8），无独立节点。
 
 **关键**：
-- **每个遮罩都覆盖该 trigger 列以外的全域（含 status bar 对应区段）**，与「可读性」rationale 无关。
-- 两遮罩对 L 栏的覆盖关系**不同** —— 编辑遮罩在 L 之下（L 豁免），N 覆盖遮罩在 L 之上（L 被覆盖）。各自的 trigger 控件（L 栏 / Sidebar）相对各自遮罩 z-up，与另一 trigger 无关。
+- **状态栏 + Sidebar = 绝对不可被任何遮罩遮挡**，永远在所有遮罩之上（状态栏仅次于杆子）。dim 只作用于内容区（main / L 栏）。
+- 两遮罩对 L 栏的覆盖关系**不同** —— 编辑遮罩在 L 之下（编辑时 L 豁免），N 覆盖遮罩在 L 之上（覆盖时 L 被 dim）。
 - ❌ **不可**凭直觉把两遮罩并列在 L 栏下方（曾发生过的错误）。
-- ❌ **不可**把 `状态栏` 提升到任一遮罩之上。状态栏在两遮罩之下，按列归属规则被 dim。
+- ❌ **不可**把 `遮罩-N覆盖` 或 `遮罩-编辑` 提升到 `状态栏` / `Sidebar` 之上（会遮住绝对不可遮挡层 —— 用户 2026-06-02 指示）。
 
 ## §3.8 栏间分割线规则
 
