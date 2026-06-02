@@ -230,25 +230,66 @@ figma instance retro 完了 (csv 权威 一致):
 - ToolBar: F1~F4/F6/F7 L栏 `_01` → `_02` (instance 3132:xxx), F5 C栏 `_02` → `_01` (3135:32269)
 - SearchBar: F5 C栏 `_02` → `_05` (3121:84184)
 
-#### sample 2 视觉 issue — F5 SearchBar padding (next session 修)
+#### sample 2 — F5 SearchBar padding (✅ 2026-06-02 完了)
 
-user 视觉指摘 (2026-06-02): F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.
+user 视觉指摘: F5 (Fold外竖 C, 3114:82067) SearchBar 无 padding.
 
-实测 figma:
-- SearchBar_ComponentSet_02 instance: x=0, w=435, paddingL/R=0
-- inner `SearchBar-Pad-InputBackground-MinWidth`: master 自然 w=176, instance 中 sizingH=FILL → w=435 (lane 满幅)
-- 结果 = input box 横跨 0~435, 无视觉 padding
+root cause = csv-to-spec.ts baseFilter 的 `r.scene === scene` 条件 → spec.id scene='LC' 仅 take → NLC standard framework row 不到达 group → LC row 的 `_02` (Pad 顶部 内嵌 自然 176) emit → 满幅 445 时 padding=0 visual.
 
-权威 audit:
-- csv 权威 (line 249): Fold外竖 LC SearchBar = `_02` ✅ (designer 明示)
-- `app-variant-map-笔记.md` line 326: 「L栏 SearchBar 用 `_02`(自然 176×44 是 Pad 顶部 内嵌) | LC 风满 = `_05`(392×56)」
-- designer 意图 = `_02` 自然 176 width + 屏中对齐, NOT 风满
+fix: csv-to-spec.ts (commit `c4f6007`) — 笔记/待办 single-screen device 的 derived scene 时 NLC scene 的 row 注入 candidate. spec re-emit 后 F5 SearchBar = `_05` (满幅 392×56, 自体 internal 12dp visible padding).
 
-bug: csv-to-spec.ts spec emit 对 `_02` 类 (Pad 顶部 内嵌, 自然 small width) 不应用 自然 width center align 规则, 一律 `w = laneW - 2*outer` 风满 emit. F5 spec.json SearchBar `{x:0, w:435}` 是 root.
+figma instance retro: F5 SearchBar `_02` (3114:82081) → `_05` (3121:84184).
 
-修复方向:
-- (A) csv-to-spec.ts: SearchBar variant `_02` 检出时 自然 width 维持 + `x = (laneW - 自然W)/2` center emit
-- (B) render-spec.ts: instance 检测 `_02` 后 inner FILL skip + 自然 width center
+#### sample 2 — 7 frame retro session 累积 commit chain
+
+| commit | 内容 |
+|---|---|
+| `2a4a397` | render-spec.ts 3 bug fix (mask cornerRadius / Sidebar promote rename / overlay skip) + 7 frame retro placement |
+| `a0cbfd1` | sample 2 残余检证 next session 交接 note |
+| `54c53af` | F5 SearchBar padding bug 诊断 (解决前) |
+| `c4f6007` | csv-to-spec.ts single-screen 笔记/待办 standard-framework injection fix |
+| `5b1f661` | csv (user 修正): ToolBar 编辑模式 _01/_02 swap + spec re-emit |
+
+#### next session 交接 — sample 2 残余检证
+
+**sample 2 7 frame final 状态** (2026-06-02 基准, csv 修正 + retro 全 完了):
+
+| Frame | ID | spec.json |
+|---|---|---|
+| F1 LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC |
+| F2 LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC |
+| F3 NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 |
+| F4 NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 |
+| F5 LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C |
+| F6 NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 |
+| F7 NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 |
+
+**残余检证 task** (next session):
+1. F2/F4/F5/F6/F7 视觉 spot check (各 frame screenshot, F1+F3 已 done)
+2. 7 frame verifyChecklist run (spec-adapter.specToVerifyShape → verifyChecklist 24 项)
+3. padding 实测 各 instance (figma instance.x / w 测量 → csv + device-dim 权威对照)
+
+**检证权威 source**:
+- `csv-pipeline/mapping-input/结构变化表-Notes.csv` (designer 权威, user 修正后)
+- `references/layouts/device-dimensions.md` (Q18/Q19/Pad 尺寸权威)
+- `references/app-variant-map-笔记.md` §0.1 #8/#9 (笔记 special rules)
+- `csv-pipeline/spec-output/spec/Notes_笔记_*.json` (csv-to-spec emit 结果)
+
+**runtime tools**:
+- `csv-pipeline/runtime/spec-adapter.ts` (specToVerifyShape, findInstanceInFrame)
+- `csv-pipeline/runtime/verify.ts` (verifyChecklist 24 项)
+
+**重要规则 reminder** (本 session 违反 / 遗漏):
+- `feedback_apply_rules_dont_intuit`: csv + device-dim 直接 lookup. 仅看 spec.json (derived) 工作禁止
+- `feedback_phase_re_check_must_actually_read`: phase 5 进入时 device-dim / common-rules §3.7~§3.10 每次直接 read
+- `feedback_no_korean_in_docs`: 文档作成时韩文使用禁止. 中/英 only
+
+**next session 起手 顺序**:
+1. `git log --oneline -10` (commit chain 把握)
+2. 读 `csv-pipeline/project-status.md` 本节 (sample 2 状态 / 残余 task)
+3. F2/F4/F5/F6/F7 screenshot — visual spot check
+4. 7 frame verifyChecklist run
+5. issue 发现时 csv 或 csv-to-spec.ts root cause 追踪 (即答 figma swap 禁止)
 - (A) 推荐 — spec.json 数据本身正确化
 
 其他 frame 影响 audit:
