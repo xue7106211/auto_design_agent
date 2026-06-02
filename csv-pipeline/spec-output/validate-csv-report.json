@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T01:20:06.894Z",
+  "generatedAt": "2026-06-02T09:00:12.469Z",
   "args": {
     "strict": false
   },
@@ -827,7 +827,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -842,7 +842,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -857,7 +857,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -872,7 +872,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (4 variants: NavigationBar_ComponentSet_04, NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -887,7 +887,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_05, NavigationBar_ComponentSet_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_05, NavigationBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -902,7 +902,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -917,7 +917,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_Notes_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -932,7 +932,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -947,7 +947,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_05) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_11, NavigationBar_ComponentSet_05) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -962,7 +962,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -977,7 +977,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: NavigationBar_ComponentSet_Notes_01, NavigationBar_ComponentSet_08) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -992,7 +992,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1007,7 +1007,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_05, SearchBar_ComponentSet_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1022,7 +1022,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1037,7 +1037,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1052,7 +1052,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1067,7 +1067,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1082,7 +1082,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1097,7 +1097,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: SearchBar_ComponentSet_01, SearchReceiving_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1112,7 +1112,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_10, AIWindow_Options_01, DrawerWindow_ComponentSet_high_01, TextInput_ComponentSet_Notes_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_10, AIWindow_Options_01, DrawerWindow_ComponentSet_high_01, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1127,7 +1127,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_02, 竖屏背景, TextInput_ComponentSet_Notes_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (5 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_02, 竖屏背景, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1142,7 +1142,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_03, TextInput_ComponentSet_Notes_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_03, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1157,7 +1157,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_04, TextInput_ComponentSet_Notes_02) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (4 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_13, AIWindow_Options_04, TextInput_ComponentSet_Notes_02) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1172,7 +1172,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: Sidebar_Component_PAD_NLC_01, NavigationBar_ComponentSet_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: Sidebar_Component_PAD_NLC_01, NavigationBar_ComponentSet_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1187,7 +1187,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (2 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_00) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (2 variants: Sidebar_Component_PAD_NLC_00, NavigationBar_ComponentSet_00) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1202,7 +1202,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_05, 竖屏背景) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_05, 竖屏背景) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1217,7 +1217,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_05, 竖屏背景) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_05, 竖屏背景) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1232,7 +1232,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_06, 竖屏背景) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_10, AIWindow_Options_06, 竖屏背景) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",
@@ -1247,7 +1247,7 @@
     {
       "level": "warning",
       "rule": "pickVariant-fallback",
-      "message": "multi-variant 모호 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_06, 竖屏背景) but no pickVariant 룰 — fallback to first",
+      "message": "multi-variant 歧义 (3 variants: NavigationBar_ComponentSet_12, AIWindow_Options_06, 竖屏背景) but no pickVariant 规则 — fallback to first",
       "file": "app-Notes-mapping.csv",
       "context": {
         "subScene": "笔记",

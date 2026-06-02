@@ -10,14 +10,14 @@
  *   2. screenMode   ∈ {NLC,NL,NC,LC,C,*-收起,(empty for single-screen)}
  *   3. lane         ∈ {N栏,L栏,C栏,全栏} — common-rules §0 #14 (no whitespace)
  *   4. framework    ∈ {NLC,NL,NC,LC,C}
- *   5. (lane × framework) 호환성 — e.g. NL framework + C栏 is invalid
+ *   5. (lane × framework) 兼容性 — e.g. NL framework + C栏 is invalid
  *   6. variantId    → setkeys.json families resolvable (csv-to-spec resolveSetKey)
  *   7. (subScene, scene, state, device, screenMode, lane, uiElement) row uniqueness
- *      — pickVariant 가 같은 key 내 multiple variant 의 dedup + disambiguation 룰
- *        가지지만, 룰 cover 안 되는 곳은 console.warn (silent fallback). 본
- *        validator 가 그 수치를 빌드 타임에 검출.
- *   8. components.csv 에 등장하는 family 모두 setkeys.json families 에 등록
- *      ('todo' / 'unresolved' / 'blocker' status 도 카운트, 'verified' 만 pass)
+ *      — pickVariant 对同一 key 内的 multiple variant 拥有 dedup + disambiguation 规则,
+ *        但规则未覆盖的地方会 console.warn (silent fallback)。本
+ *        validator 在构建时检出这些情况。
+ *   8. components.csv 中出现的 family 全部注册在 setkeys.json families 中
+ *      ('todo' / 'unresolved' / 'blocker' status 也计数, 仅 'verified' 才 pass)
  *
  * Exit codes:
  *   0 = pass (errors=0, warnings allowed)
@@ -67,23 +67,23 @@ const VALID_FRAMEWORKS = new Set(['NLC', 'NL', 'NC', 'LC', 'C']);
 // screenMode permits empty (single-screen device convention) + base + 收起 variants.
 // Computed from VALID_FRAMEWORKS + a few NLC subforms used by Pad NLC layouts.
 function isValidScreenMode(s: string): boolean {
-  if (s === '') return true; // single-screen 手机/Fold外 의 표준 표기
+  if (s === '') return true; // single-screen 手机/Fold外 的标准写法
   if (VALID_FRAMEWORKS.has(s)) return true;
-  // NLC 변종: NLC / NLC收起 / NLC覆盖 / NLC并列 (csv-to-spec getLayoutSpec 권위).
-  // input CSV 는 NLC 만 emit, csv-to-spec 가 device 별 NLC覆盖/并列 결정 — 그래서
-  // input CSV 의 screenMode 컬럼은 base form + 收起 variant 만 검사.
+  // NLC 变种: NLC / NLC收起 / NLC覆盖 / NLC并列 (csv-to-spec getLayoutSpec 权威).
+  // input CSV 仅 emit NLC, csv-to-spec 按 device 决定 NLC覆盖/并列 — 因此
+  // input CSV 的 screenMode 列仅检查 base form + 收起 variant.
   if (/^(NLC|NL|NC|LC|C)收起$/.test(s)) return true;
   return false;
 }
 
 const VALID_LANES = new Set(['N栏', 'L栏', 'C栏', '全栏']);
 
-// (lane × framework) 호환성:
+// (lane × framework) 兼容性:
 //   NL    : N栏 + L栏    (no C栏)
 //   NLC   : N栏 + L栏 + C栏
 //   NC    : N栏 + C栏    (no L栏)
 //   LC    : L栏 + C栏    (no N栏)
-//   C     : 全栏 또는 C栏 (single column)
+//   C     : 全栏 或 C栏 (single column)
 // '全栏' is allowed across frameworks (single-screen device convention).
 const LANE_FRAMEWORK_COMPAT: Record<string, Set<string>> = {
   NL:  new Set(['N栏', 'L栏', '全栏']),
@@ -287,7 +287,7 @@ function checkMappingRow(r: MappingRow, issues: Issue[], setkeys: ReturnType<typ
       file: r._file, line: r._line, context: { framework: r.framework },
     });
   }
-  // 5. (lane × framework) 호환성
+  // 5. (lane × framework) 兼容性
   if (VALID_FRAMEWORKS.has(r.framework) && VALID_LANES.has(r.lane)) {
     const compat = LANE_FRAMEWORK_COMPAT[r.framework];
     if (compat && !compat.has(r.lane)) {
@@ -312,7 +312,7 @@ function checkMappingRow(r: MappingRow, issues: Issue[], setkeys: ReturnType<typ
     } else if (!setkeys.familyNames.has(fam)) {
       issues.push({
         level: 'error', rule: 'family-missing-in-setkeys',
-        message: `family='${fam}' (from variantId='${r.variantId}') 부재 in setkeys.json`,
+        message: `family='${fam}' (from variantId='${r.variantId}') 缺失 in setkeys.json`,
         file: r._file, line: r._line,
         context: { variantId: r.variantId, family: fam },
       });
@@ -329,10 +329,10 @@ function checkMappingRow(r: MappingRow, issues: Issue[], setkeys: ReturnType<typ
 }
 
 function checkRowUniqueness(rows: MappingRow[], issues: Issue[]): void {
-  // (subScene, scene, state, device, screenMode, lane, uiElement) → variant 모음
-  // 같은 key 에 여러 variant 정상 (csv-to-spec pickVariant 가 disambiguate). 단
-  // pickVariant 룰이 매칭 안 하는 (lane, uiElement) 는 fallback warn → 본 validator 가 신호.
-  // pickVariant 룰 매핑 가능 set — csv-to-spec.ts:pickVariant() 와 sync (line 439-535):
+  // (subScene, scene, state, device, screenMode, lane, uiElement) → variant 集合
+  // 同一 key 下有多个 variant 是正常的 (csv-to-spec pickVariant 来 disambiguate). 但
+  // pickVariant 规则未匹配的 (lane, uiElement) 会 fallback warn → 由本 validator 发出信号.
+  // pickVariant 规则可映射 set — 与 csv-to-spec.ts:pickVariant() sync (line 439-535):
   //   1. Pad NLC + C栏 Input               → null (skip)
   //   2. Pad (NLC|NL|NC) + N栏 NavigationBar → null (skip)
   //   3. Fold内 LC + C栏 Input              → _08
@@ -393,7 +393,7 @@ function checkRowUniqueness(rows: MappingRow[], issues: Issue[]): void {
     if (!ruleMatches(sample)) {
       issues.push({
         level: 'warning', rule: 'pickVariant-fallback',
-        message: `multi-variant 모호 (${dedup.size} variants: ${[...dedup].join(', ')}) but no pickVariant 룰 — fallback to first`,
+        message: `multi-variant 歧义 (${dedup.size} variants: ${[...dedup].join(', ')}) but no pickVariant 规则 — fallback to first`,
         file: sample._file,
         context: {
           subScene: sample.subScene, scene: sample.scene, state: sample.state,
@@ -406,12 +406,12 @@ function checkRowUniqueness(rows: MappingRow[], issues: Issue[]): void {
 }
 
 function checkComponentsCsv(comps: ComponentRow[], setkeys: ReturnType<typeof loadSetkeys>, issues: Issue[]): void {
-  // 8. components.csv 의 family 모두 setkeys.json 등록
-  // ComponentFamily 직접 등록 → OK. 미등록 시 같은 row 의 VariantId 로 resolveFamily 시도
-  // (components.csv 의 family 명명 ≠ setkeys 등록명 인 경우 — 예: Notes_NavigationBar ↔ NavigationBar_Notes).
-  // VariantId 로도 resolve 안 되면 진짜 missing → probe-setkeys 필요.
+  // 8. components.csv 的 family 全部注册到 setkeys.json
+  // ComponentFamily 直接注册 → OK. 未注册时用同一 row 的 VariantId 尝试 resolveFamily
+  // (当 components.csv 的 family 命名 ≠ setkeys 注册名时 — 例: Notes_NavigationBar ↔ NavigationBar_Notes).
+  // 若用 VariantId 也无法 resolve 则确属 missing → 需要 probe-setkeys.
   const reportedMissing = new Set<string>();
-  const familyVariantSamples = new Map<string, string>(); // family → 첫 번째 sample VariantId
+  const familyVariantSamples = new Map<string, string>(); // family → 第一个 sample VariantId
   for (const c of comps) {
     if (!c.ComponentFamily) continue;
     if (setkeys.familyNames.has(c.ComponentFamily)) continue;
@@ -425,7 +425,7 @@ function checkComponentsCsv(comps: ComponentRow[], setkeys: ReturnType<typeof lo
     const sampleVid = familyVariantSamples.get(c.ComponentFamily) ?? '';
     issues.push({
       level: 'error', rule: 'family-missing-in-setkeys',
-      message: `components.csv 의 family='${c.ComponentFamily}' (variantId 예='${sampleVid}') 부재 in setkeys.json (probe-setkeys 필요)`,
+      message: `components.csv 的 family='${c.ComponentFamily}' (variantId 例='${sampleVid}') 缺失 in setkeys.json (需要 probe-setkeys)`,
       file: 'components.csv',
       context: { family: c.ComponentFamily, sampleVariantId: sampleVid },
     });
@@ -540,7 +540,7 @@ function main(): void {
   console.log(`  errors:   ${errors.length}`);
   console.log(`  warnings: ${warnings.length}`);
   if (errors.length > 0) {
-    console.log('\n첫 10 errors:');
+    console.log('\n前 10 errors:');
     for (const e of errors.slice(0, 10)) {
       const where = e.line ? `${e.file}:${e.line}` : e.file;
       console.log(`  ✗ [${e.rule}] ${where}: ${e.message}`);
@@ -548,7 +548,7 @@ function main(): void {
     if (errors.length > 10) console.log(`  ... ${errors.length - 10} more (see ${path.relative(process.cwd(), REPORT_PATH)})`);
   }
   if (warnings.length > 0 && !args.strict) {
-    console.log('\n첫 5 warnings:');
+    console.log('\n前 5 warnings:');
     for (const w of warnings.slice(0, 5)) {
       const where = w.line ? `${w.file}:${w.line}` : w.file;
       console.log(`  ⚠ [${w.rule}] ${where}: ${w.message}`);
