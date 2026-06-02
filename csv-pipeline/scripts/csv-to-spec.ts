@@ -975,6 +975,41 @@ function buildSpec(opts: {
       }
     }
   }
+
+  // 2026-06-02 single-screen standard-framework injection: 笔记/待办 single-screen
+  // (手机/Fold外) 의 spec.id 가 scene='LC' 또는 scene='NL' 등 derived scene 으로 emit 될 때,
+  // baseFilter 가 r.scene === scene 으로 LC row 만 take → NLC standard framework 의 row 가
+  // group 에 들어오지 못해 framework-priority filter 가 작동 안 함. single-screen + standardFw
+  // 가 NLC 인 경우 NLC scene 의 same (lane, uiElement, state) row 를 candidate 에 주입.
+  // 회고: 2026-06-02 sample 2 F5 (Fold外竖 LC 编辑模式 spec.id) 의 SearchBar variant
+  // 가 LC row 의 _02 (Pad 顶部 内嵌 자연 176×44) 로 emit → user 视觉指摘 ("padding 없음").
+  // 권위 = csv line 237 SearchBar/NLC col5 = _05 (满幅 392×56).
+  if (standardFw && SINGLE_SCREEN_DEVICES.has(device) && scene !== standardFw) {
+    const nlcRowsAll = opts.mapping.filter(r =>
+      r.app === app && (r.subScene ?? '') === subScene &&
+      r.scene === standardFw &&
+      r.device === device && r.screenMode === queryScreenMode &&
+      r.uiElement !== 'Overay' &&
+      r.variantId !== '不展示' && r.variantId.trim() !== ''
+    );
+    const nlcByKey = new Map<string, MappingRow[]>();
+    for (const r of nlcRowsAll) {
+      const k = groupKey(r);
+      if (!nlcByKey.has(k)) nlcByKey.set(k, []);
+      nlcByKey.get(k)!.push(r);
+    }
+    for (const [key, candidates] of groups) {
+      const nlcCandidates = nlcByKey.get(key);
+      if (!nlcCandidates || nlcCandidates.length === 0) continue;
+      // state inheritance: NLC may only have 默认 row, treat as fallback (encyclopedic mapping)
+      const stateMatch = nlcCandidates.filter(r => r.state === state);
+      const fallback = stateMatch.length > 0 ? stateMatch : nlcCandidates;
+      const onlyLC = candidates.every(r => r.framework !== standardFw);
+      if (onlyLC) {
+        groups.set(key, fallback);
+      }
+    }
+  }
   const pickedRows: MappingRow[] = [];
   for (const candidates of groups.values()) {
     const chosen = pickVariant(candidates, { device, screenMode, flags: scenarioFlags });
