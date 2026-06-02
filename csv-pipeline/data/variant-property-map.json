@@ -2,11 +2,11 @@
   "_doc": "Designer variantId alias → library property tuple. csv-to-spec applies at emit time. Mapping CSV authors with variantId convention (`_01/_02`) but some library ComponentSets use property-driven variants (`材质=A, 模式=B`). When mapping CSV variantId matches a key in `mappings`, the value replaces it in spec output. render-spec findVariant then matches via property syntax. Source: Improvement_doc/audit-stale-setkeys-2026-05-28.md Category B.",
   "mappings": {
   },
-  "_migration_note": "2026-05-28: 측试版 only 기준 마이그레이션 (audit doc §4.9). 測试版 의 AlertDialog/DrawerWindow 는 Property=bareAlias 또는 档位=bareAlias 형식 (e.g. 'Property=AlertDialog_ComponentSet_01', '档位=DrawerWindow_ComponentSet_high_01') — render-spec findVariant step 2 가 bare alias 로 직접 매칭. propertyMap 不要. Scrollbar/Actionsheet/NoticeBar 는 测试版 미publish → blockers 이동.",
+  "_migration_note": "2026-05-28: 以测试版 only 为基准迁移 (audit doc §4.9). 测试版 的 AlertDialog/DrawerWindow 为 Property=bareAlias 或 档位=bareAlias 形式 (e.g. 'Property=AlertDialog_ComponentSet_01', '档位=DrawerWindow_ComponentSet_high_01') — render-spec findVariant step 2 通过 bare alias 直接匹配. propertyMap 不需要. Scrollbar/Actionsheet/NoticeBar 测试版 未 publish → 移至 blockers.",
   "blockers": {
-    "Scrollbar_ComponentSet_01":              "测试版 (lk-99b74bcae) 미publish. 旧 OS4 UI Kit 의 Property 1=默认 매핑 폐기. 영향: 122 spec. setkeys.json:Scrollbar status=blocker.",
-    "Actionsheet_ComponentSet_01":            "测试版 미publish. 旧 OS4 UI Kit 의 类型=陈列型 매핑 폐기. 영향: 4 spec.",
-    "NoticeBar_ComponentSet_01":              "测试版 미publish. 旧 OS4 UI Kit 의 颜色=灰色-默认, 模式=Light 매핑 폐기. 영향: 72 spec.",
+    "Scrollbar_ComponentSet_01":              "测试版 (lk-99b74bcae) 未 publish. 旧 OS4 UI Kit 的 Property 1=默认 映射废弃. 影响: 122 spec. setkeys.json:Scrollbar status=blocker.",
+    "Actionsheet_ComponentSet_01":            "测试版 未 publish. 旧 OS4 UI Kit 的 类型=陈列型 映射废弃. 影响: 4 spec.",
+    "NoticeBar_ComponentSet_01":              "测试版 未 publish. 旧 OS4 UI Kit 的 颜色=灰色-默认, 模式=Light 映射废弃. 影响: 72 spec.",
     "Menu_ComponentSet_00":                   "Library set d4c7b5f8 has 4 variants by State×Mode (Frosted/Default × Light/Dark). Designer alias _00/_01/_03 doesn't have clean property mapping. _00 likely = unrendered (per generic _00 convention). Awaiting designer decision on property tuple semantics for _01/_03.",
     "Menu_ComponentSet_01":                   "Same as above. Tentative: State=Frosted, Mode=Light. Confirm with designer.",
     "Menu_ComponentSet_03":                   "Same as above. Visual difference (grouped/submenu arrow) is content, not variant property — needs separate inner override mechanism.",

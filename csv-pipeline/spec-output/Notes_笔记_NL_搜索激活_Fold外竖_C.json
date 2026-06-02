@@ -1,0 +1,182 @@
+{
+  "id": "Notes_笔记_NL_搜索激活_Fold外竖_C",
+  "source": {
+    "app": "Notes",
+    "subScene": "笔记",
+    "scene": "NL",
+    "state": "搜索激活",
+    "device": "Fold外竖",
+    "screenMode": "NL"
+  },
+  "frame": {
+    "w": 435,
+    "h": 637,
+    "cornerRadius": {
+      "topLeft": 10,
+      "topRight": 56,
+      "bottomLeft": 10,
+      "bottomRight": 56
+    },
+    "fill": {
+      "name": "背景色/surface_low",
+      "key": "e74b063d74a3444a44a4e00bb7417c2dbea305ba",
+      "fallback": {
+        "r": 0.96,
+        "g": 0.96,
+        "b": 0.96
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_01",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 435,
+    "h": 46
+  },
+  "layout": {
+    "type": "C",
+    "lanes": {
+      "C": {
+        "x": 0,
+        "y": 46,
+        "w": 435,
+        "h": 591,
+        "fill": "surface_low"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "搜索页面",
+      "lane": "C栏",
+      "variant": "SearchBar_ComponentSet_01",
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "NavigationBar",
+      "lane": "C栏",
+      "variant": "NavigationBar_ComponentSet_04",
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 56,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SearchBar",
+      "lane": "C栏",
+      "variant": "SearchBar_ComponentSet_05",
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 112,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SelectableChip",
+      "lane": "C栏",
+      "variant": "SelectableChip_ComponentSet_Notes_01",
+      "setKey": "af1e1df353e8fb1fe8005b82fed310422f2eae4c",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 168,
+      "h": 52,
+      "notes": ""
+    },
+    {
+      "element": "List",
+      "lane": "C栏",
+      "variant": "List_Notes_07",
+      "setKey": "94f9b4085ba12b43511a95282fa84225241f6f9e",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 220,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "ToolBar",
+      "lane": "C栏",
+      "variant": "BottomBar_Showcase_Notes_01",
+      "setKey": "303649c8435835bcbfb5e85e668a0b6562497cad",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 435,
+      "y": 491,
+      "h": 100,
+      "notes": ""
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "",
+      "family": "SearchReceiving",
+      "lane": "全栏",
+      "variant": "SearchReceiving_00",
+      "setKey": "d672497845fe63477d2164dc2bad4242023941f3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "NoticeBar",
+      "lane": "全栏",
+      "variant": "NoticeBar_ComponentSet_01",
+      "setKey": "9a390fc96915452840e6428294a7f5ad724ebf3d",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    },
+    {
+      "trigger": "",
+      "family": "Scrollbar",
+      "lane": "全栏",
+      "variant": "Scrollbar_ComponentSet_01",
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    }
+  ],
+  "masks": [],
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_03",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 435,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "杆子"
+  ]
+}

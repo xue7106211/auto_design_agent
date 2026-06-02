@@ -1,0 +1,107 @@
+{
+  "id": "Notes_笔记_C_思维导图_手机竖_C",
+  "source": {
+    "app": "Notes",
+    "subScene": "笔记",
+    "scene": "C",
+    "state": "思维导图",
+    "device": "手机竖",
+    "screenMode": "C"
+  },
+  "frame": {
+    "w": 392,
+    "h": 851,
+    "cornerRadius": 34,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_01",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 392,
+    "h": 46
+  },
+  "layout": {
+    "type": "C",
+    "lanes": {
+      "C": {
+        "x": 0,
+        "y": 46,
+        "w": 392,
+        "h": 805,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "NavigationBar",
+      "lane": "C栏",
+      "variant": "NavigationBar_ComponentSet_Notes_02",
+      "setKey": "ac60af7e28e6491b3520ecaefd71fa7e03832c31",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 392,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "DetailNotes",
+      "lane": "C栏",
+      "variant": "DetailNotes_01",
+      "setKey": "961f0e237edea438d52e6d2ad9b4e38c99bd2c68",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 392,
+      "y": 62,
+      "h": 743,
+      "notes": ""
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "",
+      "family": "Scrollbar",
+      "lane": "全栏",
+      "variant": "Scrollbar_ComponentSet_01",
+      "setKey": "56f234ce13f5e33aa5c7f6f602c5015f0d993dc3",
+      "library": "OS4 UI Kit",
+      "source": "out-of-flow"
+    }
+  ],
+  "masks": [],
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_01",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 392,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "杆子"
+  ]
+}

@@ -1,8 +1,8 @@
 # 通用规则 — 遮罩 / z-order / 栏间分割线
 
-> Phase 5 落位 시 매번 로드. NLC 覆盖 / L 编辑 / NL framework / NLC 并列 / 多 mask 叠加 / 栏间分割线 / Sidebar 阴影.
-> 본 파일 = §3.7~§3.7b (mask z-order) + §3.8 (栏间 분할선) + §3.9 (Sidebar 阴影 pointer).
-> 원칙 → `common-rules-principles.md`. instance → `common-rules-instance.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
+> Phase 5 落位时每次加载. NLC 覆盖 / L 编辑 / NL framework / NLC 并列 / 多 mask 叠加 / 栏间分割线 / Sidebar 阴影.
+> 本文件 = §3.7~§3.7b (mask z-order) + §3.8 (栏间分割线) + §3.9 (Sidebar 阴影 pointer).
+> 原则 → `common-rules-principles.md`. instance → `common-rules-instance.md`. 验证 → `common-rules-verify.md`. 禁止 → `common-rules-prohibit.md`.
 
 ## §3.7 NLC 覆盖模式 遮罩 + z-order
 
@@ -195,6 +195,20 @@ C.strokeAlign = 'INSIDE';
 
 > **2026-05-26 迁出**: 该规则迁至 [`component-dictionary/sidebar.md` 「阴影裁切防止」节](component-dictionary/sidebar.md) 单一来源. 配置位置 / clipsContent 设置 / Phase 6 校验 全部参见该文件.
 
+### §3.9-scope clipsContent 룰의 정확한 scope (2026-06-02 추가, MUST)
+
+**Default**: `frame` / `main` / `L 栏` / `C 栏` / `N 栏` 모두 **`clipsContent = true`** (圆角 visible + lane overflow 방지).
+
+**예외 (Pad横 NLC并列 단 1 case)**: §3.9 Sidebar 阴影 가시성 위해 **`main` + `N 栏`** 만 `clipsContent = false`. **`frame` / `L 栏` / `C 栏` 는 그대로 `true` 유지**.
+
+**禁止**:
+- §3.9 룰을 잘못 일반화하여 `frame.clipsContent=false` → cornerRadius 시각 표현 사라짐
+- `L 栏 / C 栏.clipsContent=false` → chip `.选项` items, SearchBar inner, NavBar 제목 text 가 lane 밖으로 새음
+
+**runtime 自动 검사**: `verify.ts ⑱` 가 자동 검출 (`spec.framework='NLC并列' && spec.device='Pad横'` flag 로 trigger).
+
+**회고 (2026-06-02)**: 笔记 다단말 적응 task 에서 §3.9 룰 잘못 일반화 → 4 frame 전부 frame/main/L/C 풀 세트로 false 적용. 圆角 사라짐 + chip overflow + 제목 overflow. user 지적 후 수정. .md only 룰은 6개월 7회 재발 (memory `feedback_runtime_enforce_rules` per) → runtime guard 화 必要.
+
 ---
 
-> **연관 파일**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
+> **关联文件**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.

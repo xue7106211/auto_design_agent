@@ -77,7 +77,7 @@ async function placeStandardComponent({
 **关键决定**:
 - `resetOverrides` 默认 OFF — 关键决定 (§3.4 / §3.6 与之统一). reset 会清空 width 等数值 override 触发 hug content reflow, 是落位失败最常见根因. 仅当目标 variant 与源 variant 内部结构差异巨大需要清掉旧 override 时才 `true`.
 - `inheritInnerState` 默认 ON — 源稿 inner componentProperties 反映业务态 (如 ToolBar 按钮 `状态=禁用`), 适配 frame 必须同步. 禁止仅 swap 顶层 variant 而忽略 inner state. 源 instance 必须通过 `sourceInst` 传入.
-- `fillFirstChild` 默认 ON — `inst.children.length === 1` 时 또는 **SearchBar 系 instance** 时 자동 적용. SearchBar active variant (`_01` 等) inner = `[InputBackground (FILL 必要), CloseButton (FIXED right-aligned)]` 2-child 구조이므로 multi-child 보호 룰 (chip-like) 의 예외. instance 폭 < 자연 392 时 inner reflow 안 되어 CloseButton 잘림 防止 (2026-05-31 笔记搜索 task 에서 폴드 L 폭 353/282 时 close X 잘림 발견, runtime 자동화 채택). 그 외 chip-like (SelectableChip 의 folder icon FIXED + 内容 FILL) 인 multi-child 는 保护 유지.
+- `fillFirstChild` 默认 ON — `inst.children.length === 1` 时 或 **SearchBar 系 instance** 时自动适用. SearchBar active variant (`_01` 等) inner = `[InputBackground (FILL 必要), CloseButton (FIXED right-aligned)]` 2-child 结构, 因此 multi-child 保护规则 (chip-like) 的例外. instance 宽 < 自然 392 时 inner reflow 不能, CloseButton 截断防止 (2026-05-31 笔记搜索 task 中折叠 L 宽 353/282 时 close X 截断发现, runtime 自动化采用). 其他 chip-like (SelectableChip 的 folder icon FIXED + 内容 FILL) 的 multi-child 保护维持.
 
 **变更规则**: placement.ts 为 single source. 修改函数本体只在 .ts commit, 本 .md signature / 规则同步更新即可.
 
@@ -195,7 +195,7 @@ async function verifyChecklist(frame, spec, scenarioFlags?) → Promise<string[]
 **spec 字段**:
 - `frameW`, `frameH`, `cornerRadius` (number 或 4-corner object), `statusBarH` — frame 基本规格
 - `frameTransparent: true` 或 `frameFillToken: '...'` — frame fill 检查模式 (二选一)
-- `cols: { 'L栏': 282, 'C栏': 346 }` — 栏宽 expected (key 무공백, common-rules §0 #14)
+- `cols: { 'L栏': 282, 'C栏': 346 }` — 栏宽 expected (key 无空格, common-rules §0 #14)
 - `sidebar: { h: 1388 }` — Pad NLC sidebar 高度
 - `mask: true` — 遮罩-N覆盖 期待存在 (或由 scenarioFlags.NCovering trigger)
 - `framework: 'NL'` — NL framework 时 ⑩~⑫ 跳过 (NL 一律 mask 不渲染)
@@ -232,7 +232,7 @@ async function verifyChecklist(frame, spec, scenarioFlags?) → Promise<string[]
 | 文件 | 角色 |
 |---|---|
 | `SKILL.md` | 主入口，调用本协议 |
-| `references/common-rules-{principles,instance,mask-zorder,verify,prohibit}.md` | 通用规则 5 파일 (검색边界 / 实例 闭环 / mask z-order / 验证 25 항 / 禁止 索引). 호환 hub: `common-rules.md` |
+| `references/common-rules-{principles,instance,mask-zorder,verify,prohibit}.md` | 通用规则 5 文件 (检索边界 / 实例 闭环 / mask z-order / 验证 25 项 / 禁止 索引). 兼容 hub: `common-rules.md` |
 | `references/layouts/{nlc,lc-nc,c}-layout.md` | 各布局骨架与栏宽 |
 | `references/layouts/device-dimensions.md` | 设备规格、断点 padding、对齐方式 |
 | **本文件 `component-placement-protocol.md`** | **任何组件落位的标准序列 + 验证函数 + token 协议** |

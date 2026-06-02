@@ -1,8 +1,8 @@
 # 通用规则 — 落位 + 校验
 
-> Phase 5 (落位) + Phase 6 (验证) 매번 로드. 落位 위치 + 写入 节奏 + 容器 resize atomic + verifyChecklist 25항.
-> 본 파일 = §5 (落位 规则) + §6 (校验 + 修정).
-> 원칙 → `common-rules-principles.md`. instance → `common-rules-instance.md`. mask-zorder → `common-rules-mask-zorder.md`. 禁止 → `common-rules-prohibit.md`.
+> Phase 5 (落位) + Phase 6 (验证) 每次加载. 落位位置 + 写入节奏 + 容器 resize atomic + verifyChecklist 25 项.
+> 本文件 = §5 (落位规则) + §6 (校验 + 修正).
+> 原则 → `common-rules-principles.md`. instance → `common-rules-instance.md`. mask-zorder → `common-rules-mask-zorder.md`. 禁止 → `common-rules-prohibit.md`.
 
 ## §5. 目标稿落位规则
 
@@ -85,7 +85,7 @@
 
 | # | 检查项 | 通过标准 |
 |---|--------|----------|
-| 1 | Section 命名 | 형식 = `TEST_{App}_{Scene}_{State}_{YYYY-MM-DD}_{Operator}` (권위 `references/naming-conventions.md §2`). 정규식 매칭 시 자동 통과 |
+| 1 | Section 命名 | 格式 = `TEST_{App}_{Scene}_{State}_{YYYY-MM-DD}_{Operator}` (权威 `references/naming-conventions.md §2`). 正则匹配时自动通过 |
 | 2 | 4 个目标版本完整 | Fold横/竖 + Pad横/竖 全部存在，对照 `targetVariantPlan` 无遗漏 |
 | 3 | 设备 frame 圆角 | Fold 内屏 50dp / Pad 34dp 精确匹配 |
 | 4 | 状态栏 variant + 高度 | Fold 用 `变体类型=fold`（46dp），Pad 用 `变体类型=pad`（**34dp，非 38dp 自然高度**） |
@@ -95,7 +95,7 @@
 | 8 | 任何标准组件实例 width / height === 目标值 | 以 `placeStandardComponent` 落位后自检 + Phase 6 verifyChecklist 双重校验。偏差 > 0.5dp 视为 reflow 失败 |
 | 9 | Sidebar 高度 | Pad 横 = N 栏 mainH；Pad 竖覆盖 = frameH − statusBarH。经过 `common-rules-instance.md §3.6` 强制序列 |
 | 10 | NLC 覆盖遮罩 | Pad 竖 NLC 必须有 `遮罩-N覆盖` RECTANGLE，且 fill 已绑定 `遮罩色/mask` token |
-| 11 | frame 子节点 z-order | 见 `component-placement-protocol.md`「§3 父节点结构与 z-order 模板」。**杆子永远最顶 z + 透明背景 + 风满 frame 宽** |
+| 11 | frame 子节点 z-order | 见 `component-placement-protocol.md`「§3 父节点结构与 z-order 模板」。**默认: 杆子永远最顶 z + 透明背景 + 风满 frame 宽**。**例外: Keyboard instance (system overlay 语义) 存在时, Keyboard = 最顶 z, 杆子 次顶 z**。Keyboard 是 OS 级浮层，物理设备上键盘弹出时永远盖过 home indicator (杆子)；且 Keyboard 自身 frame 高度通常含 home indicator 区域 padding。源 frame 中存在 `Keyboard*` instance 时本例外自动适用。verifyChecklist ⑤ 自动判定: Keyboard 存在 → expect Keyboard 在 last index; Keyboard 不存在 → expect 杆子 在 last index |
 | 12 | 栏间分割线 | LC / NLC 并列 / NLC 覆盖 / NLC 收起 → **C 栏 strokeLeftWeight=1** + strokes 绑定 `分割线色/outline` token (`common-rules-mask-zorder.md §3.8` 2026-05-28 修订)；NC / C 通栏 → 无 |
 | 13 | 分割线高度 | C 栏自身 height = frameH (栏 y=0 h=frameH 风满) → strokeLeft 自然表达 frame 全高. status bar instance fills=[] 透明，视觉自然连续 |
 | 14 | Sidebar 阴影 | Pad 横 N 栏 + 主内容区 `clipsContent = false`，截图能看到阴影越过 N\|L 边界 |
@@ -121,4 +121,4 @@
 
 ---
 
-> **연관 파일**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / prohibit → `common-rules-prohibit.md`.
+> **关联文件**: principles → `common-rules-principles.md` / instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / prohibit → `common-rules-prohibit.md`.

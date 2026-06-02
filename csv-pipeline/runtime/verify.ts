@@ -40,6 +40,7 @@
 //   ⑮  -      Pad N 栏 z-order (NavBar 在 Sidebar 之上)
 //   ⑯  -      inner componentProperties 与源稿同步
 //   ⑰  §3.9   Pad横 NLC 并列 Sidebar promote (frame 직접子级 last z, 阴影 가시)
+//   ⑱  -      clipsContent default 강제 (frame/main/L/C=true; Pad横 NLC并列 시 N+main 만 false)
 
 async function verifyChecklist(frame, spec, scenarioFlags) {
   const errors = [];
@@ -88,13 +89,31 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
     }
   }
 
-  // ⑤ 杆子 (SwipeIndicator)
+  // ⑤ 杆子 (SwipeIndicator) + Keyboard 例外 (common-rules-verify.md §6.2 #11)
+  //
+  //    默认: 杆子 = 最顶 z (透明 + 风满 frame 宽).
+  //    例外: 源 frame 含 Keyboard instance 时 → Keyboard = 最顶 z, 杆子 = 次顶 z.
+  //    根因: Keyboard 是 OS 级浮层 (system overlay), 物理设备上键盘弹出时永远盖过
+  //    home indicator (杆子). 다른 app 들도 Keyboard 적응 시 동일 적용 (Keyboard
+  //    = 모든 app 共通 system overlay).
+  //    회고: 2026-06-02 笔记 弹窗 (Keyboard 단독) 적응 task 에서 user 명시
+  //    "키보드는 항상 가장 위" → 룰화 (.md only 면 next session 재발 risk,
+  //    feedback_runtime_enforce_rules per memory).
   const gz = frame.children.find(c => c.name && (/SwipeIndicator/.test(c.name) || c.name.startsWith('杆子')));
+  const kbd = frame.children.find(c => c.name && /Keyboard/.test(c.name));
   if (gz) {
     if (Math.abs(gz.width - spec.frameW) > 1) errors.push(`杆子.width ${gz.width} != ${spec.frameW}`);
     if (gz.fills && gz.fills.length > 0) errors.push(`杆子.fills should be empty (transparent)`);
-    if (frame.children.indexOf(gz) !== frame.children.length - 1) {
-      errors.push(`杆子 not at top z-order`);
+    const lastIdx = frame.children.length - 1;
+    const gzIdx = frame.children.indexOf(gz);
+    if (kbd) {
+      // Keyboard 존재 → Keyboard = last, 杆子 = last-1 期待
+      const kbdIdx = frame.children.indexOf(kbd);
+      if (kbdIdx !== lastIdx) errors.push(`Keyboard not at top z-order (idx=${kbdIdx}, expected ${lastIdx})`);
+      if (gzIdx !== lastIdx - 1) errors.push(`杆子 not at second-top z-order with Keyboard present (idx=${gzIdx}, expected ${lastIdx - 1})`);
+    } else {
+      // Keyboard 무 → 杆子 = last 期待 (default)
+      if (gzIdx !== lastIdx) errors.push(`杆子 not at top z-order`);
     }
   }
 
@@ -127,6 +146,65 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
         if (/标题栏|新版标题栏/.test(titleBar.name || '') && titleBar.height > 100) {
           errors.push(`Sidebar_Notes.「新版标题栏」 h=${titleBar.height} (자연 56 초과); 3-level FILL 잘못 적용 의심`);
         }
+      }
+    }
+  }
+
+  // ⑥c lane 内部 outer padding 자동 검사 (2026-06-02 추가, rule-doc-only failure 방지).
+  //     spec.lanes 제공 시 (e.g. { L: { w: 428, internal-table 적용 가능 components } })
+  //     자동 검사. caller 가 placement 시 laneW 옵션 안 쓰고 inline `x=0, w=laneW` 로
+  //     단순 fill 을 하면 검출.
+  //     trigger: spec.checkLanePadding === true.
+  //     검사 대상: lane 안의 standard A 류 component (NavBar / SearchBar / Chip / List / Detail / TextInput).
+  //     기댓값: outer = max(0, bp_padding(laneW, isQ18) − component_internal). instance.x === outer.
+  if (spec.checkLanePadding === true) {
+    const NOTES_INTERNAL = {
+      NavigationBar: 12, NavigationBar_ComponentSet: 12,
+      SearchBar_ComponentSet: 12,
+      SelectableChip_ComponentSet_Notes: 12,
+      List_Notes: 12, Detail_Notes: 20,
+      TextInput_ComponentSet_Notes: 12,
+      ToolBar_ComponentSet: 0, BottomBar_Showcase: 0,
+    };
+    const bpPad = (w, q18) => {
+      if (q18 && w <= 640) return 12;
+      if (w <= 420) return 12;
+      if (w <= 640) return 20;
+      if (w <= 800) return 28;
+      return 56;
+    };
+    const lookupInt = (name) => {
+      for (const [k, v] of Object.entries(NOTES_INTERNAL)) {
+        if (name === k || name.startsWith(k)) return v;
+      }
+      return -1; // not standard A 류 → skip
+    };
+    const isQ18 = spec.isQ18 === true;
+    // Lane 후보: frame.children 의 L栏 (promoted), main.children 의 N/L/C 栏
+    const candidates = [];
+    const Lp = frame.children.find(c => c.name === 'L栏' || c.name === 'L 栏');
+    if (Lp) candidates.push(Lp);
+    const mainNode = frame.children.find(c => c.name === 'main');
+    if (mainNode) {
+      for (const col of (mainNode.children || [])) {
+        if (/^(L|C|N)栏$|^(L|C|N) 栏$/.test(col.name || '')) candidates.push(col);
+      }
+    }
+    for (const col of candidates) {
+      const laneW = col.width;
+      for (const inst of (col.children || [])) {
+        const internal = lookupInt(inst.name || '');
+        if (internal < 0) continue; // 아닌 자식 (e.g. C 栏의 strokeLeft 자체) skip
+        if (/ToolBar|BottomBar/.test(inst.name)) {
+          // 외각 lane 풍만 기댓값
+          if (Math.abs(inst.x - 0) > 0.5) errors.push(`padding: ${col.name}/${inst.name} 외각 풍만 기댓 x=0, got ${inst.x}`);
+          if (Math.abs(inst.width - laneW) > 0.5) errors.push(`padding: ${col.name}/${inst.name} 외각 풍만 기댓 w=${laneW}, got ${inst.width}`);
+          continue;
+        }
+        const outerExp = Math.max(0, bpPad(laneW, isQ18) - internal);
+        if (Math.abs(inst.x - outerExp) > 0.5) errors.push(`padding: ${col.name}/${inst.name} x=${inst.x} != outer ${outerExp} (laneW=${laneW} spec=${bpPad(laneW, isQ18)} internal=${internal})`);
+        const wExp = laneW - 2 * outerExp;
+        if (Math.abs(inst.width - wExp) > 0.5) errors.push(`padding: ${col.name}/${inst.name} w=${inst.width} != ${wExp}`);
       }
     }
   }
@@ -283,6 +361,43 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
           errors.push(`§3.9 violation: Sidebar z-idx ${directChild} too low (expected ${expectIdx}, just below 杆子). 阴影 가려짐 위험.`);
         }
       }
+    }
+  }
+
+  // ⑱ clipsContent default 강제 검사 (2026-06-02 추가, frame 圆角 + 栏 overflow 방지)
+  //
+  //    Default: frame / main / L栏 / C栏 / N栏 모두 clipsContent === true.
+  //    예외: spec.framework === 'NLC并列' && spec.device === 'Pad横' 시 §3.9 Sidebar 阴影 가시성 위해
+  //          N 栏 + main 만 clipsContent === false 허용. frame / L / C 는 항상 true 유지.
+  //
+  //    회고 (2026-06-02 笔记 다단말 적응 task): §3.9 룰을 잘못 일반화 → 4 frame 전부 frame/main/L/C
+  //    풀 세트로 clipsContent=false 적용. 결과: frame.cornerRadius 시각 표현 사라짐 + L 栏 chip
+  //    `.选项` items + SearchBar inner overflow + C 栏 NavBar 제목 text overflow. user 지적 후 수정.
+  //    .md only 룰 = 6개월 7회 재발 (memory feedback_runtime_enforce_rules per). runtime guard 화.
+  {
+    const isPadHengNLCParallel = (spec.framework === 'NLC并列' && spec.device === 'Pad横') || spec.sidebarPromote === true;
+    if (frame.clipsContent !== true) {
+      errors.push(`clipsContent: frame.clipsContent=${frame.clipsContent} != true (圆角 표시 + content clip 必要). §3.9 룰은 frame 자체에 영향 없음`);
+    }
+    const main = frame.children.find(c => c.name === 'main');
+    if (main) {
+      const expectMain = isPadHengNLCParallel ? false : true;
+      if (main.clipsContent !== expectMain) {
+        errors.push(`clipsContent: main.clipsContent=${main.clipsContent} != ${expectMain} (${isPadHengNLCParallel ? 'Pad横 NLC并列 §3.9 Sidebar 阴影 위해 false 必要' : 'default true'})`);
+      }
+      for (const col of (main.children || [])) {
+        if (!/^(L|C|N)栏$|^(L|C|N) 栏$/.test(col.name || '')) continue;
+        const isN = /^N栏$|^N 栏$/.test(col.name || '');
+        const expectCol = (isPadHengNLCParallel && isN) ? false : true;
+        if (col.clipsContent !== expectCol) {
+          errors.push(`clipsContent: ${col.name}.clipsContent=${col.clipsContent} != ${expectCol} (${(isPadHengNLCParallel && isN) ? 'Pad横 NLC并列 N 栏 §3.9' : 'default true'})`);
+        }
+      }
+    }
+    // promoted L 栏 (LEditMode 경우) 도 clipsContent=true 강제
+    const Lprom = frame.children.find(c => c.name === 'L栏' || c.name === 'L 栏');
+    if (Lprom && Lprom.clipsContent !== true) {
+      errors.push(`clipsContent: promoted L栏.clipsContent=${Lprom.clipsContent} != true`);
     }
   }
 

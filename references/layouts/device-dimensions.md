@@ -10,18 +10,26 @@
 
 各栏内部 padding 根据该栏自身宽度（w）按以下断点判定。应用全屏、分屏、小窗共用同一套规则。
 
-> **自带内部 padding 的组件一律栏内风满（全设备通用）**: 下列组件实例 **本身已内置左右 padding**，在栏内必须以 `x = 0, width = 栏W` 风满放置，**不得再叠加栏断点 padding**（否则内容会被 double-inset）：
+> **断点 padding 表 = 权威 spec（全组件适用, 2026-06-01 修订）**: 本表的 padding 值是所有组件（无论是否自带 internal padding）的 visible 总 padding 目标值。落位公式:
+>
+> &nbsp;&nbsp;`outer = max(0, spec − internal)`
+> &nbsp;&nbsp;`instance.x = outer`
+> &nbsp;&nbsp;`instance.width = 栏W − 2 × outer`
+>
+> 即 internal ≥ spec 时 instance 风满（接受 over）；internal < spec 时 outer 补足 deficit。自带 internal padding 的组件一览（参考）:
 >
 > - `NavigationBar` / `NavigationBar_ComponentSet_Notes`（内置 `左12；右12`）
 > - `SearchBar_ComponentSet`（内置 `左12；右12`）
 > - `SelectableChip_ComponentSet_*`（内置 `左12`）
 > - `List_Notes` / 各应用列表（内置 `左12；右12`）
-> - `Detail_Notes` / 各应用详情容器
-> - `TextInput_ComponentSet_Notes`
-> - `BottomBar_Showcase_*` / `ToolBar_*`（渐变遮罩栏风满，内部胶囊按工具栏规格单独处理）
-> - `Sidebar_Component_*`（外壳栏风满，内部卡片/菜单自带偏移）
+> - `Detail_Notes` / 各应用详情容器（内置 `左20`）
+> - `TextInput_ComponentSet_Notes`（内置 `左12；右12`，Q18 `_08` = `左20；右20`）
+> - `BottomBar_Showcase_*` / `ToolBar_*`（外壳 instance 风满；内部胶囊 24dp inset 自带处理）
+> - `Sidebar_Component_*`（外壳风满，内部卡片 12dp 自带偏移）
 >
-> 下方「断点间距」表仅适用于 **无自带 padding 的裸控件 / 业务容器** （如纯 Frame、分组卡片外框等）。具体应用的组件若其 `app-variant-map-*.md` 的「组件间距」表记录与本规则冲突，**以 `device-dimensions.md` 为准**，组件间距表按此修正。
+> 旧规则「自带 padding 组件一律栏内风满 / 不得再叠加断点 padding」废止。原因: Pad device 断点（20/28/56dp）大于 12dp internal 时，风满 placement 违反 spec。详见 `common-rules-instance.md §3.4a.1 / §3.4a.3`（A/B 通用公式, `common-rules-principles.md §0 #18` 同步）。
+>
+> 应用组件的 `app-variant-map-{app}.md`「组件间距」表为 derived（反映实测）—— 与本 device-dim 断点表冲突时以 device-dim 为权威。
 
 > **Q18 特例（OS4 新增）**：Q18 设备（Fold 内屏）在 **容器宽度 w ≤ 640dp** 区间统一使用 **12dp** padding，不再按 420 / 640 细分。仅当 Q18 内屏 **横屏 C 栏通栏** 且 `800 ≤ w ≤ 1100` 时使用 56dp。各 Fold 章节的 padding 表已按此特例给出具体值；下表的 20dp / 28dp 仅适用于 **非 Q18** 设备（如 Pad）。
 
@@ -317,11 +325,11 @@ Fold 和 Pad 的所有栏内容从状态栏下方开始排列，各栏内容与�
 |-----------------|------|----------------|
 | Pad C 栏，pad 宽 > 900dp | 搜索框（内嵌顶部导航右上） + 下方承接面板（Dropdown） | **`SearchReceiving_ComponentSet`** (`_00`/`_01`) — Dropdown form |
 | Pad C 栏，pad 宽 ≤ 900dp | 搜索 icon（右上） + 激活后栏内拉通面板 | `SearchReceiving_ComponentSet` 拉通形 |
-| **Pad N / L 栏 active** | **新页面承接 (与 Phone 样式一致)** | **`SearchHistory_Receiving_ComponentSet`** (`_01`) — Phone 樣式 panel form. **C 栏의 SearchReceiving_00 와 다름** ─ N/L 栏 适用 시 Dropdown spec (gap 6dp / 圆角 24 / padding 16) 위치만 빌리고, 内容은 SearchHistory_Receiving variant 자체. dim 없음 (overlay panel only). y = SearchBar.bottom + 6 |
-| Phone / Fold 外屏 | 新页面承接 (full-screen) | `SearchHistory_ComponentSet` (`_01`/`_02`) inline form (panel 아닌 list) |
-| Fold 内 L 栏 active | 新页面承接 (Phone 样式) | `SearchHistory_ComponentSet` (`_02`) inline (栏 폭 reflow) — Pad 와 달리 별도 panel form 不要, SearchBar `_01` 아래 直接 stack |
+| **Pad N / L 栏 active** | **新页面承接 (与 Phone 样式一致)** | **`SearchHistory_Receiving_ComponentSet`** (`_01`) — Phone 样式 panel form. **与 C 栏的 SearchReceiving_00 不同** ─ N/L 栏 适用时 Dropdown spec (gap 6dp / 圆角 24 / padding 16) 仅借用位置, 内容是 SearchHistory_Receiving variant 本身. 无 dim (overlay panel only). y = SearchBar.bottom + 6 |
+| Phone / Fold 外屏 | 新页面承接 (full-screen) | `SearchHistory_ComponentSet` (`_01`/`_02`) inline form (非 panel 而是 list) |
+| Fold 内 L 栏 active | 新页面承接 (Phone 样式) | `SearchHistory_ComponentSet` (`_02`) inline (栏宽 reflow) — 与 Pad 不同, 无需独立 panel form, SearchBar `_01` 下方直接 stack |
 
-> **MUST (2026-05-31 정식 채택)**: Pad N/L 栏 search active 时 `SearchReceiving_00` (C 栏 전용 Dropdown) 错误 적용 금지. **必하 `SearchHistory_Receiving_01`** 사용 — 위치는 Pad 承接面板 spec 그대로 빌리되 component 자체는 N/L 栏 専用. 회고: 2026-05-31 笔记搜索+详情 task 에서 4 frame 모두 SearchReceiving_00 잘못 적용 → user 지적 후 SearchHistory_Receiving_01 으로 정정.
+> **MUST (2026-05-31 正式采用)**: Pad N/L 栏 search active 时禁止错误适用 `SearchReceiving_00` (C 栏专用 Dropdown). **必须使用 `SearchHistory_Receiving_01`** — 位置照搬 Pad 承接面板 spec, 但 component 本身是 N/L 栏专用. 回顾: 2026-05-31 笔记搜索+详情 task 中 4 个 frame 全部错误适用 SearchReceiving_00 → 经 user 指正后修正为 SearchHistory_Receiving_01.
 
 ### Pad 搜索框（宽 > 900dp）
 

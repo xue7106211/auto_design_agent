@@ -1,94 +1,94 @@
 # csv-pipeline
 
-> Stage 1A 매핑 파이프라인 — 디자이너의 26열 가로 매핑표를 AI가 lookup 가능한 종방향 정규화 CSV로 변환.
+> Stage 1A 映射管线 — 将 designer 的 26 列横向映射表转换为 AI 可 lookup 的纵向规范化 CSV.
 
-매핑 작업 관련 자산 (입력/출력/스크립트/진행 상황/Node 셋업) **전부 이 폴더 안**.
+映射工作相关资产 (输入/输出/脚本/进度/Node 配置) **全部在该文件夹内**.
 
-## 빠른 시작
+## 快速开始
 
 ```bash
 cd csv-pipeline
-npm install      # 최초 1회
-npm run extract  # mapping-input/ → mapping-output/ 재생성
-npm run status   # 현재 상태 + 다음 작업 큐 출력
+npm install      # 首次执行 1 次
+npm run extract  # mapping-input/ → mapping-output/ 重新生成
+npm run status   # 输出当前状态 + 下一步任务队列
 ```
 
-## 폴더 구조
+## 文件夹结构
 
 ```
 csv-pipeline/
-├── README.md                          ← 이 파일 (폴더 진입점)
-├── project-status-ko.md / .md         ← 현재 진행 상황 + 다음 작업 큐 (단일 권위)
-├── package.json + tsconfig.json       ← Node/TS 셋업
+├── README.md                          ← 该文件 (文件夹入口)
+├── project-status-ko.md / .md         ← 当前进度 + 下一步任务队列 (单一权威)
+├── package.json + tsconfig.json       ← Node/TS 配置
 ├── node_modules/
 │
-├── mapping-input/                     ← 디자이너 업스트림 (수정 금지)
-│   ├── 结构变化表-{App}.csv × 17    ← 앱 팀별 독립 파일
-│   └── 控件变体清单.csv             ← 컴포넌트 디자이너 (단일)
+├── mapping-input/                     ← designer 上游 (禁止修改)
+│   ├── 结构变化表-{App}.csv × 17    ← 各 app 团队独立文件
+│   └── 控件变体清单.csv             ← 组件 designer (单一)
 │
-├── mapping-output/                    ← extract 산출물 (수동 편집 금지)
-│   ├── SystemUIKIT-mapping.csv                   ← Tier 1 (SystemUIKIT 공통)
-│   ├── app-{App}-mapping.csv × 18     ← Tier 2 (앱별)
-│   ├── components.csv                 ← 변체 메타데이터
-│   ├── extract-report.md              ← 경고·통계·diff
+├── mapping-output/                    ← extract 产出物 (禁止手动编辑)
+│   ├── SystemUIKIT-mapping.csv                   ← Tier 1 (SystemUIKIT 通用)
+│   ├── app-{App}-mapping.csv × 18     ← Tier 2 (各 app)
+│   ├── components.csv                 ← 变体元数据
+│   ├── extract-report.md              ← 告警·统计·diff
 │   └── .last-extract                  ← mtime sentinel
 │
 ├── scripts/
-│   ├── extract-mapping.ts             ← 메인 변환 스크립트
-│   └── show-status.ts                 ← npm run status 구현
+│   ├── extract-mapping.ts             ← 主转换脚本
+│   └── show-status.ts                 ← npm run status 实现
 │
 └── legacy/
-    └── app-mapping-stage1a.csv        ← 사용자가 수동 작성한 이전 CSV (참고용)
+    └── app-mapping-stage1a.csv        ← 用户手动编写的旧 CSV (参考用)
 ```
 
-## 입출력 흐름
+## 输入输出流
 
 ```
-[디자이너 워크플로]
-  각 앱 팀이 각자 유지:
-    结构变化表-{App}.csv (팀당 1개, 3-level 헤더)
-  컴포넌트 디자이너 유지:
+[designer 工作流]
+  各 app 团队各自维护:
+    结构变化表-{App}.csv (每个团队 1 个, 3-level 表头)
+  组件 designer 维护:
     控件变体清单.csv
                                    │
-                       mapping-input/ 폴더에 저장
+                       保存至 mapping-input/ 文件夹
                                    │
                               npm run extract
                                    ▼
-                       mapping-output/ 자동 생성
+                       mapping-output/ 自动生成
                                    │
-                                   │ csv-to-spec.ts (Stage 3A 예정)
+                                   │ csv-to-spec.ts (Stage 3A 预定)
                                    ▼
                               spec JSON
 ```
 
-> **팀 소유 분리**: 각 앱 팀은 자신의 `结构变化表-{App}.csv`만 독립 유지. 같은 파일 다중 편집으로 인한 git 충돌 회피. `extract-mapping.ts`가 `结构变化表-*.csv` 자동 glob 후 앱별로 출력.
+> **团队所有权分离**: 各 app 团队仅独立维护各自的 `结构变化表-{App}.csv`. 避免同一文件多人编辑导致的 git 冲突. `extract-mapping.ts` 自动 glob `结构变化表-*.csv` 后按 app 输出.
 
-## 관련 설계 문서 (프로젝트 외부)
+## 相关设计文档 (项目外部)
 
-설계와 결정 사항은 상위 워크스페이스의 `Improvement_doc/`:
+设计与决策事项位于上层 workspace 的 `Improvement_doc/`:
 
 ```
 csv-migration/
-├── Improvement_doc/                   ← 설계 문서 (상위 워크스페이스)
+├── Improvement_doc/                   ← 设计文档 (上层 workspace)
 │   ├── workflow-reform-plan-ko.md / .md
 │   ├── csv-authoring-guide-ko.md / .md
-│   └── extract-mapping-design-ko.md / .md  ← 결정 6건 잠금
+│   └── extract-mapping-design-ko.md / .md  ← 6 项决策锁定
 └── auto_design_agent_backup/
-    └── csv-pipeline/                  ← 이 폴더
+    └── csv-pipeline/                  ← 该文件夹
 ```
 
-`project-status-ko.md` 안에서 `../../Improvement_doc/...` 형태로 참조.
+`project-status-ko.md` 中以 `../../Improvement_doc/...` 形式引用.
 
-## 결정 사항 (변경 시 사용자 확인 필수)
+## 决策事项 (变更时必须经用户确认)
 
-`../../Improvement_doc/extract-mapping-design-ko.md` §확정 결정 사항 참조. 요약:
+参考 `../../Improvement_doc/extract-mapping-design-ko.md` §确定决策事项. 摘要:
 
-1. ✅ app 명명 = EN-only + CamelCase (`Notes`, `FileManager`, `MiMover`, `Phone`)
-2. ✅ uiElement 명명 = EN-only (`NavigationBar`)
-3. ✅ screenMode `""` 의미 = "이 device는 layout split 없음"
-4. ✅ 다중 컴포넌트 cell 자동 추론 + 모호 시 WARN
-5. ✅ 8-device 컨벤션 (`Fold外竖` / `Fold外横` 포함)
-6. ✅ extract-report에 legacy diff 포함
+1. ✅ app 命名 = EN-only + CamelCase (`Notes`, `FileManager`, `MiMover`, `Phone`)
+2. ✅ uiElement 命名 = EN-only (`NavigationBar`)
+3. ✅ screenMode `""` 含义 = "该 device 无 layout split"
+4. ✅ 多组件 cell 自动推断 + 模糊时 WARN
+5. ✅ 8-device 约定 (`Fold外竖` / `Fold外横` 包含)
+6. ✅ extract-report 包含 legacy diff
 
-추가:
-- ✅ CSV에서 setKey 컬럼 제거 → `references/app-variant-map-{app}.md §0.4`이 단일 권위
+补充:
+- ✅ 从 CSV 中移除 setKey 列 → `references/app-variant-map-{app}.md §0.4` 为单一权威

@@ -1,0 +1,173 @@
+{
+  "id": "Notes_待办_LC_默认_Fold内竖_LC",
+  "source": {
+    "app": "Notes",
+    "subScene": "待办",
+    "scene": "LC",
+    "state": "默认",
+    "device": "Fold内竖",
+    "screenMode": "LC"
+  },
+  "frame": {
+    "w": 628,
+    "h": 888,
+    "cornerRadius": 50,
+    "fill": {
+      "name": "背景色/surface",
+      "key": "5804f51e302d6fda00b3a8ce9d509d9b8ee09225",
+      "fallback": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
+    }
+  },
+  "statusBar": {
+    "variant": "StatusBar_01",
+    "setKey": "1047f2112a230a27d3888d27b34a5857815216e3",
+    "library": "OS4 UI Kit",
+    "x": 0,
+    "y": 0,
+    "w": 628,
+    "h": 46
+  },
+  "layout": {
+    "type": "LC",
+    "lanes": {
+      "L": {
+        "x": 0,
+        "y": 46,
+        "w": 282,
+        "h": 842,
+        "fill": "surface"
+      },
+      "C": {
+        "x": 282,
+        "y": 46,
+        "w": 346,
+        "h": 842,
+        "fill": "surface"
+      }
+    }
+  },
+  "scenarioFlags": {
+    "LEditMode": false,
+    "NEditMode": false,
+    "CEditMode": false,
+    "NCovering": false,
+    "NCollapsed": false
+  },
+  "components": [
+    {
+      "element": "NavigationBar",
+      "lane": "L栏",
+      "variant": "NavigationBar_ComponentSet_05",
+      "setKey": "540e4fc76fe77d170dfee1011836f1f63a947e05",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 282,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SearchBar",
+      "lane": "L栏",
+      "variant": "SearchBar_ComponentSet_05",
+      "setKey": "2316a63eb824ab38f388c3127101e535b7668398",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 282,
+      "y": 56,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "SelectableChip",
+      "lane": "L栏",
+      "variant": "SelectableChip_ComponentSet_Notes_02",
+      "setKey": "af1e1df353e8fb1fe8005b82fed310422f2eae4c",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 282,
+      "y": 112,
+      "h": 52,
+      "notes": ""
+    },
+    {
+      "element": "List",
+      "lane": "L栏",
+      "variant": "List_Task_03",
+      "setKey": "1107d1e9566fff3d96635c2485ed1d96607903b6",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 282,
+      "y": 164,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "Fab",
+      "lane": "C栏",
+      "variant": "Fab_01",
+      "setKey": "f971e9923e8569bd753d786e8f80d382f4d53ab7",
+      "library": "OS4 UI Kit",
+      "category": "flow-A",
+      "x": 0,
+      "w": 346,
+      "y": 0,
+      "h": 56,
+      "notes": ""
+    },
+    {
+      "element": "DetailTask",
+      "lane": "C栏",
+      "variant": "DetailTask_01",
+      "setKey": "cfb8919278f9ebae27962fdffe5f6f294dcf814e",
+      "library": "业务组件库",
+      "category": "flow-A",
+      "x": 0,
+      "w": 346,
+      "y": 56,
+      "h": "auto",
+      "notes": ""
+    }
+  ],
+  "overlays": [
+    {
+      "trigger": "",
+      "family": "Notes_TaskWindow",
+      "lane": "C栏",
+      "variant": "AlertDialog_NewTask_01",
+      "setKey": "0f741e08f5541c86dfd684e38f4ca837b7ef9e0e",
+      "library": "业务组件库",
+      "source": "out-of-flow"
+    }
+  ],
+  "masks": [],
+  "divider": {
+    "x": 282,
+    "y": 0,
+    "w": 1,
+    "h": 888,
+    "fill": "outline"
+  },
+  "swipeIndicator": {
+    "variant": "SwipeIndicator_05",
+    "setKey": "8356fb53480febeb853a6c391bcd2dc8f13198f2",
+    "x": 0,
+    "y": "bottom",
+    "w": 628,
+    "fills": []
+  },
+  "zOrder": [
+    "main",
+    "状态栏",
+    "分割线",
+    "杆子"
+  ]
+}

@@ -131,16 +131,59 @@ async function bindStrokePaint(tokenName, fallbackRGB, opacity) {
 //    args:
 //      inst           — 已 createInstance 的 instance (caller 负责创建)
 //      parent         — 落位 target parent
-//      x, y, w, h     — 栏内坐标系 + 大小 (A 类 component 必须 x=0 w=栏W 风满 §0 #18)
+//      x, y, w, h     — 栏内坐标系 + 대小 (raw values; laneW 제공 시 outer padding 자동 적용 — 아래 참조)
+//      laneW          — (선호) 그 component 가 위치하는 栏 width (Lw / Cw / Nw / frameW). 제공 시:
+//                       device-dim 断点 padding 표 + 笔记 INTERNAL 表 lookup → outer 자동 계산.
+//                       result: instance.x = outer, instance.width = laneW − 2×outer.
+//                       (caller-pass x/w override 안 함; 우선)
+//      isQ18          — (laneW 함께 제공 시) Q18 (Fold 内屏) 여부. true 면 w ≤ 640 → 12dp 통일.
 //      sourceInst     — (可选) source inst, 用于 inner componentProperties 继承
 //      targetVariant  — (可选) 目标 variant component, 提供时执行 swapComponent
 //      opts           — { fillFirstChild?, resetOverrides?, inheritInnerState? }
 //                       fillFirstChild 默认 true, multi-child component 自动 skip
 //                       resetOverrides 默认 OFF (protocol §2 关键决定)
 //                       inheritInnerState 默认 true (sourceInst 提供时执行)
+//
+//    회고 (2026-06-02 笔记 多端 적응 task): laneW 미적용 시 inline caller 에서 일관되게
+//    `x=0, w=laneW` 단순 패턴 사용 → device-dim outer padding 룰 (`outer = max(0, spec-internal)`)
+//    누락. 같은 룰이 .md 만 작성되고 runtime 강제 안되어 6개월간 7번 재발. 본 옵션이
+//    caller-side lookup 누락을 placement.ts level 에서 자동 처리.
 // -----------------------------------------------------------------------------
+
+// 笔记 / 待办 standard component family internal padding (左+右 절반)
+const NOTES_INTERNAL_PAD = {
+  NavigationBar: 12,
+  NavigationBar_ComponentSet: 12,
+  SearchBar_ComponentSet: 12,
+  SelectableChip_ComponentSet_Notes: 12,
+  List_Notes: 12,
+  Detail_Notes: 20,
+  TextInput_ComponentSet_Notes: 12,  // _05/_06/_07 다른 룰은 device-dim 에서 처리
+  ToolBar_ComponentSet: 0,           // 외각 풍만 + capsule 內處 (master HUG)
+  BottomBar_Showcase: 0,
+  BottomBar_NoteEditPanel: 0,
+};
+
+// device-dim 断点 padding (좌·우 각각). isQ18 (Fold 内屏) → w≤640 통일 12.
+function laneBpPadding(laneW, isQ18) {
+  if (isQ18 && laneW <= 640) return 12;
+  if (laneW <= 420) return 12;
+  if (laneW <= 640) return 20;
+  if (laneW <= 800) return 28;
+  return 56; // ≤1100 + 1100 초과 (여기서는 같음, 1100 초과는 caller 가 fill margin 별도)
+}
+
+function lookupInternalPad(name) {
+  if (!name) return 0;
+  for (const [key, val] of Object.entries(NOTES_INTERNAL_PAD)) {
+    if (name === key || name.startsWith(key)) return val;
+  }
+  return 0;
+}
+
 async function placeStandardComponent(args) {
-  const { inst, parent, x, y, w, h } = args;
+  const { inst, parent, y, h } = args;
+  let { x, w } = args;
   const sourceInst = args.sourceInst || null;
   const opts = args.opts || {};
   const resetOverrides = opts.resetOverrides === true;
@@ -156,6 +199,18 @@ async function placeStandardComponent(args) {
   // 3. resetOverrides 默认 OFF (开启会清掉 width override 触发 hug content reflow)
   if (resetOverrides) {
     try { inst.resetOverrides(); } catch {}
+  }
+
+  // 3b. laneW provided → outer padding 자동 적용 (2026-06-02 추가, rule-doc-only failure 방지).
+  //     ToolBar / BottomBar_Showcase 系 = 외각 풍만 (lane W) 유지, 내부 capsule 은 master HUG 가
+  //     알아서 처리 → outer=0 강제. 다른 A 류 = `outer = max(0, spec − internal)`.
+  if (typeof args.laneW === 'number') {
+    const isQ18 = args.isQ18 === true;
+    const internal = lookupInternalPad(inst.name);
+    const spec = laneBpPadding(args.laneW, isQ18);
+    const outer = /ToolBar|BottomBar/.test(inst.name || '') ? 0 : Math.max(0, spec - internal);
+    x = outer;
+    w = args.laneW - 2 * outer;
   }
 
   // 4. sizing FIXED (四项全部, 互不替代)
@@ -296,7 +351,34 @@ async function placeStandardComponent(args) {
   //
   //    실행: capsule / button / overlay / BB padding 모두 master default 유지.
   //    instance level 강제 변경 없음. 외각 lane W 만 풍만.
-  // (구 capsule 후처리 + button 분배 코드 폐기 — master default 유지가 정답)
+  //
+  //    9a. (2026-06-02 추가) capsule + button master default 강제 복원.
+  //    ToolBar inner button 의 layoutGrow / layoutSizingHorizontal 가 stale
+  //    instance override 로 FILL/grow=1 상태일 때 → button FILL 균등 분배 → button
+  //    width 92 (자연 66 보다 큰) → 4 button × 92 = 368dp 가 capsule 자연 240 을
+  //    덮어 overflow / 잘림 발생. ToolBar / BottomBar_Showcase 系 instance 가
+  //    laneW 와 함께 placement 될 때마다 capsule + button 모두 HUG default 강제 복원.
+  if (/ToolBar|BottomBar_Showcase/.test(inst.name || '')) {
+    const findCap = (n) => {
+      if (!n || n.type === 'TEXT' || !('children' in n) || !n.children) return null;
+      for (const ch of n.children) {
+        if (/工具个数举例|TabMaterial|工具栏胶囊/.test(ch.name || '')) return ch;
+        const sub = findCap(ch);
+        if (sub) return sub;
+      }
+      return null;
+    };
+    const cap = findCap(inst);
+    if (cap) {
+      try { cap.layoutSizingHorizontal = 'HUG'; } catch {}
+      if (cap.children) {
+        for (const btn of cap.children) {
+          try { btn.layoutGrow = 0; } catch {}
+          try { btn.layoutSizingHorizontal = 'HUG'; } catch {}
+        }
+      }
+    }
+  }
 
   return inst.id;
 }

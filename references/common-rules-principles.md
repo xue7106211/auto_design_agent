@@ -1,8 +1,8 @@
 # 通用规则 — 原则与边界
 
-> Phase 0~2 + 全 phase 메타 룰. SKILL.md / app-variant-map-{app}.md / protocol.md 가 매번 참조.
-> 본 파일 = §0 (28원칙) + §1~§2 (검색/내용 边界) + §3.11/§3.13/§3.14/§3.15 (메타 룰).
-> 기타: instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
+> Phase 0~2 + 全 phase 元规则. SKILL.md / app-variant-map-{app}.md / protocol.md 每次都引用.
+> 本文件 = §0 (28 原则) + §1~§2 (检索/内容边界) + §3.11/§3.13/§3.14/§3.15 (元规则).
+> 其他: instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
 
 ## §0. 快速执行摘要
 
@@ -27,11 +27,11 @@
     - 应用 `app-variant-map-{app}.md`「遮罩规则」（应用专用触发条件 + 范围）
     - `component-placement-protocol.md §3` (z-order 模板)
     - 如有用户提供 reference frame，**直接 dump 其 children z-order 比对**，不要从 spec text 推测多 mask 叠加顺序。
-18. **device-dim 断点表 padding 优先 (核心规则, 2026-06-01 修订)**：A 类标准组件 (StatusBar / NavBar / TopBar / SearchBar / Chip / List / Detail / ToolBar / BottomBar / Sidebar / TextInput / Fab 等) 의 落位 padding 은 `device-dimensions.md` 各 device × screenMode 의 「断点 padding 表」을 권위로 한다. 즉 **target visual padding = device-dim spec** 이 정답이며, 자동 outer 합산 적용:<br>&nbsp;&nbsp;• `instance.x = max(0, spec - internal)`<br>&nbsp;&nbsp;• `instance.width = lane − 2 × instance.x`<br>&nbsp;&nbsp;• 단, `internal ≥ spec` 시 outer = 0 (풍만 + over 受 け 入 れ)<br>예시 (Pad 横 NLC L 栏): spec=20, internal=12 → outer=8, instance `x=8, w=412` (lane 428).<br>예시 (Fold 内 LC C 栏): spec=12, internal=0 → outer=12, instance `x=12, w=lane-24`.<br>**旧 룰 폐기 사유**: 「A 类一律 风满 / 禁止 outer 합산」 룰이 device-dim spec 과 mismatch (Pad L 12 vs spec 20 등) 받아들여 user 시각 검증 시 padding 불일치 지적. user 명시 「device-dimensions이 원칙」. 이전 「A 类 风满 / B 类 합산」 二分은 sub-rule 로만 유지 (B 类 = 裸 frame / 자정 의 컨테이너 의 합산 공식). 详见 `common-rules-instance.md §3.4a` (이번 수정 동시 반영).
+18. **device-dim 断点表 padding 优先（核心规则, 2026-06-01 修订）**：所有组件（A 类自带 internal padding 标准组件 + B 类裸 frame）的落位 padding 以 `device-dimensions.md` 各 device × screenMode「断点 padding 表」为权威。即 **target visual padding = device-dim spec**，自动 outer 合算:<br>&nbsp;&nbsp;• `instance.x = max(0, spec − internal)`<br>&nbsp;&nbsp;• `instance.width = lane − 2 × instance.x`<br>&nbsp;&nbsp;• `internal ≥ spec` 时 outer=0（风满 + 接受 over）<br>例（Pad 横 NLC L 栏）: spec=20, internal=12 → outer=8, instance `x=8, w=412`（lane 428）。<br>例（Fold 内 LC C 栏）: spec=12, internal=0 → outer=12, instance `x=12, w=lane-24`。<br>**旧规则废止原因**: 「A 类一律风满 / 禁止 outer 合算」与 device-dim spec mismatch（Pad L internal 12 vs spec 20），用户视觉验证时 padding 不一致。用户明示「device-dimensions 为原则」。原「A 类风满 / B 类合算」二分作为 sub-rule 保留（B 类 = 裸 frame / 自定义容器的合算公式）。详见 `common-rules-instance.md §3.4a`（同步修订）。
 19. **应用专用 N 收起 L 栏 width 规则**：笔记 / 待办 NL framework 收起态下 N 栏自身消失（不是 device-dim 通用 N=88 + L 缩窄），**L 栏 width = frameW**（吸收 N 宽度）。其它应用按各自 `app-variant-map-{app}.md` 声明，未声明则沿用 device-dim 通用规则。落位 L 栏 frame 时必须先查 app-variant-map 是否有覆盖。
 20. **inner componentProperties 必须与源稿同步**：源稿 instance 的内部 INSTANCE 子节点 `componentProperties`（如 ToolBar 按钮 `状态=禁用` / `数量=4个`、List item 编辑态、SearchBar 激活态等）反映源稿业务态。适配 frame 必须递归继承，**禁止** 仅 swap 顶层 variant 而 inner state 停留在 main default。Phase 1 dump `sourceInnerStateMap` → Phase 5 `placeStandardComponent({ sourceInst, inheritInnerState=true })` 自动继承 → Phase 6 verifyChecklist ⑯ 通过 `spec.componentChecks[i].sourceInstId` 自动比对差异。详见 `component-placement-protocol.md §2 内部状态继承` + `common-rules-verify.md §6.2 #25`。
 21. **组件 import 时源稿实际 ComponentSet 优先**：Phase 4 组件 import 时，**必须先读取源稿 instance 的 `mainComponent.parent`（= 源稿实际使用的 ComponentSet）**，从该 set 中查找目标 variant。`search_design_system` 同名结果可能返回不同 set（同名异库），直接采用会导致错误组件落位。仅当源稿中不存在该组件时才走 `search_design_system` 路径。
-22. **源稿实际 variant 与 CSV / 映射表冲突时处理**：源稿 instance 的实际 variant 与 `app-variant-map` / CSV 映射表不一致时，**以映射表为准**执行适配，同时向用户报告差异。原因：① 源稿 variant 是源 device 上下文（如手机编辑模式 ToolBar `_02`）的产物，与目标 device 的语义不必然一致；② 映射表 = CSV `结构变化表-{App}.csv` (designer 编写) 的镜像 = 多端规格的单一权威；③ 源稿是 reference frame，但 device 별 variant 결정은 mapping CSV 가 진정한 single source of truth. **例外**：源稿 inner 子组件 componentProperties (如 ToolBar 内 各按钮 `状态=禁用` / `数量=4个` 등) 反映 业务 interaction state — 对此类 inner state 적용 §0 #20 (inner componentProperties 必须与源稿同步) 으로 inheritInnerState 复制. 즉 **顶层 variant = 映射表 / inner state = 源稿** 의 二元 구조. **映射表 outdated 의심 시**: 사용자에게 보고 + CSV `结构变化表-{App}.csv` 业데이트 후 재추출 (§3.11). (与 §3.11 互补：§3.11 处理 CSV vs .md 冲突；本条 confirms CSV/映射表 over 源稿 物。)
+22. **源稿实际 variant 与 CSV / 映射表冲突时处理**：源稿 instance 的实际 variant 与 `app-variant-map` / CSV 映射表不一致时，**以映射表为准**执行适配，同时向用户报告差异。原因：① 源稿 variant 是源 device 上下文（如手机编辑模式 ToolBar `_02`）的产物，与目标 device 的语义不必然一致；② 映射表 = CSV `结构变化表-{App}.csv` (designer 编写) 的镜像 = 多端规格的单一权威；③ 源稿是 reference frame，但 device 别 variant 决定是 mapping CSV 才是真正的 single source of truth. **例外**：源稿 inner 子组件 componentProperties (如 ToolBar 内 各按钮 `状态=禁用` / `数量=4个` 等) 反映业务 interaction state — 对此类 inner state 适用 §0 #20 (inner componentProperties 必须与源稿同步) 以 inheritInnerState 复制. 即 **顶层 variant = 映射表 / inner state = 源稿** 的二元结构. **映射表 outdated 怀疑时**: 向用户报告 + CSV `结构变化表-{App}.csv` 更新后重新提取 (§3.11). (与 §3.11 互补：§3.11 处理 CSV vs .md 冲突；本条 confirms CSV/映射表 over 源稿 物。)
 23. **禁止以「视觉无影响」为由跳过正确 variant 匹配**：组件的 device-specific variant（如 `杆子` 的 `设备=折叠屏/pad × 横竖屏=横屏/竖屏`）必须按目标设备 + 方向精确选择。即使当前 variant 视觉上透明 / 不可见 / 与目标 variant 外观一致，也**不允许**保留错误 variant。原因：①设计系统的 variant 携带语义信息（适用设备、方向等），后续自动化检查 / 主题切换 / 深色模式可能产生差异；②「视觉无影响」是当前状态的主观判断，不是持久保证；③映射表 / spec 规定的精确值是强制要求，无豁免条件。
 
 24. **HyperOS v0.8 库组件禁止使用（MUST）**：所有 import 必须来自 §0.5.1 列出的三个权威 **fileKey** 之一（`mrvMGwkbZ7qZML7iOfQsvI` 业务组件库 / `FBvQ3xM5C62MgIcA1JHWIs` OS4 UI Kit / `5gZYD8i6JqBvsaS7yvnO9c` Token-Lib），即 — 权威基准是 **fileKey**，非 library 显示名。OS4 UI Kit 的源 file 名包含 "Figma UI Kit 4.0 AI 测试版" 字符串，但 fileKey `FBvQ3xM5C62MgIcA1JHWIs` 即权威 OS4 源（§0.5.1 的单一来源）。该 file 发布 lib 的 libraryKey 形式为 `lk-99b74bcae...`（即检索结果中遇到此 libraryKey 不属于规避对象，而是权威本身）。**`Xiaomi HyperOS v0.8`（libraryKey `lk-bd807c2a...`）绝对禁止** — v0.8 与 OS4 UI Kit 中存在同名 ComponentSet（如 `杆子` / `StatusBar` 等），`importComponentSetByKeyAsync` 可能跨库调用成功但实际 import 旧库版本。**强制验证流程**：Phase 5 落位完成后，对任一关键组件 instance 执行 `inst.mainComponent.remote === true` + Figma UI 右侧面板确认 library 的 source fileKey 是 §0.5.1 三 fileKey 之一（尤其不是 v0.8 `lk-bd807c2a...`）。§0.4 / `csv-pipeline/data/setkeys.json` 记录的 key 如经 Figma UI 确认来自 v0.8 → 必须立即用 `search_design_system` 找到正确 key 并替换。**强制 scope (MUST)**：调用 `mcp__plugin_figma_figma__search_design_system` 时 **必须** 在 `includeLibraryKeys` 参数中传入 `csv-pipeline/data/setkeys.json` 的 `authoritativeLibraryKeys` 值。仅靠 unsubscribe 无法屏蔽 community/test/legacy lib 结果 — `includeLibraryKeys` scope 是唯一保障。权威 key 列表以 `setkeys.json` 的 `authoritativeLibraryKeys` 为单一来源。
@@ -260,30 +260,30 @@ csv-pipeline 输入 CSV 两种 (`csv-pipeline/mapping-input/`):
 
 ## §3.15 规则添加决策标准（2026-05-31 追加）
 
-**WHEN**: 适配过程에서「common 不到의 special mapping / cascade pattern / fix recipe」 등장 시, 룰 文 추가 commit 前 必须 통과.
+**WHEN**: 适配过程中出现「common 找不到的 special mapping / cascade pattern / fix recipe」时, 规则文添加 commit 前必须通过.
 
-**核心 self-check (1 行)**: **「이 pattern 이 다른 app 에도 反復될 가능성 있나?」** — No → 룰 文 不要, 「데이터」만 기록 (CSV cell + footnote).
+**核心 self-check (1 行)**: **「此 pattern 在其他 app 中也有可能重复发生吗？」** — No → 不需要规则文, 仅记录「数据」(CSV cell + footnote).
 
-**4점 review (MUST 自答, NEVER 1점이라도 fail 시 추가)**:
+**4 点 review (MUST 自答, NEVER 即便 1 点 fail 时也要追加)**:
 
-1. **다른 app 에서 (다른 子場景 / device) 反復 발생 증거가 있나?** No → CSV direct (mapping → `结构变化表-{App}.csv` cell, 1회성 spec 偏差 → CSV cell, 1회성 variant 选择 → CSV + 1줄 footnote).
-2. **runtime 함수 본체로 解決 가능한가?** Yes → `runtime/placement.ts` / `verify.ts` 추가, 룰 文 不要 (또는 1줄 pointer 만).
-3. **既存 §0.X / §3.X 룰의 sub-case 인가?** Yes → 既存 룰 본문 修正, 새 §N 추가 不要 (drift 위험).
-4. **룰 文 본문 ≤ 5 줄 압축 가능한가?** No → over-engineering. CSV / runtime 으로 二分.
+1. **在其他 app 中 (其他子场景 / device) 有重复发生的证据吗？** No → CSV direct (mapping → `结构变化表-{App}.csv` cell, 一次性 spec 偏差 → CSV cell, 一次性 variant 选择 → CSV + 1 行 footnote).
+2. **runtime 函数本体可以解决吗？** Yes → `runtime/placement.ts` / `verify.ts` 添加, 不需要规则文 (或仅 1 行 pointer).
+3. **是已有 §0.X / §3.X 规则的 sub-case 吗？** Yes → 修正已有规则正文, 不需要新增 §N (drift 风险).
+4. **规则文正文 ≤ 5 行可以压缩吗？** No → over-engineering. 二分至 CSV / runtime.
 
-**Yes 통과 시 위치 결정 트리**:
+**Yes 通过时位置决定树**:
 
-| 룰 性质 | 위치 |
+| 规则性质 | 位置 |
 |---|---|
-| 단 1 app 内 multi-device cascade (예: `Sidebar_Notes attached form`) | `app-variant-map-{app}.md §0.1 #N` |
-| multi-app 共有 cascade / fix recipe (예: A 类 风满, instance reflow 6 step) | `common-rules-instance.md` 或 `common-rules-mask-zorder.md` |
-| runtime 实행 가능 algorithm (예: inner state walk, capsule 后처리) | `runtime/placement.ts` / `verify.ts` 함수 본체 |
+| 仅 1 app 内 multi-device cascade (例: `Sidebar_Notes attached form`) | `app-variant-map-{app}.md §0.1 #N` |
+| multi-app 共有 cascade / fix recipe (例: A 类风满, instance reflow 6 step) | `common-rules-instance.md` 或 `common-rules-mask-zorder.md` |
+| runtime 可执行 algorithm (例: inner state walk, capsule 后处理) | `runtime/placement.ts` / `verify.ts` 函数本体 |
 | token / set key / library key 列表 | `app-variant-map-{app}.md §0.4` 表 |
 
-**判別 例**: 笔记 LC L NavBar device 별 `_04/_07/_08` → **CSV direct** (기계적 device × variant). 笔记 Sidebar_Notes attached form (Fold 全 device 풀히트 + inner FILL only children[0]) → **§0.1 #10 룰** (4 device cascade + boundary 必要). 私密笔记 Pad 도 LC → **CSV cell** (1회성 偏离). `instance.children[0].layoutSizingV='FILL'` cascade auto-apply → **`placement.ts` step 7c** (runtime 行为).
+**判别例**: 笔记 LC L NavBar device 别 `_04/_07/_08` → **CSV direct** (机械的 device × variant). 笔记 Sidebar_Notes attached form (Fold 全 device 全命中 + inner FILL only children[0]) → **§0.1 #10 规则** (4 device cascade + boundary 必要). 私密笔记 Pad 也是 LC → **CSV cell** (一次性偏离). `instance.children[0].layoutSizingV='FILL'` cascade auto-apply → **`placement.ts` step 7c** (runtime 行为).
 
-**既存 룰 retrospective**: 새 task 完了 후, 추가한 룰이 4점 통과 여부 재검. 통과 못 하면 CSV / runtime 으로 移籍 + 룰 文 削除 (또는 pointer 만).
+**既有规则 retrospective**: 新 task 完成后, 复查添加的规则是否通过 4 点. 不通过则迁移至 CSV / runtime + 删除规则文 (或仅保留 pointer).
 
 ---
 
-> **연관 파일**: instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.
+> **关联文件**: instance → `common-rules-instance.md` / mask-zorder → `common-rules-mask-zorder.md` / verify → `common-rules-verify.md` / prohibit → `common-rules-prohibit.md`.

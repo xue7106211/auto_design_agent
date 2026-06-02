@@ -240,8 +240,13 @@ interface CellEntry {
   notes: string;
 }
 
-const NON_RENDER_KEYWORDS = ['不显示', '不存在', '不渲染', '不展示', '无导航栏', '隐藏'];
+const NON_RENDER_KEYWORDS = ['不显示', '不存在', '不渲染', '不展示', '无导航栏', '隐藏', '无标题栏', '无标题'];
 const PLACEHOLDER_KEYWORDS = ['via search', '查询', 'TBD'];
+// Cells whose first-line is a prose uiElement annotation rather than a variantId
+// (e.g. "标题栏 新建图标" = designer note: place a "新建" icon in the title bar's right slot).
+// These rows have no concrete variantId — emit '(prose-only)' marker so downstream
+// validate-csv skips them as a non-component placeholder.
+const PROSE_ONLY_KEYWORDS = ['标题栏 新建图标', '标题栏新建图标'];
 
 function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[] } {
   const warnings: string[] = [];
@@ -298,7 +303,23 @@ function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[
 
     // Variant clean: strip trailing colons, commas, descriptions
     //   (CSV cells occasionally have trailing comma on a variantId due to authoring; strip.)
-    const cleanedFirst = firstLine.replace(/[：:,]\s*$/, '').trim();
+    let cleanedFirst = firstLine.replace(/[：:,]\s*$/, '').trim();
+
+    // Numbered prose label strip (designer authoring pattern):
+    //   "1. 未选中L栏list：无标题"                       → "无标题"
+    //   "2. 选中L栏list：NavigationBar_ComponentSet_10" → "NavigationBar_ComponentSet_10"
+    //   "2. 选中L栏list：NavigationBar_ComponentSet_04（副标题）" → "NavigationBar_ComponentSet_04（副标题）"
+    // Pattern: ^<digit>+. <chinese-prose>: <real-content>
+    // Real content alone proceeds through the rest of the parser (NON_RENDER detection /
+    // wellFormedMatch / etc.). Authored as an "ordered fallback list" by designers; only
+    // entry #1 is the canonical pick — entries #2+ are alternates. We extract entry #1's
+    // content here, dropping the prose label.
+    const numberedLabelMatch = cleanedFirst.match(/^\s*\d+\s*[.。]\s*[^：:]*[：:]\s*(.+)$/);
+    if (numberedLabelMatch) {
+      cleanedFirst = numberedLabelMatch[1].trim();
+    }
+    // Strip parenthetical suffix annotations: "NavigationBar_ComponentSet_04（副标题）" → "NavigationBar_ComponentSet_04"
+    cleanedFirst = cleanedFirst.replace(/[（(][^（()）]+[)）]\s*$/, '').trim();
 
     // Detect "variantId 描述" patterns
     //   "Fab_01：彩色"            → variantId=Fab_01,                    notes=彩色   (clean)
@@ -324,6 +345,12 @@ function explodeCell(rawCell: string): { entries: CellEntry[]; warnings: string[
         noteParts.push(looseMatch[2].trim());
         warnings.push(`unclean variantId+desc split: "${cleanedFirst}"`);
       }
+    }
+
+    // Prose-only annotation cells (no variantId) — treat as marker, skip set-key resolve.
+    if (PROSE_ONLY_KEYWORDS.some(k => variantId.includes(k))) {
+      entries.push({ lane: currentLane, variantId: '(prose-only)', notes: variantId });
+      continue;
     }
 
     // Non-render keywords
@@ -619,6 +646,30 @@ function processRecords(
         const finalState = elemParse.state !== '默认'
           ? elemParse.state
           : (currentSubState || promotedState || '默认');
+
+        // Framework/lane compatibility validation
+        //   NC framework = N栏 + C栏 only (no L栏)
+        //   NL framework = N栏 + L栏 only (no C栏)
+        //   If mismatch detected, auto-correct lane to match framework
+        // Fold内 drilldown: scene is reframed to colScene (NLC→LC etc.). When sceneCondition
+        //   conflicts with reframed scene, defer to scene (the actual layout context) rather
+        //   than the col1 framework annotation. Without this, NC-framework rows that drill into
+        //   LC col emit framework='NC' + scene='LC' + lane='L栏' triggering spurious auto-correct.
+        let validatedLane = ent.lane;
+        const compatBasis = scene !== elemParse.sceneCondition ? scene : (elemParse.sceneCondition || scene);
+        if (compatBasis === 'NC' && ent.lane === 'L栏') {
+          validatedLane = 'C栏';
+          warnings.push({ row: r + 1, message: `${fileBase} col ${c}: lane='L栏' invalid in NC framework, auto-corrected to 'C栏'` });
+        } else if (compatBasis === 'NL' && ent.lane === 'C栏') {
+          validatedLane = 'L栏';
+          warnings.push({ row: r + 1, message: `${fileBase} col ${c}: lane='C栏' invalid in NL framework, auto-corrected to 'L栏'` });
+        } else if (compatBasis === 'C' && (ent.lane === 'L栏' || ent.lane === 'N栏')) {
+          // Fold内 single-canvas drilldown collapses N/L/C lanes into 全栏 (single column).
+          // Lane prefix from col1 (e.g. 'L栏:') is from the original NLC/NL framework — meaningless after collapse.
+          validatedLane = '全栏';
+          warnings.push({ row: r + 1, message: `${fileBase} col ${c}: lane='${ent.lane}' collapsed to '全栏' under C framework (Fold内 single-canvas)` });
+        }
+
         rows.push({
           app: currentApp,
           subScene: currentSubScene,
@@ -627,10 +678,13 @@ function processRecords(
           uiElement: ui,
           device: spec.device,
           screenMode: spec.screenMode,
-          lane: ent.lane,
+          lane: validatedLane,
           variantId: ent.variantId,
           notes: noteCombined,
-          framework: elemParse.sceneCondition,
+          // Fold内 drilldown: when scene was reframed to colScene, sync framework to match —
+          //   otherwise downstream lane-framework-compat validation flags the row spuriously
+          //   (e.g. col1 '/ NC' rows that drilldown into LC col emit framework='NC' + scene='LC').
+          framework: scene !== elemParse.sceneCondition ? scene : elemParse.sceneCondition,
           _sourceRow: r + 1,
         });
         stats.emittedRows++;

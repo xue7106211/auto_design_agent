@@ -1,6 +1,6 @@
 # extract-mapping report
 
-Generated: 2026-06-02T01:20:06.537Z
+Generated: 2026-06-02T03:51:24.936Z
 
 ## Statistics
 
@@ -8,7 +8,7 @@ Generated: 2026-06-02T01:20:06.537Z
 - Skipped empty rows: 0
 - Emitted output rows: 1237
 - SystemUIKIT-mapping.csv entries (SystemUIKIT): 22
-- components.csv entries: 181
+- components.csv entries: 189
 
 ### Per-app counts
 
@@ -32,9 +32,9 @@ Generated: 2026-06-02T01:20:06.537Z
 ## Diff vs app-mapping-stage1a.csv (legacy)
 
 - legacy keys: 886
-- matched: 699
-- new-only (legacy 缺失或新捕获): 282
-- legacy-only (新抽取中不存在): 187
+- matched: 691
+- new-only (legacy 缺失或新捕获): 290
+- legacy-only (新抽取中不存在): 195
 
 ### New-only examples (first 20)
 - Calculator|TopBar|手机竖||全栏|TopBar_01
@@ -59,6 +59,14 @@ Generated: 2026-06-02T01:20:06.537Z
 - Calendar|NavigationBar|Pad横|C|全栏|TopBar_Calendar_01
 
 ### Legacy-only examples (first 20)
+- SystemUIKIT|Keyboard|手机竖||全栏|Keyboard_phone_h_01
+- SystemUIKIT|Keyboard|手机横||全栏|Keyboard_phone_l_01
+- SystemUIKIT|Keyboard|Fold外竖||全栏|Keyboard_fold_inside_h_01
+- SystemUIKIT|Keyboard|Fold外横||全栏|Keyboard_phone_l_01
+- SystemUIKIT|Keyboard|Fold内竖|NC|全栏|Keyboard_fold_outside_h_01
+- SystemUIKIT|Keyboard|Fold内横|NC|全栏|Keyboard_fold_outside_l_01
+- SystemUIKIT|Keyboard|Pad竖|NLC|全栏|Keyboard_pad_h_01
+- SystemUIKIT|Keyboard|Pad横|NLC|全栏|Keyboard_pad_l_01
 - FileManager|BottomBar|Fold内竖|NC|N栏|Sidebar_Component_NC_01
 - FileManager|BottomBar|Fold内竖|C|全栏|TopBar_01
 - FileManager|BottomBar|Fold内横|NC|N栏|Sidebar_Component_NC_01
@@ -71,14 +79,6 @@ Generated: 2026-06-02T01:20:06.537Z
 - FileManager|BottomBar|Pad横|C|全栏|TopBar_05
 - FileManager|NavigationBar|Pad竖|C|全栏|TopBar_05 标题栏
 - FileManager|SearchBar|手机竖||全栏|Fab_01：白色
-- FileManager|SearchBar|Fold外竖||全栏|Fab_01：白色
-- FileManager|SearchBar|Fold内竖|C|全栏|TopBar_01 搜索图标
-- FileManager|SearchBar|Pad竖|C|全栏|TopBar_05 搜索栏
-- FileManager|SearchBar|Pad横|C|全栏|TopBar_05 搜索栏
-- Notes|BottomBar|Pad竖|NLC|N栏|Sidebar_Component_PAD_NLC_01
-- Notes|BottomBar|Pad竖|NLC收起|N栏|Sidebar_Component_PAD_NLC_00
-- Notes|BottomBar|Pad横|NLC|N栏|Sidebar_Component_PAD_NLC_01
-- Notes|BottomBar|Pad横|NLC收起|N栏|Sidebar_Component_PAD_NLC_00
 
 ## Warnings (12)
 
