@@ -597,6 +597,8 @@ await placeStandardComponent({
 
 每个 frame 落位完成后立即调用 `await verifyChecklist(frame, spec, scenarioFlags)`. errors.length > 0 → 修复 → 重新 verify (循环 max 3, 仍 fail → 向用户报告 + 中止). 禁止 silently 通过.
 
+> **🚫 禁止 manual inline verify（2026-06-02 追加，hard rule）**：Phase 6 **必须** `Read('csv-pipeline/runtime/verify.ts')` 取函数本体 inject 后调用真实 `verifyChecklist(...)`，**禁止**自行手写一份「精简版 verify」inline 执行。手写版必然遗漏 verify.ts 中累积的 auto-fire 检查项（⑥d N栏fill / ⑱ clipsContent / ⑲ lane-y 等），导致 errors=0 假通过。**回顾**：2026-06-02 待办多端适配 task 中，AI 用 manual inline verify（无 ⑥d）→ Pad横 N 栏 `fills=[]` 透明未被捕获 → user 指出「패드 N 배경 또 틀렸어」。根因 = 既存 runtime guard 被 manual 旁路。**判定**：Phase 6 输出必须含 `verifyChecklist` 真实调用证据（verify.ts inject）；若 task frame 结构 lane 在 frame 直接子级（§3.8 满高度模式）而非 `main` wrapper 内，verify.ts 各检查项已兼容两种结构 lookup（⑥d/⑮/⑱ 均 fallback frame 直接子级），仍须跑真实函数。
+
 **spec 模板（Pad 竖 NLC 覆盖 + L 编辑模式 示例）**：
 
 ```javascript

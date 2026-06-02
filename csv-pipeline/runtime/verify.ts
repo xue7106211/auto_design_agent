@@ -41,6 +41,8 @@
 //   ⑯  -      inner componentProperties 与源稿同步
 //   ⑰  §3.9   Pad横 NLC 并列 Sidebar promote (frame 직접子级 last z, 阴影 가시)
 //   ⑱  -      clipsContent default 강제 (frame/main/L/C=true; Pad横 NLC并列 시 N+main 만 false)
+//   ⑲  -      lane content top y >= SBH + 6 (栏 y=0 h=frameH 满高度模式时 device-dim「基本对齐方式」)
+//   ⑥d -      N 栏 외각 fill 跟随 L (透明 금지, §0.3; N 栏 존재 시 AUTO-fire)
 
 async function verifyChecklist(frame, spec, scenarioFlags) {
   const errors = [];
@@ -205,6 +207,42 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
         if (Math.abs(inst.x - outerExp) > 0.5) errors.push(`padding: ${col.name}/${inst.name} x=${inst.x} != outer ${outerExp} (laneW=${laneW} spec=${bpPad(laneW, isQ18)} internal=${internal})`);
         const wExp = laneW - 2 * outerExp;
         if (Math.abs(inst.width - wExp) > 0.5) errors.push(`padding: ${col.name}/${inst.name} w=${inst.width} != ${wExp}`);
+      }
+    }
+  }
+
+  // ⑥d N 栏 外壳 fill 检查 (2026-06-02 追加, rule-doc-only failure 防止).
+  //     app-variant-map-笔记.md §0.3: N 栏 (Sidebar 外壳) 跟随相邻 L 栏 fill
+  //     (L 不存在 → 跟随 C). 待办 Pad List_Task_03 flat → L=surface → N 也 surface.
+  //     透明 (fills=[]) 时画布灰底 bleed-through → user「패드 N 배경 또 틀렸어」.
+  //     trigger: AUTO — N 栏 frame 存在则无条件检查 (opt-in flag 移除 2026-06-02).
+  //              覆盖 模式 N 栏 frame 自体不存在 (Sidebar 浮) → 无误报.
+  //              §0.3 上 N 始终跟随 L (或 C) → 透明绝无正解.
+  //     期待值: N 栏 frame.fills token-bound (禁止透明), 与相邻 L fill token 一致.
+  //     回顾: 2026-06-02 待办 多端适配 task 中 Pad横 N 栏 frame fills=[] → user 指摘.
+  //     §0.3 规则仅在 .md, inline caller 用 `Ncol.fills=[]` (透明 default) fallback.
+  //     初版修正为 spec.checkNFill opt-in, 但 agent 不给 flag 则再发 →
+  //     移除 gate, N 栏存在时 auto-fire 强化 (feedback_runtime_enforce_rules).
+  {
+    // 两种结构都查: frame 直接子级 lane (§3.8 满高度模式) + main wrapper 内 lane
+    const nameIsN = (n) => n === 'N栏' || n === 'N 栏';
+    const nameIsL = (n) => n === 'L栏' || n === 'L 栏';
+    const mainNode = frame.children.find(c => c.name === 'main');
+    const Ncol = frame.children.find(c => nameIsN(c.name))
+      || (mainNode && mainNode.children && mainNode.children.find(c => nameIsN(c.name)));
+    const Lcol = frame.children.find(c => nameIsL(c.name))
+      || (mainNode && mainNode.children && mainNode.children.find(c => nameIsL(c.name)));
+    if (Ncol) {
+      const hasFill = Ncol.fills && Ncol.fills.length > 0 && Ncol.fills[0].type === 'SOLID';
+      const bound = hasFill && Ncol.fills[0].boundVariables && Ncol.fills[0].boundVariables.color;
+      if (!hasFill) {
+        errors.push(`N 栏 fill 透明 (fills=[]) — §0.3 违反: N 栏 须跟随相邻 L 栏 fill (透明则画布灰底 bleed-through)`);
+      } else if (!bound) {
+        errors.push(`N 栏 fill 未绑定 token — §0.3 违反: 须跟随 L 栏 token (背景色/surface 等)`);
+      } else if (Lcol && Lcol.fills && Lcol.fills[0] && Lcol.fills[0].boundVariables && Lcol.fills[0].boundVariables.color) {
+        const nVar = Ncol.fills[0].boundVariables.color.id;
+        const lVar = Lcol.fills[0].boundVariables.color.id;
+        if (nVar !== lVar) errors.push(`N 栏 fill token != L 栏 fill token (§0.3: N 跟随 L)`);
       }
     }
   }
@@ -399,6 +437,53 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
     if (Lprom && Lprom.clipsContent !== true) {
       errors.push(`clipsContent: promoted L栏.clipsContent=${Lprom.clipsContent} != true`);
     }
+  }
+
+  // ⑲ lane content top y 起点 自动检查 (2026-06-02 追加, rule-doc-only failure 防止)
+  //
+  //    条件: 各栏 (`L栏 / C栏 / N栏`) = `y=0, h=frameH` 满高度模式 (per common-rules §0 #26
+  //    "禁止 frame fill, 各栏自身负责 fill") 时.
+  //    此模式下 lane 坐标系 y=0 = frame y=0 = status bar 上沿. 因此 lane 内
+  //    第一个 content (NavBar 等) 的 y 坐标必须满足 device-dim「基本对齐方式」per
+  //    `各栏内容与状态栏之间需要 6dp 的 padding` → **`y >= SBH + 6`**.
+  //
+  //    回顾 (2026-06-02 笔记 多端适配 task): 4 frame 全部以 lane y=6 (frame y=6) 配置
+  //    NavBar → status bar 区域 (frame y=0~SBH) 与 NavBar overlap.
+  //    user 指出「标题栏 位置错了」后 lane-y +SBH 补正. .md only 规则 (device-dim
+  //    + §0 #26 交叉) → caller inline 结合遗漏 → 6 个月 7 次再发 (memory
+  //    `feedback_runtime_enforce_rules`).
+  //
+  //    runtime guard 化: spec.statusBarH 提供时自动 trigger. lane.y === 0 + lane.h
+  //    >= frameH-1 (满高度模式) 时, lane 内 standard A 类 component 的
+  //    最小 y < SBH + 6 → errors.push.
+  //    skip: lane 自身为 short height (例: lane.h === mainH = frameH - SBH) 模式时
+  //    SBH offset 已应用至 lane.y → lane-internal y=6 正常 → 自动 skip.
+  if (spec.statusBarH !== undefined) {
+    const SBH = spec.statusBarH;
+    const minY = SBH + 6;
+    const checkLane = (lane) => {
+      if (!lane || lane.y !== 0) return; // lane 自身 SBH offset 模式 → skip
+      if (Math.abs(lane.height - spec.frameH) > 1) return; // 仅检查满高度模式
+      const STD_RX = /^(NavigationBar|SearchBar|SelectableChip|List_|Detail_|TextInput|Sidebar|TopBar)/;
+      const BOTTOM_RX = /^(BottomBar|Fab|TextInput.*_0[1-8]|杆子|SwipeIndicator)/; // 底部对齐 control: SBH 检查除外
+      for (const inst of (lane.children || [])) {
+        if (!STD_RX.test(inst.name || '')) continue;
+        if (BOTTOM_RX.test(inst.name || '')) continue;
+        // 底部对齐推测 (y > frameH - 200): skip
+        if (inst.y > spec.frameH - 200) continue;
+        if (inst.y < minY) {
+          errors.push(`lane content top y violation: ${lane.name}/${inst.name} y=${inst.y} < SBH+6=${minY} (栏 y=0 h=frameH 满高度模式 → device-dim「基本对齐方式」 status bar 6dp clear 必要)`);
+        }
+      }
+    };
+    const main2 = frame.children.find(c => c.name === 'main');
+    if (main2) {
+      for (const col of (main2.children || [])) {
+        if (/^(L|C|N)栏$|^(L|C|N) 栏$/.test(col.name || '')) checkLane(col);
+      }
+    }
+    const Lprom2 = frame.children.find(c => c.name === 'L栏' || c.name === 'L 栏');
+    if (Lprom2) checkLane(Lprom2);
   }
 
   // ⑯ inner componentProperties 与源稿同步 (chk.sourceInstId 提供时)
