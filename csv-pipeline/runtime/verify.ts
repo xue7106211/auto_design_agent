@@ -164,7 +164,8 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       NavigationBar: 12, NavigationBar_ComponentSet: 12,
       SearchBar_ComponentSet: 12,
       SelectableChip_ComponentSet_Notes: 12,
-      List_Notes: 12, Detail_Notes: 20,
+      List_Notes: 12, List_Task: 12, '待办列表': 12,
+      Detail_Notes: 20, Detail_Task: 20, DetailTask: 20,
       TextInput_ComponentSet_Notes: 12,
       ToolBar_ComponentSet: 0, BottomBar_Showcase: 0,
     };
@@ -264,10 +265,17 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       if (chk.x !== undefined && Math.abs(node.x - chk.x) > 0.5) errors.push(`${chk.label}.x ${node.x} != ${chk.x}`);
       if (chk.y !== undefined && Math.abs(node.y - chk.y) > 0.5) errors.push(`${chk.label}.y ${node.y} != ${chk.y}`);
       // ⑦b inner clipping (multi-child component 不强制 — 信任 intended layout)
+      //   2026-06-02 待办 task 修复: A 类标准组件 (NavBar 等) 的单一 child (`Container`)
+      //   按设计自带 internal padding (x=12, w=instanceW−24) → 不是 clipping. gold-ref NavBar
+      //   亦同结构 (412→Container 388). 旧 check 把「intended internal inset」误报 INNER CLIPPING.
+      //   修正: 容忍 c0.x 的对称 inset (child 居中 inset 时 expectedW = instanceW − 2×c0.x).
+      //   真 clipping = child 比 (instanceW − 2×inset) 还窄 (右侧被裁) → 仍报告.
       if (node.children && node.children.length === 1 && node.children[0]) {
         const c0 = node.children[0];
-        if (Math.abs(c0.width - node.width) > 0.5) {
-          errors.push(`${chk.label} INNER CLIPPING: instance ${node.width} vs child[0] '${c0.name}' ${c0.width}`);
+        const inset = Math.max(0, c0.x || 0);            // child 左 inset (NavBar Container = 12)
+        const expectedInnerW = node.width - 2 * inset;    // 对称 inset 下的应有宽
+        if (c0.width - expectedInnerW < -0.5) {           // 比应有宽更窄 → 真 clipping
+          errors.push(`${chk.label} INNER CLIPPING: instance ${node.width} (inset ${inset}) expect inner ${expectedInnerW} got child[0] '${c0.name}' ${c0.width}`);
         }
       }
     }
@@ -298,6 +306,17 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
     errors.push(`legacy 栏间分割线 RECTANGLE.fill not bound (consider migrating to strokeLeft)`);
   }
 
+  // ════════════════════════════════════════════════════════════════════════
+  // z-order 核心原则 (2026-06-02 用户指示, §3.7/§3.7a/§3.7b 正本修订):
+  //   ★ 状态栏 + Sidebar(N) = 「绝对不可被遮挡」层 → 任何 遮罩 / lane 之上.
+  //     状态栏 = 仅次于 杆子 (杆子最顶). Sidebar = 状态栏之下, 但所有 遮罩·lane 之上.
+  //   ★ 遮罩 = 「自身 dim 对象之上」 + 「豁免对象(trigger lane / 状态栏 / Sidebar) 之下」.
+  //     - 遮罩-编辑 (仅 dim C 列): C(main) 之上, L栏 之下 (L 豁免) → L栏在 遮罩-编辑 之上.
+  //     - 遮罩-N覆盖 (dim L+C 全部): L栏 之上 (L,C dim), Sidebar·状态栏 之下 (豁免).
+  //   旧规则("遮罩 must be ABOVE 状态栏, status bar dim 为正解") 已废弃 — L栏 promote 后
+  //   完全遮住 状态栏 (反复 7+ 次). 用户原则: 状态栏/N 绝对不可被遮挡.
+  // ════════════════════════════════════════════════════════════════════════
+
   // ⑩ L 编辑遮罩 (§3.7a) — NL framework 时跳过
   if (flags.LEditMode && spec.framework !== 'NL') {
     const editMask = frame.children.find(c => c.name === '遮罩-编辑');
@@ -310,39 +329,72 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       }
       const sbIdx = frame.children.findIndex(c => c.name && c.name.includes('状态栏'));
       const emIdx = frame.children.indexOf(editMask);
-      if (sbIdx >= 0 && emIdx <= sbIdx) errors.push(`遮罩-编辑 must be ABOVE 状态栏 (sbIdx=${sbIdx} emIdx=${emIdx}, §3.7a)`);
-      const L = frame.children.find(c => c.name === 'L栏' || c.name === 'L 栏');
-      if (!L) errors.push(`L栏 not promoted to frame direct child (§3.7a requires promote)`);
+      const LIdx = frame.children.findIndex(c => c.name === 'L栏' || c.name === 'L 栏');
+      // 状态栏在 遮罩-编辑 之上 (不可遮挡). L栏(trigger 豁免)亦在 遮罩-编辑 之上.
+      if (sbIdx >= 0 && sbIdx <= emIdx) errors.push(`状态栏 must be ABOVE 遮罩-编辑 (绝对不可遮挡; sbIdx=${sbIdx} emIdx=${emIdx}, §3.7a 2026-06-02)`);
+      if (LIdx < 0) errors.push(`L栏 not promoted to frame direct child (§3.7a requires promote)`);
+      else if (LIdx <= emIdx) errors.push(`L栏 must be ABOVE 遮罩-编辑 (L=trigger 豁免, 不 dim; LIdx=${LIdx} emIdx=${emIdx}, §3.7a)`);
     }
   }
 
-  // ⑩b 遮罩-N覆盖 z-order (§3.7 修订 2026-05-18)
+  // ⑩b 遮罩-N覆盖 z-order (§3.7 2026-06-02 修订: 状态栏/Sidebar 是 ABOVE 遮罩, 反转)
   if (flags.NCovering || spec.mask) {
     const ncMask = frame.children.find(c => c.name === '遮罩-N覆盖');
     const sbIdx = frame.children.findIndex(c => c.name && c.name.includes('状态栏'));
-    if (ncMask && sbIdx >= 0) {
+    const sdIdx = frame.children.findIndex(c => c.name && /Sidebar/.test(c.name));
+    if (ncMask) {
       const ncIdx = frame.children.indexOf(ncMask);
-      if (ncIdx <= sbIdx) errors.push(`遮罩-N覆盖 must be ABOVE 状态栏 (sbIdx=${sbIdx} ncIdx=${ncIdx}, §3.7)`);
+      // 状态栏 + Sidebar = 绝对不可遮挡 → 在 遮罩-N覆盖 之上. (旧: 遮罩在 状态栏 之上 → 废弃)
+      if (sbIdx >= 0 && sbIdx <= ncIdx) errors.push(`状态栏 must be ABOVE 遮罩-N覆盖 (绝对不可遮挡; sbIdx=${sbIdx} ncIdx=${ncIdx}, §3.7 2026-06-02)`);
+      if (sdIdx >= 0 && sdIdx <= ncIdx) errors.push(`Sidebar must be ABOVE 遮罩-N覆盖 (N=trigger 豁免; sdIdx=${sdIdx} ncIdx=${ncIdx}, §3.7)`);
     }
   }
 
-  // ⑪ 多 mask z-order (§3.7b)
+  // ⑪ 多 mask z-order (§3.7b, 2026-06-02 正本重定义)
+  //   z (底→顶): main(C) → 遮罩-编辑(C dim) → L栏(豁免) → 遮罩-N覆盖(L+C dim) → Sidebar(豁免) → 状态栏(不可遮挡) → 杆子
+  //   栏间分割线 = C 栏 strokeLeftWeight (§3.8) → 无独立节点.
   if (flags.LEditMode && flags.NCovering && spec.framework !== 'NL') {
-    const expected = ['main', '状态栏', '遮罩-编辑', '栏间分割线', 'L栏', '遮罩-N覆盖', 'Sidebar', '杆子'];
+    const expected = ['main', '遮罩-编辑', 'L栏', '遮罩-N覆盖', 'Sidebar', '状态栏', '杆子'];
     const actual = frame.children.map(c => {
       const n = c.name || '';
       if (n === 'main') return 'main';
       if (n.includes('遮罩-编辑')) return '遮罩-编辑';
       if (n.includes('状态栏') || /StatusBar/.test(n)) return '状态栏';
-      if (n.includes('栏间分割线') || /^分割线$/.test(n)) return '栏间分割线';
       if (n === 'L栏' || n === 'L 栏') return 'L栏';
       if (n.includes('遮罩-N覆盖')) return '遮罩-N覆盖';
       if (n.includes('Sidebar')) return 'Sidebar';
       if (n.startsWith('杆子') || /SwipeIndicator/.test(n)) return '杆子';
       return n;
-    });
+    }).filter(n => n !== '栏间分割线' && !/^分割线$/.test(n)); // legacy 独立 RECTANGLE 不参与 (§3.8 废弃)
     for (let i = 0; i < expected.length; i++) {
-      if (actual[i] !== expected[i]) errors.push(`多 mask z-order [${i}] expected '${expected[i]}' got '${actual[i]}' (§3.7b)`);
+      if (actual[i] !== expected[i]) errors.push(`多 mask z-order [${i}] expected '${expected[i]}' got '${actual[i]}' (§3.7b 2026-06-02)`);
+    }
+  }
+
+  // ⑩c 状态栏 + Sidebar 「绝对不可遮挡」 top-z guard (2026-06-02 新增, AUTO-fire, 阻断反复)
+  //   用户核心原则: 状态栏 与 N(Sidebar) 在任何 frame 中都不可被遮挡.
+  //   状态栏 = 仅次于 杆子 (无杆子时最顶). 在所有兄弟节点(遮罩·lane·main)之上.
+  //   Sidebar 存在时 = 状态栏之下, 但在所有 遮罩·lane 之上.
+  //   .md only 规则 6 个月内反复 7 次 (memory feedback_runtime_enforce_rules) → runtime guard 化.
+  {
+    const n = frame.children;
+    const sbIdx = n.findIndex(c => c.name && (c.name.includes('状态栏') || /StatusBar/.test(c.name || '')));
+    const gzIdx = n.findIndex(c => c.name && (c.name.startsWith('杆子') || /SwipeIndicator/.test(c.name || '')));
+    const kbdIdx = n.findIndex(c => c.name && /Keyboard/.test(c.name || ''));
+    const sdIdx = n.findIndex(c => c.name && /Sidebar/.test(c.name || ''));
+    if (sbIdx >= 0) {
+      // 状态栏之上仅允许: 杆子 / Keyboard. 其它兄弟在 状态栏之上 = 被遮挡.
+      const allowedAbove = new Set([gzIdx, kbdIdx].filter(i => i >= 0));
+      for (let i = sbIdx + 1; i < n.length; i++) {
+        if (!allowedAbove.has(i)) errors.push(`状态栏 被遮挡: '${n[i].name}' (idx ${i}) 在 状态栏 (idx ${sbIdx}) 之上 — 状态栏 须仅次于 杆子/Keyboard (绝对不可遮挡 §3.7 2026-06-02)`);
+      }
+    }
+    if (sdIdx >= 0) {
+      // Sidebar之上仅允许: 状态栏 / 杆子 / Keyboard.
+      const allowedAboveSd = new Set([sbIdx, gzIdx, kbdIdx].filter(i => i >= 0));
+      for (let i = sdIdx + 1; i < n.length; i++) {
+        if (!allowedAboveSd.has(i)) errors.push(`Sidebar 被遮挡: '${n[i].name}' (idx ${i}) 在 Sidebar (idx ${sdIdx}) 之上 — Sidebar 须仅次于 状态栏/杆子 (N 绝对不可遮挡 §3.7 2026-06-02)`);
+      }
     }
   }
 
@@ -510,17 +562,26 @@ async function verifyChecklist(frame, spec, scenarioFlags) {
       const s = await figma.getNodeByIdAsync(chk.sourceInstId);
       if (!t || !s) continue;
       const walk = (a, b, path) => {
-        if (!a || !b || !a.children || !b.children) return;
+        // 'children' in 守卫优先 — VECTOR / 非容器节点的 .children getter 访问时会 throw (2026-06-02 待办 task 修复)
+        if (!a || !b || !('children' in a) || !('children' in b)) return;
+        if (!a.children || !b.children) return;
         const len = Math.min(a.children.length, b.children.length);
         for (let i = 0; i < len; i++) {
           const ai = a.children[i], bi = b.children[i];
           if (!ai || !bi || ai.name !== bi.name) continue;
-          if (ai.type === 'INSTANCE' && bi.type === 'INSTANCE' && bi.componentProperties) {
-            for (const [pname, pval] of Object.entries(bi.componentProperties)) {
-              if (!['VARIANT','BOOLEAN','TEXT','INSTANCE_SWAP'].includes(pval.type)) continue;
-              const av = ai.componentProperties && ai.componentProperties[pname] && ai.componentProperties[pname].value;
-              if (av !== pval.value) errors.push(`inner state mismatch: ${path}/${ai.name}.${pname}: adapt='${av}' source='${pval.value}'`);
-            }
+          // componentProperties getter 在 component set "has existing errors" 时 throw (源稿库组件残缺) → try/catch 包裹 (2026-06-02 待办 task 修复)
+          if (ai.type === 'INSTANCE' && bi.type === 'INSTANCE') {
+            try {
+              const bProps = bi.componentProperties;
+              if (bProps) {
+                for (const [pname, pval] of Object.entries(bProps)) {
+                  if (!['VARIANT','BOOLEAN','TEXT','INSTANCE_SWAP'].includes(pval.type)) continue;
+                  let av;
+                  try { av = ai.componentProperties && ai.componentProperties[pname] && ai.componentProperties[pname].value; } catch { av = undefined; }
+                  if (av !== pval.value) errors.push(`inner state mismatch: ${path}/${ai.name}.${pname}: adapt='${av}' source='${pval.value}'`);
+                }
+              }
+            } catch {}
           }
           walk(ai, bi, `${path}/${ai.name}`);
         }
