@@ -169,6 +169,31 @@ session 内永久化 commit chain:
 
 **结论**: 9 项全部已 coded 或等同处理. queue #3 (本 9 项) 关闭.
 
+### Stage 3A Step 2 sample 2 — [TEST] 笔记多端适配_编辑模式 V3 KIM (✅ 2026-06-02)
+
+7 target frame end-to-end placed (section 3075:78880, page Play2):
+
+| # | Frame | ID | Spec.json | 尺寸 |
+|---|---|---|---|---|
+| 1 | LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC | 888×628 |
+| 2 | LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC | 628×888 |
+| 3 | NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 | 1422×949 |
+| 4 | NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 | 949×1422 |
+| 5 | LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C | 435×637 |
+| 6 | NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 | 949×1422 |
+| 7 | NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 | 1422×949 |
+
+session 内 render-spec.ts 3 项 bug 修复 (user 视觉指摘 5 件 root cause):
+
+1. **mask cornerRadius 不对称定义被忽略** — render-spec L294~301 仅使用 `SPEC.frame.cornerRadius`, `spec.masks[].cornerRadius` 的不对称 (例 `{topLeft:0, topRight:50, bottomLeft:0, bottomRight:50}`) 被覆盖为对称 50. fix: 改为 `m.cornerRadius != null ? m.cornerRadius : SPEC.frame.cornerRadius` 优先.
+2. **Sidebar promote 后 zOrder 匹配失败** — promote 後 instance.name=`Sidebar_Component_PAD_NLC_01`, step-9 zOrder pass 的 `findChildren(c.name === 'Sidebar')` 0 match → Sidebar 滞留 frame.children[0] 被 main 遮蔽. fix: promote 时 `sidebarInst.name = 'Sidebar'` 强制改名.
+3. **out-of-flow overlay 堆积在 frame 左上角** — render-spec overlays 处理仅 `inst.name = o.family; frame.appendChild(inst)` (无 x/y), NoticeBar / Scrollbar / TextFormatPanel 等 trigger-only overlay 全部 dump 到 frame (0,0). fix: 默认 skip, `o.render === true` opt-in 时才 placement.
+
+检证遗漏回顾: 首次 7 frame 生成时未查 `结构变化表-Notes.csv` (designer 权威) 与 `device-dimensions.md` (Q18 / Q19 / Pad 尺寸权威), 仅看 spec.json 工作. user 指摘后 audit:
+- ToolBar variant: csv 权威一致 (NLC/LC = `_01`, NL/C-only = `_02`) ✅
+- lane width: csv + device-dim + 笔记 §0.1 #8/#9 special rule (NLC收起 N 88 收起占位) 一致 ✅
+- cornerRadius: device-dim Fold 内屏 50 / Fold 外屏不对称 / Pad 34 一致 ✅
+
 ### Stage 3B baseline — validate-csv 实运行 (✅ 2026-06-01)
 
 `npm run validate-csv` baseline:

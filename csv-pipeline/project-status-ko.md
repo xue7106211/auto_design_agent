@@ -241,6 +241,31 @@ session 内永久化 commit chain:
 
 **结论**: 9 项中 9 项 coded 完成 (#5 重解释 / #8 不实施). 报告文言 "coded 未完" 是精密 audit 后判定不正确 — queue #4 (本 9 项) 关闭. 仅 #8 残存为 designer task (单独 queue 不必).
 
+### Stage 3A Step 2 sample 2 — [TEST] 笔记多端适配_编辑模式 V3 KIM (✅ 2026-06-02)
+
+7 target frame end-to-end placed (section 3075:78880, page Play2):
+
+| # | Frame | ID | Spec.json | 尺寸 |
+|---|---|---|---|---|
+| 1 | LC_编辑_Fold内横 | 3107:79477 | Notes_笔记_LC_编辑模式_Fold内横_LC | 888×628 |
+| 2 | LC_编辑_Fold内竖 | 3109:80207 | Notes_笔记_LC_编辑模式_Fold内竖_LC | 628×888 |
+| 3 | NLC_编辑_Pad横并列 | 3110:80583 | Notes_笔记_NLC_编辑模式_Pad横_NLC并列 | 1422×949 |
+| 4 | NLC_编辑_Pad竖覆盖 | 3112:81326 | Notes_笔记_NLC_编辑模式_Pad竖_NLC覆盖 | 949×1422 |
+| 5 | LC_编辑_Fold外竖_C | 3114:82067 | Notes_笔记_LC_编辑模式_Fold外竖_C | 435×637 |
+| 6 | NLC_编辑_Pad竖收起 | 3116:82698 | Notes_笔记_NLC_编辑模式_Pad竖_NLC收起 | 949×1422 |
+| 7 | NLC_编辑_Pad横收起 | 3118:83033 | Notes_笔记_NLC_编辑模式_Pad横_NLC收起 | 1422×949 |
+
+session 内 render-spec.ts 3 bug 修复 (user 视觉指摘 5 件 root cause):
+
+1. **mask cornerRadius 비대칭 무시** — render-spec L294~301 이 `SPEC.frame.cornerRadius` 만 사용, `spec.masks[].cornerRadius` 의 비대칭 정의 (`{topLeft:0, topRight:50, bottomLeft:0, bottomRight:50}` 등) 무시. fix: `m.cornerRadius != null ? m.cornerRadius : SPEC.frame.cornerRadius` 우선.
+2. **Sidebar promote zOrder 매칭 실패** — promote 후 instance.name=`Sidebar_Component_PAD_NLC_01`, step-9 zOrder pass 의 `findChildren(c.name === 'Sidebar')` 0 match → Sidebar 가 frame.children[0] 에 머물러 main 아래 가려짐. fix: promote 时 `sidebarInst.name = 'Sidebar'` 강제.
+3. **out-of-flow overlay 좌상단 박힘** — render-spec 의 overlays 처리가 `inst.name = o.family; frame.appendChild(inst)` 만 (x/y 미설정), NoticeBar / Scrollbar / TextFormatPanel 등 trigger-only overlay 가 frame (0,0) 에 dump. fix: `o.render === true` opt-in flag 미설정 시 skip.
+
+검증 누락 회고: 첫 7 frame 생성 时 `结构变化表-Notes.csv` (designer 권위) + `device-dimensions.md` (Q18/Q19/Pad 尺寸 권위) lookup 안하고 spec.json 만 보고 작업. user 지적 후 audit:
+- ToolBar variant: csv 권위 일치 (NLC/LC = `_01`, NL/C-only = `_02`) ✅
+- lane width: csv + device-dim + 笔记 §0.1 #8/#9 special rule (NLC收起 N 88 收起占位) 일치 ✅
+- cornerRadius: device-dim Fold 内屏 50 / Fold 外屏 비대칭 / Pad 34 일치 ✅
+
 ## 当前阶段摘要
 
 **Stage 1A / 1B / 2A / 2B / 3A 产出** 完成. 剩余 = **Stage 3A wire-up** + 1C/1D (小型指南文档).
