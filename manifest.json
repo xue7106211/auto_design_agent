@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "lastUpdated": "2026-06-01",
+  "lastUpdated": "2026-06-03",
   "skill": {
     "entry": "SKILL.md",
     "version": "1.0.1"
@@ -12,6 +12,16 @@
   },
   "references": {
     "commonRules": "references/common-rules.md",
+    "commonRulesParts": {
+      "hub": "references/common-rules.md",
+      "principles": "references/common-rules-principles.md",
+      "instance": "references/common-rules-instance.md",
+      "maskZorder": "references/common-rules-mask-zorder.md",
+      "verify": "references/common-rules-verify.md",
+      "prohibit": "references/common-rules-prohibit.md"
+    },
+    "componentPlacementProtocol": "references/component-placement-protocol.md",
+    "placementRuntime": "csv-pipeline/runtime/placement.ts",
     "fontDegradation": "references/font-degradation.md",
     "namingConventions": "references/naming-conventions.md",
     "appVariantMapTemplate": "references/app-variant-map-template.md",
@@ -20,6 +30,7 @@
       "nlc": "references/layouts/nlc-layout.md",
       "c": "references/layouts/c-layout.md",
       "foldable": "references/layouts/foldable-layout.md",
+      "appSettings": "references/layouts/app-settings-layout.md",
       "deviceDimensions": "references/layouts/device-dimensions.md"
     },
     "componentDictionary": "figma-component-dictionary.md"
@@ -195,14 +206,14 @@
     {
       "name": "Fab",
       "status": "active",
-      "reference": "references/component-dictionary/Fab.md",
+      "reference": "references/component-dictionary/fab.md",
       "dictionaryEntries": 4,
       "executionEntries": 0
     },
     {
       "name": "Sidebar",
       "status": "active",
-      "reference": "references/component-dictionary/Sidebar.md",
+      "reference": "references/component-dictionary/sidebar.md",
       "dictionaryEntries": 10,
       "executionEntries": 7
     },
@@ -237,7 +248,7 @@
     {
       "name": "Divider",
       "status": "active",
-      "reference": "references/component-dictionary/Divider.md",
+      "reference": "references/component-dictionary/divider.md",
       "dictionaryEntries": 1,
       "executionEntries": 0
     },
@@ -272,7 +283,7 @@
     {
       "name": "Menu",
       "status": "active",
-      "reference": "references/component-dictionary/Menu.md",
+      "reference": "references/component-dictionary/menu.md",
       "dictionaryEntries": 4,
       "executionEntries": 0
     },
@@ -293,7 +304,7 @@
     {
       "name": "Scrollbar",
       "status": "active",
-      "reference": "references/component-dictionary/Scrollbar.md",
+      "reference": "references/component-dictionary/scrollbar.md",
       "dictionaryEntries": 1,
       "executionEntries": 0
     },
@@ -302,6 +313,13 @@
       "status": "active",
       "reference": "references/component-dictionary/NoticeBar.md",
       "dictionaryEntries": 1,
+      "executionEntries": 0
+    },
+    {
+      "name": "StatusBar",
+      "status": "active",
+      "reference": "references/component-dictionary/StatusBar.md",
+      "dictionaryEntries": 2,
       "executionEntries": 0
     },
     {

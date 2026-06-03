@@ -89,7 +89,21 @@ auto_design_agent/
 ├── references/
 │   共享 reference 文档目录。主 Skill 按需引用，不应一次性全部加载。
 │   ├── common-rules.md
-│   │   通用执行原则、禁止项、clone 降级规则和分步写入规范。
+│   │   通用规则索引 hub（2026-06-01 拆分后的指针）。本文不再承载正文，
+│   │   只把 §X.X 映射到下面 5 个分割文件，兼容旧的 common-rules.md §X.X 引用。
+│   ├── common-rules-principles.md
+│   │   §0/§1/§2 + §3.11/§3.13/§3.14/§3.15：核心原则、检索/内容边界、规则审查。
+│   ├── common-rules-instance.md
+│   │   §3.1/§3.2/§3.4a/§3.6/§3.10/§3.12 + §4：标准组件 import/resize/swap/clone/写入优先级。
+│   ├── common-rules-mask-zorder.md
+│   │   §3.7~§3.9：遮罩、z-order、栏间分割线、Sidebar 阴影。
+│   ├── common-rules-verify.md
+│   │   §5/§6：落位位置、写入节奏、容器 atomic、verifyChecklist。
+│   ├── common-rules-prohibit.md
+│   │   §7：禁止项索引（指向其他文件正文的 reverse-index）。
+│   ├── component-placement-protocol.md
+│   │   标准组件落位强制协议。函数本体已迁至 csv-pipeline/runtime/placement.ts，
+│   │   本文 §2/§4 代码块为 historical reference，运行时以 .ts 为权威。
 │   ├── font-degradation.md
 │   │   字体降级映射表、执行顺序和 fixFonts 代码模板。
 │   ├── naming-conventions.md
@@ -106,6 +120,8 @@ auto_design_agent/
 │   │   │   NLC 三栏布局执行规则。
 │   │   ├── c-layout.md
 │   │   │   C 通栏布局执行规则。
+│   │   ├── app-settings-layout.md
+│   │   │   应用内「设置」页面的多端承载形态与组件骨架映射。
 │   │   └── foldable-layout.md
 │   │       折叠屏历史适配参考规则。
 │   ├── app-variant-map-下载管理.md
@@ -127,9 +143,21 @@ auto_design_agent/
 │   │   以上为各应用的 variant 映射表，负责
 │   │   device + screenMode + resolvedUiElement -> resultType + variantId 的查询。
 │   └── component-dictionary/
-│       └── navigation-bar.md
-│           NavigationBar 组件族 reference。记录当前分支基准链接、组件集身份、
-│           真实字段、可执行记录和回退规则。
+│       ├── NavigationBar.md
+│       │   组件族 reference 示例。记录组件集身份、真实字段、可执行记录和回退规则。
+│       └── ...（共 40 份，PascalCase 组件名；基础组件如 fab/sidebar/menu/
+│           scrollbar/divider 为小写文件名。完整清单见 manifest.json）
+├── csv-pipeline/
+│   Stage 1A 映射流水线子项目（自足封闭）。把设计师维护的横向结构变化表
+│   转换为 AI 可 lookup 的纵向正规化 CSV，并承载落位协议运行时。
+│   ├── README.md / README-ko.md        文件夹入口（中文 / 韩文镜像）
+│   ├── project-status.md / -ko.md      当前进度 + 下一步队列（单一权威）
+│   ├── package.json / tsconfig.json    Node / TS 设置
+│   ├── mapping-input/                  设计师上游 CSV（按团队所有权分文件）
+│   ├── mapping-output/                 抽取后的正规化 CSV + extract-report.md
+│   ├── runtime/                        落位协议运行时（placement.ts 等）
+│   ├── scripts/                        extract / status / validate 等工具
+│   └── legacy/                         旧版资产
 └── archive/
     已归档的旧版规则文档和工作流日志，仅供参考。
     ├── component-adaptation.md

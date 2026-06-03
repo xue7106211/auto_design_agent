@@ -35,7 +35,13 @@ auto_design_agent/
 ├── workflow-collaboration-contract.md     多人协作接口契约：字段定义与数据流转
 ├── prompt-skill-consistency.md            新增/重构文档时的一致性 Prompt 模板
 ├── references/
-│   ├── common-rules.md                    通用执行原则、禁止项、clone 降级规则和分步写入规范
+│   ├── common-rules.md                    通用规则索引 hub（指向下面 5 个分割文件，兼容旧引用）
+│   ├── common-rules-principles.md         §0/§1/§2 等：核心原则、检索/内容边界、规则审查
+│   ├── common-rules-instance.md           §3.1~§4：标准组件 import/resize/swap/clone/写入优先级
+│   ├── common-rules-mask-zorder.md        §3.7~§3.9：遮罩、z-order、栏间分割线
+│   ├── common-rules-verify.md             §5/§6：落位位置、写入节奏、verifyChecklist
+│   ├── common-rules-prohibit.md           §7：禁止项索引
+│   ├── component-placement-protocol.md    标准组件落位强制协议（运行时见 csv-pipeline/runtime/placement.ts）
 │   ├── font-degradation.md                字体降级映射表、执行顺序、fixFonts 代码模板
 │   ├── app-variant-map-template.md        应用 variant 映射表统一模板
 │   ├── layouts/
@@ -43,6 +49,7 @@ auto_design_agent/
 │   │   ├── lc-nc-layout.md                LC / NC 分栏布局执行规则
 │   │   ├── nlc-layout.md                  NLC 三栏布局执行规则
 │   │   ├── c-layout.md                    C 通栏布局执行规则
+│   │   ├── app-settings-layout.md         应用内「设置」页面多端承载形态与组件骨架映射
 │   │   └── foldable-layout.md             折叠屏历史适配参考规则
 │   ├── app-variant-map-下载管理.md         下载管理应用 variant 映射表
 │   ├── app-variant-map-天气.md             天气应用 variant 映射表
@@ -64,12 +71,13 @@ auto_design_agent/
 │       ├── NavigationBar.md               NavigationBar 组件族 reference
 │       ├── TopBar.md                      TopBar 组件族 reference
 │       ├── BottomBar.md                   BottomBar 组件族 reference
-│       ├── Fab.md                         Fab 组件族 reference
-│       ├── Sidebar.md                     Sidebar 组件族 reference
+│       ├── fab.md                         Fab 组件族 reference
+│       ├── sidebar.md                     Sidebar 组件族 reference
 │       ├── SearchBar.md                   SearchBar 组件族 reference
 │       ├── Notes_List.md                  Notes_List 组件族 reference
 │       ├── Notes_BottomBar.md             Notes_BottomBar 组件族 reference
-│       └── ...                            其他 39 个组件族 reference（详见 manifest.json）
+│       └── ...                            共 40 份组件族 reference（详见 manifest.json）
+├── csv-pipeline/                          Stage 1A 映射流水线子项目（横向结构变化表 → 正规化 CSV + 落位运行时）
 └── archive/                               已归档的旧版规则文档和日志
     ├── component-adaptation.md
     ├── component-routing.md
@@ -118,9 +126,15 @@ auto_design_agent/
 | [references/app-variant-map-联系人.md](./references/app-variant-map-联系人.md)                                 | 联系人应用 variant 映射表                                                    |
 | [references/app-variant-map-计算器.md](./references/app-variant-map-计算器.md)                                 | 计算器应用 variant 映射表                                                    |
 | [references/app-variant-map-设置.md](./references/app-variant-map-设置.md)                                   | 设置应用 variant 映射表                                                     |
-| [references/common-rules.md](./references/common-rules.md)                                               | 通用执行原则、禁止项、clone 降级规则和分步写入规范                                         |
+| [references/common-rules.md](./references/common-rules.md)                                               | 通用规则索引 hub。把 §X.X 映射到下面 5 个分割文件，兼容旧的 `common-rules.md §X.X` 引用     |
+| [references/common-rules-principles.md](./references/common-rules-principles.md)                         | §0/§1/§2 + §3.11/§3.13~§3.15：核心原则、检索与内容边界、规则审查                          |
+| [references/common-rules-instance.md](./references/common-rules-instance.md)                             | §3.1~§3.12 + §4：标准组件 import/resize/swap/clone、property fallback、写入优先级       |
+| [references/common-rules-mask-zorder.md](./references/common-rules-mask-zorder.md)                       | §3.7~§3.9：遮罩、z-order、栏间分割线、Sidebar 阴影                                      |
+| [references/common-rules-verify.md](./references/common-rules-verify.md)                                 | §5/§6：落位位置、写入节奏、容器 atomic、verifyChecklist                                  |
+| [references/common-rules-prohibit.md](./references/common-rules-prohibit.md)                             | §7：禁止项索引（指向其他分割文件正文的 reverse-index）                                       |
+| [references/component-placement-protocol.md](./references/component-placement-protocol.md)               | 标准组件落位强制协议。函数本体已迁至 `csv-pipeline/runtime/placement.ts`，本文为 historical reference |
 | [references/component-dictionary/NavigationBar.md](./references/component-dictionary/NavigationBar.md) | `NavigationBar` 组件 reference。记录当前分支基准链接、组件集身份、真实字段、可执行记录和回退规则        |
-| `references/component-dictionary/*.md`（39 份） | 各组件族 reference。记录组件集身份、真实属性键、执行记录、padding 和应用规则 |
+| `references/component-dictionary/*.md`（40 份） | 各组件族 reference。记录组件集身份、真实属性键、执行记录、padding 和应用规则 |
 
 
 ### 归档文件
@@ -170,19 +184,21 @@ auto_design_agent/
 参考文档采用**按需加载**：
 
 - 主 Skill 默认只读取自身
-- 所有适配必须先读取 `references/common-rules.md` 和 `references/layouts/device-dimensions.md`
+- 所有适配必须先读取通用规则与 `references/layouts/device-dimensions.md`；通用规则已按 Phase 拆分，按需读取对应分割文件（`common-rules.md` 作为索引 hub，仍兼容旧的 `common-rules.md §X.X` 引用）
 - 命中布局类型后，再读取对应 `references/layouts/*.md`
 - 命中字典层记录后，再加载对应 `referenceDoc`
+- 标准组件落位统一走 `component-placement-protocol.md`（运行时以 `csv-pipeline/runtime/placement.ts` 为权威）
 - 参考文档只补充该组件族的细节，不重复通用执行协议
 
 当前已沉淀的参考文档：
 
-- 通用规则：`references/common-rules.md`
+- 通用规则：`references/common-rules.md`（索引 hub）+ 5 个分割文件 `common-rules-{principles,instance,mask-zorder,verify,prohibit}.md`
+- 落位协议：`references/component-placement-protocol.md`（运行时 `csv-pipeline/runtime/placement.ts`）
 - 字体降级：`references/font-degradation.md`
 - 设备尺寸：`references/layouts/device-dimensions.md`
-- 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`
+- 布局规则（主链路）：`references/layouts/nlc-layout.md`、`references/layouts/lc-nc-layout.md`、`references/layouts/c-layout.md`、`references/layouts/app-settings-layout.md`
 - 应用 variant 映射表（16 个应用）：`references/app-variant-map-{appName}.md`
-- 组件族 reference（39 份）：`references/component-dictionary/{ComponentFamily}.md`
+- 组件族 reference（40 份）：`references/component-dictionary/{ComponentFamily}.md`
 
 其中已建立的应用映射表包括：
 
@@ -194,6 +210,32 @@ auto_design_agent/
 - 应用 variant 映射表：`references/app-variant-map-{appName}.md`
 - 应用映射表模板：`references/app-variant-map-template.md`
 - 组件族 reference：`references/component-dictionary/{component-family}.md`
+
+---
+
+## csv-pipeline 子项目
+
+`csv-pipeline/` 是一个自足封闭的 **Stage 1A 映射流水线**：把设计师维护的横向「结构变化表」CSV 转换为 AI 可 lookup 的纵向正规化 CSV，并承载标准组件落位协议的运行时实现。
+
+| 路径 | 用途 |
+| --- | --- |
+| `csv-pipeline/README.md` | 文件夹入口（中文，另有 `README-ko.md` 韩文镜像） |
+| `csv-pipeline/project-status.md` | 当前进度与下一步队列（单一权威，另有 `-ko.md`） |
+| `csv-pipeline/mapping-input/` | 设计师上游 CSV，按团队所有权分文件 |
+| `csv-pipeline/mapping-output/` | 抽取后的正规化 CSV 与 `extract-report.md` |
+| `csv-pipeline/runtime/` | 落位协议运行时（`placement.ts` 等，落位/绑定函数的单一 source） |
+| `csv-pipeline/scripts/` | `extract` / `status` / `validate` 等工具 |
+
+常用命令（详见 `csv-pipeline/README.md` 与 [AGENTS.md](./AGENTS.md)）：
+
+```bash
+cd csv-pipeline
+npm install        # 首次执行
+npm run extract    # mapping-input/ → mapping-output/ 重新生成
+npm run status     # 当前状态 + 下一步队列
+```
+
+> 改革设计文档不在本仓库，位于上级工作区的 `../Improvement_doc/`（见 [AGENTS.md](./AGENTS.md)）。
 
 ---
 
@@ -223,6 +265,8 @@ auto_design_agent/
 - 主链路新增执行护栏时，应同步更新 `manifest.json` 的 `executionGuards`、本 README、`current-execution-map.md` 和 `workflow-collaboration-contract.md`
 - `SKILL.md` 是默认且唯一的生产主入口；不要再维护独立的测试 Case 流程
 - 组件字典只保留索引和协议；组件字段、值域和锚点下沉到各自 reference
+- `common-rules.md` 是索引 hub，正文在 5 个分割文件中按 single source 维护；新增规则下沉到对应分割文件，并在 hub 的 Quick lookup 表登记
+- 落位协议正文与运行时分离：协议文档（`component-placement-protocol.md`）记录约定，函数本体只在 `csv-pipeline/runtime/placement.ts` 维护一份
 - 非主入口文档不要保留 Skill frontmatter；统一写成普通 reference 文档
 
 ---
@@ -230,6 +274,7 @@ auto_design_agent/
 ## 相关说明
 
 - 仓库协作约束见 [AGENTS.md](./AGENTS.md)
+- 映射流水线与落位运行时见 [csv-pipeline/README.md](./csv-pipeline/README.md)
 - 多人协作接口契约见 [workflow-collaboration-contract.md](./workflow-collaboration-contract.md)
 - 新增或重构 Skill / reference 的统一 Prompt 见 [prompt-skill-consistency.md](./prompt-skill-consistency.md)
 - 当前可执行链路与断点状态见 [current-execution-map.md](./current-execution-map.md)
